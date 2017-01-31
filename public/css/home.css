@@ -20,8 +20,6 @@ a {
 }
 
 figure {
-    left: -40px;
-    top: -10px;
     width: 100%;
     position: relative;
 }
@@ -54,27 +52,27 @@ div.ex1 {
 }
 
 
-ul {
-    font-family: 'Lato', sans-serif;
-    font-size: 30px;
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-    background-color: #7459a5;
-}
+/*ul {*/
+    /*font-family: 'Lato', sans-serif;*/
+    /*font-size: 30px;*/
+    /*list-style-type: none;*/
+    /*margin: 0;*/
+    /*padding: 0;*/
+    /*overflow: hidden;*/
+    /*background-color: #7459a5;*/
+/*}*/
 
-li {
-    float: left;
-}
+/*li {*/
+    /*float: left;*/
+/*}*/
 
-li a {
-    display: block;
-    color: white;
-    text-align: center;
-    padding: 35px 25px;
-    text-decoration: none;
-}
+/*li a {*/
+    /*display: block;*/
+    /*color: white;*/
+    /*text-align: center;*/
+    /*padding: 35px 25px;*/
+    /*text-decoration: none;*/
+/*}*/
 
 li a:hover {
     background-color: #240a54;
@@ -84,4 +82,12 @@ li a:hover {
 position:relative;
     float:left;
     width: 50px;
+}
+/*for computer screens*/
+@media only screen and (min-width: 760px) {
+
+#navDiv{
+    margin-left: 10px;
+}
+
 }
