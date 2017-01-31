@@ -1,0 +1,101 @@
+// Tariro Kandemiri - 2017
+
+<html>  
+<head>
+<link rel="icon" href="mtneats.png">
+<title> Mountain Eats </title>
+<link rel="stylesheet" type="text/css" href="eats.css">
+
+<link href="https://fonts.googleapis.com/css?family=Lato:300,400,900,900i" rel="stylesheet">
+  
+<style>
+
+div.ex1 {
+    width:500px;
+    margin: auto;
+    border: 3px solid #240a54;
+}
+
+
+ul {
+    font-family: 'Lato', sans-serif;
+    font-size: 30px;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #7459a5;
+}
+
+li {
+    float: left;
+}
+
+li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 35px 25px;
+    text-decoration: none;
+}
+
+li a:hover {
+    background-color: #240a54;
+}
+
+  .anynames{ // this css is for position an image to the left
+   position:relative;
+   float:left;
+   width: 50px;
+  }
+</style>
+</head>
+<body>
+
+<ul>
+  <li><a class="active" href="#home">MOUNTAIN EATS</a></li>
+  <li><a href="http://tarirokandemiri.com/MountainEats/food.html">ORDER ONLINE</a></li>
+  <li><a href="#about">ABOUT</a></li>
+  
+  <img src="mtneats.png"  style="width:150px !important;height:75px !important; padding: 15px 50px; align: right;" />
+</ul>
+<figure>
+  <img src="http://i67.tinypic.com/2w67w39.png" alt="Smiley face" align="middle"> 
+  <a href="http://tarirokandemiri.com/MountainEats/food.html" class="btn">ORDER NOW</a>  
+</figure>
+
+<p>
+<script src="https://checkout.stripe.com/checkout.js"></script>
+
+<button id="customButton">Buy Now</button>
+
+<script>
+var handler = StripeCheckout.configure({
+  key: 'pk_test_GALLn3YWDPqPycDBzdxuMz2z',
+  image: 'https://s3.amazonaws.com/stripe-uploads/acct_17Q0ZAILlX7Sqw1Tmerchant-icon-1463193525432-AbbyAudreyLogo.png',
+  locale: 'auto',
+  token: function(token) {
+    // You can access the token ID with `token.id`.
+    // Get the token ID to your server-side code for use.
+  }
+});
+
+document.getElementById('customButton').addEventListener('click', function(e) {
+  // Open Checkout with further options:
+  handler.open({
+    name: 'Abby &amp; Audrey',
+    description: '2 widgets',
+    amount: 2000
+  });
+  e.preventDefault();
+});
+
+// Close Checkout on page navigation:
+window.addEventListener('popstate', function() {
+  handler.close();
+});
+</script>
+</p>
+
+</body>
+</html>
