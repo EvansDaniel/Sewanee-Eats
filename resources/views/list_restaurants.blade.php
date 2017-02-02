@@ -15,7 +15,10 @@
         <br><br><br><br>
         <section id="places" class="container">
             <ul class="list-group">
-                @forelse($restaurants as $restaurant)
+                @if(count($restaurants) == 0)
+                    <h1>All restaurants are closed at this time</h1>
+                @else
+                    @foreach($restaurants as $restaurant)
                     <li class="list-group-item">
                         <a href="{{ route('showMenu',['id' => $restaurant->id]) }}">
                             <div class="container">
@@ -24,9 +27,8 @@
                             </div>
                         </a>
                     </li>
-                @empty
-                    <h1>All restaurants are closed at this time</h1>
-                @endforelse
+                    @endforeach
+                @endif
             </ul>
         </section>
     </div>

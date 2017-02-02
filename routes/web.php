@@ -34,12 +34,10 @@ Route::get('restaurants/{id}', 'RestaurantController@showMenu')
 Route::post('cart', 'ShoppingCartController@store')
     ->name('addToCart');
 
-
-// Admin Authentication Routes
-Route::get('admin', 'AdminAuthController@showLogin');
-Route::post('adminLogin', 'AdminAuthController@authenticate');
-
 // Admin Dashboard Routes
 Route::get('admin/dashboard', 'AdminController@showDashboard')
     ->name('showAdminDashboard')
-    ->middleware('admin');
+    ->middleware('role:admin');
+
+Auth::routes();
+

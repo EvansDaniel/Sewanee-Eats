@@ -14,7 +14,6 @@ class Restaurant extends Model
     public function menuItems()
     {
         return $this->hasMany('App\Models\MenuItem',
-            'restaurant_id',
-            'id');
+            'restaurant_id', 'id');
     }
 }

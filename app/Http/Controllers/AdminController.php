@@ -2,9 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-
 class AdminController extends Controller
 {
-    //
+    public function showDashboard()
+    {
+        return view('admin.dashboard');
+    }
+
+    // Some tasks:
+    // Promote user to admin
+    // Delete users
+    // Adding new restaurants/menus
+    // Deleting/updating existing menus
 }

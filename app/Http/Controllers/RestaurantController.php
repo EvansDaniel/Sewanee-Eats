@@ -31,11 +31,12 @@ class RestaurantController extends Controller
     public function list_restaurants()
     {
         $all_restaurants = Restaurant::all();
-        $restaurants = null;
+        $restaurants = [];
         foreach ($all_restaurants as $restaurant) {
-            if ($this->restaurantIsOpen($restaurant)) {
+            // TODO: NEED TO UNCOMMENT THIS IF STATEMENT AFTER DEVELOPMENT
+            //if ($this->restaurantIsOpen($restaurant)) {
                 $restaurants[] = $restaurant;
-            }
+            //}
         }
         // boolean to use in the view show or not show a link
         // to a page with all the restaurants on it
