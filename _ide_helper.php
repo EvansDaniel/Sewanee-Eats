@@ -1,7 +1,7 @@
 <?php
 /**
  * A helper file for Laravel 5, to provide autocomplete information to your IDE
- * Generated for Laravel 5.4.6 on 2017-02-01.
+ * Generated for Laravel 5.4.6 on 2017-02-02.
  *
  * @author Barry vd. Heuvel <barryvdh@gmail.com>
  * @see https://github.com/barryvdh/laravel-ide-helper
@@ -6481,6 +6481,20 @@ namespace {
 
 
     class Log extends \Illuminate\Support\Facades\Log{
+
+        /**
+         * Log a message to the logs.
+         *
+         * @param string $level
+         * @param string $message
+         * @param array $context
+         * @return void
+         * @static
+         */
+        public static function log($level, $message, $context = array())
+        {
+            \Illuminate\Log\Writer::log($level, $message, $context);
+        }
         
         /**
          * Adds a log record at the DEBUG level.
@@ -6488,7 +6502,7 @@ namespace {
          * @param string $message The log message
          * @param array $context The log context
          * @return Boolean Whether the record has been processed
-         * @static 
+         * @static
          */
         public static function debug($message, $context = array()){
             return \Monolog\Logger::debug($message, $context);
@@ -6500,7 +6514,7 @@ namespace {
          * @param string $message The log message
          * @param array $context The log context
          * @return Boolean Whether the record has been processed
-         * @static 
+         * @static
          */
         public static function info($message, $context = array()){
             return \Monolog\Logger::info($message, $context);
@@ -6512,7 +6526,7 @@ namespace {
          * @param string $message The log message
          * @param array $context The log context
          * @return Boolean Whether the record has been processed
-         * @static 
+         * @static
          */
         public static function notice($message, $context = array()){
             return \Monolog\Logger::notice($message, $context);
@@ -6524,7 +6538,7 @@ namespace {
          * @param string $message The log message
          * @param array $context The log context
          * @return Boolean Whether the record has been processed
-         * @static 
+         * @static
          */
         public static function warning($message, $context = array()){
             return \Monolog\Logger::warning($message, $context);
@@ -6536,7 +6550,7 @@ namespace {
          * @param string $message The log message
          * @param array $context The log context
          * @return Boolean Whether the record has been processed
-         * @static 
+         * @static
          */
         public static function error($message, $context = array()){
             return \Monolog\Logger::error($message, $context);
@@ -6548,7 +6562,7 @@ namespace {
          * @param string $message The log message
          * @param array $context The log context
          * @return Boolean Whether the record has been processed
-         * @static 
+         * @static
          */
         public static function critical($message, $context = array()){
             return \Monolog\Logger::critical($message, $context);
@@ -6560,7 +6574,7 @@ namespace {
          * @param string $message The log message
          * @param array $context The log context
          * @return Boolean Whether the record has been processed
-         * @static 
+         * @static
          */
         public static function alert($message, $context = array()){
             return \Monolog\Logger::alert($message, $context);
@@ -6572,23 +6586,10 @@ namespace {
          * @param string $message The log message
          * @param array $context The log context
          * @return Boolean Whether the record has been processed
-         * @static 
+         * @static
          */
         public static function emergency($message, $context = array()){
             return \Monolog\Logger::emergency($message, $context);
-        }
-        
-        /**
-         * Log a message to the logs.
-         *
-         * @param string $level
-         * @param string $message
-         * @param array $context
-         * @return void 
-         * @static 
-         */
-        public static function log($level, $message, $context = array()){
-            \Illuminate\Log\Writer::log($level, $message, $context);
         }
         
         /**

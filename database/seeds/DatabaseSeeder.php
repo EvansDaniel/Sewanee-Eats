@@ -13,7 +13,7 @@ class DatabaseSeeder extends Seeder
     {
         Eloquent::unguard();
         $this->call(RoleTableSeeder::class);
-        // $this->call(UsersTableSeeder::class);
+        $this->call(UserTableSeeder::class);
         $this->call(RestaurantTableSeeder::class);
         $this->call(ItemCategoryTableSeeder::class);
         $this->call(MenuItemTableSeeder::class);
