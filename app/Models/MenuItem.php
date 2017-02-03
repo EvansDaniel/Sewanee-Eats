@@ -11,7 +11,10 @@ class MenuItem extends Model
 
     // belongs to one category
     // belongs to one restaurant
-
+    public function restaurant()
+    {
+        return $this->belongsTo('App\Models\Restaurant', 'restaurant_id', 'id');
+    }
 
     public function itemCategory()
     {
