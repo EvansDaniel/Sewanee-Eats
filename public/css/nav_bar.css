@@ -1,0 +1,12 @@
+@media only screen and (max-width: 760px) {
+
+    #collapse-button{
+        margin-right: 20px;
+    }
+
+}
+
+#navDiv{
+    margin-left: 10px;
+    margin-right: 10px;
+}
