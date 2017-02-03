@@ -26,6 +26,12 @@ a {
     text-decoration: none;
 }
 
+ul{
+    background: linear-gradient(90deg, #8268B3 10%, #240a54 90%);
+    width: 100%;
+    font-size: 25px;
+}
+
 figure {
     width: 100%;
     position: relative;
@@ -117,6 +123,11 @@ position:relative;
         font-size: 25px;
         font-family: 'Lato', sans-serif;
     }
+
+    .itembtn {
+        color: #0d3625;
+    }
+
     #promo-order-button{
         background: linear-gradient(90deg, #240a54 10%, #7459a5 90%);
         font-size: 1.45em;
