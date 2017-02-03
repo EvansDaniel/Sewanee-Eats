@@ -72,8 +72,9 @@
                             <input class="form-control" type="number" min="1" max="10" name="quantity" id="quantity"
                                    placeholder="How many would you like?">
                             <div class="modal-footer">
-                                <button type="button" class="btn-default" data-dismiss="modal">Close</button>
-                                <button type="submit" class="btn-primary">Add To Cart</button>
+                                <button type="button" class="itembtn" data-dismiss="modal">Close</button>
+                                <div class="divider"></div>
+                                <button type="submit" class="itembtn">Add To Cart</button>
                             </div>
                         </div>
                     </form>

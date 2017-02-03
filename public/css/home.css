@@ -125,7 +125,25 @@ position:relative;
     }
 
     .itembtn {
-        color: #0d3625;
+        transform: translate(-50%, -50%);
+        background: linear-gradient(90deg, #240a54 10%, #7459a5 90%);
+        color: white;
+        padding: 10px 10px;
+        border: none;
+        border-radius: 10px;
+        letter-spacing: .12em;
+        font-size: 20px;
+        font-family: 'Lato', sans-serif;
+
+        position: relative;
+        bottom: -50px;
+        right: -60px;
+    }
+
+    .divider{
+        width:60px;
+        height: 70px;
+        display:inline-block;
     }
 
     #promo-order-button{
