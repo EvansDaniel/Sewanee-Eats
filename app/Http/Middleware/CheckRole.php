@@ -16,6 +16,7 @@ class CheckRole
      */
     public function handle($request, Closure $next, $role)
     {
+        echo "Here hellow world";
         if (!Auth::check() || !(Auth::user()->role == $role))
             return redirect()->route('login');
 

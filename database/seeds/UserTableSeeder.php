@@ -16,7 +16,7 @@ class UserTableSeeder extends Seeder
         User::create([
             'name' => 'Daniel Evans',
             'email' => 'evansdb0@sewanee.edu',
-            'password' => bcrypt('helloworld'),
+            'password' => bcrypt('dsmith'),
             'role_id' => Role::where('name', 'admin')->first()->id
         ]);
 

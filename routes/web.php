@@ -12,6 +12,10 @@
 */
 
 
+// Admin Dashboard Routes
+Route::get('admin/dashboard', 'AdminController@showDashboard')
+    ->name('showAdminDashboard');
+
 Route::get('/', function () {
     return view('home');
 })->name('home');
@@ -35,9 +39,6 @@ Route::get('restaurants/{id}', 'RestaurantController@showMenu')
 // Shopping Cart Related Routes
 Route::post('cart', 'ShoppingCartController@store')
     ->name('addToCart');
-
-Route::get('checkout', 'CheckoutController@showCheckoutPage')
-    ->name('checkout');
 
 // Admin Dashboard Routes
 Route::get('admin/dashboard', 'AdminController@showDashboard')
