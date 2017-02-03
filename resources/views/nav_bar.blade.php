@@ -1,3 +1,4 @@
+<link rel="stylesheet" href="{{asset('css/nav_bar.css')}}">
 <nav class="navbar navbar-default navbar-custom navbar-fixed-top row">
     <button type="button" id="collapse-button" class="navbar-toggle" data-toggle="collapse"
             data-target="#navDiv">
@@ -10,4 +11,4 @@
             <li><a href="{{ route('about') }}">ABOUT</a></li>
         </ul>
     </div>
-</nav>x
+</nav>
