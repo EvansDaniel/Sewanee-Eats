@@ -31,9 +31,9 @@
                 <p class="col-md-12 col-lg-12">Even your Greek house</p>
             </div>
         </div>
-        <div class="row" id="promo-order-button">
-            <a>
-                order now
+        <div class="row">
+            <a  id="promo-order-button" class="col-lg-2 col-md-2 col-sm-3 col-xs-3">
+                ORDER NOW
             </a>
         </div>
     </section>
