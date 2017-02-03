@@ -25,18 +25,18 @@
     @if(count($checkoutItems) == 0)
         <!-- TODO: need better message here -->
             <h1>Not items in your cart</h1>
-    @endif
-            <ul class="list-group">
-                @foreach($checkoutItems as $item)
-                    <li class="list-group-item">
-                        <div>{{ $item->name }}</div>
+        @endif
+        <ul class="list-group">
+            @foreach($checkoutItems as $item)
+                <li class="list-group-item">
+                    <div>{{ $item->name }}</div>
 
-                        <div>{{ $item->price }}</div>
+                    <div>{{ $item->price }}</div>
 
-                        <div>{{ $item->description }}</div>
-                    </li>
-                @endforeach
-            </ul>
+                    <div>{{ $item->description }}</div>
+                </li>
+            @endforeach
+        </ul>
     </div>
 
     <form action="{{ route('handleCheckout') }}" method="POST" id="payment-form">
