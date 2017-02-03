@@ -9,7 +9,14 @@
     @yield('head')
 </head>
 <body>
+<div id="main-container" class="container-fluid">
+
 @include('nav_bar')
 @yield('body')
+<div id="push-div"></div>
+<footer id="footer" class="row">
+  <p>COPYRIGHT (C) SEWANEE EATS</p>
+</footer>
+</div>
 </body>
 </html>

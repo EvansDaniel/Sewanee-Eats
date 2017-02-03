@@ -11,6 +11,17 @@
   function p($obj) {
     console.log($obj);
   }
+  $(document).ready(function () {
+      var bd = $("body");
+      var h = bd.height();
+      p(h);
+      h = h - $("#main-container").height();
+      p(h);
+      if( h >0) {
+          $("#push-div").css("height", h);
+      }
+
+  })
 </script>
 
 
