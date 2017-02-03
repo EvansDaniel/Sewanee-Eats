@@ -5,11 +5,19 @@
 @stop
 
 @section('body')
-    <br><br><br><br><br><br>
-    <pre>
-    {{ print_r(Session::all()) }}
-    </pre>
-    <a href="{{ route('destroy_session') }}">Destroy session</a>
+    <br><br><br><br>
+    @if (session('status_good'))
+        <div class="alert alert-success">
+            {{ session('status_good') }}
+        </div>
+    @endif
+    @if (session('status_bad'))
+        <div class="alert alert-danger">
+            {{ session('status_bad') }}
+        </div>
+    @endif
+    <!-- TODO: get rid of this; it is for debugging -->
+    <!--<a href="{{--{{ route('destroy_session') }}--}}">Destroy session</a> -->
     <div class="container" id="show-menu">
         <div class="panel panel-default">
 
@@ -21,8 +29,7 @@
                 <div class="panel-body">
                     <ul class="list-group">
                         @foreach($items as $item)
-                            <li class="list-group-item" data-toggle="modal" data-target="#exampleModal"
-                                data-whatever="@fat">
+                            <li class="list-group-item" data-toggle="modal" data-target="#add-to-cart-modal">
                                 <div class="menu-item" onclick="loadModal(this)">
                                     <div>
                                         <div>{{ $item->name }}</div>
@@ -41,7 +48,7 @@
         </div>
     </div>
 
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+    <div class="modal fade" id="add-to-cart-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -57,10 +64,12 @@
                                 <div id="show-item-price" class="pull-right"></div>
                             </div>
                             <div id="show-item-description"></div>
+
                             <input type="hidden" id="to-cart-item-id" name="menu_item_id">
                             <textarea class="form-control" name="special_instructions"
-                                      placeholder="Special Instructions..." id="message-text"></textarea>
-                            <input class="form-control" type="number" name="quantity" id="quantity"
+                                      placeholder="Any special instructions? Make sure to write instructions for each item you purchase if you order more than one"
+                                      id="message-text"></textarea>
+                            <input class="form-control" type="number" min="1" max="10" name="quantity" id="quantity"
                                    placeholder="How many would you like?">
                             <div class="modal-footer">
                                 <button type="button" class="btn-default" data-dismiss="modal">Close</button>

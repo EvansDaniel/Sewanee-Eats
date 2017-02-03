@@ -37,11 +37,14 @@ Route::get('restaurants/{id}', 'RestaurantController@showMenu')
 
 
 // Shopping Cart Related Routes
-Route::get('cart', 'ShoppingCartController@showShoppingCart')
+Route::get('cart', 'CheckoutController@showCheckoutPage')
     ->name('showShoppingCart');
 
 Route::post('cart/store', 'ShoppingCartController@addToShoppingCart')
     ->name('addToCart');
+
+Route::post('cart/update/{id}', 'ShoppingCartController@updateCart')
+    ->name('updateCart');
 
 Route::get('destroy_session', function () {
     Session::flush();

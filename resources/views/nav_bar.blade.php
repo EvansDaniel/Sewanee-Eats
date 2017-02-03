@@ -10,7 +10,10 @@
             <li><a class="active" href="{{ route('home') }}">MOUNTAIN EATS</a></li>
             <li><a href="{{ route('list_restaurants') }}">ORDER ONLINE</a></li>
             <li><a href="{{ route('about') }}">ABOUT</a></li>
-            <li><a href="{{ route('showShoppingCart') }}">Cart</a></li>
+            <li><a href="{{ route('showShoppingCart') }}">CART</a></li>
+            @if(!empty(Session::get('cart')))
+                <li><a href="{{ route('checkout') }}">CHECKOUT</a></li>
+            @endif
         </ul>
     </div>
 </nav>x

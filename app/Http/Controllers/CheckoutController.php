@@ -2,44 +2,34 @@
 
 namespace App\Http\Controllers;
 
+use App\CustomTraits\CartInformation;
+use App\CustomTraits\PriceInformation;
 use Illuminate\Http\Request;
 use Session;
 use Stripe\Stripe;
 
 class CheckoutController extends Controller
 {
-    protected $location_multiplier;
-    protected $base_service_fee;
-
-    public function __construct()
-    {
-        $this->location_multiplier = [
-            'campus' => 1.33,
-            'downtown' => 1.55
-        ];
-        $this->base_service_fee = 3;
-    }
+    use PriceInformation;
+    use CartInformation;
 
     public function showCheckoutPage()
     {
         $cart = Session::get('cart');
-        $cost_before_fees = 0;
-        foreach ($cart as $item) {
-            $cost_before_fees += $item['menu_item_model']->price;
-        }
+        // nothing in cart so redirect to the home page
+        $cost_before_fees = $this->getPriceBeforeFees();
         // TODO: dynamically fill in location that gets passed to getTotalPrice
-        $total_price = $this->getTotalPrice($cost_before_fees, 'campus');
+        $total_price = $this->getTotalPrice('campus');
         return view('checkout', compact('total_price', 'cost_before_fees'));
-    }
-
-    public function getTotalPrice($sum_of_items, $location)
-    {
-        return $this->location_multiplier[$location] * $sum_of_items
-            + $this->base_service_fee;
     }
 
     public function handleCheckout(Request $request)
     {
+        // TODO: Assert that there is no more than
+        if (!$this->cart_has_valid_number_of_items())
+            return back()->with('status_bad',
+                'Your cart has too many items in it (max: ' . $this->max_items_in_cart);
+
         /*
          * Check that there is someone available to service order request
          * (possibly at the checkout page so that they can’t hit the submit button)
