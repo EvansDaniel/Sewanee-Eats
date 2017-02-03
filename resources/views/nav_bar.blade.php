@@ -10,6 +10,7 @@
             <li><a class="active" href="{{ route('home') }}">MOUNTAIN EATS</a></li>
             <li><a href="{{ route('list_restaurants') }}">ORDER ONLINE</a></li>
             <li><a href="{{ route('about') }}">ABOUT</a></li>
+            <li><a href="{{ route('checkout') }}">YOUR CART</a></li>
         </ul>
     </div>
 </nav>x
