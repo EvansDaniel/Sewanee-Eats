@@ -30,9 +30,11 @@
                 <img class="img-circle" src="{{asset('images/kappasig.jpg')}}"><br><br>
                 <p class="col-md-12 col-lg-12">Even your Greek house</p>
             </div>
-            <div class="">
-
-            </div>
+        </div>
+        <div class="row" id="promo-order-button">
+            <a>
+                order now
+            </a>
         </div>
     </section>
 @stop
