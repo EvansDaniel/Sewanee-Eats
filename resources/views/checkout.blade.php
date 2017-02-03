@@ -1,6 +1,7 @@
 @extends('layout')
 
 @section('head')
+    <link rel="stylesheet" href="{{ asset("css/cart.css") }}">
     <title>Checkout</title>
     <style>
         #payment-form {
@@ -74,7 +75,7 @@
                                 </div>
                                 <div class="row">
                                     @if(empty($order['special_instructions']))
-                                        <button type="button" class="btn-primary" onclick="addInstuction(this)">
+                                        <button type="button" class="checkoutbtn" onclick="addInstuction(this)">
                                             Add Special Instructions
                                         </button>
                                     @else
@@ -82,7 +83,7 @@
                                         <textarea id="special_instructions"
                                                   name="special_instructions">{{ $order['special_instructions'] }}</textarea>
                                     @endif
-                                    <button class="btn-primary pull-right" type="submit">Update item</button>
+                                    <button class="checkoutbtn" type="submit">Update item</button>
                                 </div>
                             </form>
                         </div>
@@ -121,7 +122,7 @@
             </div>
             <div>Subtotal: {{ $cost_before_fees }}</div>
             <div>Total Price: ${{ $total_price }}</div>
-            <input type="submit" class="btn-primary" value="Submit Order">
+            <input type="submit" class="checkoutbtn" value="Submit Order">
         </form>
 
     @endif
