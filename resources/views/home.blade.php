@@ -17,16 +17,16 @@
             We offer express food delivery everywhere
         </p>
         <br> <br>
-        <div class="row hidden-sm hidden-xs" id="promo-places">
-            <div class="col-lg-3 col-md-3 " id="promo-place1">
+        <div class="row" id="promo-places">
+            <div class="col-lg-3 col-md-3 col-sm-10 col-sm-offset-1 col-xs-offset-1 col-xs-10" id="promo-place1">
                 <img class="img-circle" src="{{asset('images/humphreys.jpg')}}"><br><br>
                 <p class="col-md-12 col-lg-12">Order from your residential room</p>
             </div>
-            <div class="col-lg-3 col-md-3 col-lg-offset-1 col-md-offset-1" id="promo-place2">
+            <div class="col-lg-3 col-md-3 col-lg-offset-1 col-md-offset-1 col-sm-10 col-sm-offset-1 col-xs-offset-1 col-xs-10" id="promo-place2">
                 <img class="img-circle" src="{{asset('images/dupont.jpg')}}"><br><br><br>
                 <p class="col-md-12 col-lg-12">Your favorite study place</p>
             </div>
-            <div class="col-lg-3 col-md-3 col-lg-offset-1 col-md-offset-1" id="promo-place3">
+            <div class="col-lg-3 col-md-3 col-lg-offset-1 col-md-offset-1 col-sm-10 col-sm-offset-1 col-xs-offset-1 col-xs-10" id="promo-place3">
                 <img class="img-circle" src="{{asset('images/kappasig.jpg')}}"><br><br>
                 <p class="col-md-12 col-lg-12">Even your Greek house</p>
             </div>
