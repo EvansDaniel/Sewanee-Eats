@@ -1,4 +1,4 @@
-/* Tari Kndemiri */
+/* Tari Kandemiri */
 body, html{
     padding: 0;
     margin: 0;
@@ -33,6 +33,7 @@ figure {
 
 
 .btn:hover {
+    color: white;
     background: linear-gradient(90deg, #7459a5 10%, #240a54 90%);
 }
 
