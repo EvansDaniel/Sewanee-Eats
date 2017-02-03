@@ -2,18 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\MenuItem;
+use DB;
 use Illuminate\Http\Request;
 use Stripe\Stripe;
-use DB;
+
 class CheckoutController extends Controller
 {
 
     public function showCheckoutPage()
     {
         // Temporary solution for showing checkout stuff
-        $checkoutItems = DB::table('menu_items')->limit(2)->get();
-        $sum = DB::table('menu_items')->sum('price');
+        $checkoutItems = DB::table('menu_items')->limit(3)->get();
+        $sum = 0;
+        foreach ($checkoutItems as $item) {
+            $sum += $item->price;
+        }
         return view('checkout',compact('checkoutItems','sum'));
     }
 
