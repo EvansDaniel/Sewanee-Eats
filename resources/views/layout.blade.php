@@ -11,13 +11,23 @@
 </head>
 <body>
 <div id="main-container" class="container-fluid">
-
-@include('nav_bar')
-@yield('body')
-<div id="push-div"></div>
-<footer id="footer" class="row">
-  <p>COPYRIGHT (C) SEWANEE EATS</p>
-</footer>
+    @include('nav_bar')
+    <br><br><br><br><br>
+    @if (session('status_good'))
+        <div class="alert alert-success">
+            {{ session('status_good') }}
+        </div>
+    @endif
+    @if (session('status_bad'))
+        <div class="alert alert-danger">
+            {{ session('status_bad') }}
+        </div>
+    @endif
+    @yield('body')
+    <div id="push-div"></div>
+    <footer id="footer" class="row">
+        <p>COPYRIGHT (C) SEWANEE EATS</p>
+    </footer>
 </div>
 </body>
 </html>

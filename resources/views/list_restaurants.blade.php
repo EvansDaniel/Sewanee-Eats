@@ -6,13 +6,6 @@
 
 @section('body')
     <div class="container" id="list-restaurants">
-
-
-        <!--
-             Can you guys figure out how to lower the body so that everything shows
-             up without using <br>??
-        -->
-        <br><br><br><br>
         <section id="places" class="container">
             <ul class="list-group">
                 @if(count($restaurants) == 0)
@@ -22,6 +15,7 @@
                     <li class="list-group-item">
                         <a href="{{ route('showMenu',['id' => $restaurant->id]) }}">
                             <div class="container">
+                                <img style="width: 200px" src="{{ $restaurant->image_url }}" alt="Restuarant Image">
                                 <h1 class="list-group-item-heading">{{ $restaurant->name }}</h1>
                                 <p class="list-group-item-info">{{ $restaurant->description }}</p>
                             </div>

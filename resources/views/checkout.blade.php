@@ -22,17 +22,6 @@
 @stop
 
 @section('body')
-    <br><br><br><br>
-    @if (session('status_good'))
-        <div class="alert alert-success">
-            {{ session('status_good') }}
-        </div>
-    @endif
-    @if (session('status_bad'))
-        <div class="alert alert-danger">
-            {{ session('status_bad') }}
-        </div>
-    @endif
     <div class="container">
     @if(empty(Session::get('cart')) || Session::get('cart') == null)
         <!-- TODO: need better message here -->

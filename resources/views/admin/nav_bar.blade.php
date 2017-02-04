@@ -9,7 +9,7 @@
         <ul id="nav" class="nav navbar-nav">
             <li><a class="active nav-links" href="{{ route('home') }}">MOUNTAIN EATS</a></li>
             <li><a href="{{ route('adminListRestaurants') }}">VIEW RESTAURANTS</a></li>
-            <li><a href="{{ route('adminAddNewRestaurant') }}">ADD NEW RESTAURANT</a></li>
+            <li><a href="{{ route('showCreateRestaurantForm') }}">ADD NEW RESTAURANT</a></li>
             <li>
                 <form id="logout-form" action="{{ route('logout') }}" method="POST">
                     {{ csrf_field() }}

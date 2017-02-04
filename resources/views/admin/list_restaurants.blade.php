@@ -5,28 +5,32 @@
 @stop
 
 @section('body')
-    <br><br><br><br><br>
     <div class="container">
         <ul class="list-group">
-            <a href="#">
+            <a href="{{ route('showCreateRestaurantForm') }}">
                 <button class="btn-primary" type="button">Add a restaurant</button>
             </a>
             @foreach($rest as $r)
                 <li class="list-group-item">
                     <div class="row">
+                        <img height="100" src="{{ $r->image_url }}" alt="Restaurant Image">
                         {{ $r->name }}
                     </div>
                     <div class="row">
-                        <a href="#">
+                        <a href="{{ route('showRestaurantUpdateForm') }}">
                             <button class="btn-primary" type="button">Update Restaurant</button>
                         </a>
+                        <!-- TODO: give proper link to view restaurant menu -->
                         <a href="#">
                             <button class="btn-info" type="button">View restaurant menu</button>
                         </a>
-                        <form action="{{ route('deleteRestaurant', ['id' => $r->id]) }}">
-                            <a href="#">
-                                <button class="btn-danger" type="button">Delete restaurant</button>
-                            </a>
+                        <!-- TODO: make a js alert box that asks admin if he/she is sure that he/she wants to delete
+                                   the restaurant
+                        -->
+                        <form action="{{ route('deleteRestaurant', ['id' => $r->id]) }}"
+                              method="post">
+                            {{ csrf_field() }}
+                            <button class="btn-danger" type="submit">Delete restaurant</button>
                         </form>
                     </div>
                 </li>

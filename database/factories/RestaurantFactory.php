@@ -54,5 +54,6 @@ $factory->define(Restaurant::class, function (Faker\Generator $faker) {
         'hours_open' => json_encode($hours_open),
         'description' => 'My restaurant description',
         'location' => $locations[RAND(0,2)],
+        'image_url' => 'http://www.minervas.net/images/jqg_13539536932.jpg'
     ];
 });

@@ -11,9 +11,9 @@
 |
 */
 
+use App\Models\ItemCategory;
 use App\Models\MenuItem;
 use App\Models\Restaurant;
-use App\Models\ItemCategory;
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 $factory->define(MenuItem::class, function (Faker\Generator $faker) {
@@ -30,5 +30,6 @@ $factory->define(MenuItem::class, function (Faker\Generator $faker) {
         'price' => mt_rand(3,18) . $decimals[mt_rand(0,2)],
         'restaurant_id' => $restaurant->id,
         'item_category_id' => $item_category->id,
+        'image_url' => 'https://www.bascofinefoods.com/media/wysiwyg/spanish-food-online-uk-specialists_3.jpg'
     ];
 });

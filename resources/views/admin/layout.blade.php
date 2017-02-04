@@ -13,6 +13,17 @@
 <div id="main-container" class="container-fluid">
 
     @include('admin.nav_bar')
+    <br><br><br><br><br>
+    @if (session('status_good'))
+        <div class="alert alert-success">
+            {{ session('status_good') }}
+        </div>
+    @endif
+    @if (session('status_bad'))
+        <div class="alert alert-success">
+            {{ session('status_bad') }}
+        </div>
+    @endif
     @yield('body')
     <div id="push-div"></div>
     <footer id="footer" class="row" align="center">

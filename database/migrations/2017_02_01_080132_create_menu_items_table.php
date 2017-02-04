@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateMenuItemsTable extends Migration
 {
@@ -21,6 +21,7 @@ class CreateMenuItemsTable extends Migration
             $table->float('price');
             $table->integer('restaurant_id')->unsigned();
             $table->integer('item_category_id')->unsigned();
+            $table->string('image_url');
             // Meaningful values:
             // 1 breakfast, 2 lunch, 3 dinner
             // 4 breakfast and lunch
