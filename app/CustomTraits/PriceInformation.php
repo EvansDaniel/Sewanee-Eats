@@ -6,12 +6,17 @@ use Session;
 
 trait PriceInformation
 {
-
+    /**
+     * @param $location
+     * @return int price after fees
+     */
     public function getTotalPrice($location)
     {
         $price_before_fees = $this->getPriceBeforeFees();
-        return $this->getLocationMultiplier()[$location] * $price_before_fees
-            + $this->getBaseServiceFee();
+        $totalPrice = round($this->getLocationMultiplier()[$location] * $price_before_fees
+            + $this->getBaseFee(), 2);
+        if ($totalPrice > 15)
+            return 15 + $price_before_fees;
     }
 
     public function getPriceBeforeFees()
@@ -24,18 +29,22 @@ trait PriceInformation
             $item = $order['menu_item_model'];
             $price += $item->price * $order['quantity'];
         }
-        return $price;
+        return round($price, 2);
     }
+
+    /* public function getNumberOfItemsPrice($count_items_in_cart) {
+         return $count_items_in_cart > 5 ? 1 : 2;
+     }*/
 
     public function getLocationMultiplier()
     {
         return [
-            'campus' => 1.33,
-            'downtown' => 1.55
+            'campus' => 1.2,
+            'downtown' => 1.4
         ];
     }
 
-    public function getBaseServiceFee()
+    public function getBaseFee()
     {
         return 3;
     }

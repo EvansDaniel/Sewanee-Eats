@@ -1,9 +1,17 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
-class AdminController extends Controller
+use App\Http\Controllers\Controller;
+
+class DashboardController extends Controller
 {
+
+    public function __construct()
+    {
+        //$this->middleware('role:admin');
+    }
+
     public function showDashboard()
     {
         return view('admin.dashboard');

@@ -20,6 +20,10 @@ Route::get('/', function () {
     return view('home');
 })->name('home');
 
+Route::get('home', function () {
+    return view('home');
+});
+
 Route::post('handleCheckout', 'CheckoutController@handleCheckout')
     ->name('handleCheckout');
 
@@ -54,10 +58,41 @@ Route::get('destroy_session', function () {
 Route::get('checkout', 'CheckoutController@showCheckoutPage')
     ->name('checkout');
 
-// Admin Dashboard Routes
-Route::get('admin/dashboard', 'AdminController@showDashboard')
-    ->name('showAdminDashboard')
-    ->middleware('role:admin');
+// Admin Routes
+Route::group(['prefix' => 'admin',
+    'namespace' => 'Admin',
+    'middleware' => 'role:admin'], function () {
+    // Dashboard controller routes
+    // Home page for admins
+    Route::get('dashboard', 'DashboardController@showDashboard')
+        ->name('showAdminDashboard');
+
+    // Shows a listing of the open orders and closed orders
+    Route::get('orders', 'DashboardController@listOrders')
+        ->name('listOrders');
+
+    // Manage Restaurant Controller routes
+    // Shows all restaurants that are registered with the site
+    Route::get('restaurants', 'ManageRestaurantController@showRestaurants')
+        ->name('adminListRestaurants');
+
+    // Shows the form to add a new restaurant to the site
+    Route::get('createRestaurant', 'ManageRestaurantController@showNewRestaurantForm')
+        ->name('adminAddNewRestaurant');
+
+    // Shows the form used to update the restaurant
+    Route::get('updateRestaurant', 'ManageRestaurantController@showRestaurantUpdate')
+        ->name('restaurantUpdateForm');
+
+    // Back end handle for removing a restaurant from the site
+    Route::post('restaurants/delete/{id}', 'ManageRestaurantController@deleteRestaurant')
+        ->name('deleteRestaurant');
+
+    // Back end handle for updating a restaurant on the site
+    Route::post('restaurants/update', 'ManageRestaurantController@updateRestaurant')
+        ->name('updateRestaurant');
+
+});
 
 Auth::routes();
 

@@ -7,6 +7,6 @@
 @section('body')
     <br><br><br><br><br>
     <div class="container">
-        <h1>Here is the body of the admin page</h1>
+        <h1>Add new restaurant form here</h1>
     </div>
 @stop

@@ -28,7 +28,7 @@ class User extends Authenticatable
 
     public function hasRole($role)
     {
-        return $this->role == $role;
+        return $this->role->name == $role;
     }
 
     public function role()
