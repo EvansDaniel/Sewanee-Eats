@@ -9,4 +9,19 @@
 #navDiv{
     margin-left: 10px;
     margin-right: 10px;
+    padding: 0;
+    font-size: 15px;
+}
+#navDiv ul li {
+    padding: 0;
+}
+nav{
+    /*background: linear-gradient(90deg, #8268B3 10%, #240a54 90%);*/
+    font-size: 15px;
+    padding: 0;
+
+}
+#navDiv a:hover {
+    background: linear-gradient(90deg, #7459a5 10%, #240a54 90%);
+    color: white;
 }

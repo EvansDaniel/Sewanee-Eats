@@ -30,8 +30,8 @@ li a {
 li a:hover {
     background-color: #240a54;
 }
-
-.anynames{ // this css is for position an image to the left
+/*// this css is for position an image to the left*/
+.anynames{
 position:relative;
     float:left;
     width: 50px;

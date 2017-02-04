@@ -32,7 +32,7 @@
             </div>
         </div>
         <div class="row">
-            <a  id="promo-order-button" class="col-lg-2 col-md-2 col-sm-3 col-xs-3">
+            <a href="{{ route('list_restaurants') }}" id="promo-order-button" class="col-lg-2 col-md-2 col-sm-3 col-xs-3">
                 ORDER NOW
             </a>
         </div>
