@@ -23,7 +23,7 @@
                         <a href="#">
                             <button class="btn-info" type="button">View restaurant menu</button>
                         </a>
-                        <form action="{{ route('') }}">
+                        <form action="{{ route('deleteRestaurant', ['id' => $r->id]) }}">
                             <a href="#">
                                 <button class="btn-danger" type="button">Delete restaurant</button>
                             </a>
