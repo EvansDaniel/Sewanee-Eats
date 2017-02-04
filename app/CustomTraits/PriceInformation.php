@@ -17,6 +17,7 @@ trait PriceInformation
             + $this->getBaseFee(), 2);
         if ($totalPrice > 15)
             return 15 + $price_before_fees;
+        return $totalPrice;
     }
 
     public function getPriceBeforeFees()
