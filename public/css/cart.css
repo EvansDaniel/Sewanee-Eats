@@ -13,3 +13,20 @@
     bottom: -50px;
     right: -100px;
 }
+
+div.cart {
+    position:fixed;
+    top:100px;
+    right: 10px;
+
+    width: 400px;
+    height: 275px;
+    margin: auto;
+    border: 3px solid #240a54;
+    color: #240a54;
+}
+
+.divider{
+    height: 70px;
+    display:inline-block;
+}

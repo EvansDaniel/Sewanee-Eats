@@ -39,11 +39,11 @@
             <h1>Not items in your cart</h1>
             <a href="{{ route('list_restaurants') }}">Start your order here</a>
         @else
-            <h1>Your Cart</h1>
-            <ul class="list-group">
+            <h1>Your Food</h1>
+            <ul.cart>
                 <!-- Loop through all menu items in the cart -->
                 @foreach(Session::get('cart') as $order)
-                    <li class="list-group-item">
+                    <li.cart>
                         <div class="menu-item container">
                             <div class="row">
                                 <div>{{ $order['menu_item_model']->name }}</div>
@@ -85,15 +85,22 @@
                                     @endif
                                     <button class="checkoutbtn" type="submit">Update item</button>
                                 </div>
+                                <div class="divider"></div>
                             </form>
                         </div>
-                    </li>
+                    </li.cart>
                 @endforeach
-            </ul>
+            </ul.cart>
         @endif
     </div>
+
+
     <!-- Show checkout info only if we are on the checkout page -->
     @if(parse_url(url()->current(), PHP_URL_PATH) == '/checkout')
+
+       <div class="cart">
+
+           <h4>Enter your information to pay:</h4>
         <form action="{{ route('handleCheckout') }}" method="POST" id="payment-form">
             {{ csrf_field() }}
             <span class="payment-errors"></span>
@@ -121,8 +128,8 @@
                 </label>
             </div>
             <div>Subtotal: {{ $cost_before_fees }}</div>
-            <div>Total Price: ${{ $total_price }}</div>
-            <input type="submit" class="checkoutbtn" value="Submit Order">
+            <div>Order Total: ${{ $total_price }}</div>
+            <input type="submit" class="checkoutbtn" value="PAY NOW">
         </form>
 
     @endif
@@ -174,4 +181,5 @@
 
     </script>
 
+       </div>
 @stop
