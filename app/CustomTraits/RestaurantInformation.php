@@ -15,7 +15,6 @@ trait RestaurantInformation {
         $timezone = 'America/Kentucky/Louisville';
         $day = Carbon::now()->dayOfWeek-1;
         $current_hour = Carbon::now($timezone)->hour-1;
-        $current_minute =  Carbon::now($timezone)->minute;
 
         // array of days of the week with time ranges for each day
         // that the business is open
@@ -26,6 +25,12 @@ trait RestaurantInformation {
 
             if($isOpen) break; // found a time range that is open
 
+            // account for the fact that the restaurant might be closed today
+            // TODO: test this logic
+            if ($unparsed_time_range === "closed") {
+                $isOpen = false;
+                break;
+            }
             // get the time today as central time zone
             // parse time range that ultimately came from the DB
             $time_range = explode("-", $unparsed_time_range);
@@ -35,11 +40,10 @@ trait RestaurantInformation {
             if ($close < $open) {
                 // if time flipped from pm to am and restaurant hasn't closed yet
                 if ($current_hour <= $open && $current_hour < $close) {
-                    // if $restaurant will close in < 1 hour, then
-                    // delivery person needs at least 30 minutes of breathing room to delivery
-                    // could switch above to $current_hour+1 < $close to give an hour of breathing room
+                    // need ample amount of delivery time, so if within one hour of closing soon
+                    // we won't deliver
                     if($current_hour + 1 == $close) {
-                        $isOpen = $current_minute <= 30;
+                        $isOpen = false;
                     }
                     else {
                         $isOpen = true;
@@ -48,11 +52,10 @@ trait RestaurantInformation {
                 $isOpen = $current_hour >= $open;
             } else {
                 if ($current_hour >= $open && $current_hour < $close) {
-                    // if $restaurant will close in < 1 hour, then
-                    // delivery person needs at least 30 minutes of breathing room to delivery
-                    // could switch above to $current_hour+1 < $close to give an hour of breathing room
+                    // need ample amount of delivery time, so if within one hour of closing soon
+                    // we won't deliver
                     if($current_hour + 1 == $close) {
-                        $isOpen = $current_minute < 30;
+                        $isOpen = false;
                     }
                     else {
                         $isOpen = true;
