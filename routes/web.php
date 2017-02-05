@@ -64,6 +64,10 @@ Route::group(['prefix' => 'admin',
     'middleware' => 'role:admin'], function () {
     // Dashboard controller routes
     // Home page for admins
+    Route::get('', 'DashboardController@showDashboard')
+        ->name('showAdminDashboard');
+
+    // Home page for admins
     Route::get('dashboard', 'DashboardController@showDashboard')
         ->name('showAdminDashboard');
 
@@ -81,7 +85,7 @@ Route::group(['prefix' => 'admin',
         ->name('showCreateRestaurantForm');
 
     // Shows the form used to update the restaurant
-    Route::get('updateRestaurant', 'ManageRestaurantController@showRestaurantUpdate')
+    Route::get('updateRestaurant/{id}', 'ManageRestaurantController@showRestaurantUpdate')
         ->name('showRestaurantUpdateForm');
 
     // Back end handle for updating a restaurant on the site

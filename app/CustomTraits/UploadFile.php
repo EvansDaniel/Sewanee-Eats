@@ -3,11 +3,17 @@
 namespace App\CustomTraits;
 
 use File;
+use Log;
 use Storage;
 
 trait UploadFile
 {
 
+    /**
+     * @param $directory_to_store string Subdirectory from the baseStoragePath()
+     * @param $uploaded_file File Actual instance of uploaded file i.e. $request->file('my_image');
+     * @param $file_name string The name to store the file as
+     */
     public function storeFile($directory_to_store,
                               $uploaded_file,
                               $file_name)
@@ -15,6 +21,9 @@ trait UploadFile
 
         if (!$uploaded_file || !$file_name)
             return;
+        // Possible problem: If subdirs don't exist, mkdir will fail
+        // Possible solution: use recursive flag on mkdir() call
+        // Probably best solution: Don't call storeFile on with subdirs that don't exist
         if (!file_exists($directory_to_store))
             mkdir($directory_to_store);
 
@@ -23,40 +32,66 @@ trait UploadFile
     }
 
     /**
-     * @param $sub_dir string the subdirectory under storage_path()/app/public/
+     * @param $sub_dir string The subdirectory under the base
+     * @param $file_name
+     */
+    public function deleteFile($sub_dir,
+                               $file_name)
+    {
+        if (!$sub_dir || !$file_name)
+            return;
+        $sep = $this->separator($sub_dir);
+        $path = $this->baseStoragePath() . $sub_dir . $sep . $file_name;
+        Log::info($path);
+        if (!file_exists($path)) {
+            Log::info('Tried to delete file that didn\'t exist. Path: ' . $path);
+            return;
+        }
+        // Storage::delete('file.jpg') doesn't work for some reason
+        unlink($path);
+    }
+
+    private function separator($dir)
+    {
+        // check if sub_dir exists
+        $len = strlen($dir);
+        return substr($dir, $len - 1, $len) == '/' ? "" : "/";
+    }
+
+    public function baseStoragePath()
+    {
+        return storage_path() . '/app/';
+    }
+
+    /**
+     * @param $sub_dir string the subdirectory under baseStoragePath()
      *                 where you would store $file_name
      * @param $file_name string name of the file that would be saved
      * @return string returns the fully qualified url to be stored in DB
      */
     public function dbStoragePath($sub_dir, $file_name)
     {
-        // check if sub_dir exists
-        $len = strlen($sub_dir);
-        $sep = substr($sub_dir, $len - 1, $len) == '/' ? "" : "/";
+        $sep = $this->separator($sub_dir);
         return asset('storage/' . $sub_dir . $sep . $file_name);
-    }
-
-    public function deleteFile($file_to_delete)
-    {
-        if (!$file_to_delete || !file_exists($file_to_delete))
-            return;
-        Storage::delete($file_to_delete);
     }
 
     /**
      *
-     * @param $file \Illuminate\Http\UploadedFile An actual file object e.g. $request->file('myUploadedFile');
+     * @param $uploaded_file \Illuminate\Http\UploadedFile An actual file object e.g. $request->file('myUploadedFile');
      * @param $directory_to_store string Directory in which $file will be stored
-     * @return string a file name that is unique among all files in $this->getStorageDir() . $dir
+     * @return string a file name that is unique among all files in $this->baseStoragePath() . $dir
      */
-    public function getFileName($file, $directory_to_store)
+    public function getFileName($uploaded_file, $directory_to_store)
     {
-        $extension = "." . $file->getClientOriginalExtension();
-        $fileName = $this->generateUniqueName() . $extension;
-        while (file_exists($directory_to_store . $file)) {
-            $fileName = $this->generateUniqueName() . $extension;
+        $sep = $this->separator($directory_to_store);
+        $extension = "." . $uploaded_file->getClientOriginalExtension();
+        $file_name = $this->generateUniqueName() . $extension;
+        while (file_exists($this->baseStoragePath() .
+            $directory_to_store
+            . $sep . $file_name)) {
+            $file_name = $this->generateUniqueName() . $extension;
         }
-        return $fileName;
+        return $file_name;
     }
 
     private function generateUniqueName()
@@ -89,5 +124,17 @@ trait UploadFile
     private function _nextChar()
     {
         return base_convert(mt_rand(0, 35), 10, 36);
+    }
+
+    /**
+     * @param $DB_stored_path string assumes that the pic path was stored to the
+     *        database using this function: $this->dbStoragePath($sub_dir, $file_name);
+     * @return string returns the file name of the uploaded file
+     *         as it exists in the database
+     */
+    public function getFileNameFromDB($DB_stored_path)
+    {
+        return pathinfo($DB_stored_path)['filename'] . "." .
+            pathinfo($DB_stored_path)['extension'];
     }
 }

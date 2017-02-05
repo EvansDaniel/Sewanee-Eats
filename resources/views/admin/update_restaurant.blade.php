@@ -5,32 +5,37 @@
 @stop
 
 @section('body')
+    <pre>
+        <?php print_r($hours_open) ?>
+    </pre>
     <div class="container">
         <h1>Add a new restaurant</h1>
-        <form action="{{ route('createRestaurant') }}"
+        <form action="{{ route('updateRestaurant') }}"
               method="post" enctype="multipart/form-data"
-              id="create-restaurant" accept-charset="utf-8">
+              id="update-restaurant" accept-charset="utf-8">
             {{ csrf_field() }}
+            <input type="hidden" name="rest_id" value="{{ $r->id }}">
             <div class="form-group">
                 <label for="rest-name">Restaurant Name</label>
                 <input name="name" id="rest-name" class="form-control"
-                       type="text" required maxlength="100" value="Cool restaurant">
+                       type="text" required maxlength="100"
+                       value="{{ $r->name }}">
                 <label for="rest-description">Restaurant Description</label>
                 <textarea name="description" id="rest-description" class="form-control"
-                          cols="30" rows="10" required maxlength="250">Description</textarea>
+                          cols="30" rows="10" required maxlength="250">{{ $r->description }}</textarea>
                 <label for="rest-location">Restaurant Location</label>
                 <select name="location" class="form-control" id="rest-location" required>
                     <option value="campus">Campus</option>
                     <option value="downtown">Downtown</option>
                 </select>
                 <br>
-                <input type="file" name="image" id="file" class="input-file form-control" required>
+                <input type="file" name="image" id="file" class="input-file form-control">
                 <label for="file" class="btn btn-primary form-control">Choose a restaurant image</label>
                 <br><br>
                 <span id="invalid-table-data" class="alert alert-danger" style=""></span>
                 <label for="hours-table">Specify the hours this restaurant is open. If a restaurant is open for multiple
                     disjoint shifts use the extra rows to fill that in. Fill each cell in in this form:
-                    "open_hour-close_hour" or put "closed"</label>
+                    "open_hour-close_hour"</label>
                 <table id="hours-table" class="table table-responsive">
                     <thead>
                     <tr>
@@ -47,61 +52,76 @@
                     <tr>
                         <td><input size="5" type="text"
                                    class="days" name="monday[]"
-                                   required value="12-17"></td>
+                                   required value="@if(!empty($hours_open[0][0])) {{ $hours_open[0][0] }} @endif">
+                        </td>
                         <td><input size="5" type="text"
                                    class="days" name="tuesday[]"
-                                   required value="12-17"></td>
+                                   required value="@if(!empty($hours_open[1][0])) {{ $hours_open[1][0] }} @endif"></td>
                         <td><input size="5" type="text"
                                    class="days" name="wednesday[]"
-                                   required value="12-17"></td>
+                                   required value="@if(!empty($hours_open[2][0])) {{ $hours_open[2][0] }} @endif"></td>
                         <td><input size="5" type="text"
                                    class="days" name="thursday[]"
-                                   required value="12-17"></td>
+                                   required value="@if(!empty($hours_open[3][0])) {{ $hours_open[3][0] }} @endif"></td>
                         <td><input size="5" type="text"
                                    class="days" name="friday[]"
-                                   required value="12-17"></td>
+                                   required value="@if(!empty($hours_open[4][0])) {{ $hours_open[4][0] }} @endif"></td>
                         <td><input size="5" type="text"
                                    class="days" name="saturday[]"
-                                   required value="12-17"></td>
+                                   required value="@if(!empty($hours_open[5][0])) {{ $hours_open[5][0] }} @endif"></td>
                         <td><input size="5" type="text"
                                    class="days" name="sunday[]"
-                                   required value="12-17"></td>
+                                   required value="@if(!empty($hours_open[6][0])) {{ $hours_open[6][0] }} @endif"></td>
                     </tr>
                     <tr>
                         <td><input size="5" type="text" class="days"
-                                   name="monday[]"></td>
+                                   name="monday[]"
+                                   value="@if(!empty($hours_open[0][1])) {{ $hours_open[0][1] }} @endif"></td>
                         <td><input size="5" type="text" class="days"
-                                   name="tuesday[]"></td>
+                                   name="tuesday[]"
+                                   value="@if(!empty($hours_open[1][1])) {{ $hours_open[1][1] }} @endif"></td>
                         <td><input size="5" type="text" class="days"
-                                   name="wednesday[]"></td>
+                                   name="wednesday[]"
+                                   value="@if(!empty($hours_open[2][1])) {{ $hours_open[2][1] }} @endif"></td>
                         <td><input size="5" type="text" class="days"
-                                   name="thursday[]"></td>
+                                   name="thursday[]"
+                                   value="@if(!empty($hours_open[3][1])) {{ $hours_open[3][1] }} @endif"></td>
                         <td><input size="5" type="text" class="days"
-                                   name="friday[]"></td>
+                                   name="friday[]"
+                                   value="@if(!empty($hours_open[4][1])) {{ $hours_open[4][1] }} @endif"></td>
                         <td><input size="5" type="text" class="days"
-                                   name="saturday[]"></td>
+                                   name="saturday[]"
+                                   value="@if(!empty($hours_open[5][1])) {{ $hours_open[5][1] }} @endif"></td>
                         <td><input size="5" type="text" class="days"
-                                   name="sunday[]"></td>
+                                   name="sunday[]"
+                                   value="@if(!empty($hours_open[6][1])) {{ $hours_open[6][1] }} @endif"></td>
                     </tr>
                     <tr>
                         <td><input size="5" type="text" class="days"
-                                   name="monday[]"></td>
+                                   name="monday[]"
+                                   value="@if(!empty($hours_open[0][2])) {{ $hours_open[0][2] }} @endif"></td>
                         <td><input size="5" type="text" class="days"
-                                   name="tuesday[]"></td>
+                                   name="tuesday[]"
+                                   value="@if(!empty($hours_open[1][2])) {{ $hours_open[1][2] }} @endif"></td>
                         <td><input size="5" type="text" class="days"
-                                   name="wednesday[]"></td>
+                                   name="wednesday[]"
+                                   value="@if(!empty($hours_open[2][2])) {{ $hours_open[2][2] }} @endif"></td>
                         <td><input size="5" type="text" class="days"
-                                   name="thursday[]"></td>
+                                   name="thursday[]"
+                                   value="@if(!empty($hours_open[3][2])) {{ $hours_open[3][2] }} @endif"></td>
                         <td><input size="5" type="text" class="days"
-                                   name="friday[]"></td>
+                                   name="friday[]"
+                                   value="@if(!empty($hours_open[4][2])) {{ $hours_open[4][2] }} @endif"></td>
                         <td><input size="5" type="text" class="days"
-                                   name="saturday[]"></td>
+                                   name="saturday[]"
+                                   value="@if(!empty($hours_open[5][2])) {{ $hours_open[5][2] }} @endif"></td>
                         <td><input size="5" type="text" class="days"
-                                   name="sunday[]"></td>
+                                   name="sunday[]"
+                                   value="@if(!empty($hours_open[6][2])) {{ $hours_open[6][2] }} @endif"></td>
                     </tr>
                     </tbody>
                 </table>
-                <button type="submit" class="btn btn-primary" onclick="checkDays(event)">Add New Restaurant</button>
+                <button type="submit" class="btn btn-primary" onclick="checkDays(event)">Update Restaurant</button>
             </div>
         </form>
     </div>
@@ -148,8 +168,7 @@
       function validTableData(input) {
         var text = $(input).val();
         //p("text = " + text.length);
-        // allow no shift or restaurant is closed
-        if (!text || text.toLowerCase() === "closed")
+        if (!text)
           return true;
         // regex to replace all spaces with ""
         var res = text.replace(/ /g, "");
