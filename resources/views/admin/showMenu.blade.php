@@ -30,9 +30,6 @@
         <div class="panel panel-default">
 
             <h1 align="center">{{ $restaurant->name }}'s Menu</h1>
-            @if(empty($menu_items))
-                <h1>No menu items exist yet... Coming soon</h1>
-            @else
             @foreach($menu_items as $category => $items)
                 <div class="panel-heading">
                     <h3 class="header catList">{{ $category }}</h3>
@@ -58,42 +55,6 @@
                     </ul>
                 </div>
             @endforeach
-            @endif
-        </div>
-    </div>
-
-    <div class="modal fade" id="add-to-cart-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                                aria-hidden="true">&times</span></button>
-                    <h4 class="modal-title" id="show-item-name"></h4>
-                </div>
-                <div class="modal-body">
-                    <form action="{{ route('addToCart') }}" method="post">
-                        {{ csrf_field() }}
-                        <div class="form-group">
-                            <div>
-                                <div id="show-item-price" class="pull-right"></div>
-                            </div>
-                            <div id="show-item-description"></div>
-
-                            <input type="hidden" id="to-cart-item-id" name="menu_item_id">
-                            <textarea class="form-control" name="special_instructions"
-                                      placeholder="Any special instructions? Make sure to write instructions for each item you purchase if you order more than one"
-                                      id="message-text"></textarea>
-                            <input class="form-control" type="number" min="1" max="10" name="quantity" id="quantity"
-                                   placeholder="How many would you like?">
-                            <div class="modal-footer">
-                                <button type="button" class="itembtn" data-dismiss="modal">Close</button>
-                                <div class="divider"></div>
-                                <button type="submit" class="itembtn">Add To Cart</button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
         </div>
     </div>
 @stop

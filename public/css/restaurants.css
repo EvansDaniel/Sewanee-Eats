@@ -2,15 +2,18 @@
 #monteagle , #mountain{
     font-size: 20px;
 }
-#places img{
+
+#restaurant-group img {
     width: auto;
 }
-#places li:hover{
+
+#restaurant-group li:hover {
     -webkit-box-shadow: 0px 0px 4px 0px rgba(0,0,0,0.75);
     -moz-box-shadow: 0px 0px 4px 0px rgba(0,0,0,0.75);
     box-shadow: 0px 0px 4px 0px rgba(0,0,0,0.75);
 }
-#places li{
+
+#restaurant-group li {
     -webkit-box-shadow: 0px 0px 2px 0px rgba(0,0,0,0.75);
     -moz-box-shadow: 0px 0px 2px 0px rgba(0,0,0,0.75);
     box-shadow: 0px 0px 2px 0px rgba(0,0,0,0.75);
@@ -19,10 +22,11 @@
 }
 @media only screen and (min-width: 760px) {
 
-    #places {
+    #restaurant-group {
         padding-left: 0;
     }
-    #places li {
+
+    #restaurant-group li {
         margin-top: 2%;
         width: 25%;
         margin-left: 4.165%;
@@ -32,8 +36,7 @@
 }
 @media only screen and (min-width: 760px) {
 
-
-    #places li {
+    #restaurant-group li {
         margin-top: 5%;
         margin-bottom: 5%;
         /*width: 70%;*/

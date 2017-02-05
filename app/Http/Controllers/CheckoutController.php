@@ -51,7 +51,7 @@ class CheckoutController extends Controller
 
         // Charge the user's card:
         $charge = \Stripe\Charge::create(array(
-            "amount" => 100,
+            "amount" => $this->getTotalPrice('campus')*100,
             "currency" => "usd",
             "description" => "Sewanee Eats Charge",
             "source" => $token,

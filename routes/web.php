@@ -64,6 +64,10 @@ Route::group(['prefix' => 'admin',
     'middleware' => 'role:admin'], function () {
     // Dashboard controller routes
     // Home page for admins
+    Route::get('', 'DashboardController@showDashboard')
+        ->name('showAdminDashboard');
+
+    // Home page for admins
     Route::get('dashboard', 'DashboardController@showDashboard')
         ->name('showAdminDashboard');
 
@@ -78,20 +82,23 @@ Route::group(['prefix' => 'admin',
 
     // Shows the form to add a new restaurant to the site
     Route::get('createRestaurant', 'ManageRestaurantController@showNewRestaurantForm')
-        ->name('adminAddNewRestaurant');
+        ->name('showCreateRestaurantForm');
 
     // Shows the form used to update the restaurant
-    Route::get('updateRestaurant', 'ManageRestaurantController@showRestaurantUpdate')
-        ->name('restaurantUpdateForm');
+    Route::get('updateRestaurant/{id}', 'ManageRestaurantController@showRestaurantUpdate')
+        ->name('showRestaurantUpdateForm');
 
-    // Back end handle for removing a restaurant from the site
-    Route::post('restaurants/delete/{id}', 'ManageRestaurantController@deleteRestaurant')
-        ->name('deleteRestaurant');
+    // Back end handle for updating a restaurant on the site
+    Route::post('restaurants/create', 'ManageRestaurantController@createRestaurant')
+        ->name('createRestaurant');
 
     // Back end handle for updating a restaurant on the site
     Route::post('restaurants/update', 'ManageRestaurantController@updateRestaurant')
         ->name('updateRestaurant');
 
+    // Back end handle for removing a restaurant from the site
+    Route::post('restaurants/delete/{id}', 'ManageRestaurantController@deleteRestaurant')
+        ->name('deleteRestaurant');
 });
 
 Auth::routes();

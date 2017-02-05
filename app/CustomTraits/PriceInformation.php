@@ -6,17 +6,25 @@ use Session;
 
 trait PriceInformation
 {
+    public function getTotalPrice($location)
+    {
+        return $this->getSubTotal($location) * $this->getStateTax();
+    }
+
     /**
      * @param $location
      * @return int price after fees
      */
-    public function getTotalPrice($location)
+    public function getSubTotal($location)
     {
         $price_before_fees = $this->getPriceBeforeFees();
-        $totalPrice = round($this->getLocationMultiplier()[$location] * $price_before_fees
-            + $this->getBaseFee(), 2);
-        if ($totalPrice > 15)
-            return 15 + $price_before_fees;
+        $location_cost = $this->getLocationCost($price_before_fees, $location);
+        $fees_total = $location_cost + $this->getBaseFee();
+        if ($fees_total > 15) {
+            $fees_total = 15;
+            return round(($fees_total + $price_before_fees), 2);
+        }
+        return round(($fees_total + $price_before_fees), 2);
     }
 
     public function getPriceBeforeFees()
@@ -32,20 +40,29 @@ trait PriceInformation
         return round($price, 2);
     }
 
-    /* public function getNumberOfItemsPrice($count_items_in_cart) {
-         return $count_items_in_cart > 5 ? 1 : 2;
-     }*/
+    public function getLocationCost($price_before_fees, $location)
+    {
+        /*if($location != 'campus' || $location != 'downtown') {
+            die('Invalid index passed to $location parameter in getLocationCost(): '. $location);
+        }*/
+        return $this->getLocationMultiplier()[$location] * $price_before_fees;
+    }
 
     public function getLocationMultiplier()
     {
         return [
-            'campus' => 1.2,
-            'downtown' => 1.4
+            'campus' => .2,
+            'downtown' => .4
         ];
     }
 
     public function getBaseFee()
     {
         return 3;
+    }
+
+    public function getStateTax()
+    {
+        return 1.0925;
     }
 }
