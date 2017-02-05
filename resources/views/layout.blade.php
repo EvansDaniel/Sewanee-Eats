@@ -12,12 +12,13 @@
 <body>
 <div id="main-container" class="container-fluid">
 
-@include('nav_bar')
-@yield('body')
-<div id="push-div"></div>
-<footer id="footer" class="row">
-  <p>COPYRIGHT (C) SEWANEE EATS</p>
-</footer>
+    @include('nav_bar')
+    @yield('body')
+    <div id="push-div"></div>
+    <link rel="stylesheet" href="{{asset('css/footer.css')}}">
+    <footer id="footer" class="row">
+        <p>COPYRIGHT (C) SEWANEE EATS</p>
+    </footer>
 </div>
 </body>
 </html>

@@ -102,7 +102,7 @@
         $(document).ready(function () {
             change_heights();
         })
-      
+
         function change_heights(){
             var li_h = $("#p-stirlings").height();
             p(li_h);

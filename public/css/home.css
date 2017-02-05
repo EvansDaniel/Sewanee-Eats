@@ -80,17 +80,7 @@ position:relative;
     text-align: center;
     margin-top: 1em;
 }
-#footer{
-    background: #7459a5;
-    color: white;
-    text-align: left;
-    height: 50px;
-    font-size: 16px;
-}
-#footer p{
-    margin-left: 4em;
-    margin-top:1em;
-}
+
 #promo-places p{
     font-size: 24px;
     text-align: center;
@@ -155,6 +145,9 @@ position:relative;
 }
 /*for small and extra small screens*/
 @media only screen and (max-width: 760px) {
+    #push-fig{
+        height: 6%;
+    }
     .btn {
         position: absolute;
         /*width: 4em;*/
@@ -169,7 +162,7 @@ position:relative;
         border-radius: 10px;
 
         letter-spacing: .12em;
-        font-size: 20px;
+        font-size: 16px;
         font-family: 'Lato', sans-serif;
     }
     #navDiv{

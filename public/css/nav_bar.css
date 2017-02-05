@@ -3,12 +3,24 @@
     #collapse-button{
         margin-right: 20px;
     }
+    #navDiv {
+        /*margin-left: 5%;*/
+        text-indent: 10px;
+        margin-right: 10px;
+    }
+}
+@media only screen and (min-width: 760px) {
+
+    #collapse-button{
+        margin-right: 20px;
+    }
+    #navDiv {
+        margin-left: 10px;
+        margin-right: 10px;
+    }
 
 }
-
 #navDiv{
-    margin-left: 10px;
-    margin-right: 10px;
     padding: 0;
     font-size: 15px;
 }

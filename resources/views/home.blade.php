@@ -5,6 +5,7 @@
 @stop
 
 @section('body')
+    <div id="push-fig"></div>
     <figure>
         <img src="http://i67.tinypic.com/2w67w39.png" alt="Smiley face" align="middle">
         <a href="{{ route('list_restaurants') }}" class="btn">ORDER NOW</a>
@@ -32,7 +33,7 @@
             </div>
         </div>
         <div class="row">
-            <a href="{{ route('list_restaurants') }}" id="promo-order-button" class="col-lg-2 col-md-2 col-sm-3 col-xs-3">
+            <a href="{{ route('list_restaurants') }}" id="promo-order-button" class="col-lg-2 col-md-2 col-sm-4 col-xs-4">
                 ORDER NOW
             </a>
         </div>

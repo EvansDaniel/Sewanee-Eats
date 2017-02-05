@@ -30,3 +30,7 @@ a:hover {
 a:active {
     color: purple;
 }
+footer p{
+    color: white;
+    font-size: 16px;
+}
