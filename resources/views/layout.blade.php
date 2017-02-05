@@ -12,7 +12,6 @@
 <body>
 <div id="main-container" class="container-fluid">
     @include('nav_bar')
-    <br><br><br><br><br>
     @if (session('status_good'))
         <div class="alert alert-success">
             {{ session('status_good') }}
@@ -25,8 +24,10 @@
     @endif
     @yield('body')
     <div id="push-div"></div>
-    <footer id="footer" class="row">
+    <footer id="footer" class="col-xs-offset-1 col-md-offset-1 col-sm-offset-1 col-lg-offset-1">
+        <br>
         <p>COPYRIGHT (C) SEWANEE EATS</p>
+        <br>
     </footer>
 </div>
 </body>

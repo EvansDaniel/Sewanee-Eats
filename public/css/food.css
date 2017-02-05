@@ -1,9 +1,8 @@
 div.ex1 {
-    width:500px;
+    width: 500px;
     margin: auto;
     border: 3px solid #240a54;
 }
-
 
 ul {
     font-family: 'Lato', sans-serif;
@@ -30,9 +29,10 @@ li a {
 li a:hover {
     background-color: #240a54;
 }
+
 /*// this css is for position an image to the left*/
-.anynames{
-position:relative;
-    float:left;
+.anynames {
+    position: relative;
+    float: left;
     width: 50px;
 }
