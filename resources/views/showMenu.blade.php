@@ -5,11 +5,14 @@
     <title>{{ $restaurant->name }} | Menu</title>
     <script>
       function loadModal(div) {
-        var name = $.trim($($(div).children().children()[0]).text());
-        var price = $.trim($($(div).children().children()[1]).text());
+        var name = $.trim($($(div).children().children()[1]).text());
+        var price = $.trim($($(div).children().children()[2]).text());
         var description = $.trim($($(div).children()[1]).text());
         var item_id = $.trim($($(div).children()[2]).text());
-        // p(name); p(price); p(description); p(item_id); // for debugging
+        p(name);
+        p(price);
+        p(description);
+        p(item_id); // for debugging
 
         // Set the divs to show item details to user
         $("#show-item-price").text("Price: " + price);
