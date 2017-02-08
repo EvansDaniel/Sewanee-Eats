@@ -1,9 +1,10 @@
 /* Tari Kandemiri */
-body, html{
+body, html {
     padding: 0;
     margin: 0;
 }
-#main-container{
+
+#main-container {
     margin: 0;
     padding: 0;
 }
@@ -27,76 +28,60 @@ a {
     text-decoration: none;
 }
 
-
-
 figure {
     width: 100%;
     position: relative;
 }
-
 
 .btn:hover, #promo-order-button:hover {
     color: white;
     background: linear-gradient(90deg, #7459a5 10%, #240a54 90%);
 }
 
-
 div.ex1 {
-    width:500px;
+    width: 500px;
     margin: auto;
     border: 3px solid #240a54;
 }
 
 /*ul {*/
-    /*font-family: 'Lato', sans-serif;*/
-    /*font-size: 30px;*/
-    /*list-style-type: none;*/
-    /*margin: 0;*/
-    /*padding: 0;*/
-    /*overflow: hidden;*/
-    /*background-color: #7459a5;*/
+/*font-family: 'Lato', sans-serif;*/
+/*font-size: 30px;*/
+/*list-style-type: none;*/
+/*margin: 0;*/
+/*padding: 0;*/
+/*overflow: hidden;*/
+/*background-color: #7459a5;*/
 /*}*/
 
 /*li {*/
-    /*float: left;*/
+/*float: left;*/
 /*}*/
 
 /*li a {*/
-    /*display: block;*/
-    /*color: white;*/
-    /*text-align: center;*/
-    /*padding: 35px 25px;*/
-    /*text-decoration: none;*/
+/*display: block;*/
+/*color: white;*/
+/*text-align: center;*/
+/*padding: 35px 25px;*/
+/*text-decoration: none;*/
 /*}*/
 
-
-.anynames{ // this css is for position an image to the left
-position:relative;
-    float:left;
+.anynames {
+/ / this css is for position an image to the left position: relative;
+    float: left;
     width: 50px;
 }
-#promo-p1, #promo-p2{
+
+#promo-p1, #promo-p2 {
     font-size: 2em;
     text-align: center;
     margin-top: 1em;
 }
-#footer{
-    background: #7459a5;
-    color: white;
-    text-align: left;
-    height: 50px;
-    font-size: 16px;
-}
-#footer p{
-    margin-left: 4em;
-    margin-top:1em;
-}
-#promo-places p{
+
+#promo-places p {
     font-size: 24px;
     text-align: center;
 }
-
-
 
 /*for computer screens*/
 @media only screen and (min-width: 760px) {
@@ -133,13 +118,13 @@ position:relative;
         right: -60px;
     }
 
-    .divider{
-        width:60px;
+    .divider {
+        width: 60px;
         height: 70px;
-        display:inline-block;
+        display: inline-block;
     }
 
-    #promo-order-button{
+    #promo-order-button {
         background: linear-gradient(90deg, #240a54 10%, #7459a5 90%);
         font-size: 1.45em;
         color: white;
@@ -153,8 +138,13 @@ position:relative;
     }
 
 }
+
 /*for small and extra small screens*/
 @media only screen and (max-width: 760px) {
+    #push-fig {
+        height: 6%;
+    }
+
     .btn {
         position: absolute;
         /*width: 4em;*/
@@ -169,19 +159,22 @@ position:relative;
         border-radius: 10px;
 
         letter-spacing: .12em;
-        font-size: 20px;
+        font-size: 16px;
         font-family: 'Lato', sans-serif;
     }
-    #navDiv{
+
+    #navDiv {
         margin-left: 10px;
         margin-right: 10px;
     }
-    #collapse-button{
+
+    #collapse-button {
         margin-right: 20px;
     }
-    #promo-order-button{
+
+    #promo-order-button {
         background: linear-gradient(90deg, #240a54 10%, #7459a5 90%);
-        font-size: 1em;
+        font-size: .8em;
         color: white;
         height: 3em;
         border-radius: 10px;
@@ -189,6 +182,6 @@ position:relative;
         padding-top: 10px;
         text-decoration: none;
         margin-bottom: 1em;
-        margin-left: 40.6%;
+        margin-left: 32.6%;
     }
 }

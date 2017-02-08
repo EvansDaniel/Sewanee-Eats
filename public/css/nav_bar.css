@@ -1,26 +1,45 @@
 @media only screen and (max-width: 760px) {
 
-    #collapse-button{
+    #collapse-button {
         margin-right: 20px;
+    }
+
+    #navDiv {
+        /*margin-left: 5%;*/
+        text-indent: 10px;
+        margin-right: 10px;
+    }
+}
+
+@media only screen and (min-width: 760px) {
+
+    #collapse-button {
+        margin-right: 20px;
+    }
+
+    #navDiv {
+        margin-left: 10px;
+        margin-right: 10px;
     }
 
 }
 
-#navDiv{
-    margin-left: 10px;
-    margin-right: 10px;
+#navDiv {
     padding: 0;
     font-size: 15px;
 }
+
 #navDiv ul li {
     padding: 0;
 }
-nav{
+
+nav {
     /*background: linear-gradient(90deg, #8268B3 10%, #240a54 90%);*/
     font-size: 15px;
     padding: 0;
 
 }
+
 #navDiv a:hover {
     background: linear-gradient(90deg, #7459a5 10%, #240a54 90%);
     color: white;
@@ -29,7 +48,7 @@ nav{
 /*for small and extra small screens*/
 @media only screen and (max-width: 760px) {
 
-    #navDiv{
+    #navDiv {
         margin-left: 20px;
         margin-right: 10px;
         padding: 0;

@@ -17,8 +17,10 @@
     @include('partials.backend_messages')
     @yield('body')
     <div id="push-div"></div>
-    <footer id="footer" class="row">
+    <footer id="footer" class="col-xs-offset-1 col-md-offset-1 col-sm-offset-1 col-lg-offset-1">
+        <br>
         <p>COPYRIGHT (C) SEWANEE EATS</p>
+        <br>
     </footer>
 </div>
 </body>

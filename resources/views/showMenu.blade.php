@@ -27,8 +27,9 @@
 @stop
 
 @section('body')
-    <!-- TODO: get rid of this; it is for debugging -->
+    <!-- TODO: get rid of this; it is for debugging, add a restaurant image logo as the head of evrypage -->
     <!--<a href="{{--{{ route('destroy_session') }}--}}">Destroy session</a> -->
+    <br><br><br>
     <div class="container" id="show-menu">
         <div class="panel panel-default">
             <h1 align="center">{{ $restaurant->name }}'s Menu</h1>
