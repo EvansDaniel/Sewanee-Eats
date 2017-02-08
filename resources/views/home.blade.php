@@ -6,7 +6,8 @@
 
 @section('body')
     <figure>
-        <img src="http://i67.tinypic.com/2w67w39.png" alt="Smiley face" align="middle">
+        <!-- http://i67.tinypic.com/2w67w39.png responds with 503 error code -->
+        <img src="{{ asset('images/temp.jpg') }}" class="img-responsive" alt="Smiley face" align="middle">
         <a href="{{ route('list_restaurants') }}" class="btn">ORDER NOW</a>
     </figure>
     <section id="promo-section" class="container">

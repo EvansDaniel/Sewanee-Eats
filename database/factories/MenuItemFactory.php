@@ -25,11 +25,10 @@ $factory->define(MenuItem::class, function (Faker\Generator $faker) {
         '.89'
     ];
     return [
-        'name' => 'My Menu Item name',
+        'name' => 'My menu item name',
         'description' => 'My menu item description',
         'price' => mt_rand(3,18) . $decimals[mt_rand(0,2)],
         'restaurant_id' => $restaurant->id,
-        'item_category_id' => $item_category->id,
-        'image_url' => 'https://www.bascofinefoods.com/media/wysiwyg/spanish-food-online-uk-specialists_3.jpg'
+        'item_category_id' => $item_category->id
     ];
 });

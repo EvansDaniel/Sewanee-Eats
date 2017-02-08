@@ -116,6 +116,12 @@
                     <input type="text" size="4" data-stripe="cvc">
                 </label>
             </div>
+            <label for="location">Where should we deliver the food?</label>
+            <input type="text" name="location" id="location" required>
+            <label for="phone-number">Please enter your phone number</label>
+            <input type="tel" name="phone_number" id="phone-number" required>
+            <div style="color:red">TODO: compute the delivery time in the back end</div>
+            <div>Expected delivery time: 12:30pm</div>
             <div>Subtotal: {{ $cost_before_fees }}</div>
             <div>Order Total: ${{ $total_price }}</div>
             <input type="submit" class="checkoutbtn" value="PAY NOW">

@@ -12,14 +12,20 @@ class RoleTableSeeder extends Seeder
      */
     public function run()
     {
+        // id = 1
         Role::create([
             'name' => 'admin',
-            'description' => 'Can create restaurant menus and manage users'
+            'description' => 'Can create all website data, manage users, and provide any business services'
         ]);
-
+        // id = 2
         Role::create([
-            'name' => 'default',
+            'name' => 'user',
             'description' => 'Can order food and use non-privileged functionality'
+        ]);
+        // id = 3
+        Role::create([
+            'name' => 'courier',
+            'description' => 'Can deliver food and view order requests, receives a paycheck'
         ]);
     }
 }

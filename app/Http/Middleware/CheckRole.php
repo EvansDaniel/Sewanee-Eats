@@ -2,7 +2,7 @@
 
 namespace App\Http\Middleware;
 
-use App\Models\Role;
+use App\User;
 use Auth;
 use Closure;
 
@@ -16,12 +16,13 @@ class CheckRole
      */
     public function handle($request, Closure $next, $role)
     {
-        // Role name is unique so we can use it this way
-        $role_name = Role::where('name', 'admin')->first()->name;
-        // redirect to home page if user is not an admin
-        if (!Auth::check() || $role != $role_name) {
+        if (!Auth::check())
             return redirect()->route('home');
+
+        $user = User::find(Auth::id());
+        if ($user->hasRole($role)) {
+            return $next($request);
         }
-        return $next($request);
+        return redirect()->route('home');
     }
 }

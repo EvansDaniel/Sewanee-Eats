@@ -21,14 +21,14 @@ class CreateMenuItemsTable extends Migration
             $table->float('price');
             $table->integer('restaurant_id')->unsigned();
             $table->integer('item_category_id')->unsigned();
-            $table->string('image_url');
             // Meaningful values:
+            // TODO:
             // 1 breakfast, 2 lunch, 3 dinner
             // 4 breakfast and lunch
             // 5 breakfast and dinner
             // 6 lunch and dinner
             // 7 breakfast,lunch, and dinner
-            // $table->integer('time_of_day');
+            // $table->integer('available_during_hours');
             $table->foreign('restaurant_id')
                 ->references('id')->on('restaurants')
                 ->onDelete('cascade');

@@ -12,9 +12,6 @@
 */
 
 
-// Admin Dashboard Routes
-Route::get('admin/dashboard', 'AdminController@showDashboard')
-    ->name('showAdminDashboard');
 
 Route::get('/', function () {
     return view('home');
@@ -40,9 +37,6 @@ Route::get('restaurants/{id}', 'RestaurantController@showMenu')
     ->name('showMenu');
 
 
-// Shopping Cart Related Routes
-Route::get('cart', 'CheckoutController@showCheckoutPage')
-    ->name('showShoppingCart');
 
 Route::post('cart/store', 'ShoppingCartController@addToShoppingCart')
     ->name('addToCart');
@@ -50,10 +44,11 @@ Route::post('cart/store', 'ShoppingCartController@addToShoppingCart')
 Route::post('cart/update/{id}', 'ShoppingCartController@updateCart')
     ->name('updateCart');
 
-Route::get('destroy_session', function () {
+// testing/debugging
+/*Route::get('destroy_session', function () {
     Session::flush();
     return back();
-})->name('destroy_session');
+})->name('destroy_session');*/
 
 Route::get('checkout', 'CheckoutController@showCheckoutPage')
     ->name('checkout');
@@ -70,6 +65,9 @@ Route::group(['prefix' => 'admin',
     // Home page for admins
     Route::get('dashboard', 'DashboardController@showDashboard')
         ->name('showAdminDashboard');
+
+    Route::get('orderSummary/{id}', 'DashboardController@orderSummary')
+        ->name('orderSummary');
 
     // Shows a listing of the open orders and closed orders
     Route::get('orders', 'DashboardController@listOrders')
@@ -99,6 +97,61 @@ Route::group(['prefix' => 'admin',
     // Back end handle for removing a restaurant from the site
     Route::post('restaurants/delete/{id}', 'ManageRestaurantController@deleteRestaurant')
         ->name('deleteRestaurant');
+
+    // Menu Item Routes
+    // TODO: Make sure I know what each route is doing. Write comments!!!
+    //
+    Route::get('restaurants/{id}/menuItems', 'MenuItemController@showMenu')
+        ->name('adminShowMenu');
+
+    // shows the menu items
+    Route::get('createMenuItem', 'MenuItemController@showMenuItemCreateForm')
+        ->name('showMenuItemCreateForm');
+
+    // shows the menu item update form
+    Route::get('updateMenuItem/{id}', 'MenuItemController@showMenuItemUpdateForm')
+        ->name('showMenuItemUpdateForm');
+
+    // back end for creating menu items
+    Route::post('menuItems/create', 'MenuItemController@createMenuItem')
+        ->name('createMenuItem');
+
+    // back end for updating menu items
+    Route::post('menuItems/{id}/update', 'MenuItemController@updateMenuItem')
+        ->name('updateMenuItem');
+
+    // back end for deleting menu items
+    Route::post('menuItems/{id}/delete', 'MenuItemController@deleteMenuItem')
+        ->name('deleteMenuItem');
+
+    // Accessory Routes
+    // show routes
+    Route::get('items/{id}/accessories', 'AccessoryController@showAccessories')
+        ->name('showAccessories');
+
+    Route::get('items/{id}/createAccessory', 'AccessoryController@showCreateAccessoryForm')
+        ->name('showCreateAccessoryForm');
+
+    Route::get('items/{m_id}/updateAccessory/{a_id}', 'AccessoryController@showUpdateAccessoryForm')
+        ->name('showUpdateAccessoryForm');
+
+    // menu item id passed via hidden input
+    Route::post('accessories/create', 'AccessoryController@createAccessory')
+        ->name('createAccessory');
+
+    // id of accessory to update passed via url
+    Route::post('items/accessories/{id}/update', 'AccessoryController@updateAccessory')
+        ->name('updateAccessory');
+
+    // id of accessory passed via hidden form input
+    Route::post('accessories/delete', 'AccessoryController@deleteAccessory')
+        ->name('deleteAccessory');
+});
+
+Route::group(['prefix' => 'admin',
+    'namespace' => 'Courier',
+    'middleware' => 'role:admin'], function () {
+
 });
 
 Auth::routes();

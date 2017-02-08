@@ -18,9 +18,12 @@ class CreateUsersTable extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->string('password');
-            $table->integer('role_id')->unsigned();
-            $table->foreign('role_id')
-                ->references('id')->on('roles');
+            // NULL means that this user can't service orders
+            // 0 means that this user can service orders but is not available to pickup orders
+            // 1 means that this user is available to pick up orders
+            $table->boolean('is_online')->nullable();
+
+            // TODO: Need to add shifts so that I can show who is working when
             $table->rememberToken();
             $table->timestamps();
         });

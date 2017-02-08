@@ -61,7 +61,7 @@ $factory->define(Restaurant::class, function (Faker\Generator $faker) {
     // note that hours_open is a 24 hour clock
     // so this one is open from 1 to 5 and 8pm to 12am on Mondays
     return [
-        'name' => 'My restaurant name',
+        'name' => $faker->company,
         'hours_open' => json_encode($hours_open),
         'description' => 'My restaurant description',
         'location' => $locations[RAND(0,2)],

@@ -1,0 +1,19 @@
+.input-file:focus + label,
+.input-file + label:hover {
+    background-color: #337acc;
+}
+
+.input-file {
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+}
+
+#invalid-table-data {
+    display: block;
+    margin-top: 6px;
+    margin-bottom: 10px;
+}

@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Admin;
 use App\CustomTraits\UploadFile;
 use App\Http\Controllers\Controller;
 use App\Models\Restaurant;
+use DB;
 use Illuminate\Http\Request;
+use Validator;
 
 class ManageRestaurantController extends Controller
 {
@@ -19,7 +21,7 @@ class ManageRestaurantController extends Controller
 
     public function showRestaurants()
     {
-        $rest = Restaurant::all();
+        $rest = DB::table('restaurants')->orderBy('name', 'desc')->get();
         return view('admin.list_restaurants', compact('rest'));
     }
 
@@ -38,7 +40,16 @@ class ManageRestaurantController extends Controller
         $fri = $request->input('friday');
         $sat = $request->input('saturday');
         $sun = $request->input('sunday');
-        $hours_open = json_encode([$mon, $tues, $wed, $thurs, $fri, $sat, $sun]);
+
+        $validator = $this->imageUploadValidator($request);
+        if ($validator->fails()) {
+            return back()->withErrors($validator);
+        }
+
+        // make sure no spaces in the shifts i.e. 12- 17, space b/w - and 1 is removed
+        $hours_open = [$mon, $tues, $wed, $thurs, $fri, $sat, $sun];
+        $hours_open = $this->normalizeHoursOpen($hours_open);
+        $hours_open = json_encode($hours_open);
 
         // Store the restaurant image to file system
         $file_name = $this->getFileName($image, $this->restImageDir);
@@ -55,9 +66,32 @@ class ManageRestaurantController extends Controller
         return back()->with('status_good', $restaurant->name . " has been added to the database!");
     }
 
+    private function imageUploadValidator($request)
+    {
+        $rules = [
+            'image' => 'mimes:jpeg,jpg,png,gif|max:10000'
+        ];
+        $messages = [
+            'image.mimes' => 'The chosen file must be a file of type: :values.'
+        ];
+        return Validator::make($request->all(), $rules, $messages);
+    }
+
+    private function normalizeHoursOpen($hours_open)
+    {
+        $num_days = count($hours_open);
+        for ($i = 0; $i < $num_days; $i++) {
+            $num_shifts = count($hours_open[$i]);
+            for ($j = 0; $j < $num_shifts; $j++) {
+                $hours_open[$i][$j] = str_replace(" ", "", $hours_open[$i][$j]);
+            }
+        }
+        return $hours_open;
+    }
+
     public function showNewRestaurantForm()
     {
-        return view('admin.add_restaurant');
+        return view('admin.create_restaurant');
     }
 
     public function showRestaurantUpdate($id)
@@ -92,7 +126,16 @@ class ManageRestaurantController extends Controller
         $fri = $request->input('friday');
         $sat = $request->input('saturday');
         $sun = $request->input('sunday');
-        $hours_open = json_encode([$mon, $tues, $wed, $thurs, $fri, $sat, $sun]);
+
+        // make sure no spaces in the shifts i.e. 12- 17, space b/w - and 1 is removed
+        $hours_open = [$mon, $tues, $wed, $thurs, $fri, $sat, $sun];
+        $hours_open = $this->normalizeHoursOpen($hours_open);
+        $hours_open = json_encode($hours_open);
+
+        $validator = $this->imageUploadValidator($request);
+        if ($validator->fails()) {
+            return back()->withErrors($validator);
+        }
 
         $restaurant = Restaurant::find($request->input('rest_id'));
 

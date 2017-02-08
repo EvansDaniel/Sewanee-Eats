@@ -26,13 +26,38 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-    public function hasRole($role)
+    public function hasRole($which_role)
     {
-        return $this->role->name == $role;
+        foreach ($this->roles as $role) {
+            if ($role->name == $which_role)
+                return true;
+        }
+        return false;
     }
 
-    public function role()
+    /* public function orders()
+     {
+         if($this->hasRole('admin') || $this->hasRole('courier')) {
+             return $this->belongsToMany('App\Models\Order','couriers_orders',
+                                         'courier_id','order_id')->withTimestamps();
+         }
+         return null;
+     }*/
+
+    /*
+     * This is dynamic scoping. It allows you to encapsulate
+     * dynamic query logic.
+     * Helpful link: http://www.easylaravelbook.com/blog/2015/06/23/using-scopes-with-laravel-5/
+     */
+    /* public function scopeMemberType($query,$member_type)
+     {
+         $role = Role::where('name',$member_type)->first();
+         return $query->where('role_id',$role->id);
+     }*/
+
+    public function roles()
     {
-        return $this->belongsTo('App\Models\Role', 'role_id', 'id');
+        return $this->belongsToMany('App\Models\Role', 'roles_users',
+            'user_id', 'role_id');
     }
 }

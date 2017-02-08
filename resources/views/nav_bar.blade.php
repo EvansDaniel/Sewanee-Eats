@@ -7,11 +7,11 @@
     <div class="collapse navbar-collapse" id="navDiv">
         <ul id="navV" class="nav navbar-nav">
             <li><a class="active nav-links" href="{{ route('home') }}">MOUNTAIN EATS</a></li>
-            <li><a class="nav-links" href="{{ route('list_restaurants') }}">ORDER ONLINE</a></li>
+            <li><a class="nav-links" href="{{ route('list_restaurants') }}">ORDER NOW</a></li>
             <li><a class="nav-links" href="{{ route('about') }}">ABOUT</a></li>
-            <li><a class="nav-links" href="{{ route('showShoppingCart') }}">CART</a></li>
             @if(!empty(Session::get('cart')))
-                <li><a class="nav-links" href="{{ route('checkout') }}">CHECKOUT</a></li>
+                <li><a class="nav-links" href="{{ route('checkout') }}">CHECKOUT
+                        <u>{{ count(Session::get('cart')) }}</u></a></li>
             @endif
             @if(Auth::check() && Auth::user()->hasRole('admin'))
                 <li><a class="nav-links" href="{{ route('showAdminDashboard') }}">ADMIN DASHBOARD</a></li>

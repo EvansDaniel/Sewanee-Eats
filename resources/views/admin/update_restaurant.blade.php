@@ -1,13 +1,11 @@
 @extends('admin.layout')
 
 @section('head')
-    <title>Admin Dashboard</title>
+    <title>Update Restaurant</title>
+    <link rel="stylesheet" href="{{ asset('css/admin/create_update_restaurant.css') }}">
 @stop
 
 @section('body')
-    <pre>
-        <?php print_r($hours_open) ?>
-    </pre>
     <div class="container">
         <h1>Add a new restaurant</h1>
         <form action="{{ route('updateRestaurant') }}"
@@ -125,64 +123,5 @@
             </div>
         </form>
     </div>
-    <style>
-        .input-file:focus + label,
-        .input-file + label:hover {
-            background-color: #337acc;
-        }
-
-        .input-file {
-            width: 0.1px;
-            height: 0.1px;
-            opacity: 0;
-            overflow: hidden;
-            position: absolute;
-            z-index: -1;
-        }
-
-        #invalid-table-data {
-            display: block;
-            margin-top: 6px;
-            margin-bottom: 10px;
-        }
-    </style>
-    <script>
-      function checkDays(event) {
-        var days = $('.days');
-        var isValid = true;
-        days.each(function () {
-          if (!validTableData(this)) {
-            var span = $('#invalid-table-data');
-            span.show();
-            span.text("One of the cells contains invalid input. " +
-            "Input form: num1-num2, where 0 <= num1 < num2 <= 24");
-            isValid = false;
-            event.preventDefault();
-            return false;
-          }
-        });
-      }
-
-      $('#invalid-table-data').hide();
-
-      function validTableData(input) {
-        var text = $(input).val();
-        //p("text = " + text.length);
-        if (!text)
-          return true;
-        // regex to replace all spaces with ""
-        var res = text.replace(/ /g, "");
-        // extra invalid characters
-        if (res.length > 5) return false;
-        var vals = res.split("-");
-        //p(vals[0] + " " + vals[1]);
-        if (!$.isNumeric(vals[0]) || vals[0] < 0 || vals[0] > 24) {
-          return false;
-        }
-        if (!$.isNumeric(vals[1]) || vals[1] < 0 || vals[1] > 24) {
-          return false;
-        }
-        return true;
-      }
-    </script>
+    <script src="{{asset('js/admin/create_update_restaurant.js')}}"></script>
 @stop

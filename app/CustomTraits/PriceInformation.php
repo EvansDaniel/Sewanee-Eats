@@ -6,62 +6,121 @@ use Session;
 
 trait PriceInformation
 {
-    public function getTotalPrice($location)
+    use CartInformation;
+
+    public function getTotalPrice()
     {
-        return $this->getSubTotal($location) * $this->getStateTax();
+        return round($this->getSubTotal() * $this->getStateTax(), 2);
     }
 
     /**
-     * @param $location
-     * @return int price after fees
+     * @return float price after fees
      */
-    public function getSubTotal($location)
-    {
-        $price_before_fees = $this->getPriceBeforeFees();
-        $location_cost = $this->getLocationCost($price_before_fees, $location);
-        $fees_total = $location_cost + $this->getBaseFee();
-        if ($fees_total > 15) {
-            $fees_total = 15;
-            return round(($fees_total + $price_before_fees), 2);
-        }
-        return round(($fees_total + $price_before_fees), 2);
-    }
-
-    public function getPriceBeforeFees()
+    public function getSubTotal()
     {
         $cart = Session::get('cart');
-        if (empty($cart))
+        if (empty($cart)) {
             return 0;
+        }
+        $price_before_fees = $this->priceBeforeFeesFromCart();
+        $fees = $this->fees();
+        return round(($fees + $price_before_fees), 2);
+    }
+
+    public function priceBeforeFeesFromCart()
+    {
+        $cart = Session::get('cart');
+        if (empty($cart)) {
+            return null;
+        }
         $price = 0;
-        foreach ($cart as $order) {
-            $item = $order['menu_item_model'];
-            $price += $item->price * $order['quantity'];
+        foreach ($cart as $cart_item) {
+            $price += $cart_item['menu_item_model']->price
+                * $cart_item['quantity'];
         }
         return round($price, 2);
     }
 
-    public function getLocationCost($price_before_fees, $location)
+    public function fees()
     {
-        /*if($location != 'campus' || $location != 'downtown') {
-            die('Invalid index passed to $location parameter in getLocationCost(): '. $location);
-        }*/
-        return $this->getLocationMultiplier()[$location] * $price_before_fees;
+        $rest_loc_fee = $this->restaurantLocationCostFromCart();
+        $q_cost = $this->quantityCost($this->getCartQuantity());
+        $fees = $rest_loc_fee + $q_cost + $this->getBaseFee();
+        if ($fees > 15) {
+            return 15;
+        }
+        return $fees;
     }
 
-    public function getLocationMultiplier()
+    public function restaurantLocationCostFromCart()
+    {
+        $menu_items = $this->getMenuItems();
+        return $this->restaurantCost($menu_items);
+    }
+
+    private function getMenuItems()
+    {
+        $cart = Session::get('cart');
+        if (empty($cart)) {
+            return null;
+        }
+        $menu_items = [];
+        foreach ($cart as $cart_item) {
+            $menu_items[] = $cart_item['menu_item_model'];
+        }
+        return $menu_items;
+    }
+
+    public function restaurantCost($menu_items)
+    {
+        // determine farthest restaurant
+        // return farthest restaurant location multiplier * (2*num_restuarants)
+        if ($menu_items == null) return 0;
+        $multiplier = 0;
+        $curr_distance = 0;
+        $num_restaurants = 0;
+        foreach ($menu_items as $menu_item) {
+            $num_restaurants++;
+            foreach ($this->getLocInfo() as $loc_info) {
+                $loc = $menu_item->restaurant->location;
+                if ($loc_info[$loc]['distance'] > $curr_distance) {
+                    $multiplier = $loc_info[$loc]['multiplier'];
+                }
+            }
+        }
+        return $multiplier * ($this->costPerRestaurant() * $num_restaurants);
+    }
+
+    private function getLocInfo()
     {
         return [
-            'campus' => .2,
-            'downtown' => .4
+            'campus' => [
+                'multiplier' => .2,
+                'distance' => 0
+            ],
+            'downtown' => [
+                'multiplier' => .4,
+                'distance' => 1
+            ]
         ];
     }
 
-    public function getBaseFee()
+    private function costPerRestaurant()
+    {
+        return 2;
+    }
+
+    public function quantityCost($num_items)
+    {
+        return $num_items >= 5 ? 3 : 1;
+    }
+
+    private function getBaseFee()
     {
         return 3;
     }
 
-    public function getStateTax()
+    private function getStateTax()
     {
         return 1.0925;
     }

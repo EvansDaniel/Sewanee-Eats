@@ -1,9 +1,9 @@
-@extends('layout')
+@extends('admin.layout')
 
 @section('head')
     <link rel="stylesheet" href="{{ asset("css/menu.css") }}">
     <title>{{ $restaurant->name }} | Menu</title>
-    <script>
+    <!--<script>
       function loadModal(div) {
         var name = $.trim($($(div).children().children()[0]).text());
         var price = $.trim($($(div).children().children()[1]).text());
@@ -20,41 +20,61 @@
         $('#to-cart-item-id').val(item_id);
         $('#quantity').val(1);
       }
-    </script>
+    </script>-->
 @stop
 
 @section('body')
-    <!-- TODO: get rid of this; it is for debugging -->
-    <!--<a href="{{--{{ route('destroy_session') }}--}}">Destroy session</a> -->
+    <!-- TODO: refactor MenuItem Controller logic to nest the items with
+         TODO: the restaurant, so that when you go to create the restaurant,
+         TODO: you don't have to specify which restaurnt to attach the menu item to -->
     <div class="container" id="show-menu">
+        <a href="{{ route('showMenuItemCreateForm') }}">
+            <button class="btn btn-primary" type="button">Add new menu item</button>
+        </a>
         <div class="panel panel-default">
-
             <h1 align="center">{{ $restaurant->name }}'s Menu</h1>
-            @foreach($menu_items as $category => $items)
-                <div class="panel-heading">
-                    <h3 class="header catList">{{ $category }}</h3>
-                </div>
-                <div class="panel-body">
-                    <ul class="list-group">
-                        @foreach($items as $item)
-                            <li class="list-group-item" data-toggle="modal" data-target="#add-to-cart-modal">
-                                <div class="menu-item" onclick="loadModal(this)">
-                                    <div>
-                                        <img style="width: 300px;" class="img-responsive" src="{{ $item->image_url }}"
-                                             alt="Picture of food item"/>
-                                        <div class="menuList">{{ $item->name }}</div>
-                                        <div class="pull-right">{{ $item->price }}</div>
+            @if(empty($menu_items))
+                <h1>No menu items created yet</h1>
+            @else
+                @foreach($menu_items as $category => $items)
+                    <div class="panel-heading">
+                        <h1>{{ $category }}</h1>
+                    </div>
+                    <div class="panel-body">
+                        <!-- TODO: Add proper link to accessories -->
+                        <ul class="list-group">
+                            @foreach($items as $item)
+                                <li class="list-group-item">
+                                    <div class="menu-item">
+                                        <div>
+                                            <div class="menuList">{{ $item->name }}</div>
+                                            <div class="menuList pull-right">{{ $item->price }}</div>
+                                            <div class="menuList">
+                                                {{ $item->description }}
+                                            </div>
+                                            <a href="{{ route('showAccessories',['id' => $item->id]) }}">
+                                                <button class="btn btn-primary" type="button">View Item Accessories
+                                                </button>
+                                            </a>
+                                            <a href="{{ route('showMenuItemUpdateForm', ['id' => $item->id]) }}">
+                                                <button class="btn btn-primary" type="button">Update Menu Item</button>
+                                            </a>
+                                            <!-- TODO: make js alert button that makes sures admin wants to delete this -->
+                                            <form action="{{ route('deleteMenuItem', ['id' => $item->id]) }}"
+                                                  method="post">
+                                                {{ csrf_field() }}
+                                                <button class="btn btn-danger" type="submit" style="margin-top: 5px">
+                                                    Delete Menu Item
+                                                </button>
+                                            </form>
+                                        </div>
                                     </div>
-                                    <div>
-                                        {{ $item->description }}
-                                    </div>
-                                    <div style="display: none">{{ $item->id }}</div>
-                                </div>
-                            </li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endforeach
+                                </li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endforeach
+            @endif
         </div>
     </div>
 @stop

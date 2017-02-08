@@ -13,16 +13,8 @@
 <div id="main-container" class="container-fluid">
     @include('nav_bar')
     <br><br><br><br><br>
-    @if (session('status_good'))
-        <div class="alert alert-success">
-            {{ session('status_good') }}
-        </div>
-    @endif
-    @if (session('status_bad'))
-        <div class="alert alert-danger">
-            {{ session('status_bad') }}
-        </div>
-    @endif
+    <!-- Status messages to user about what they are doing -->
+    @include('partials.backend_messages')
     @yield('body')
     <div id="push-div"></div>
     <footer id="footer" class="row">

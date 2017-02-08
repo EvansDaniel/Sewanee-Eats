@@ -31,7 +31,6 @@
     <!--<a href="{{--{{ route('destroy_session') }}--}}">Destroy session</a> -->
     <div class="container" id="show-menu">
         <div class="panel panel-default">
-
             <h1 align="center">{{ $restaurant->name }}'s Menu</h1>
             @if(empty($menu_items))
                 <h1>No menu items exist yet... Coming soon</h1>

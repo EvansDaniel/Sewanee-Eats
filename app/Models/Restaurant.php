@@ -18,6 +18,12 @@ class Restaurant extends Model
         return true;
     }
 
+    public function orders()
+    {
+        return $this->belongsToMany('App\Models\Order', 'restaurants_orders',
+            'restaurant_id', 'order_id');
+    }
+
     // has many menu items
     public function menuItems()
     {
