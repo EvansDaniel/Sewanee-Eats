@@ -14,29 +14,39 @@ class ShoppingCartController extends Controller
     public function addToShoppingCart(Request $request)
     {
         $item = MenuItem::find($request->input('menu_item_id'));
-        $si = $request->input('special_instructions');
+
+        // extras includes free and non-free extras
         $quantity_to_add = $request->input('quantity');
-        if ($this->item_exists_in_cart($item->id)) {
+        $extras = [];
+        $sia = [];
+        for ($i = 1; $i <= $quantity_to_add; $i++) {
+            $extras[] = $request->input('extras' . $i);
+            $sia[] = $request->input('special_instructions' . $i);
+        }
+        if ($this->cartHasItem($item->id)) {
             $cart = Session::get('cart');
             // get the item from the cart
             // protected from return value of negative one b/c of the if statement
-            $cart_item_index = $this->get_item_index($item->id);
+            $cart_item_index = $this->getItemIndex($item->id);
             if ($cart_item_index == -1) { // this item was not found
                 return back();
             }
             // if adding more items to cart puts the cart of its limit
             // of $this->max_items_in_cart
-            if (!$this->cart_has_valid_number_of_items()) {
+            // TODO: change this placement, check after adding new quantity
+            if (!$this->cartHasValidNumberOfItems()) {
                 return back()->with
                 ('status_bad',
-                    $this->max_item_in_cart_error($item->name));
+                    $this->maxItemInCartError($item->name));
             }
             // get the new quantity of this item and save it to the new cart
             $newQuantity = $cart[$cart_item_index]['quantity'] + $quantity_to_add;
             $cart[$cart_item_index]['quantity'] = $newQuantity;
             // Overwrite the old instructions if new $si is not empty
-            if (!empty($si)) {
-                $cart[$cart_item_index]['special_instructions'] = $si;
+            if (!(empty($sia)) && count($sia) != 0) {
+                foreach ($sia as $si) {
+                    $cart[$cart_item_index]['special_instructions'][] = $si;
+                }
             }
             // save the update cart to the session
             Session::put('cart', $cart);
@@ -45,7 +55,7 @@ class ShoppingCartController extends Controller
             $product = [
                 'menu_item_model' => $item,
                 'quantity' => $quantity_to_add,
-                'special_instructions' => $si
+                'special_instructions' => $sia
             ];
             Session::put('cart',
                 array_prepend($cart = Session::get('cart', []), $product));
@@ -68,7 +78,7 @@ class ShoppingCartController extends Controller
         $special_instructions = $request->input('special_instructions');
         $cart_item_id = $request->input('cart_item_id');
         // get index of item in cart session array
-        $item_index = $this->get_item_index($cart_item_id);
+        $item_index = $this->getItemIndex($cart_item_id);
         if ($item_index == -1) { // this item was not found
             return back();
         }

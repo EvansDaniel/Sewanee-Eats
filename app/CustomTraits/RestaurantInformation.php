@@ -18,7 +18,7 @@ trait RestaurantInformation {
 
         // array of days of the week with time ranges for each day
         // that the business is open
-        $open_hours = json_decode($restaurant->hours_open,true);
+        $open_hours = json_decode($restaurant->available_times, true);
         $isOpen = false;
         // loop through all the time ranges in which $restaurant is open
         foreach ($open_hours[$day] as $unparsed_time_range) {

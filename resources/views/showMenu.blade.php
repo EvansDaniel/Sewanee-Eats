@@ -44,10 +44,15 @@
                     <ul class="list-group">
                         @foreach($items as $item)
                             <li class="list-group-item" data-toggle="modal" data-target="#add-to-cart-modal">
-                                <div class="menu-item" onclick="loadModal(this)">
+                                <div class="menu-item" data-available="{{ $item->itemIsAvailable() }}"
+                                     onclick="loadModal(this)">
                                     <div>
                                         <img style="width: 300px;" class="img-responsive" src="{{ $item->image_url }}"
                                              alt="Picture of food item"/>
+                                        @if(!$item->itemIsAvailable())
+                                            <p>This item is not available right now because it is served at a different
+                                                time of day</p>
+                                        @endif
                                         <div class="menuList">{{ $item->name }}</div>
                                         <div class="pull-right">{{ $item->price }}</div>
                                     </div>

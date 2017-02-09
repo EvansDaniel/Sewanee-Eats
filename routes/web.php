@@ -105,11 +105,11 @@ Route::group(['prefix' => 'admin',
         ->name('adminShowMenu');
 
     // shows the menu items
-    Route::get('createMenuItem', 'MenuItemController@showMenuItemCreateForm')
+    Route::get('restaurants/{r_id}/createMenuItem', 'MenuItemController@showMenuItemCreateForm')
         ->name('showMenuItemCreateForm');
 
     // shows the menu item update form
-    Route::get('updateMenuItem/{id}', 'MenuItemController@showMenuItemUpdateForm')
+    Route::get('restaurants/{r_id}/updateMenuItem/{id}', 'MenuItemController@showMenuItemUpdateForm')
         ->name('showMenuItemUpdateForm');
 
     // back end for creating menu items

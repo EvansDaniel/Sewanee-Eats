@@ -11,10 +11,10 @@ trait CartInformation
 
     public function __construct()
     {
-        $this->max_items_in_cart = 6;
+        $this->max_items_in_cart = 10;
     }
 
-    public function cart_has_valid_number_of_items($id = -1)
+    public function cartHasValidNumberOfItems($id = -1)
     {
         return $this->getCartQuantity($id) < $this->max_items_in_cart;
     }
@@ -38,7 +38,7 @@ trait CartInformation
         return $number_of_items;
     }
 
-    public function item_exists_in_cart($id)
+    public function cartHasItem($id)
     {
         $cart = Session::get('cart', []);
         if (empty($cart)) {
@@ -51,7 +51,7 @@ trait CartInformation
         return false;
     }
 
-    private function max_item_in_cart_error($name_of_item)
+    private function maxItemInCartError($name_of_item)
     {
         return $name_of_item .
             " could not be added to cart. 
@@ -64,7 +64,7 @@ trait CartInformation
      *                 Otherwise, it returns the index of the object into the
      *                 cart session array
      */
-    private function get_item_index($id)
+    private function getItemIndex($id)
     {
         $cart = Session::get('cart');
         if (empty($cart)) {

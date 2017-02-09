@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\CustomTraits\IsAvailable;
 use App\Http\Controllers\Controller;
 use App\Models\ItemCategory;
 use App\Models\MenuItem;
@@ -10,6 +11,8 @@ use Illuminate\Http\Request;
 
 class MenuItemController extends Controller
 {
+    use IsAvailable;
+
     public function showMenu($id)
     {
         $restaurant = Restaurant::find($id);
@@ -19,27 +22,31 @@ class MenuItemController extends Controller
         return view('admin.showMenu', compact('restaurant', 'menu_items'));
     }
 
-    public function showMenuItemCreateForm()
+    public function showMenuItemCreateForm($r_id)
     {
-        $restaurants = Restaurant::orderBy('name', 'ASC')->get();
         $categories = ItemCategory::orderBy('name', 'ASC')->get();
-        return view('admin.create_menu_item', compact('restaurants', 'categories'));
+        $restaurant = Restaurant::find($r_id);
+        return view('admin.create_menu_item', compact('restaurant', 'categories'));
     }
 
-    public function showMenuItemUpdateForm($id)
+    public function showMenuItemUpdateForm($r_id, $id)
     {
         $menu_item = MenuItem::find($id);
-        $restaurants = Restaurant::orderBy('name', 'ASC')->get();
         $categories = ItemCategory::orderBy('name', 'ASC')->get();
+        $available_times = json_decode($menu_item->available_times);
+        $restaurant = Restaurant::find($r_id);
         return view('admin.update_menu_item',
-            compact('menu_item', 'restaurants', 'categories'));
+            compact('menu_item', 'categories', 'available_times',
+                'restaurant'));
     }
 
     public function updateMenuItem(Request $request)
     {
         $menu_item = MenuItem::find($request->input('menu_item_id'));
         $this->createOrUpdateHelper($request, $menu_item);
-        return back()->with('status_good', 'Menu item updated');
+        $r_id = $request->input('restaurant_id');
+        return redirect()->route('adminShowMenu', ['id' => $r_id])
+            ->with('status_good', 'Menu item updated');
     }
 
     public function createOrUpdateHelper($request, $menu_item)
@@ -50,9 +57,12 @@ class MenuItemController extends Controller
         $r_id = $request->input('restaurant_id');
         $menu_item = $this->saveCategoryId($menu_item, $request);
 
+        $menu_item->available_times = $this->createAvailableTimesJsonStringFromRequest($request);
         $menu_item->name = $name;
         $menu_item->price = $price;
         $menu_item->description = $desc;
+        // can't update restaurant_id on update so it will be null then
+        // restaurant_id only shows up in a hidden form input
         $menu_item->restaurant_id = $r_id;
         $menu_item->save();
     }
@@ -88,7 +98,9 @@ class MenuItemController extends Controller
     {
         $menu_item = new MenuItem;
         $this->createOrUpdateHelper($request, $menu_item);
-        return back()->with('status_good', 'Menu item created');
+        $r_id = $request->input('restaurant_id');
+        return redirect()->route('adminShowMenu', ['id' => $r_id])
+            ->with('status_good', 'Menu item created');
     }
 
     public function deleteMenuItem($id)

@@ -2,31 +2,27 @@
 
 namespace App\Http\Controllers;
 
-use App\CustomTraits\CartInformation;
 use App\CustomTraits\PriceInformation;
 use Illuminate\Http\Request;
-use Session;
 use Stripe\Stripe;
 
 class CheckoutController extends Controller
 {
     use PriceInformation;
-    use CartInformation;
 
     public function showCheckoutPage()
     {
-        $cart = Session::get('cart');
         // nothing in cart so redirect to the home page
-        $cost_before_fees = $this->getPriceBeforeFees();
+        $cost_before_fees = $this->priceBeforeFeesFromCart();
         // TODO: dynamically fill in location that gets passed to getTotalPrice
-        $total_price = $this->getTotalPrice('campus');
+        $total_price = $this->getTotalPrice();
         return view('checkout', compact('total_price', 'cost_before_fees'));
     }
 
     public function handleCheckout(Request $request)
     {
         // TODO: Assert that there is no more than
-        if (!$this->cart_has_valid_number_of_items())
+        if (!$this->cartHasValidNumberOfItems())
             return back()->with('status_bad',
                 'Your cart has too many items in it (max: ' . $this->max_items_in_cart);
 
@@ -51,7 +47,7 @@ class CheckoutController extends Controller
 
         // Charge the user's card:
         $charge = \Stripe\Charge::create(array(
-            "amount" => $this->getTotalPrice('campus')*100,
+            "amount" => $this->getTotalPrice() * 100,
             "currency" => "usd",
             "description" => "Sewanee Eats Charge",
             "source" => $token,

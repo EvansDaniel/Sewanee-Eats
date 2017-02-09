@@ -22,6 +22,11 @@
 @stop
 
 @section('body')
+    @if(Session::get('cart'))
+        <pre>
+            {{ print_r(Session::get('cart')) }}
+        </pre>
+    @endif
     <div class="container">
     @if(empty(Session::get('cart')) || Session::get('cart') == null)
         <!-- TODO: need better message here -->

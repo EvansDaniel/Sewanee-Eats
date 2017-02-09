@@ -2,14 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\CustomTraits\RestaurantInformation;
+use App\CustomTraits\IsAvailable;
 use App\Models\Restaurant;
 use Illuminate\Http\Request;
 
 class RestaurantController extends Controller
 {
-    use RestaurantInformation;
-
+    use IsAvailable;
     /*
      * General Idea:
      * for the given restaurant,
@@ -34,9 +33,9 @@ class RestaurantController extends Controller
         $restaurants = [];
         foreach ($all_restaurants as $restaurant) {
             // TODO: NEED TO UNCOMMENT THIS IF STATEMENT AFTER DEVELOPMENT
-            //if ($this->restaurantIsOpen($restaurant)) {
+            if ($this->isAvailable($restaurant)) {
                 $restaurants[] = $restaurant;
-            //}
+            }
         }
         // boolean to use in the view show or not show a link
         // to a page with all the restaurants on it

@@ -79,13 +79,12 @@ trait PriceInformation
         $multiplier = 0;
         $curr_distance = 0;
         $num_restaurants = 0;
+        $loc_info = $this->getLocInfo();
         foreach ($menu_items as $menu_item) {
             $num_restaurants++;
-            foreach ($this->getLocInfo() as $loc_info) {
-                $loc = $menu_item->restaurant->location;
-                if ($loc_info[$loc]['distance'] > $curr_distance) {
-                    $multiplier = $loc_info[$loc]['multiplier'];
-                }
+            $loc = $menu_item->restaurant->location;
+            if ($loc_info[$loc]['distance'] > $curr_distance) {
+                $multiplier = $loc_info[$loc]['multiplier'];
             }
         }
         return $multiplier * ($this->costPerRestaurant() * $num_restaurants);

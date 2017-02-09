@@ -23,37 +23,38 @@ $factory->define(Restaurant::class, function (Faker\Generator $faker) {
     ];
     $hours_open = [
         [
-            '13-17',
-            '20-24',
+            '13:30-17:30',
+            '20:30-24:30',
             ''
         ],
         [
-            '8-12',
-            '20-24',
+            '8:30-12:30',
+            '20:30-24:30',
             ''
         ],
         [
-            '13-17',
+            '13:30-17:30',
             '',
             ''
         ],
         [
-            '20-0',
+            '20:30-00:30',
+            /*'01:00-05:00',*/
             '',
             ''
         ],
         [
-            '9-17',
-            '20-0',
+            '9:30-17:30',
+            '20:30-00:30',
             ''
         ],
         [
-            '8-16',
+            '8:30-16:30',
             '',
             ''
         ],
         [
-            '8-12',
+            '8:30-12:30',
             '',
             ''
         ]
@@ -62,7 +63,7 @@ $factory->define(Restaurant::class, function (Faker\Generator $faker) {
     // so this one is open from 1 to 5 and 8pm to 12am on Mondays
     return [
         'name' => $faker->company,
-        'hours_open' => json_encode($hours_open),
+        'available_times' => json_encode($hours_open),
         'description' => 'My restaurant description',
         'location' => $locations[RAND(0,2)],
         'image_url' => 'http://www.minervas.net/images/jqg_13539536932.jpg'

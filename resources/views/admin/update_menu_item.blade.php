@@ -6,10 +6,11 @@
 
 @section('body')
 
-    <h1>Create Menu Item</h1>
+    <h1>Update Menu Item</h1>
 
     <form action="{{ route('updateMenuItem', ['id' => $menu_item->id ]) }}" method="post">
         {{ csrf_field() }}
+        <input name="restaurant_id" type="hidden" value="{{ $restaurant->id }}">
         <input type="hidden" name="menu_item_id" value="{{ $menu_item->id }}">
         <div class="form-group">
             <label for="name">Name</label>
@@ -26,17 +27,11 @@
                    id="description" name="description" maxlength="200"
                    required value="{{ $menu_item->description }}">
 
-            <label for="restaurant">Which restaurant does this item belong to?</label>
-            <select name="restaurant_id" id="restaurant" class="form-control">
-                @foreach($restaurants as $restaurant)
-                    @if($restaurant->id == $menu_item->restaurant_id)
-                        <option value="{{ $restaurant->id }}" selected>{{ $restaurant->name }}</option>
-                    @else
-                        <option value="{{ $restaurant->id }}">{{ $restaurant->name }}</option>
-                    @endif
-                @endforeach
-            </select>
-
+            <label for="hours-table">Specify the hours during which this menu item is sold by the restaurant. If a menu
+                item is available
+                during disjoint times use the extra rows for that day to fill that in. Fill each cell in in this form:
+                "hh:mm-hh:mm" or put "closed" if the menu item is not available on that day</label>
+            @include('partials.update_available_times')
             <div class="category-group">
                 <div id="select-category-parent">
                     <label for="select-category">Which category of food does it belong to?</label>

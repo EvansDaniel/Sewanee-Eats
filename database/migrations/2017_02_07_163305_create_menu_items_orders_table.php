@@ -20,6 +20,10 @@ class CreateMenuItemsOrdersTable extends Migration
             $table->string('special_instructions');
             $table->integer('quantity')->unsigned();
 
+            // either add create json array of accessories for this menu_item_order
+            // or create a table joining a menu_item_order with
+            // the accessories table in a many-to-many relationship
+
             $table->foreign('order_id')
                 ->references('id')->on('orders')
                 ->onDelete('cascade');
