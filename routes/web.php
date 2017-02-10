@@ -37,8 +37,7 @@ Route::get('restaurants/{id}', 'RestaurantController@showMenu')
     ->name('showMenu');
 
 
-
-Route::post('cart/store', 'ShoppingCartController@addToShoppingCart')
+Route::post('cart/store', 'ShoppingCartController@loadItemIntoShoppingCart')
     ->name('addToCart');
 
 Route::post('cart/update/{id}', 'ShoppingCartController@updateCart')

@@ -18,6 +18,9 @@ trait IsAvailable
         // all time ranges must look like this hh:mm-hh:mm
         $available_times = json_decode($object->available_times, true);
         $day = Carbon::now()->dayOfWeek - 1;
+        if (empty($available_times)) {
+            return false;
+        }
         foreach ($available_times[$day] as $available_time) {
             if ($this->isInRange($available_time)) {
                 return true;
