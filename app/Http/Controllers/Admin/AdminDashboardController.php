@@ -2,13 +2,15 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\CustomClasses\ScheduleFiller;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\Role;
+use App\User;
+use Auth;
 
-class DashboardController extends Controller
+class AdminDashboardController extends Controller
 {
-
     public function __construct()
     {
         //$this->middleware('role:admin');
@@ -32,6 +34,14 @@ class DashboardController extends Controller
     {
         $order = Order::find($id);
         return view('admin.order_summary', compact('order'));
+    }
+
+    public function showSchedule()
+    {
+        // check current time, if it is < 02:00, then $today = day - 1
+        $schedule_filler = new ScheduleFiller();
+        $courier = User::find(Auth::id());
+        return view('courier.schedule', compact('schedule_filler', 'courier'));
     }
 
     // Some tasks:

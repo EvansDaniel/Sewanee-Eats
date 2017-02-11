@@ -7,22 +7,43 @@ use Illuminate\Http\Request;
 
 trait IsAvailable
 {
+    public function isAvailableNow($object)
+    {
+        $timezone = $this->getTimezone();
+        return $this->isAvailableOnDayAtTime
+        ($object, Carbon::now()->dayOfWeek - 1, Carbon::now($timezone));
+    }
+
+    public function getTimezone()
+    {
+        return 'America/Chicago';
+    }
+
     /**
+     * Determines if the given $object is available on the
+     * given $day at the given $time
+     *
      * @param $object mixed This object must have an attribute
      * available_times which is a 2D-array of times (in the form "hh:mm-hh:mm")
      * for each day that denote when $object is available for a certain day
+     * @param $day integer of the week [0-6] on which you want to check if the
+     * $object is available
+     * @param $time Carbon/Carbon the time at which you would like to
+     * check if the object is available
      * @return bool true if the $object is available
      */
-    public function isAvailable($object)
+    public function isAvailableOnDayAtTime($object, $day, $time)
     {
+        if ($day < 0 || empty($object)) {
+            return false;
+        }
         // all time ranges must look like this hh:mm-hh:mm
         $available_times = json_decode($object->available_times, true);
-        $day = Carbon::now()->dayOfWeek - 1;
         if (empty($available_times)) {
             return false;
         }
         foreach ($available_times[$day] as $available_time) {
-            if ($this->isInRange($available_time)) {
+            if ($this->isInRange($available_time, $time)) {
                 return true;
             }
         }
@@ -30,20 +51,32 @@ trait IsAvailable
     }
 
     /**
+     * Checks if the $time is in the time range given by $available_time
      * @param $available_time string in the form "hh:mm-hh:mm", which denotes
      * a range of time an object (restaurant, menu item, courier, etc) is available
+     * @param $time Carbon/Carbon the time that you would like to check
+     * is in the range given by $available_time
+     * @param $cushion_period integer The number of minutes that must be
+     * between the current time and the ending time given by $available time. By
+     * default, this will be 15 minutes
      * @return bool true if the current time (Central Time) is within the
      * range specified by $available_time
+     * TODO: add and exact time parameter, this will tell the function to take the exact time that $time represents rather than subtract 1 hour as is currently always done in the function
      */
-    private function isInRange($available_time)
+    private function isInRange($available_time, $time, $cushion_period = null)
     {
         // means that this object is not available on this day
+        // (like a restaurant or menu item)
         if ($available_time == "closed" || !$available_time) {
             return false;
         }
-        $timezone = 'America/Kentucky/Louisville';
-        $current_hour = Carbon::now($timezone)->hour - 1;
-        $current_min = Carbon::now($timezone)->minute;
+        if (empty($current_period)) {
+            $cushion_period = $this->getCushionPeriod();
+        }
+
+        // $time = Carbon::now($timezone)
+        $current_hour = $time->hour - 1;
+        $current_min = $time->minute;
 
         // get the time today as central time zone
         // parse time range that ultimately came from the DB
@@ -71,7 +104,7 @@ trait IsAvailable
         // hour is in the range, so check minutes only if we are in the
         // last hour of availability
         if ($finish_hour - 1 == $current_hour) {
-            if (($current_min + $this->getCushionPeriod()) >= $finish_min) {
+            if (($current_min + $cushion_period) >= $finish_min) {
                 return false;
             }
         }

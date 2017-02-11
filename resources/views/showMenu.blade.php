@@ -47,11 +47,9 @@
                                 <div class="menu-item" data-available="{{ $item->itemIsAvailable() }}"
                                      onclick="loadModal(this)">
                                     <div>
-                                        <img style="width: 300px;" class="img-responsive" src="{{ $item->image_url }}"
-                                             alt="Picture of food item"/>
                                         @if(!$item->itemIsAvailable())
-                                            <p>This item is not available right now because it is served at a different
-                                                time of day</p>
+                                            <h5><i>This item is served at a different time
+                                                    of day and is not available right now</i></h5>
                                         @endif
                                         <div class="menuList">{{ $item->name }}</div>
                                         <div class="pull-right">{{ $item->price }}</div>

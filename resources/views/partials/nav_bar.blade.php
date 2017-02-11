@@ -16,6 +16,9 @@
             @if(Auth::check() && Auth::user()->hasRole('admin'))
                 <li><a class="nav-links" href="{{ route('showAdminDashboard') }}">ADMIN DASHBOARD</a></li>
             @endif
+            @if(Auth::check() && Auth::user()->hasRole('courier'))
+                <li><a class="nav-links" href="{{ route('showCourierDashboard') }}">COURIER DASHBOARD</a></li>
+            @endif
         </ul>
     </div>
 </nav>

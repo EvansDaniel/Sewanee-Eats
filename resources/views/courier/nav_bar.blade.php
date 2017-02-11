@@ -6,12 +6,17 @@
         Menu
     </button>
     <div class="collapse navbar-collapse" id="navDiv">
-        <ul id="nav" class="nav navbar-nav">
+        <ul id="navV" class="nav navbar-nav">
             <li><a class="active nav-links" href="{{ route('home') }}">MOUNTAIN EATS</a></li>
-            <li><a href="{{ route('adminListRestaurants') }}">MANAGE RESTAURANTS INFO</a></li>
-            <li><a class="nav-links" href="{{ route('adminShowSchedule') }}">SCHEDULE</a></li>
-            @if(Auth::check() && Auth::user()->hasRole('courier'))
-                <li><a class="nav-links" href="{{ route('showCourierDashboard') }}">YOUR COURIER DASHBOARD</a></li>
+            <li><a class="nav-links" href="{{ route('list_restaurants') }}">ORDER NOW</a></li>
+            <li><a class="nav-links" href="{{ route('about') }}">ABOUT</a></li>
+            <li><a class="nav-links" href="{{ route('courierShowSchedule') }}">SCHEDULE</a></li>
+            @if(!empty(Session::get('cart')))
+                <li><a class="nav-links" href="{{ route('checkout') }}">CHECKOUT
+                        <u>{{ count(Session::get('cart')) }}</u></a></li>
+            @endif
+            @if(Auth::check() && Auth::user()->hasRole('admin'))
+                <li><a class="nav-links" href="{{ route('showAdminDashboard') }}">ADMIN DASHBOARD</a></li>
             @endif
             <li>
                 <form id="logout-form" action="{{ route('logout') }}" method="POST">
@@ -22,7 +27,6 @@
                     </a>
                 </form>
             </li>
-
         </ul>
     </div>
 </nav>

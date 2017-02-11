@@ -24,6 +24,10 @@ $factory->define(MenuItem::class, function (Faker\Generator $faker) {
         '.49',
         '.89'
     ];
+    // format of available_times
+    /*[
+        'monday','tuesday','....','sunday'
+    ]*/
     $available_times = [
         [
             '13:30-17:30',
@@ -52,7 +56,7 @@ $factory->define(MenuItem::class, function (Faker\Generator $faker) {
             ''
         ],
         [
-            '8:30-16:30',
+            '8:30-16:',
             '',
             ''
         ],

@@ -21,7 +21,11 @@ $factory->define(Restaurant::class, function (Faker\Generator $faker) {
         'downtown',
         'monteagle'
     ];
-    $hours_open = [
+    // format of available_times
+    /*[
+        'monday','tuesday','....','sunday'
+    ]*/
+    $available_times = [
         [
             '13:30-17:30',
             '20:30-24:30',
@@ -63,7 +67,7 @@ $factory->define(Restaurant::class, function (Faker\Generator $faker) {
     // so this one is open from 1 to 5 and 8pm to 12am on Mondays
     return [
         'name' => $faker->company,
-        'available_times' => json_encode($hours_open),
+        'available_times' => json_encode($available_times),
         'description' => 'My restaurant description',
         'location' => $locations[RAND(0,2)],
         'image_url' => 'http://www.minervas.net/images/jqg_13539536932.jpg'

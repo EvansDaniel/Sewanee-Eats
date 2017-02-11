@@ -12,7 +12,7 @@ trait RestaurantInformation {
      * @return bool returns true if that restaurant is open for business
      */
     private function restaurantIsOpen(Restaurant $restaurant) {
-        $timezone = 'America/Kentucky/Louisville';
+        $timezone = $this->getTimezone();
         $day = Carbon::now()->dayOfWeek-1;
         $current_hour = Carbon::now($timezone)->hour-1;
 
@@ -64,5 +64,10 @@ trait RestaurantInformation {
             }
         }
         return $isOpen;
+    }
+
+    public function getTimezone()
+    {
+        return 'America/Chicago';
     }
 }

@@ -19,7 +19,7 @@ class CreateMenuItemsTable extends Migration
             $table->string('name');
             $table->string('description');
             $table->float('price');
-            $table->string('available_times');
+            $table->longText('available_times');
             $table->integer('restaurant_id')->unsigned();
             $table->integer('item_category_id')->unsigned();
             // Meaningful values:

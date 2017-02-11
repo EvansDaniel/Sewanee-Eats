@@ -24,22 +24,60 @@ class RolesUsersTableSeeder extends Seeder
         $blaise->roles()->attach([$admin_role->id, $courier_role->id]);
         $tari->roles()->attach([$admin_role->id, $courier_role->id]);
 
-        $e = [
-            'a@gmail.com',
-            'b@gmail.com',
-            'c@gmail.com',
-            'd@gmail.com',
-            'e@gmail.com',
+        $num_couriers = 10;
+
+        // format of available_times
+        /*[
+            'monday','tuesday','....','sunday'
+        ]*/
+        $available_times = [
+            [
+                '10:00-12:00',
+                '20:00-22:00',
+                ''
+            ],
+            [
+                '08:00-10:00',
+                '22:00-00:00',
+                ''
+            ],
+            [
+                '16:00-18:00',
+                '',
+                ''
+            ],
+            [
+                '18:00-20:00',
+                '16:00-18:00',
+                ''
+            ],
+            [
+                '12:00-00:00',
+                '00:00-02:00',
+                ''
+            ],
+            [
+                '18:00-20:00',
+                '20:00-22:00',
+                '22:00-24:00'
+            ],
+            [
+                '14:00-16:00',
+                '16:00-18:00',
+                '18:00-20:00'
+            ]
         ];
-        for ($i = 0; $i < 5; $i++) {
+        $faker = Faker\Factory::create();
+        for ($i = 0; $i < $num_couriers; $i++) {
             $courier = new User;
-            $courier->name = "Courier Name";
-            $courier->email = $e[$i];
+            $courier->name = $faker->name;
+            $courier->email = $faker->companyEmail;
             $courier->password = "mypass";
             $courier->remember_token = str_random(10);
+            $courier->available_times = json_encode($available_times);
             $courier->save();
             $courier->roles()->attach($courier_role->id);
+            shuffle($available_times);
         }
-
     }
 }

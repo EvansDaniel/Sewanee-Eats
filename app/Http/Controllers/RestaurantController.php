@@ -33,7 +33,7 @@ class RestaurantController extends Controller
         $restaurants = [];
         foreach ($all_restaurants as $restaurant) {
             // TODO: NEED TO UNCOMMENT THIS IF STATEMENT AFTER DEVELOPMENT
-            if ($this->isAvailable($restaurant)) {
+            if ($this->isAvailableNow($restaurant)) {
                 $restaurants[] = $restaurant;
             }
         }

@@ -40,6 +40,6 @@ class MenuItem extends Model
 
     public function itemIsAvailable()
     {
-        return $this->isAvailable($this);
+        return $this->isAvailableNow($this);
     }
 }
