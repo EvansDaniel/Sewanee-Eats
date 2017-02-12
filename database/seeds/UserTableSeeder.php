@@ -74,6 +74,5 @@ class UserTableSeeder extends Seeder
             'password' => bcrypt('tariro'),
             'available_times' => $available_times
         ]);
-
     }
 }
