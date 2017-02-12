@@ -11,6 +11,8 @@
 |
 */
 
+use App\Models\MenuItem;
+
 Route::get('/', function () {
     return view('home');
 })->name('home');
@@ -163,6 +165,18 @@ Route::group(['prefix' => 'courier',
     Route::post('schedule/removeFromSchedule', 'ScheduleController@removeCourierFromTimeSlot')
         ->name('removeFromSchedule');
 });
+
+
+// Email Routes
+Route::get('email', function () {
+    $items = MenuItem::all()->take(5);
+
+    return view('emails.new_order',
+        compact('items'));
+});
+
+Route::get('testEmail', 'CheckoutController@testEmail')
+    ->name('testEmail');
 
 
 // Api Routes for Ajax

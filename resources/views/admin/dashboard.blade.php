@@ -7,7 +7,6 @@
 @section('body')
 
     <div class="container">
-        <h1 style="color: darkred">TODO: Paginate the orders</h1>
         <h1 id="order-title">Open Orders</h1>
         <div id="open-orders-table-container">
             <table id="open-orders-table" class="table table-responsive">

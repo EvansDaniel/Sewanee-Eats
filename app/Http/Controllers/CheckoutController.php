@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\CustomTraits\PriceInformation;
+use App\Models\MenuItem;
+use App\User;
 use Illuminate\Http\Request;
 use Stripe\Stripe;
 
@@ -19,18 +21,24 @@ class CheckoutController extends Controller
         return view('checkout', compact('total_price', 'cost_before_fees'));
     }
 
+    public function testEmail()
+    {
+        $user = User::findOrFail(\Auth::id());
+        $items = MenuItem::all()->take(5);
+        \Mail::send('emails.new_order', compact('items'), function ($message) use ($user) {
+            $message->from('hello@example.com');
+            $message->to($user->email, $user->name)->subject('New Order Request!');
+        });
+    }
+
     public function handleCheckout(Request $request)
     {
-        // TODO: Assert that there is no more than
-        if (!$this->cartHasValidNumberOfItems())
-            return back()->with('status_bad',
-                'Your cart has too many items in it (max: ' . $this->max_items_in_cart);
-
         /*
          * Check that there is someone available to service order request
          * (possibly at the checkout page so that they can’t hit the submit button)
          * Check further that there is enough deliverers to handle the request
          */
+        // $available_couriers = User::find(\Auth::id())->first();
 
 
         // Set your secret key: remember to change this to your live secret key in production

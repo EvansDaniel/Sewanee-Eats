@@ -37,7 +37,8 @@
                         @if($schedule_filler->userWorksOnDayAtTime($day_index,$time_index))
                             <h1 class="checkmark" align="center">L</h1>
                         @else
-                            <h1 align="center">x</h1>
+                        <!-- Figure out a way to make all tds same height -->
+                            {{--<h1> align="center">x</h1>--}}
                         @endif
                     </div>
                 </td>
