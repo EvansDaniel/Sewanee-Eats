@@ -40,6 +40,7 @@ class CheckoutController extends Controller
          */
         // $available_couriers = User::find(\Auth::id())->first();
 
+        // CALL Event::fire(new NewOrderReceived($order));
 
         // Set your secret key: remember to change this to your live secret key in production
         // See your keys here: https://dashboard.stripe.com/account/apikeys
@@ -57,7 +58,7 @@ class CheckoutController extends Controller
         $charge = \Stripe\Charge::create(array(
             "amount" => $this->getTotalPrice() * 100,
             "currency" => "usd",
-            "description" => "Sewanee Eats Charge",
+            "description" => "SewaneeEats Delivery Charge (includes cost of food)",
             "source" => $token,
         ));
         //return back()->with('status','Your order has been submitted');

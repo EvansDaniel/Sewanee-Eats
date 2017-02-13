@@ -11,7 +11,9 @@
 |
 */
 
+use App\Events\NewOrderReceived;
 use App\Models\MenuItem;
+use App\Models\Order;
 
 Route::get('/', function () {
     return view('home');
@@ -177,6 +179,13 @@ Route::get('email', function () {
 
 Route::get('testEmail', 'CheckoutController@testEmail')
     ->name('testEmail');
+
+
+// Event routes
+Route::get('testEvent', function () {
+    $order = new Order;
+    Event::fire(new NewOrderReceived($order));
+});
 
 
 // Api Routes for Ajax

@@ -33,9 +33,9 @@ class RestaurantController extends Controller
         $restaurants = [];
         foreach ($all_restaurants as $restaurant) {
             // TODO: NEED TO UNCOMMENT THIS IF STATEMENT AFTER DEVELOPMENT
-            if ($this->isAvailableNow($restaurant)) {
+            //if ($this->isAvailableNow($restaurant)) {
                 $restaurants[] = $restaurant;
-            }
+            //}
         }
         // boolean to use in the view show or not show a link
         // to a page with all the restaurants on it
