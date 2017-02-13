@@ -11,7 +11,7 @@
 </head>
 <body>
 <div id="main-container" class="container-fluid">
-    @include('nav_bar')
+    @include('partials.nav_bar')
     <!-- Status messages to user about what they are doing -->
     @include('partials.backend_messages')
     @yield('body')
