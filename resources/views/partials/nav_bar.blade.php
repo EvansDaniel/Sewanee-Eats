@@ -15,7 +15,9 @@
             <li><a class="active nav-links" href="{{ route('home') }}">HOME</a></li>
             <li><a class="nav-links" href="{{ route('list_restaurants') }}">ORDER NOW</a></li>
             <li><a class="nav-links" href="{{ route('about') }}">ABOUT</a></li>
-            @if(!empty(Session::get('cart')))
+            <li><a class="nav-links" href="{{ route('support') }}">SUPPORT</a></li>
+
+        @if(!empty(Session::get('cart')))
                 <li><a class="nav-links" href="{{ route('checkout') }}">CHECKOUT
                         <u>{{ count(Session::get('cart')) }}</u></a></li>
             @endif

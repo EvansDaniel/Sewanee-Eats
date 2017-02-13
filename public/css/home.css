@@ -97,7 +97,7 @@ div.ex1 {
         /* top | right | bottom | left */
         padding: 0 0 0 5px;
     }
-    .btn {
+    #btn {
         position: absolute;
         top: 50%;
         left: 53%;
@@ -173,7 +173,7 @@ div.ex1 {
         width: auto;
     }
 
-    .btn {
+    #btn {
         position: absolute;
         /*width: 4em;*/
         /*height: 2em;*/
@@ -230,4 +230,8 @@ div.ex1 {
 }
 #promo-order-button{
     font-family: "Lato", sans-serif;
+}
+
+figure, #promo-p1, #promo-p2, #promo-place1, #promo-place2, #promo-place3, #btn{
+    display: none;
 }

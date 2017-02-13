@@ -6,10 +6,21 @@
 
 @section('body')
     <div id="push-fig"></div>
+    <script>
+        $(document).ready(function(){
+            $("figure").fadeIn(500);
+            $("#promo-p1").fadeIn(1000);
+            $("#promo-p2").fadeIn(1000);
+            $("#promo-place1").fadeIn(2000);
+            $("#promo-place2").fadeIn(2200);
+            $("#promo-place3").fadeIn(2000);
+            $("#btn").fadeIn(1000);
+        });
+    </script>
     <figure>
         <!-- http://i67.tinypic.com/2w67w39.png responds with 503 error code -->
         <img src="{{ asset('images/home.jpg') }}" class="img-responsive" alt="Smiley face" align="middle">
-        <a href="{{ route('list_restaurants') }}" class="btn">ORDER NOW</a>
+        <a href="{{ route('list_restaurants') }}" class="btn" id="btn">ORDER NOW</a>
     </figure>
     <section id="promo-section" class="container">
         <p class="row" id="promo-p1">

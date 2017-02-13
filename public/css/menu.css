@@ -93,9 +93,12 @@ textarea {
 #quantity{
     margin-bottom: 2%;
     font-family: "Lato", sans-serif;
-    width: 10%;
+    width: 6%;
     height: 25px;
     padding: 1%;
+    text-align: center;
+    border-radius: 0;
+    transform: translate(0, 1px);
 }
 .menu-item-description {
     font-size: 14px;
@@ -105,12 +108,11 @@ textarea {
     width: 90%;
     height: 30px;
     font-size: 15px;
-    padding-left: 10px;
     line-height: 18px;
-    padding-top: 6px;
     margin-left: 5%;
-    background: rebeccapurple;
+    /*background: rebeccapurple;*/
     color: white;
+    margin-bottom: 12px;
 }
 
 .divider-row {
@@ -120,11 +122,11 @@ textarea {
 .add-extra{
     font-size: 15px;
     font-family: "Lato", sans-serif;
-}
-.item-extras-manipulation{
-    margin-bottom: 10px;
+    background: rebeccapurple;
     border-radius: 5px;
+    padding: 6px 6px 6px 10px;
 }
+
 
 .item-extras-manipulation:hover{
     cursor: pointer;
@@ -142,7 +144,7 @@ textarea {
     margin-left: 8%;
     background: #7d82b8;
     color: white;
-    border-radius: 5px;
+    /*border-radius: 5px;*/
     line-height: 25px;
     font-size: 15px;
     font-family: "Lato", sans-serif;
@@ -157,27 +159,46 @@ textarea {
 .sign{
     background: #7d82b8;
     border: 3px solid #7d82b8;
-    border-radius: 5px;
+    /*border-radius: 5px;*/
     padding: 2px;
+    height: 25px;
+    width: 7%;
 }
 
 .free_toppings_d, .n_free_toppings_d{
     width: 23%;
 }
-
+@media only screen and (min-width: 760px) {
+    .free_toppings, .n_free_toppings{
+        width: 60%;
+        margin-left: 9%;
+    }
+}
 input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button {
     -webkit-appearance: none;
     margin: 0;
 }
+input[type='number'] {
+    -moz-appearance:textfield;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}
 .f-item{
     margin-bottom: 3px;
 }
-@media only screen and (min-width: 760px) {
+@media only screen and (max-width: 760px) {
     .free_toppings, .n_free_toppings{
         margin-left: 9%;
         background: none;
         margin-top: 2%;
+
+    }
+    .item-extras-manipulation{
+        margin-bottom: 24px;
 
     }
 }

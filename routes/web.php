@@ -29,6 +29,9 @@ Route::post('handleCheckout', 'CheckoutController@handleCheckout')
 Route::get('about', function () {
     return view('about');
 })->name('about');
+Route::get('support', function () {
+    return view('support');
+})->name('support');
 
 
 // Restaurant Related Routes
