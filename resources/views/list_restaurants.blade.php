@@ -13,16 +13,17 @@
     </header>
     <script>
         $(document).ready(function () {
+            $(".img-responsive").get(0).height("100%");
             change_heights();
         })
         function change_heights(){
             var imgs = $(".img-responsive");
             var img_model = imgs.get(0);
-            var li_h = img_model.height;
+            var li_h = img_model.width;
             p(li_h);
             p(imgs.length);
             imgs.each(function () {
-                $(this).css("height", li_h);
+                $(this).css("width", li_h);
             })
 
         }

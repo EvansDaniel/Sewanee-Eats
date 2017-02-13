@@ -117,8 +117,6 @@ textarea {
     height: 7px;
 }
 
-@media only screen and (max-width: 760px) {
-}
 .add-extra{
     font-size: 15px;
     font-family: "Lato", sans-serif;
@@ -141,10 +139,10 @@ textarea {
     width: 90%;
 }
 .free_toppings_d, .n_free_toppings_d{
-    margin-left: 6%;
-    background: darkred;
+    margin-left: 8%;
+    background: #7d82b8;
     color: white;
-    /*border-radius: 5px;*/
+    border-radius: 5px;
     line-height: 25px;
     font-size: 15px;
     font-family: "Lato", sans-serif;
@@ -157,8 +155,8 @@ textarea {
 }
 
 .sign{
-    background: darkred;
-    border: 3px solid darkred;
+    background: #7d82b8;
+    border: 3px solid #7d82b8;
     border-radius: 5px;
     padding: 2px;
 }
@@ -167,15 +165,19 @@ textarea {
     width: 23%;
 }
 
-.free_toppings, .n_free_toppings{
-    width: 60%;
-    margin-left: 4%;
-    background: rgb(70,70,70);
-}
 input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button {
     -webkit-appearance: none;
     margin: 0;
 }
+.f-item{
+    margin-bottom: 3px;
+}
+@media only screen and (min-width: 760px) {
+    .free_toppings, .n_free_toppings{
+        margin-left: 9%;
+        background: none;
+        margin-top: 2%;
 
-.menu
+    }
+}

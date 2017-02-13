@@ -73,50 +73,60 @@ div.ex1 {
 }
 
 #promo-p1, #promo-p2 {
-    font-size: 2em;
     text-align: center;
     margin-top: 1em;
 }
 
 #promo-places p {
-    font-size: 24px;
+    font-size: 1.3em;
     text-align: center;
+
+}
+#promo-section p{
+    font-family: "Lato", sans-serif;
 }
 
 /*for computer screens*/
 @media only screen and (min-width: 760px) {
 
+    #brand_img{
+        height: 100%;
+        width: auto;
+    }
+    .navbar-brand{
+        /* top | right | bottom | left */
+        padding: 0 0 0 5px;
+    }
     .btn {
         position: absolute;
         top: 50%;
-        left: 50%;
+        left: 53%;
         transform: translate(-50%, -50%);
         background: linear-gradient(90deg, #240a54 10%, #7459a5 90%);
         color: white;
-        padding: 1em 2em;
-        border: none;
-        border-radius: 10px;
-
-        letter-spacing: .12em;
-        font-size: 25px;
-        font-family: 'Lato', sans-serif;
-    }
-
-    .itembtn {
-        transform: translate(-50%, -50%);
-        background: linear-gradient(90deg, #240a54 10%, #7459a5 90%);
-        color: white;
-        padding: 10px 10px;
+        padding: 1% 4%;
         border: none;
         border-radius: 10px;
         letter-spacing: .12em;
-        font-size: 20px;
+        font-size: 1.45em;
         font-family: 'Lato', sans-serif;
-
-        position: relative;
-        bottom: -50px;
-        right: -60px;
     }
+
+    /*.itembtn {*/
+        /*transform: translate(-50%, -50%);*/
+        /*background: linear-gradient(90deg, #240a54 10%, #7459a5 90%);*/
+        /*color: white;*/
+        /*padding: 10px 10px;*/
+        /*border: none;*/
+        /*border-radius: 10px;*/
+        /*letter-spacing: .12em;*/
+        /*font-size: 20px;*/
+        /*font-family: 'Lato', sans-serif;*/
+
+        /*position: relative;*/
+        /*bottom: -50px;*/
+        /*right: -60px;*/
+    /*}*/
 
     .divider {
         width: 60px;
@@ -126,7 +136,7 @@ div.ex1 {
 
     #promo-order-button {
         background: linear-gradient(90deg, #240a54 10%, #7459a5 90%);
-        font-size: 1.45em;
+        font-size: 20px;
         color: white;
         height: 3em;
         border-radius: 10px;
@@ -136,6 +146,17 @@ div.ex1 {
         margin-bottom: 1em;
         margin-left: 45.6%;
     }
+    #navV{
+        margin-right: 1%;
+    }
+
+    #promo-p1{
+        font-size: 1.5em;
+        font-weight: 600;
+    }
+    #promo-p2{
+        font-size: 1.4em;
+    }
 
 }
 
@@ -143,6 +164,13 @@ div.ex1 {
 @media only screen and (max-width: 760px) {
     #push-fig {
         height: 6%;
+    }
+    .navbar-header, .navbar-brand{
+        padding: 0;
+    }
+    .navbar-brand img{
+        height: 100%;
+        width: auto;
     }
 
     .btn {
@@ -164,8 +192,8 @@ div.ex1 {
     }
 
     #navDiv {
-        margin-left: 10px;
-        margin-right: 10px;
+        width: 100%;
+        overflow: hidden;
     }
 
     #collapse-button {
@@ -184,6 +212,11 @@ div.ex1 {
         margin-bottom: 1em;
         margin-left: 32.6%;
     }
+    #promo-places img{
+        width: 40%;
+        margin-left: 30%;
+        margin-right: 30%;
+    }
 }
 @media only screen and (max-width: 320px){
     #promo-order-button{
@@ -191,4 +224,10 @@ div.ex1 {
         padding-top: 7px;
         padding-left: 3.2%;
     }
+}
+.restaurant a {
+    width: 100%;
+}
+#promo-order-button{
+    font-family: "Lato", sans-serif;
 }
