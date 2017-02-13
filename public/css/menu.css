@@ -1,6 +1,13 @@
+.form-control{
+    width: 90%;
+}
 .menuList {
+    color: #330033;
+    font-weight: bold;
+}
+
+.menu-item-price {
     color: rebeccapurple;
-    text-transform: uppercase;
 }
 
 .catList {
@@ -8,3 +15,167 @@
     font-size: 35px;
     text-transform: uppercase;
 }
+
+#restaurant-logo {
+    padding: 10px;
+}
+
+.list-group-item, .panel-body, .list-group, .panel-heading, .panel, .panel-default {
+    border: none;
+
+}
+
+.list-group-item {
+    padding: 1%;
+}
+
+.catList {
+    font-size: 25px;
+    font-family: "Lato", sans-serif;
+    color: black;
+}
+
+.panel-default > .panel-heading {
+
+}
+
+#menu-item-top, .menuList, .menu-item-description {
+    padding: 0;
+    margin: 0;
+    color: gray;
+    font-family: "Lato", sans-serif;
+}
+.menuList{
+    color: rebeccapurple;
+}
+
+#menu-item-line {
+
+    border: 1px solid black;
+}
+
+#mountain-menu ul li:hover {
+    background: rgb(240, 240, 240);
+    cursor: pointer;
+}
+
+.itembtn {
+    font-family: "Lato", sans-serif;
+    text-transform: uppercase;
+    font-size: 12px;
+    font-weight: bold;
+    border-radius: 5px;
+    background: linear-gradient(90deg, #240a54 10%, #7459a5 90%);
+    border: 1px solid mediumpurple;
+    color: white;
+}
+
+#show-item-price {
+    text-transform: uppercase;
+    font-family: "Lato", sans-serif;
+    font-weight: bold;
+}
+
+#show-item-description {
+    padding: 2%;
+    line-height: 18px;
+    font-size: 15px;
+    margin-top: 2%;
+    font-family: "Lato", sans-serif;
+}
+
+textarea {
+    margin-bottom: 2%;
+    width: 80%;
+    margin-left: 5%;
+    font-family: "Lato", sans-serif;
+}
+#quantity{
+    margin-bottom: 2%;
+    font-family: "Lato", sans-serif;
+    width: 10%;
+    height: 25px;
+    padding: 1%;
+}
+.menu-item-description {
+    font-size: 14px;
+}
+
+.item-extras-manipulation{
+    width: 90%;
+    height: 30px;
+    font-size: 15px;
+    padding-left: 10px;
+    line-height: 18px;
+    padding-top: 6px;
+    margin-left: 5%;
+    background: rebeccapurple;
+    color: white;
+}
+
+.divider-row {
+    height: 7px;
+}
+
+@media only screen and (max-width: 760px) {
+}
+.add-extra{
+    font-size: 15px;
+    font-family: "Lato", sans-serif;
+}
+.item-extras-manipulation{
+    margin-bottom: 10px;
+    border-radius: 5px;
+}
+
+.item-extras-manipulation:hover{
+    cursor: pointer;
+}
+.modal-body{
+    background: rgba(40,40,40, 1);
+    color:white;
+    font-weight: bold;
+}
+.special_instr_p{
+    margin-left: 5%;
+    width: 90%;
+}
+.free_toppings_d, .n_free_toppings_d{
+    margin-left: 6%;
+    background: darkred;
+    color: white;
+    /*border-radius: 5px;*/
+    line-height: 25px;
+    font-size: 15px;
+    font-family: "Lato", sans-serif;
+    padding-left: 1%;
+    width: 180px;
+}
+.topings label{
+    color: white;
+    font-family: "Lato", sans-serif;
+}
+
+.sign{
+    background: darkred;
+    border: 3px solid darkred;
+    border-radius: 5px;
+    padding: 2px;
+}
+
+.free_toppings_d, .n_free_toppings_d{
+    width: 23%;
+}
+
+.free_toppings, .n_free_toppings{
+    width: 60%;
+    margin-left: 4%;
+    background: rgb(70,70,70);
+}
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.menu

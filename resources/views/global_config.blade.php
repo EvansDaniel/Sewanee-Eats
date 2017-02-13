@@ -12,7 +12,7 @@
     console.log($obj);
   }
   $(document).ready(function () {
-      var bd = $("body");
+      var bd = $(window );
       var h = bd.height();
       p(h);
       h = h - $("#main-container").height();
@@ -21,7 +21,7 @@
           $("#push-div").css("height", h);
       }
 
-  })
+  });
 </script>
 
 

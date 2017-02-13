@@ -185,3 +185,10 @@ div.ex1 {
         margin-left: 32.6%;
     }
 }
+@media only screen and (max-width: 320px){
+    #promo-order-button{
+        font-size: 11px;
+        padding-top: 7px;
+        padding-left: 3.2%;
+    }
+}
