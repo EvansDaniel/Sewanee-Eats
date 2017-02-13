@@ -11,9 +11,9 @@ class Restaurant extends Model
 
     public function shiftExists($day, $shift)
     {
-        if (!$this->hours_open)
+        if (!$this->available_times)
             return false;
-        if (!$this->hours_open[$day][$shift])
+        if (!$this->available_times[$day][$shift])
             return false;
         return true;
     }

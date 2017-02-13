@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\CustomTraits\IsAvailable;
 use App\CustomTraits\UploadFile;
 use App\Http\Controllers\Controller;
 use App\Models\Restaurant;
@@ -12,6 +13,7 @@ use Validator;
 class ManageRestaurantController extends Controller
 {
     use UploadFile;
+    use IsAvailable;
     protected $restImageDir;
 
     public function __construct()
@@ -33,23 +35,13 @@ class ManageRestaurantController extends Controller
         $name = $request->input('name');
         $desc = $request->input('description');
         $image = $request->file('image');
-        $mon = $request->input('monday');
-        $tues = $request->input('tuesday');
-        $wed = $request->input('wednesday');
-        $thurs = $request->input('thursday');
-        $fri = $request->input('friday');
-        $sat = $request->input('saturday');
-        $sun = $request->input('sunday');
 
         $validator = $this->imageUploadValidator($request);
         if ($validator->fails()) {
             return back()->withErrors($validator);
         }
 
-        // make sure no spaces in the shifts i.e. 12- 17, space b/w - and 1 is removed
-        $hours_open = [$mon, $tues, $wed, $thurs, $fri, $sat, $sun];
-        $hours_open = $this->normalizeHoursOpen($hours_open);
-        $hours_open = json_encode($hours_open);
+        $hours_open = $this->createAvailableTimesJsonStringFromRequest($request);
 
         // Store the restaurant image to file system
         $file_name = $this->getFileName($image, $this->restImageDir);
@@ -60,7 +52,7 @@ class ManageRestaurantController extends Controller
         $restaurant->name = $name;
         $restaurant->location = $location;
         $restaurant->description = $desc;
-        $restaurant->hours_open = $hours_open;
+        $restaurant->available_times = $hours_open;
         $restaurant->image_url = $this->dbStoragePath($this->restImageDir, $file_name);
         $restaurant->save();
         return back()->with('status_good', $restaurant->name . " has been added to the database!");
@@ -77,18 +69,6 @@ class ManageRestaurantController extends Controller
         return Validator::make($request->all(), $rules, $messages);
     }
 
-    private function normalizeHoursOpen($hours_open)
-    {
-        $num_days = count($hours_open);
-        for ($i = 0; $i < $num_days; $i++) {
-            $num_shifts = count($hours_open[$i]);
-            for ($j = 0; $j < $num_shifts; $j++) {
-                $hours_open[$i][$j] = str_replace(" ", "", $hours_open[$i][$j]);
-            }
-        }
-        return $hours_open;
-    }
-
     public function showNewRestaurantForm()
     {
         return view('admin.create_restaurant');
@@ -97,8 +77,8 @@ class ManageRestaurantController extends Controller
     public function showRestaurantUpdate($id)
     {
         $r = Restaurant::find($id); // updating this restaurant so pass it to view
-        $hours_open = json_decode($r->hours_open);
-        return view('admin.update_restaurant', compact('r', 'hours_open'));
+        $available_times = json_decode($r->available_times);
+        return view('admin.update_restaurant', compact('r', 'available_times'));
     }
 
     public function deleteRestaurant($id)
@@ -119,18 +99,8 @@ class ManageRestaurantController extends Controller
         $name = $request->input('name');
         $desc = $request->input('description');
         $image = $request->file('image');
-        $mon = $request->input('monday');
-        $tues = $request->input('tuesday');
-        $wed = $request->input('wednesday');
-        $thurs = $request->input('thursday');
-        $fri = $request->input('friday');
-        $sat = $request->input('saturday');
-        $sun = $request->input('sunday');
 
-        // make sure no spaces in the shifts i.e. 12- 17, space b/w - and 1 is removed
-        $hours_open = [$mon, $tues, $wed, $thurs, $fri, $sat, $sun];
-        $hours_open = $this->normalizeHoursOpen($hours_open);
-        $hours_open = json_encode($hours_open);
+        $hours_open = $this->createAvailableTimesJsonStringFromRequest($request);
 
         $validator = $this->imageUploadValidator($request);
         if ($validator->fails()) {
@@ -155,7 +125,7 @@ class ManageRestaurantController extends Controller
         $restaurant->name = $name;
         $restaurant->location = $location;
         $restaurant->description = $desc;
-        $restaurant->hours_open = $hours_open;
+        $restaurant->available_times = $hours_open;
 
         $restaurant->save();
         return back()->with('status_good', $restaurant->name . " has been updated!");

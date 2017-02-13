@@ -28,83 +28,12 @@
                 <input type="file" name="image" id="file" class="input-file form-control" required>
                 <label for="file" class="btn btn-primary form-control">Choose a restaurant image</label>
                 <br><br>
-                <span id="invalid-table-data" class="alert alert-danger" style=""></span>
                 <label for="hours-table">Specify the hours this restaurant is open. If a restaurant is open for multiple
-                    disjoint shifts use the extra rows to fill that in. Fill each cell in in this form:
-                    "open_hour-close_hour" or put "closed"</label>
-                <table id="hours-table" class="table table-responsive">
-                    <thead>
-                    <tr>
-                        <th>Monday</th>
-                        <th>Tuesday</th>
-                        <th>Wednesday</th>
-                        <th>Thursday</th>
-                        <th>Friday</th>
-                        <th>Saturday</th>
-                        <th>Sunday</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td><input size="5" type="text"
-                                   class="days" name="monday[]"
-                                   required value="12-17"></td>
-                        <td><input size="5" type="text"
-                                   class="days" name="tuesday[]"
-                                   required value="12-17"></td>
-                        <td><input size="5" type="text"
-                                   class="days" name="wednesday[]"
-                                   required value="12-17"></td>
-                        <td><input size="5" type="text"
-                                   class="days" name="thursday[]"
-                                   required value="12-17"></td>
-                        <td><input size="5" type="text"
-                                   class="days" name="friday[]"
-                                   required value="12-17"></td>
-                        <td><input size="5" type="text"
-                                   class="days" name="saturday[]"
-                                   required value="12-17"></td>
-                        <td><input size="5" type="text"
-                                   class="days" name="sunday[]"
-                                   required value="12-17"></td>
-                    </tr>
-                    <tr>
-                        <td><input size="5" type="text" class="days"
-                                   name="monday[]"></td>
-                        <td><input size="5" type="text" class="days"
-                                   name="tuesday[]"></td>
-                        <td><input size="5" type="text" class="days"
-                                   name="wednesday[]"></td>
-                        <td><input size="5" type="text" class="days"
-                                   name="thursday[]"></td>
-                        <td><input size="5" type="text" class="days"
-                                   name="friday[]"></td>
-                        <td><input size="5" type="text" class="days"
-                                   name="saturday[]"></td>
-                        <td><input size="5" type="text" class="days"
-                                   name="sunday[]"></td>
-                    </tr>
-                    <tr>
-                        <td><input size="5" type="text" class="days"
-                                   name="monday[]"></td>
-                        <td><input size="5" type="text" class="days"
-                                   name="tuesday[]"></td>
-                        <td><input size="5" type="text" class="days"
-                                   name="wednesday[]"></td>
-                        <td><input size="5" type="text" class="days"
-                                   name="thursday[]"></td>
-                        <td><input size="5" type="text" class="days"
-                                   name="friday[]"></td>
-                        <td><input size="5" type="text" class="days"
-                                   name="saturday[]"></td>
-                        <td><input size="5" type="text" class="days"
-                                   name="sunday[]"></td>
-                    </tr>
-                    </tbody>
-                </table>
+                    disjoint shifts use the extra rows for that day to fill that in. Fill each cell in in this form:
+                    "hh:mm-hh:mm" or put "closed" if the restaurant is closed that day</label>
+                @include('partials.create_available_times')
                 <button type="submit" class="btn btn-primary" onclick="checkDays(event)">Add New Restaurant</button>
             </div>
         </form>
     </div>
-    <script src="{{ asset('js/admin/create_update_restaurant.js') }}"></script>
 @stop

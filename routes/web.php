@@ -11,7 +11,9 @@
 |
 */
 
-
+use App\Events\NewOrderReceived;
+use App\Models\MenuItem;
+use App\Models\Order;
 
 Route::get('/', function () {
     return view('home');
@@ -37,18 +39,11 @@ Route::get('restaurants/{id}', 'RestaurantController@showMenu')
     ->name('showMenu');
 
 
-
-Route::post('cart/store', 'ShoppingCartController@addToShoppingCart')
+Route::post('cart/store', 'ShoppingCartController@loadItemIntoShoppingCart')
     ->name('addToCart');
 
 Route::post('cart/update/{id}', 'ShoppingCartController@updateCart')
     ->name('updateCart');
-
-// testing/debugging
-/*Route::get('destroy_session', function () {
-    Session::flush();
-    return back();
-})->name('destroy_session');*/
 
 Route::get('checkout', 'CheckoutController@showCheckoutPage')
     ->name('checkout');
@@ -59,18 +54,21 @@ Route::group(['prefix' => 'admin',
     'middleware' => 'role:admin'], function () {
     // Dashboard controller routes
     // Home page for admins
-    Route::get('', 'DashboardController@showDashboard')
+    Route::get('', 'AdminDashboardController@showDashboard')
         ->name('showAdminDashboard');
+
+    Route::get('schedule', 'AdminDashboardController@showSchedule')
+        ->name('adminShowSchedule');
 
     // Home page for admins
-    Route::get('dashboard', 'DashboardController@showDashboard')
+    Route::get('dashboard', 'AdminDashboardController@showDashboard')
         ->name('showAdminDashboard');
 
-    Route::get('orderSummary/{id}', 'DashboardController@orderSummary')
+    Route::get('orderSummary/{id}', 'AdminDashboardController@orderSummary')
         ->name('orderSummary');
 
     // Shows a listing of the open orders and closed orders
-    Route::get('orders', 'DashboardController@listOrders')
+    Route::get('orders', 'AdminDashboardController@listOrders')
         ->name('listOrders');
 
     // Manage Restaurant Controller routes
@@ -105,11 +103,11 @@ Route::group(['prefix' => 'admin',
         ->name('adminShowMenu');
 
     // shows the menu items
-    Route::get('createMenuItem', 'MenuItemController@showMenuItemCreateForm')
+    Route::get('restaurants/{r_id}/createMenuItem', 'MenuItemController@showMenuItemCreateForm')
         ->name('showMenuItemCreateForm');
 
     // shows the menu item update form
-    Route::get('updateMenuItem/{id}', 'MenuItemController@showMenuItemUpdateForm')
+    Route::get('restaurants/{r_id}/updateMenuItem/{id}', 'MenuItemController@showMenuItemUpdateForm')
         ->name('showMenuItemUpdateForm');
 
     // back end for creating menu items
@@ -148,11 +146,63 @@ Route::group(['prefix' => 'admin',
         ->name('deleteAccessory');
 });
 
-Route::group(['prefix' => 'admin',
-    'namespace' => 'Courier',
-    'middleware' => 'role:admin'], function () {
 
+// Routes specific to couriers (schedule, etc)
+Route::group(['prefix' => 'courier',
+    'namespace' => 'Courier',
+    'middleware' => 'role:courier'], function () {
+
+    Route::get('dashboard', 'CourierDashboardController@showDashboard')
+        ->name('showCourierDashboard');
+
+    Route::get('schedule', 'CourierDashboardController@showSchedule')
+        ->name('courierShowSchedule');
+
+    Route::post('schedule/addToSchedule', 'ScheduleController@addCourierToTimeSlot')
+        ->name('addToSchedule');
+
+    Route::get('schedule/updateSchedule', 'ScheduleController@updateScheduleForNextDay')
+        ->name('updateSchedule');
+
+    Route::post('schedule/removeFromSchedule', 'ScheduleController@removeCourierFromTimeSlot')
+        ->name('removeFromSchedule');
 });
 
+
+// Email Routes
+Route::get('email', function () {
+    $items = MenuItem::all()->take(5);
+
+    return view('emails.new_order',
+        compact('items'));
+});
+
+Route::get('testEmail', 'CheckoutController@testEmail')
+    ->name('testEmail');
+
+
+// Event routes
+Route::get('testEvent', function () {
+    $order = new Order;
+    Event::fire(new NewOrderReceived($order));
+});
+
+
+// Api Routes for Ajax
+Route::group(['prefix' => 'api/v1/',
+    'namespace' => 'Api'], function () {
+    Route::group(['prefix' => 'couriers'], function () {
+
+        Route::get('getOnlineCouriers/{day}/{time}',
+            'CourierController@getOnlineCouriersForDayTime')
+            ->name('getCouriers');
+
+        Route::get('userIsAvailable/{day}/{time}',
+            'CourierController@userIsAvailable')
+            ->name('userIsAvailable');
+    });
+});
+
+// Protect the register route with CheckRole admin
 Auth::routes();
 

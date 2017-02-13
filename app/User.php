@@ -2,13 +2,14 @@
 
 namespace App;
 
+use App\CustomTraits\IsAvailable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
     use Notifiable;
-
+    use IsAvailable;
     /**
      * The attributes that are mass assignable.
      *
@@ -33,6 +34,11 @@ class User extends Authenticatable
                 return true;
         }
         return false;
+    }
+
+    public function isAvailable($day, $time)
+    {
+        return $this->isAvailableOnDayAtTime($this, $day, $time);
     }
 
     /* public function orders()

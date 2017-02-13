@@ -24,11 +24,8 @@
 @stop
 
 @section('body')
-    <!-- TODO: refactor MenuItem Controller logic to nest the items with
-         TODO: the restaurant, so that when you go to create the restaurant,
-         TODO: you don't have to specify which restaurnt to attach the menu item to -->
     <div class="container" id="show-menu">
-        <a href="{{ route('showMenuItemCreateForm') }}">
+        <a href="{{ route('showMenuItemCreateForm',['r_id' => $restaurant->id]) }}">
             <button class="btn btn-primary" type="button">Add new menu item</button>
         </a>
         <div class="panel panel-default">
@@ -56,7 +53,7 @@
                                                 <button class="btn btn-primary" type="button">View Item Accessories
                                                 </button>
                                             </a>
-                                            <a href="{{ route('showMenuItemUpdateForm', ['id' => $item->id]) }}">
+                                            <a href="{{ route('showMenuItemUpdateForm', ['id' => $item->id,'r_id' => $restaurant->id]) }}">
                                                 <button class="btn btn-primary" type="button">Update Menu Item</button>
                                             </a>
                                             <!-- TODO: make js alert button that makes sures admin wants to delete this -->

@@ -28,7 +28,18 @@
         }
     </script>
     <ul class="list-group container" id="restaurant-group">
-        <li class="restaurant list-group-item col-lg-3 col-md-3 col-xs-8 col-xs-offset-2 col-sm-8 col-sm-offset-2">
+        @if(empty($restaurants))
+            <h1>There are no restaurants open at this time</h1>
+        @else
+            @foreach($restaurants as $restaurant)
+                <li class="restaurant list-group-item col-lg-3 col-md-3 col-xs-8 col-xs-offset-2 col-sm-8 col-sm-offset-2">
+                    <a href="{{ route('showMenu',['id' => $restaurant->id]) }}">
+                        <img id="rest-images" class="img-responsive" src="{{ $restaurant->image_url }}">
+                    </a>
+                </li>
+            @endforeach
+        @endif
+        {{--<li class="restaurant list-group-item col-lg-3 col-md-3 col-xs-8 col-xs-offset-2 col-sm-8 col-sm-offset-2">
                 <a>
                     <img id="rest-images"  class="img-responsive" src="{{asset('images/stirling_new.jpg')}}">
                 </a>
@@ -72,7 +83,7 @@
                     <img id="rest-images" class="img-responsive" src="{{asset('images/pub.png')}}">
                 </a>
 
-        </li>
+        </li>--}}
 
     </ul>
     <div class="container">

@@ -24,11 +24,54 @@ $factory->define(MenuItem::class, function (Faker\Generator $faker) {
         '.49',
         '.89'
     ];
+    // format of available_times
+    /*[
+        'monday','tuesday','....','sunday'
+    ]*/
+    $available_times = [
+        [
+            '13:30-17:30',
+            '20:30-24:30',
+            ''
+        ],
+        [
+            '8:30-12:30',
+            '20:30-24:30',
+            ''
+        ],
+        [
+            '13:30-17:30',
+            '',
+            ''
+        ],
+        [
+            '20:30-00:30',
+            /*'01:00-05:00',*/
+            '',
+            ''
+        ],
+        [
+            '9:30-17:30',
+            '20:30-00:30',
+            ''
+        ],
+        [
+            '8:30-16:',
+            '',
+            ''
+        ],
+        [
+            '8:30-12:30',
+            '',
+            ''
+        ]
+    ];
     return [
         'name' => 'My menu item name',
         'description' => 'My menu item description',
         'price' => mt_rand(3,18) . $decimals[mt_rand(0,2)],
         'restaurant_id' => $restaurant->id,
+        'available_times' => json_encode($available_times),
         'item_category_id' => $item_category->id
     ];
 });

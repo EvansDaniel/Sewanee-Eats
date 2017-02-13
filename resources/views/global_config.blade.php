@@ -1,5 +1,12 @@
 {{-- JQuery --}}
 <script src= {{ asset('js/app.js') }}></script>
+<!-- JQuery UI -->
+<script
+        src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"
+        integrity="sha256-xNjb53/rY+WmG+4L6tTl9m6PpqknWZvRt0rO1SRnJzw="
+        crossorigin="anonymous"></script>
+<!-- Jquery cookie plugin -->
+<script src="{{ asset('js/lib/jquery-cookie/jquery.cookie.js') }}"></script>
 {{-- Bootstrap --}}
 <link rel="stylesheet" href= {{ asset('css/app.css') }}>
 
@@ -7,6 +14,13 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
 <script>
+  function getBaseUrl() {
+    var pathArray = location.href.split('/');
+    var protocol = pathArray[0];
+    var host = pathArray[2];
+    return protocol + '//' + host;
+  }
+  API_URL = getBaseUrl() + "/api/v1/";
   // debugging helper function
   function p($obj) {
     console.log($obj);
@@ -24,9 +38,4 @@
   });
 </script>
 
-
-{{--Angular JS Scripts --}}
-<!--<script src="https://cdn.jsdelivr.net/jquery.validation/1.15.1/jquery.validate.min.js"></script>-->
-<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-resource.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1">

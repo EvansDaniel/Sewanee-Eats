@@ -2,10 +2,13 @@
 
 namespace App\Models;
 
+use App\CustomTraits\IsAvailable;
 use Illuminate\Database\Eloquent\Model;
 
 class MenuItem extends Model
 {
+    use IsAvailable;
+
     protected $table = "menu_items";
 
     // belongs to one category
@@ -33,5 +36,10 @@ class MenuItem extends Model
         return $this->belongsTo('App\Models\ItemCategory',
             'item_category_id',
             'id');
+    }
+
+    public function itemIsAvailable()
+    {
+        return $this->isAvailableNow($this);
     }
 }

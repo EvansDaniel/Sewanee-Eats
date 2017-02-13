@@ -12,13 +12,13 @@ trait RestaurantInformation {
      * @return bool returns true if that restaurant is open for business
      */
     private function restaurantIsOpen(Restaurant $restaurant) {
-        $timezone = 'America/Kentucky/Louisville';
+        $timezone = $this->getTimezone();
         $day = Carbon::now()->dayOfWeek-1;
         $current_hour = Carbon::now($timezone)->hour-1;
 
         // array of days of the week with time ranges for each day
         // that the business is open
-        $open_hours = json_decode($restaurant->hours_open,true);
+        $open_hours = json_decode($restaurant->available_times, true);
         $isOpen = false;
         // loop through all the time ranges in which $restaurant is open
         foreach ($open_hours[$day] as $unparsed_time_range) {
@@ -64,5 +64,10 @@ trait RestaurantInformation {
             }
         }
         return $isOpen;
+    }
+
+    public function getTimezone()
+    {
+        return 'America/Chicago';
     }
 }
