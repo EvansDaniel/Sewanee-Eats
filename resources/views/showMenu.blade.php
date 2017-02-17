@@ -34,7 +34,7 @@
                             @foreach($items as $item)
                                 <li class="menu-li list-group-item col-lg-4 col-md-4 col-sm-12 col-xs-12">
                                     <div class="menu-item">
-                                        <!-- IF YOU TOUCH THIS HTML, MAKE SURE TO UPDATE THE loadModal FUNCTION -->
+                                        <!-- IF YOU TOUCH THIS HTML, MAKE SURE TO UPDATE THE loadModal FUNCTION WITH NEW STRUCTURE -->
                                         <div class="row" id="menu-item-top">
                                             <div class="menuList col-lg-10 col-md-10 col-sm-9 col-xs-9">{{ $item->name }}</div>
                                             <div class="hidden">
@@ -48,7 +48,7 @@
                                         </div>
                                         <div style="display: none">{{ $item->id }}</div>
                                     </div>
-                                    <div class="hidden-lg hidden-md row">
+                                    <div class="hidden-hr hidden-lg hidden-md row">
                                         <hr class="col-sm-offset-1 col-sm-8 col-xs-offset-1 col-xs-8">
                                     </div>
                                 </li>
@@ -66,7 +66,7 @@
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                                 aria-hidden="true">&times</span></button>
-                    <h4 class="modal-title" id="show-item-name"></h4>
+                    <h4 class="modal-title" style="color: black;" id="show-item-name"></h4>
                 </div>
                 <div class="modal-body">
                     <form action="{{ route('addToCart') }}" method="post">

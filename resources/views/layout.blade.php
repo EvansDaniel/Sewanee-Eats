@@ -7,7 +7,7 @@
     <link rel="stylesheet" type="text/css" href=" {{ asset('css/home.css') }}">
     <link href="https://fonts.googleapis.com/css?family=Lato:300,400,900,900i" rel="stylesheet">
     @yield('head')
-    <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+    {{--<script type="text/javascript" src="https://js.stripe.com/v2/"></script>--}}
 </head>
 <body>
 <div id="main-container" class="container-fluid">

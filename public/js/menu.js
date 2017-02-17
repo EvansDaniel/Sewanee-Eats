@@ -1,14 +1,6 @@
 var accessories = null;
 var itemPrice = -1;
 
-$('#add-to-cart-button').click(function () {
-  //$('#quantity').prop('readonly',false);
-  var q = $('#quantity').val();
-  for (var i = 1; i <= q; i++) {
-    $('#item-extra' + i).show();
-  }
-});
-
 function saveAjaxResult(result) {
   accessories = result;
 }
@@ -17,9 +9,7 @@ function showOptions(i) {
 
   var ANIMATION_TIME = 300;
   var item_extra_id = "#item-extra" + i;
-  // var anm_div =  document.getElementById(str);
   var anm_div = $(item_extra_id);
-  // var bool =  anm_div.style.display == 'none';
   var bool = anm_div.is(":visible");
 
   var pricyDiv = $('#n_free_toppings' + i);
@@ -144,14 +134,14 @@ function saveCheck(checkbox_input, i, acc_id, pricy) {
 }
 
 function loadModal(div) {
-  var name = $.trim($($(div).children().children()[1]).text());
+  var name = $.trim($($(div).children().children()[0]).text());
   var price = $.trim($($(div).children().children()[2]).text());
-  var description = $.trim($($(div).children()[1]).text());
+  var description = $.trim($($(div).children()[2]).text());
   var item_id = $.trim($($(div).children()[3]).text());
-  //p(name); p(price); p(description); p(item_id); // for debugging
+  // p(name); p(price); p(description); p(item_id); // for debugging
 
   // Set the divs to show item details to user
-  itemPrice = price;
+  itemPrice = parseFloat(price);
   $("#show-item-price").text(price);
   $("#show-item-name").text(name);
   $("#show-item-description").text(description);
@@ -161,7 +151,7 @@ function loadModal(div) {
   $('#quantity').val(1);
 
   // ajax request to get the current menu item's accessories
-  p(API_URL + "menuItems/" + item_id + "/freeAndPricyAccessories");
+  // p(API_URL + "menuItems/" + item_id + "/freeAndPricyAccessories"); // for debugging
   retreiveAccessories(item_id);
 }
 
@@ -180,15 +170,27 @@ function retreiveAccessories(item_id) {
 // Window finished loading -----------------------------------------------------------------------------
 
 $(window).on('load', function () {
-  $(document).on('click', '.menu-item', function () {
-    loadModal(this);
+  $(document).on('click', '.menu-li', function () {
+    loadModal($(this).find('.menu-item'));
   });
   $('.menu-li').each(function () {
     $(this).attr('data-toggle', 'modal');
     $(this).attr('data-target', '#add-to-cart-modal');
+    // enable clicking
+    $(this).off('click', retFalse);
   });
 });
 
+function retFalse() {
+  return false;
+}
+
+function disableClicks(class_id) {
+  var obj = $(class_id);
+  obj.each(function () {
+    $(this).on('click', retFalse);
+  })
+}
 
 // Doc Ready ---------------------------------------------------------------------------------------------
 $(function () {
@@ -198,16 +200,36 @@ $(function () {
   var qty = $("#quantity");
   var MIN_ITEMS = 1, MAX_ITEMS = 10;
 
+  // disable/lock click events on each menu item until
+  // page completely loads. This is so ajax will fire properly
+  // TODO: Is there any way to make this better
+  disableClicks('.menu-li');
+
   $('#add-to-cart-modal').on('hidden.bs.modal', function () {
     var q = $('#quantity').val();
     for (var i = 1; i <= q; i++) {
       $('#item-extra' + i).hide();
     }
+    resetModal();
+  });
+
+  function resetModal() {
     // destroy any extra inputs that were added by user
     $('#extras-inputs').empty();
     $('#special-instructions-inputs').empty();
-    $('#westside').empty();
-  });
+
+    var i = 0;
+    $('.west_div').each(function () {
+      if (i != 0) { // skip the first button b/c we always want the first one in the modal
+        $(this).remove();
+      }
+      i++;
+    });
+
+
+    // reset quantity of items to 1
+    setVal(qty, 1);
+  }
 
   function initPopUpView() {
     // INIT the view
@@ -277,30 +299,41 @@ $(function () {
       '</div>'
     ];
     westside.html(content + htmlArray.join(""));
-    var price = $('#show-item-price');
-    p(itemPrice);
-    //p(Math.round((parseFloat(price.text())+itemPrice)*100)/100);
-    //price.text(Math.round((parseFloat(price.text())+itemPrice)*100)/100);
+    // add the price of the item b/c they want another one
+    updateTotalForItem('+');
+  }
 
+  // str must be either '-' or '+' to subtract/add to the total
+  // otherwise this function does nothing
+  function updateTotalForItem(str) {
+    var price = $('#show-item-price');
+    //p(itemPrice);
+    //p(parseFloat(price.text()) + itemPrice);
+    if (price.text()) {
+      if (str === '-') {
+        price.text(Math.round((parseFloat(price.text()) - itemPrice) * 100) / 100);
+      } else if (str === '+') {
+        price.text(Math.round((parseFloat(price.text()) + itemPrice) * 100) / 100);
+      }
+    }
   }
 
   function removeAnotherButton(i) {
     var c = document.getElementById("westside").childNodes;
-    var west_rm = $(c[i]);
+    var west_rm = c[i];
     west_rm.remove();
+    // subtract the price of the item b/c they got rid of one
+    updateTotalForItem('-');
   }
 
   minus.click(function () {
     var i = getVal(qty);
-    p(i);
     i = parseInt(i);
-    //p(i);
     if (i <= 1) {
       setVal(qty, i);
     }
     else {
       if (i > 1) {
-        //p("here");
         removeAnotherButton(i)
       }
       i--;

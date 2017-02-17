@@ -1,11 +1,5 @@
 {{-- JQuery --}}
 <script src= {{ asset('js/app.js') }}></script>
-<!-- JQuery UI -->
-<script
-        src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"
-        integrity="sha256-xNjb53/rY+WmG+4L6tTl9m6PpqknWZvRt0rO1SRnJzw="
-        crossorigin="anonymous"></script>
-<!-- Jquery cookie plugin -->
 {{-- Bootstrap --}}
 <link rel="stylesheet" href= {{ asset('css/app.css') }}>
 
@@ -27,9 +21,7 @@
   $(document).ready(function () {
       var bd = $(window );
       var h = bd.height();
-      p(h);
       h = h - $("#main-container").height();
-      p(h);
       if( h >0) {
           $("#push-div").css("height", h);
       }
