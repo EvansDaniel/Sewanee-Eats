@@ -9,6 +9,7 @@
     <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
 </head>
 <body>
+<!-- Built by Daniel Evans -->
 <div id="main-container" class="container-fluid">
     @include('courier.nav_bar')
     <br><br><br><br><br>

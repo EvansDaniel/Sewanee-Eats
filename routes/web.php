@@ -1,6 +1,6 @@
 <?php
 
-/*
+/* Built by Daniel Evans
 |--------------------------------------------------------------------------
 | Web Routes
 |--------------------------------------------------------------------------
@@ -14,6 +14,7 @@
 use App\Events\NewOrderReceived;
 use App\Models\MenuItem;
 use App\Models\Order;
+use SimpleSoftwareIO\SMS\Facades\SMS;
 
 Route::get('/', function () {
     return view('home');
@@ -183,7 +184,6 @@ Route::get('email', function () {
 Route::get('testEmail', 'CheckoutController@testEmail')
     ->name('testEmail');
 
-
 // Event routes
 Route::get('testEvent', function () {
     $order = new Order;
@@ -204,8 +204,24 @@ Route::group(['prefix' => 'api/v1/',
             'CourierController@userIsAvailable')
             ->name('userIsAvailable');
     });
+
+    Route::get('menuItems/{id}/freeAndPricyAccessories', function ($id) {
+        $menu_item = MenuItem::find($id);
+        $pricy = [];
+        $free = [];
+        foreach ($menu_item->accessories as $accessory) {
+            if ($accessory->price == 0) { // free
+                $free[] = $accessory;
+            } else { // pricy
+                $pricy[] = $accessory;
+            }
+        }
+        $accessories = ['accs' => ['free' => $free, 'pricy' => $pricy]];
+        return json_encode($accessories);
+    });
+
 });
 
-// Protect the register route with CheckRole admin
+// TODO: Protect the register route with CheckRole admin
 Auth::routes();
 

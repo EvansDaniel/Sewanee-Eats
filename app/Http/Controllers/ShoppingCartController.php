@@ -13,21 +13,31 @@ class ShoppingCartController extends Controller
 
     /**
      * This will happen only on the menu page
+     * @param $request Request the request to process
      */
     public function loadItemIntoShoppingCart(Request $request)
     {
+        echo "item id = " . $request->input('menu_item_id') . "<br><br>";
         $item = MenuItem::find($request->input('menu_item_id'));
+        echo $item;
         $quantity_to_add = $request->input('quantity');
+        if ($quantity_to_add > 10) { // todo: make better check for this
+            return back()->with('status_bad', 'You have added to many items to the cart. Max of 10');
+        }
         $extras = [];
         $instructs = [];
-        for ($i = 0; $i < $quantity_to_add; $i++) {
+        for ($i = 1; $i <= $quantity_to_add; $i++) {
             // extras_i is an array of the extras to add to one of the
             // menu_items, doesn't matter which one as long as it is
             // consistent with special_instructions_i
             $extras[] = $request->input('extras' . $i);
             $instructs[] = $request->input('special_instructions' . $i);
         }
-        if ($this->cartHasItem($item->id)) {// currently assuming this is working
+        echo "<br><br>extras <br><br>";
+        $this->pr($extras);
+        echo "<br><br>instructs <br><br>";
+        $this->pr($instructs);
+        /*if ($this->cartHasItem($item->id)) {// currently assuming this is working
 
             // instead of either appending or deleting an instruction/extra
             // just reset each field with this new request's info
@@ -43,7 +53,7 @@ class ShoppingCartController extends Controller
                 $this->cartContainsMaxNumberOfRestaurants()
             ) {
                 return back()->with('status_bad',
-                    'The selected item could not be added because the cart would have 
+                    'The selected item could not be added because the cart would have
                     contained items originating from four different restaurants. For a
                     given order, we can only deliver food from three different restaurants
                     at this time');
@@ -59,69 +69,14 @@ class ShoppingCartController extends Controller
         }
         // TODO: flash a link to th checkout page
         return back()->with('status_good', $item->name .
-            " has been added to your cart!");
+            " has been added to your cart!");*/
     }
 
-    private function setItemInstructions($id, $instructions)
+    public function pr($x)
     {
-        $cart = Session::get('cart');
-        if ($item_index = $this->getItemIndex($id) == -1) {
-            return null;
-        }
-        $cart[$item_index]['special_instructions'] = $instructions;
-        Session::put('cart', $cart);
-    }
-
-    private function setCartItemQuantity($id, $quantity)
-    {
-        $cart = Session::get('cart');
-        if ($item_index = $this->getItemIndex($id) == -1) {
-            return;
-        }
-        $cart[$item_index]['quantity'] = $quantity;
-        Session::put('cart', $cart);
-    }
-
-    private function setItemExtras($id, $extras)
-    {
-        $cart = Session::get('cart');
-        if ($item_index = $this->getItemIndex($id) == -1) {
-            return null;
-        }
-        $cart[$item_index]['extras'] = $extras;
-        Session::put('cart', $cart);
-    }
-
-    private function itemIsFromDifferentRestaurant($id)
-    {
-        $cart = Session::get('cart');
-        foreach ($cart as $item) {
-            if ($item['menu_item_model']->id == $id) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    private function cartContainsMaxNumberOfRestaurants()
-    {
-        $cart = Session::get('cart');
-        $restaurant_set = [];
-        $num_restaurants = 0;
-        foreach ($cart as $item) {
-            $r_id = $item->restaurant->id;
-            // if $item is from a unique restaurant
-            if (!array_key_exists($r_id, $restaurant_set)) {
-                $num_restaurants++;
-                $restaurant_map[$r_id] = true;
-            }
-        }
-        return $num_restaurants == $this->getMaxRestaurantsForOrder();
-    }
-
-    private function getMaxRestaurantsForOrder()
-    {
-        return 3;
+        echo "<pre>";
+        print_r($x);
+        echo "</pre>";
     }
 
     /**
@@ -152,6 +107,36 @@ class ShoppingCartController extends Controller
         $this->setItemExtras($item->id, $extras);
         return back()->with('status_good',
             $item->name . ' updated successfully');
+    }
+
+    private function setItemInstructions($id, $instructions)
+    {
+        $cart = Session::get('cart');
+        if ($item_index = $this->getItemIndex($id) == -1) {
+            return null;
+        }
+        $cart[$item_index]['special_instructions'] = $instructions;
+        Session::put('cart', $cart);
+    }
+
+    private function setCartItemQuantity($id, $quantity)
+    {
+        $cart = Session::get('cart');
+        if ($item_index = $this->getItemIndex($id) == -1) {
+            return;
+        }
+        $cart[$item_index]['quantity'] = $quantity;
+        Session::put('cart', $cart);
+    }
+
+    private function setItemExtras($id, $extras)
+    {
+        $cart = Session::get('cart');
+        if ($item_index = $this->getItemIndex($id) == -1) {
+            return null;
+        }
+        $cart[$item_index]['extras'] = $extras;
+        Session::put('cart', $cart);
     }
 
     public function getItemAccessories($id)
@@ -222,6 +207,43 @@ class ShoppingCartController extends Controller
         return $cart[$item_index]['extras'];
     }
 
+    public function ajaxGetMenuItemAccessories($a_id)
+    {
+
+    }
+
+    private function itemIsFromDifferentRestaurant($id)
+    {
+        $cart = Session::get('cart');
+        foreach ($cart as $item) {
+            if ($item['menu_item_model']->id == $id) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private function cartContainsMaxNumberOfRestaurants()
+    {
+        $cart = Session::get('cart');
+        $restaurant_set = [];
+        $num_restaurants = 0;
+        foreach ($cart as $item) {
+            $r_id = $item->restaurant->id;
+            // if $item is from a unique restaurant
+            if (!array_key_exists($r_id, $restaurant_set)) {
+                $num_restaurants++;
+                $restaurant_map[$r_id] = true;
+            }
+        }
+        return $num_restaurants == $this->getMaxRestaurantsForOrder();
+    }
+
+    private function getMaxRestaurantsForOrder()
+    {
+        return 3;
+    }
+
     private function getMenuItemModel($id)
     {
         $cart = Session::get('cart');
@@ -240,6 +262,8 @@ class ShoppingCartController extends Controller
         }
         return $cart[$item_index]['special_instructions'];
     }
+
+    // Ajax Specific Functions
 
     private function getCartItemQuantity($id)
     {

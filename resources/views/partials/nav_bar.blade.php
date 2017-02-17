@@ -12,10 +12,9 @@
     </div>
     <div class="collapse navbar-collapse" id="navDiv">
         <ul id="navV" class="nav navbar-nav navbar-right">
-            <li><a class="active nav-links" href="{{ route('home') }}">HOME</a></li>
             <li><a class="nav-links" href="{{ route('list_restaurants') }}">ORDER NOW</a></li>
             <li><a class="nav-links" href="{{ route('about') }}">ABOUT</a></li>
-            <li><a class="nav-links" href="{{ route('support') }}">SUPPORT</a></li>
+            <li><a class="nav-links" href="{{ route('support') }}">CONTACT</a></li>
 
         @if(!empty(Session::get('cart')))
                 <li><a class="nav-links" href="{{ route('checkout') }}">CHECKOUT

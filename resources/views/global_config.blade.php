@@ -6,7 +6,6 @@
         integrity="sha256-xNjb53/rY+WmG+4L6tTl9m6PpqknWZvRt0rO1SRnJzw="
         crossorigin="anonymous"></script>
 <!-- Jquery cookie plugin -->
-<script src="{{ asset('js/lib/jquery-cookie/jquery.cookie.js') }}"></script>
 {{-- Bootstrap --}}
 <link rel="stylesheet" href= {{ asset('css/app.css') }}>
 
