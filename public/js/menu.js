@@ -179,7 +179,7 @@ function disableClicks(class_id) {
 }
 
 // Doc Ready ---------------------------------------------------------------------------------------------
-jQuery(function () {
+$(function () {
   var westside = $("#westside");
   var plus = $("#plus");
   var minus = $("#minus");
