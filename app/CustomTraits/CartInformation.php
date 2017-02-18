@@ -51,6 +51,19 @@ trait CartInformation
         return false;
     }
 
+    public function cartArrayPush($arrayToAppendTo, $arrayToAppend)
+    {
+        if (empty($arrayToAppendTo))
+            return $arrayToAppend;
+        if (empty($arrayToAppend)) {
+            return $arrayToAppendTo;
+        }
+        foreach ($arrayToAppend as $item) {
+            $arrayToAppendTo[] = $item;
+        }
+        return $arrayToAppendTo;
+    }
+
     private function maxItemInCartError($name_of_item)
     {
         return $name_of_item .
@@ -76,6 +89,7 @@ trait CartInformation
         // exact key from the array as is
         foreach ($cart as $index => $item) {
             if ($id == $cart[$index]['menu_item_model']->id) {
+                \Log::info('here');
                 return $index;
             }
         }

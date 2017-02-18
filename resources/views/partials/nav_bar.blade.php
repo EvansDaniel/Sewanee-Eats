@@ -17,8 +17,20 @@
             <li><a class="nav-links" href="{{ route('support') }}">CONTACT</a></li>
 
         @if(!empty(Session::get('cart')))
+                <script>
+                  // load number of items in the cart
+                  $(function () {
+                    $.ajax({
+                      url: API_URL + 'cart/totalQuantity',
+                      context: document.body,
+                      dataType: 'json'
+                    }).done(function (result) {
+                      $('#num-items-in-cart').text(result.num_items);
+                    });
+                  });
+                </script>
                 <li><a class="nav-links" href="{{ route('checkout') }}">CHECKOUT
-                        <u>{{ count(Session::get('cart')) }}</u></a></li>
+                        <u><span id="num-items-in-cart"></span></u></a></li>
             @endif
             @if(Auth::check() && Auth::user()->hasRole('admin'))
                 <li><a class="nav-links" href="{{ route('showAdminDashboard') }}">ADMIN DASHBOARD</a></li>

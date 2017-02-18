@@ -17,13 +17,26 @@ class ShoppingCartController extends Controller
      */
     public function loadItemIntoShoppingCart(Request $request)
     {
-        echo "item id = " . $request->input('menu_item_id') . "<br><br>";
         $item = MenuItem::find($request->input('menu_item_id'));
-        echo $item;
         $quantity_to_add = $request->input('quantity');
-        if ($quantity_to_add > 10) { // todo: make better check for this
-            return back()->with('status_bad', 'You have added to many items to the cart. Max of 10');
+        // check if adding these items will cause the cart to be overfilled
+        if ($quantity_to_add + $this->getCartQuantity() > $this->max_items_in_cart) {
+            // TODO: as convenience to user, pass cart item quantity to js so that it can limit the user artifically and this will enforce
+            return back()->with('status_bad',
+                'Adding these items will cause the cart to contain too many items. Max number of items is ' . $this->max_items_in_cart);
         }
+        // check that adding this new item will not put the cart
+        // over the max restaurant limit
+        if ($this->itemIsFromDifferentRestaurant($item->id) &&
+            $this->cartContainsMaxNumberOfRestaurants()
+        ) {
+            return back()->with('status_bad',
+                'The selected item could not be added because the cart would have
+                    contained items originating from four different restaurants. For a
+                    given order, we can only deliver food from three different restaurants
+                    at this time');
+        }
+        // get the instructions and extras
         $extras = [];
         $instructs = [];
         for ($i = 1; $i <= $quantity_to_add; $i++) {
@@ -33,31 +46,18 @@ class ShoppingCartController extends Controller
             $extras[] = $request->input('extras' . $i);
             $instructs[] = $request->input('special_instructions' . $i);
         }
-        echo "<br><br>extras <br><br>";
-        $this->pr($extras);
-        echo "<br><br>instructs <br><br>";
-        $this->pr($instructs);
-        /*if ($this->cartHasItem($item->id)) {// currently assuming this is working
 
+        if ($this->cartHasItem($item->id)) {
             // instead of either appending or deleting an instruction/extra
             // just reset each field with this new request's info
             // and each field for this menu item will be updated properly
-            $this->setItemInstructions($item->id, $instructs);
-            $this->setCartItemQuantity($item->id, $quantity_to_add);
-            $this->setItemExtras($item->id, $extras);
-        } else { // item is not in the cart
+            $item_index = $this->getItemIndex($item->id);
+            $this->addItemInstructions($item->id, $instructs, $item_index);
+            $this->addCartItemQuantity($item->id, $quantity_to_add, $item_index);
+            $this->addItemExtras($item->id, $extras, $item_index);
 
-            // check that adding this new item will not put the cart
-            // over the max restaurant limit
-            if ($this->itemIsFromDifferentRestaurant($item->id) &&
-                $this->cartContainsMaxNumberOfRestaurants()
-            ) {
-                return back()->with('status_bad',
-                    'The selected item could not be added because the cart would have
-                    contained items originating from four different restaurants. For a
-                    given order, we can only deliver food from three different restaurants
-                    at this time');
-            }
+        } else {
+            // item is not in the cart, so make it
             $new_item = [
                 'menu_item_model' => $item,
                 'quantity' => $quantity_to_add,
@@ -67,21 +67,108 @@ class ShoppingCartController extends Controller
             Session::put('cart',
                 array_prepend($cart = Session::get('cart', []), $new_item));
         }
-        // TODO: flash a link to th checkout page
-        return back()->with('status_good', $item->name .
-            " has been added to your cart!");*/
+        // make the message to the user
+        if ($quantity_to_add == 1) {
+            $add_item_message = "The item has been added to your cart!";
+        } else {
+            $add_item_message = "The items have been added to your cart!";
+        }
+        return back()->with('status_good', $add_item_message);
     }
 
-    public function pr($x)
+    private
+    function itemIsFromDifferentRestaurant($id)
+    {
+        $cart = Session::get('cart');
+        if (empty($cart)) return true;
+        foreach ($cart as $item) {
+            if ($item['menu_item_model']->id == $id) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * This will happen at the checkout/cart page
+     */
+    // TODO: fix this function
+    private
+    function cartContainsMaxNumberOfRestaurants()
+    {
+        $cart = Session::get('cart');
+        if (empty($cart)) return false;
+        $restaurant_set = [];
+        $num_restaurants = 0;
+        foreach ($cart as $item) {
+            $r_id = $item['menu_item_model']->restaurant->id;
+            // if $item is from a unique restaurant
+            if (!array_key_exists($r_id, $restaurant_set)) {
+                $num_restaurants++;
+                $restaurant_set[$r_id] = true;
+            }
+        }
+        return $num_restaurants == $this->getMaxRestaurantsForOrder();
+    }
+
+    private
+    function getMaxRestaurantsForOrder()
+    {
+        return 3;
+    }
+
+    private function addItemInstructions($id, $instructions, $item_index = -2)
+    {
+        $cart = Session::get('cart');
+        if ($item_index < 0) {
+            if (($item_index = $this->getItemIndex($id)) == -1) {
+                return null; // element does not exist
+            }
+        }
+        if (!empty($cart[$item_index]['special_instructions'])) {
+            $cart[$item_index]['special_instructions'] =
+                $this->cartArrayPush($cart[$item_index]['special_instructions'], $instructions);
+        }
+        Session::put('cart', $cart);
+    }
+
+    private
+    function addCartItemQuantity($id, $quantity, $item_index = -2)
+    {
+        $cart = Session::get('cart');
+        if ($item_index < 0) {
+            if (($item_index = $this->getItemIndex($id)) == -1) {
+                return null;
+            }
+        }
+        $cart[$item_index]['quantity'] += $quantity;
+        Session::put('cart', $cart);
+    }
+
+    private
+    function addItemExtras($id, $extras, $item_index = -2)
+    {
+        $cart = Session::get('cart');
+        if ($item_index < 0) { // not checking for out of bounds on high end, just don't mess up
+            if (($item_index = $this->getItemIndex($id)) == -1) {
+                return null;
+            }
+        }
+        if (!empty($cart[$item_index]['extras'])) {
+            $cart[$item_index]['extras'] = $this->cartArrayPush($cart[$item_index]['extras'], $extras);
+        }
+        Session::put('cart', $cart);
+    }
+
+    public
+    function pr($x)
     {
         echo "<pre>";
         print_r($x);
         echo "</pre>";
     }
 
-    /**
-     * This will happen at the checkout/cart page
-     */
+
     public function updateCartItem(Request $request)
     {
         $cart = Session::get('cart');
@@ -102,49 +189,15 @@ class ShoppingCartController extends Controller
         // instead of either appending or deleting an instruction/extra
         // just reset each field with this new request's info
         // and each field for this menu item will be updated properly
-        $this->setItemInstructions($item->id, $instructs);
-        $this->setCartItemQuantity($item->id, $quantity_to_add);
-        $this->setItemExtras($item->id, $extras);
+        $this->addItemInstructions($item->id, $instructs);
+        $this->addCartItemQuantity($item->id, $quantity_to_add);
+        $this->addItemExtras($item->id, $extras);
         return back()->with('status_good',
             $item->name . ' updated successfully');
     }
 
-    private function setItemInstructions($id, $instructions)
-    {
-        $cart = Session::get('cart');
-        if ($item_index = $this->getItemIndex($id) == -1) {
-            return null;
-        }
-        $cart[$item_index]['special_instructions'] = $instructions;
-        Session::put('cart', $cart);
-    }
-
-    private function setCartItemQuantity($id, $quantity)
-    {
-        $cart = Session::get('cart');
-        if ($item_index = $this->getItemIndex($id) == -1) {
-            return;
-        }
-        $cart[$item_index]['quantity'] = $quantity;
-        Session::put('cart', $cart);
-    }
-
-    private function setItemExtras($id, $extras)
-    {
-        $cart = Session::get('cart');
-        if ($item_index = $this->getItemIndex($id) == -1) {
-            return null;
-        }
-        $cart[$item_index]['extras'] = $extras;
-        Session::put('cart', $cart);
-    }
-
-    public function getItemAccessories($id)
-    {
-        return MenuItem::find($id)->accessories;
-    }
-
-    public function updateCart(Request $request)
+    public
+    function updateCart(Request $request)
     {
         $cart = Session::get('cart');
         if (empty($cart)) // extra sanity check
@@ -189,88 +242,47 @@ class ShoppingCartController extends Controller
             " has been updated!");
     }
 
-    public function getCartItem($id)
+    public
+    function getCartItem($id)
     {
         $cart = Session::get('cart');
-        if ($item_index = $this->getItemIndex($id) == -1) {
+        if (($item_index = $this->getItemIndex($id)) == -1) {
             return null;
         }
         return json_encode($cart[$item_index]);
     }
 
-    public function getItemExtras($id)
+
+    // HELPERS --------------------------------------------------------------------------------------------------------------------
+
+    public
+    function getItemExtras($id)
     {
         $cart = Session::get('cart');
-        if ($item_index = $this->getItemIndex($id) == -1) {
+        if (($item_index = $this->getItemIndex($id)) == -1) {
             return null;
         }
         return $cart[$item_index]['extras'];
     }
 
-    public function ajaxGetMenuItemAccessories($a_id)
-    {
-
-    }
-
-    private function itemIsFromDifferentRestaurant($id)
-    {
-        $cart = Session::get('cart');
-        foreach ($cart as $item) {
-            if ($item['menu_item_model']->id == $id) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    private function cartContainsMaxNumberOfRestaurants()
-    {
-        $cart = Session::get('cart');
-        $restaurant_set = [];
-        $num_restaurants = 0;
-        foreach ($cart as $item) {
-            $r_id = $item->restaurant->id;
-            // if $item is from a unique restaurant
-            if (!array_key_exists($r_id, $restaurant_set)) {
-                $num_restaurants++;
-                $restaurant_map[$r_id] = true;
-            }
-        }
-        return $num_restaurants == $this->getMaxRestaurantsForOrder();
-    }
-
-    private function getMaxRestaurantsForOrder()
-    {
-        return 3;
-    }
-
-    private function getMenuItemModel($id)
+    private
+    function getMenuItemModel($id)
     {
         $cart = Session::get('cart');
         if ($this->cartHasItem($id)) {
-            $item_index = $this->getItemIndex($id);
+            ($item_index = $this->getItemIndex($id));
             return $cart[$item_index]['menu_item_model'];
         }
         return null;
     }
 
-    private function getItemInstructions($id)
+    private
+    function getItemInstructions($id)
     {
         $cart = Session::get('cart');
-        if ($item_index = $this->getItemIndex($id) == -1) {
+        if (($item_index = $this->getItemIndex($id)) == -1) {
             return null;
         }
         return $cart[$item_index]['special_instructions'];
-    }
-
-    // Ajax Specific Functions
-
-    private function getCartItemQuantity($id)
-    {
-        $cart = Session::get('cart');
-        if ($item_index = $this->getItemIndex($id) == -1) {
-            return 0;
-        }
-        return $cart[$item_index]['quantity'];
     }
 }

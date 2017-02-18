@@ -167,20 +167,6 @@ function retreiveAccessories(item_id) {
   });
 }
 
-// Window finished loading -----------------------------------------------------------------------------
-
-$(window).on('load', function () {
-  $(document).on('click', '.menu-li', function () {
-    loadModal($(this).find('.menu-item'));
-  });
-  $('.menu-li').each(function () {
-    $(this).attr('data-toggle', 'modal');
-    $(this).attr('data-target', '#add-to-cart-modal');
-    // enable clicking
-    $(this).off('click', retFalse);
-  });
-});
-
 function retFalse() {
   return false;
 }
@@ -198,12 +184,24 @@ $(function () {
   var plus = $("#plus");
   var minus = $("#minus");
   var qty = $("#quantity");
-  var MIN_ITEMS = 1, MAX_ITEMS = 10;
+  var MIN_ITEMS = 1, MAX_ITEMS = 10, CART_QUANTITY = (parseInt($('#num-items-in-cart').text()) || 0);
+  p(CART_QUANTITY);
+  docReadyInit();
 
-  // disable/lock click events on each menu item until
-  // page completely loads. This is so ajax will fire properly
-  // TODO: Is there any way to make this better
-  disableClicks('.menu-li');
+  function docReadyInit() {
+    initPopUpView();
+    /*if(CURRENT_NUM_ITEMS == MAX_ITEMS) {
+     $('#add-to-cart-button').prop('disabled',true);
+     }*/
+
+    // load text for a potential error message to user about the max items in the cart
+    $('#max-items-exceeded-error').text('The max allowable items in the cart is ' + MAX_ITEMS);
+
+    // disable/lock click events on each menu item until
+    // page completely loads. This is so ajax will fire properly
+    // TODO: Is there any way to make this better
+    disableClicks('.menu-li');
+  }
 
   $('#add-to-cart-modal').on('hidden.bs.modal', function () {
     var q = $('#quantity').val();
@@ -225,8 +223,6 @@ $(function () {
       }
       i++;
     });
-
-
     // reset quantity of items to 1
     setVal(qty, 1);
   }
@@ -242,17 +238,18 @@ $(function () {
     $('#quantity').prop('readonly', true);
   }
 
-  initPopUpView();
-
 
   plus.click(function () {
     var i = getVal(qty);
     i = parseInt(i);
-    i++;
-    setVal(qty, i); // set value of the new quantity
-    if (i > MIN_ITEMS && i <= MAX_ITEMS) {
+    if (i >= MIN_ITEMS && (CART_QUANTITY + i) < MAX_ITEMS) {
+      ++i;
+      setVal(qty, i); // set value of the new quantity
+      $('#max-items-exceeded-error').hide();
       addAnotherOrderButton(i);
     } else {
+      // show the span
+      $('#max-items-exceeded-error').show();
       // MAX_ITEMS REACHED, set the value back
       qty.val(MAX_ITEMS);
     }
@@ -328,18 +325,35 @@ $(function () {
 
   minus.click(function () {
     var i = getVal(qty);
+    if (i == MAX_ITEMS) { // hide b/c we are subtracting one when it is at max items
+      $('#max-items-exceeded-error').hide();
+    }
     i = parseInt(i);
     if (i <= 1) {
       setVal(qty, i);
     }
     else {
       if (i > 1) {
-        removeAnotherButton(i)
+        removeAnotherButton(i);
+        i--;
+        setVal(qty, i);
       }
-      i--;
-      setVal(qty, i);
     }
     // maintain the current checkbox/textarea info during quantity changes
     loadCheckBoxAndSIInfo();
   });
-});
+
+
+  // KEEP THIS AT THE BOTTOM OF DOCUMENT ON READY
+  // THIS CODE SHOULD RUN LAST
+  $(document).on('click', '.menu-li', function () {
+    loadModal($(this).find('.menu-item'));
+  });
+  $('.menu-li').each(function () {
+    $(this).attr('data-toggle', 'modal');
+    $(this).attr('data-target', '#add-to-cart-modal');
+    // enable clicking
+    $(this).off('click', retFalse);
+  });
+
+}); // end document ready

@@ -52,6 +52,11 @@ Route::post('cart/update/{id}', 'ShoppingCartController@updateCart')
 Route::get('checkout', 'CheckoutController@showCheckoutPage')
     ->name('checkout');
 
+Route::get('sessionClear', function () {
+    Session::flush();
+    return back();
+})->name('sessionClear');
+
 // Admin Routes
 Route::group(['prefix' => 'admin',
     'namespace' => 'Admin',
@@ -187,11 +192,13 @@ Route::get('testEmail', 'CheckoutController@testEmail')
 // Event routes
 Route::get('testEvent', function () {
     $order = new Order;
+    // TODO: add event logic to listener
     Event::fire(new NewOrderReceived($order));
 });
 
 
 // Api Routes for Ajax
+// TODO: add relevant query parameters that tell server how the user would like to receive response for each api endpoint
 Route::group(['prefix' => 'api/v1/',
     'namespace' => 'Api'], function () {
     Route::group(['prefix' => 'couriers'], function () {
@@ -204,22 +211,14 @@ Route::group(['prefix' => 'api/v1/',
             'CourierController@userIsAvailable')
             ->name('userIsAvailable');
     });
-
-    Route::get('menuItems/{id}/freeAndPricyAccessories', function ($id) {
-        $menu_item = MenuItem::find($id);
-        $pricy = [];
-        $free = [];
-        foreach ($menu_item->accessories as $accessory) {
-            if ($accessory->price == 0) { // free
-                $free[] = $accessory;
-            } else { // pricy
-                $pricy[] = $accessory;
-            }
-        }
-        $accessories = ['accs' => ['free' => $free, 'pricy' => $pricy]];
-        return json_encode($accessories);
+    Route::group(['prefix' => 'menuItems'], function () {
+        Route::get('{id}/freeAndPricyAccessories', 'MenuItemInfoController@ajaxGetMenuItemAccessories');
     });
 
+    Route::group(['prefix' => 'cart'], function () {
+
+        Route::get('totalQuantity', 'CartInfoController@cartQuantity');
+    });
 });
 
 // TODO: Protect the register route with CheckRole admin

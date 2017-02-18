@@ -16,9 +16,6 @@
                 <img class="img-circle" src="{{asset('images/ivy_wild.jpg')}}">
             </div>
         </div>
-        @if(Session::get('cart'))
-            <?php echo "<pre>"; print_r(Session::get('cart')); echo "</pre>"; ?>
-        @endif
         <div class="panel panel-default">
 
             {{--<h1 align="center">{{ $restaurant->name }}'s Menu</h1>--}}
@@ -60,6 +57,11 @@
         </div>
     </div>
 
+    <a href="{{ route('sessionClear') }}">Clear Session</a>
+    @if(Session::get('cart'))
+        <?php echo "<pre>"; print_r(Session::get('cart')); echo "</pre>"; ?>
+    @endif
+
     <div class="modal fade" id="add-to-cart-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -67,6 +69,7 @@
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                                 aria-hidden="true">&times</span></button>
                     <h4 class="modal-title" style="color: black;" id="show-item-name"></h4>
+                    <strong><span id="max-items-exceeded-error" style="display: none"></span></strong>
                 </div>
                 <div class="modal-body">
                     <form action="{{ route('addToCart') }}" method="post">

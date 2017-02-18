@@ -13,6 +13,7 @@
 <div id="main-container" class="container-fluid">
     @include('partials.nav_bar')
     <!-- Status messages to user about what they are doing -->
+        <br><br><br><br>
     @include('partials.backend_messages')
     @yield('body')
     <div id="push-div"></div>
