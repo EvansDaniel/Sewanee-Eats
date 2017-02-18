@@ -15,7 +15,7 @@
     <!-- Status messages to user about what they are doing -->
         <br><br><br><br>
     @include('partials.backend_messages')
-        <strong><h1>HELLO WORLD THIS IS ME</h1></strong>
+        <strong><h1>HELLO WORLD IS ME</h1></strong>
     @yield('body')
     <div id="push-div"></div>
     <footer id="footer" class="col-xs-offset-1 col-md-offset-1 col-sm-offset-1 col-lg-offset-1">
