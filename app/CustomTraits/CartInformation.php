@@ -38,19 +38,6 @@ trait CartInformation
         return $number_of_items;
     }
 
-    public function cartHasItem($id)
-    {
-        $cart = Session::get('cart', []);
-        if (empty($cart)) {
-            return false;
-        }
-        foreach ($cart as $cart_item) {
-            if ($cart_item['menu_item_model']->id == $id)
-                return true;
-        }
-        return false;
-    }
-
     public
     function itemIsFromDifferentRestaurant($r_id)
     {
@@ -102,16 +89,74 @@ trait CartInformation
     }
 
     public
-    function addItemExtras($id, $extras, $item_index = -2)
+    function getCartItem($id)
     {
         $cart = Session::get('cart');
-        if ($item_index < 0) { // not checking for out of bounds on high end, just don't mess up
+        if (($item_index = $this->getItemIndex($id)) == -1) {
+            return null;
+        }
+        return json_encode($cart[$item_index]);
+    }
+
+    public
+    function getItemExtras($id)
+    {
+        $cart = Session::get('cart');
+        if (($item_index = $this->getItemIndex($id)) == -1) {
+            return null;
+        }
+        return $cart[$item_index]['extras'];
+    }
+
+    public
+    function getMenuItemModel($id)
+    {
+        $cart = Session::get('cart');
+        if ($this->cartHasItem($id)) {
+            ($item_index = $this->getItemIndex($id));
+            return $cart[$item_index]['menu_item_model'];
+        }
+        return null;
+    }
+
+    public function cartHasItem($id)
+    {
+        $cart = Session::get('cart', []);
+        if (empty($cart)) {
+            return false;
+        }
+        foreach ($cart as $cart_item) {
+            if ($cart_item['menu_item_model']->id == $id)
+                return true;
+        }
+        return false;
+    }
+
+    public
+    function getItemInstructions($id)
+    {
+        $cart = Session::get('cart');
+        if (($item_index = $this->getItemIndex($id)) == -1) {
+            return null;
+        }
+        return $cart[$item_index]['special_instructions'];
+    }
+
+    /**
+     * This will happen at the checkout/cart page
+     */
+    // TODO: fix this function
+    public function addItemInstructions($id, $instructions, $item_index = -2)
+    {
+        $cart = Session::get('cart');
+        if ($item_index < 0) {
             if (($item_index = $this->getItemIndex($id)) == -1) {
-                return null;
+                return null; // element does not exist
             }
         }
-        if (!empty($cart[$item_index]['extras'])) {
-            $cart[$item_index]['extras'] = $this->cartArrayPush($cart[$item_index]['extras'], $extras);
+        if (!empty($cart[$item_index]['special_instructions'])) {
+            $cart[$item_index]['special_instructions'] =
+                $this->cartArrayPush($cart[$item_index]['special_instructions'], $instructions);
         }
         Session::put('cart', $cart);
     }
@@ -127,6 +172,21 @@ trait CartInformation
             $arrayToAppendTo[] = $item;
         }
         return $arrayToAppendTo;
+    }
+
+    public
+    function addItemExtras($id, $extras, $item_index = -2)
+    {
+        $cart = Session::get('cart');
+        if ($item_index < 0) { // not checking for out of bounds on high end, just don't mess up
+            if (($item_index = $this->getItemIndex($id)) == -1) {
+                return null;
+            }
+        }
+        if (!empty($cart[$item_index]['extras'])) {
+            $cart[$item_index]['extras'] = $this->cartArrayPush($cart[$item_index]['extras'], $extras);
+        }
+        Session::put('cart', $cart);
     }
 
     private function maxItemInCartError($name_of_item)

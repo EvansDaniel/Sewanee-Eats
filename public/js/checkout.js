@@ -42,7 +42,7 @@ var docInit = function () {
       var url = API_URL + 'checkout/updateExtras/' +
       check.data('model-id') + '/' + check.data('index');
       var data = {accessory: parseInt(check.val())};
-      doneEditing(url, data);
+      doneEditingForm(url, data);
     });
   });
 }();
@@ -53,10 +53,9 @@ function doneTyping(si) {
   // Submit an ajax request and reload the data
   var url = API_URL + 'checkout/updateInstructions/'
   + si.data('model-id') + '/' + si.data('index');
-  doneEditing(url, data);
+  doneEditingForm(url, data);
 }
-
-function doneEditing(url, data) {
+function doneEditingForm(url, data) {
   $.ajax({
     type: "POST",
     url: url,
@@ -85,6 +84,52 @@ function doneEditing(url, data) {
   }).done(function (result) {
 
   });
+}
+
+function deleteItemFromCart(button) {
+  var delButton = $('#' + button.id);
+  var url = API_URL + 'checkout/deleteItem/' +
+  delButton.data('model-id') + '/' + delButton.data('item-index');
+  $.ajax({
+    type: "POST",
+    url: url,
+    context: document.body,
+    headers: {
+      'X-CSRF-TOKEN': $('#x').attr('content')
+    },
+    error: function () {
+      // TODO: error deleting item from the cart
+    }
+  }).done(function (res) {
+    delButton.parent().parent().hide('slow', function () {
+      updateUIAfterDeleteItem(delButton, res);
+    });
+  });
+}
+
+function updateUIAfterDeleteItem(delButton, res) {
+  delButton.remove();
+
+  // update the counter
+  var counter = $('#num-items-in-cart');
+  var currentCount = parseInt(counter.text());
+  counter.text(--currentCount);
+
+  // give a message to the user if cart empty and hide payment form???
+  if (currentCount == 0) {
+    $('#main-payment-form').hide('slow');
+    setTimeout(function () {
+      $('#main-container').append(
+      '<div align="center"><h1>You don\'t have any items in your cart!</h1>' +
+      '<a href="' + getBaseUrl() + '/restaurants">' +
+      'Start your order here</a></div>'
+      )
+    }, 250);
+  } else { // cart isn't empty
+    // update the cost
+    $('#subtotal').text(res.subtotal);
+    $('#total-price').text(res.totalPrice);
+  }
 }
 
 function validatePayForm() {

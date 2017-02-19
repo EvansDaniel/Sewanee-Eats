@@ -14,11 +14,12 @@
 @section('body')
     <form action="{{ route('handleCheckout') }}" method="POST" id="payment-form">
         {{ csrf_field() }}
-        <div class="container">
+        <div class="container" id="main-container">
         @if(empty(Session::get('cart')) || Session::get('cart') == null)
-            <!-- TODO: need better message here -->
-                <h1>Not items in your cart</h1>
-                <a href="{{ route('list_restaurants') }}">Start your order here</a>
+                <div align="center">
+                    <h1>You don't have any items in your cart!</h1>
+                    <a href="{{ route('list_restaurants') }}">Start your order here</a>
+                </div>
             @else
                 <h1>Your Food</h1>
                 <ul.cart>
@@ -31,6 +32,13 @@
                                         <div><h3>{{ $order['menu_item_model']->name }}</h3></div>
                                         <div>{{ $order['menu_item_model']->price }}</div>
                                         <div>{{ $order['menu_item_model']->description }}</div>
+                                        <button class="btn btn-primary"
+                                                id="dfc-{{ $order['menu_item_model']->id }}-{{ $i }}"
+                                                data-model-id="{{ $order['menu_item_model']->id }}"
+                                                data-item-index="{{ $i }}"
+                                                onclick="deleteItemFromCart(this)"
+                                                type="button">Delete from cart
+                                        </button>
                                     </div>
                                     <input type="hidden" name="cart_item_id"
                                            value="{{ $order['menu_item_model']->id }}">
@@ -39,64 +47,61 @@
                                             <button type="button" class="checkout-btn" onclick="showInstruction(this)">
                                                 Add Special Instructions
                                             </button>
-                                            <div style="display: none;">
-                                            @else <!-- Make the div hidden or not -->
-                                                <div>
-                                                    @endif
-                                                    <label for="si-id">Special
-                                                        instructions</label>
-                                                    <div class="container row ">
+                                    @endif <!-- Make the div hidden or not -->
+                                        <div style="display: {{ empty($order['special_instructions'][$i]) ? "none" : "block"}};">
+                                            <label for="si-id">Special
+                                                instructions</label>
+                                            <div class="container row">
                                                <textarea id="si-id-{{$order['menu_item_model']->id}}-{{$i}}"
                                                          class="si"
                                                          data-model-id="{{$order['menu_item_model']->id}}"
                                                          data-index="{{$i}}"
                                                          name="special_instructions">{{ $order['special_instructions'][$i] }}</textarea>
-                                                    </div>
-                                                    <input name="special_instructions" type="hidden"
-                                                           value="{{ $order['special_instructions'][$i] }}">
-                                                </div>
-
                                             </div>
-                                            <div class="row">
-                                                <br><br>
-                                                @if(empty($order['extras'][$i]))
-                                                    <div class="extras">
-                                                        <button type="button" onclick="showExtras(this)"
-                                                                class="btn btn-primary">
-                                                            Add extras
-                                                        </button>
-                                                        <div style="display: none">
-                                                            @else
-                                                                <div>
-                                                                    @endif
-                                                                    <label for="extras">Select items accessories</label>
-                                                                    @foreach($order['menu_item_model']->accessories as $acc)
-                                                                        <div class="checkbox">
-                                                                            <label for="acc">
-                                                                                @if(!(empty($order['extras'][$i])) && in_array($acc->id,$order['extras'][$i]))
-                                                                                    <input id="acc-{{$i}}-{{$acc->id}}"
-                                                                                           name="extras[{{$i}}]"
-                                                                                           type="checkbox"
-                                                                                           data-model-id="{{$order['menu_item_model']->id}}"
-                                                                                           data-index="{{$i}}"
-                                                                                           checked class="acc-check"
-                                                                                           value="{{ $acc->id }}">
-                                                                                    {{ $acc->name . "  $" . $acc->price }}
-                                                                                @else
-                                                                                    <input id="acc-{{$i}}-{{$acc->id}}"
-                                                                                           name="extras{{$i}}[]"
-                                                                                           type="checkbox"
-                                                                                           class="acc-check"
-                                                                                           data-model-id="{{$order['menu_item_model']->id}}"
-                                                                                           data-index="{{$i}}"
-                                                                                           value="{{ $acc->id }}">
-                                                                                    {{ $acc->name . "  $" . $acc->price }}
-                                                                                @endif
-                                                                            </label>
-                                                                        </div>
-                                                                    @endforeach
-                                                                </div>
-                                                        </div>
+                                            <input name="special_instructions" type="hidden"
+                                                   value="{{ $order['special_instructions'][$i] }}">
+                                        </div>
+                                    </div>
+                                    <br><br>
+                                    <div class="row">
+                                        @if(empty($order['extras'][$i]))
+                                            <button type="button"
+                                                    onclick="showExtras(this)"
+                                                    class="btn btn-primary">
+                                                Add extras
+                                            </button>
+                                        @endif
+                                        <div class="row"
+                                             style="display: {{ empty($order['extras'][$i]) ? "none" : "block"}};">
+                                            <label for="extras">Select items accessories</label>
+                                            @foreach($order['menu_item_model']->accessories as $acc)
+                                                <div class="checkbox">
+                                                    <label for="acc">
+                                                        @if(!(empty($order['extras'][$i])) && in_array($acc->id,$order['extras'][$i]))
+                                                            <input id="acc-{{$i}}-{{$acc->id}}"
+                                                                   name="extras[{{$i}}]"
+                                                                   type="checkbox"
+                                                                   data-model-id="{{$order['menu_item_model']->id}}"
+                                                                   data-index="{{$i}}"
+                                                                   checked class="acc-check"
+                                                                   value="{{ $acc->id }}">
+                                                            {{ $acc->name . "  $" . $acc->price }}
+                                                        @else
+                                                            <input id="acc-{{$i}}-{{$acc->id}}"
+                                                                   name="extras{{$i}}[]"
+                                                                   type="checkbox"
+                                                                   class="acc-check"
+                                                                   data-model-id="{{$order['menu_item_model']->id}}"
+                                                                   data-index="{{$i}}"
+                                                                   value="{{ $acc->id }}">
+                                                            {{ $acc->name . "  $" . $acc->price }}
+                                                        @endif
+                                                    </label>
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                </div>
                             @endfor
                         </li.cart>
                         <hr>
@@ -105,8 +110,8 @@
             @endif
         </div>
         <!-- Show checkout info only if we are on the checkout page -->
-        @if(!empty(Session::get('cart')) || Session::get('cart') == null)
-            <div class="cart">
+        @if(!empty(Session::get('cart')) && Session::get('cart') != null)
+            <div class="cart" id="main-payment-form">
                 <!-- Payment information -->
                 <h4>Enter your information to pay:</h4>
                 <span class="payment-errors"></span>
@@ -138,8 +143,8 @@
                 <input type="tel" name="phone_number" id="phone-number" required>
                 <div style="color:red">TODO: compute the delivery time in the back end</div>
                 <div>Expected delivery time: 12:30pm</div>
-                <div>Subtotal: {{ $cost_before_fees }}</div>
-                <div>Order Total: ${{ $total_price }}</div>
+                <div>Subtotal: $<span id="subtotal">{{ $cost_before_fees }}</span></div>
+                <div>Order Total: $<span id="total-price">{{ $total_price }}</span></div>
                 <button type="submit" id="pay-now-button" onclick="checkPayNow(event)" class="checkout-btn">Pay Now
                 </button>
             </div>
@@ -147,11 +152,6 @@
     </form>
 
     <!-- End payment information -->
-
-
-    <div class="container">
-
-    </div>
 
     <!-- Strip payment script -->
     <script>

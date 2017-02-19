@@ -46,9 +46,6 @@ Route::get('restaurants/{id}', 'RestaurantController@showMenu')
 Route::post('cart/store', 'ShoppingCartController@loadItemIntoShoppingCart')
     ->name('addToCart');
 
-Route::post('cart/update', 'ShoppingCartController@updateCartItem')
-    ->name('updateCartItem');
-
 Route::get('checkout', 'CheckoutController@showCheckoutPage')
     ->name('checkout');
 
@@ -223,6 +220,7 @@ Route::group(['prefix' => 'api/v1/',
         Route::post('updateInstructions/{model_id}/{si_index}', 'CheckoutController@updateSpecialInstructionForItem');
         Route::post('updateExtras/{model_id}/{extras_index}', 'CheckoutController@updateAccessoryForItem');
         Route::post('getItem/{id}', 'CheckoutController@getCheckoutItem');
+        Route::post('deleteItem/{model_id}/{item_index}', 'CheckoutController@deleteFromCart');
     });
 });
 
