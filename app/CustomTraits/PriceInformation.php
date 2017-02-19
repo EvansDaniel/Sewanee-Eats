@@ -2,15 +2,17 @@
 
 namespace App\CustomTraits;
 
+use App\Models\Accessory;
 use Session;
 
 trait PriceInformation
 {
     use CartInformation;
 
-    public function getTotalPrice()
+    public function getTotalPrice($subtotal = null)
     {
-        return round($this->getSubTotal() * $this->getStateTax(), 2);
+        if ($subtotal == null) $subtotal = $this->getSubTotal();
+        return round($subtotal * $this->getStateTax(), 2);
     }
 
     /**
@@ -34,9 +36,23 @@ trait PriceInformation
             return null;
         }
         $price = 0;
+        // used to keep track of already looked up accessories
+        $acc_price_map = [];
         foreach ($cart as $cart_item) {
             $price += $cart_item['menu_item_model']->price
                 * $cart_item['quantity'];
+            foreach ($cart_item['extras'] as $item_extras) {
+                // check if the user added extras for this item
+                if (!empty($item_extras)) {
+                    foreach ($item_extras as $acc_id) {
+                        // look up accessory if we didn't already find it
+                        if (!array_key_exists($acc_id, $acc_price_map)) {
+                            $acc_price_map[$acc_id] = Accessory::find($acc_id)->price;
+                        }
+                        $price += $acc_price_map[$acc_id];
+                    }
+                }
+            }
         }
         return round($price, 2);
     }

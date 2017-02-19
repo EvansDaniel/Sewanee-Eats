@@ -15,7 +15,9 @@
     <form action="{{ route('handleCheckout') }}" method="POST" id="payment-form">
         {{ csrf_field() }}
         <div class="container" id="main-container">
-        @if(empty(Session::get('cart')) || Session::get('cart') == null)
+            @if(empty(Session::get('cart')) || Session::get('cart') == null)
+                <h1>Your Food</h1>
+                <hr>
                 <div align="center">
                     <h1>You don't have any items in your cart!</h1>
                     <a href="{{ route('list_restaurants') }}">Start your order here</a>
@@ -79,7 +81,7 @@
                                                     <label for="acc">
                                                         @if(!(empty($order['extras'][$i])) && in_array($acc->id,$order['extras'][$i]))
                                                             <input id="acc-{{$i}}-{{$acc->id}}"
-                                                                   name="extras[{{$i}}]"
+                                                                   name="extras{{$i}}[]"
                                                                    type="checkbox"
                                                                    data-model-id="{{$order['menu_item_model']->id}}"
                                                                    data-index="{{$i}}"
@@ -114,36 +116,42 @@
             <div class="cart" id="main-payment-form">
                 <!-- Payment information -->
                 <h4>Enter your information to pay:</h4>
-                <span class="payment-errors"></span>
-                <div class="form-row">
+                <span class="" style="display: none" id="payment-errors"></span>
+                <div class="form-group">
                     <label>
                         <span>Card Number</span>
-                        <input type="text" size="20" data-stripe="number">
+                        <input class="pay-input form-control" type="text" id="card-number" size="20"
+                               data-stripe="number">
                     </label>
                 </div>
 
-                <div class="form-row">
+                <div class="form-group">
                     <label>
                         <span>Expiration (MM/YY)</span>
-                        <input type="text" size="2" data-stripe="exp_month">
+                        <input class="pay-input" type="text" size="2" id="exp-month" maxlength="2"
+                               data-stripe="exp_month">
                     </label>
-                    <span> / </span>
-                    <input type="text" size="2" data-stripe="exp_year">
+                    {{--<span> / </span>--}}
+                    <input class="pay-input" type="text" size="4" id="exp-year" maxlength="4" data-stripe="exp_year">
                 </div>
 
-                <div class="form-row">
+                <div class="form-group">
                     <label>
                         <span>CVC</span>
-                        <input type="text" size="4" data-stripe="cvc">
+                        <input class="pay-input" type="text" size="4" maxlength="4" id="cvc" data-stripe="cvc">
                     </label>
                 </div>
-                <label for="location">Where should we deliver the food?</label>
-                <input type="text" name="location" id="location" required>
-                <label for="phone-number">Please enter your phone number</label>
-                <input type="tel" name="phone_number" id="phone-number" required>
+                <div class="form-group">
+                    <label for="location">Where should we deliver the food?</label>
+                    <input class="form-control pay-input" type="text" name="location" id="location">
+                    <label for="phone-number">Please enter your phone number</label>
+                    <input class="form-control pay-input" maxlength="10" placeholder="10 digits, only numbers"
+                           type="tel"
+                           name="phone_number" id="phone-number">
+                </div>
                 <div style="color:red">TODO: compute the delivery time in the back end</div>
                 <div>Expected delivery time: 12:30pm</div>
-                <div>Subtotal: $<span id="subtotal">{{ $cost_before_fees }}</span></div>
+                <div>Subtotal: $<span id="subtotal">{{ $subtotal }}</span></div>
                 <div>Order Total: $<span id="total-price">{{ $total_price }}</span></div>
                 <button type="submit" id="pay-now-button" onclick="checkPayNow(event)" class="checkout-btn">Pay Now
                 </button>
@@ -155,44 +163,54 @@
 
     <!-- Strip payment script -->
     <script>
-        /*Stripe.setPublishableKey('pk_test_GALLn3YWDPqPycDBzdxuMz2z');
+      Stripe.setPublishableKey('pk_test_GALLn3YWDPqPycDBzdxuMz2z');
 
-         $(function () {
-         var $form = $('#payment-form');
-         $form.submit(function (event) {
-         // Disable the submit button to prevent repeated clicks:
-         $form.find('.submit').prop('disabled', true);
+      $(function () {
+        var $form = $('#payment-form');
+        $form.submit(function (event) {
+          // Disable the submit button to prevent repeated clicks:
+          $form.find('.submit').prop('disabled', true);
 
-         // Request a token from Stripe:
-         Stripe.card.createToken($form, stripeResponseHandler);
+            /*var message = validPayForm(true);
+             if (message !== null) { // an error message was returned
+             $('#payment-errors').show().text(message);
+             event.preventDefault();
+             $form.find('.submit').prop('disabled', false);
+             return false;
+             }*/
 
-         // Prevent the form from being submitted:
-         return false;
-         });
-         });
+          // Request a token from Stripe:
+          Stripe.card.createToken($form, stripeResponseHandler);
 
-         function stripeResponseHandler(status, response) {
-         // Grab the form:
-         var $form = $('#payment-form');
+          // Prevent the form from being submitted:
+          event.preventDefault();
+          return false;
+        });
+      });
 
-         if (response.error) { // Problem!
+      function stripeResponseHandler(status, response) {
+        // Grab the form:
+        var $form = $('#payment-form');
 
-         // Show the errors on the form:
-         $form.find('.payment-errors').text(response.error.message);
-         $form.find('.submit').prop('disabled', false); // Re-enable submission
+        p('in response handler');
+        if (response.error) { // Problem!
 
-         } else { // Token was created!
+          // Show the errors on the form:
+          $form.find('.payment-errors').text(response.error.message);
+          $form.find('.submit').prop('disabled', false); // Re-enable submission
 
-         // Get the token ID:
-         var token = response.id;
+        } else { // Token was created!
 
-         // Insert the token ID into the form so it gets submitted to the server:
-         $form.append($('<input type="hidden" name="stripeToken">').val(token));
+          // Get the token ID:
+          var token = response.id;
 
-         // Submit the form:
-         $form.get(0).submit();
-         }
-         }*/
+          // Insert the token ID into the form so it gets submitted to the server:
+          $form.append($('<input type="hidden" name="stripeToken">').val(token));
+
+          // Submit the form:
+          $form.get(0).submit();
+        }
+      }
 
     </script>
 

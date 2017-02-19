@@ -49,17 +49,15 @@ class CheckoutController extends Controller
         $saved_index = -1;
         foreach ($cart as $cart_item_index => $cart_item) {
             if ($model_id == $cart_item['menu_item_model']->id) {
-                \Log::info('in model id');
                 $saved_index = $cart_item_index;
                 if (!empty($cart[$cart_item_index]['extras'][$extras_index])) {
                     foreach ($cart[$cart_item_index]['extras'][$extras_index] as $extra_index_id => $extra_id) {
                         if ($extra_id == $acc->id) {
-                            \Log::info('in extra id');
                             unset($cart[$cart_item_index]['extras'][$extras_index][$extra_index_id]);
                             $cart[$cart_item_index]['extras'][$extras_index] =
                                 array_values($cart[$cart_item_index]['extras'][$extras_index]);
                             Session::put('cart', $cart);
-                            return $acc;
+                            return $this->getPriceResponse();
                         }
                     }
                 } else {
@@ -74,9 +72,18 @@ class CheckoutController extends Controller
 
         // accessory wasn't found so add this accessory
         $cart[$saved_index]['extras'][$extras_index][] = $acc->id;
-        \Log::info($cart[$saved_index]['extras'][$extras_index]);
         Session::put('cart', $cart);
-        return response(null, 200);
+        return $this->getPriceResponse();
+    }
+
+    private function getPriceResponse()
+    {
+        $subtotal = $this->getSubTotal();
+        $response = [
+            'totalPrice' => $this->getTotalPrice($subtotal),
+            'subtotal' => $subtotal
+        ];
+        return response($response, 200);
     }
 
     public function getCheckoutItem($id)
@@ -89,7 +96,9 @@ class CheckoutController extends Controller
             if ($item['menu_item_model']->id == $id)
                 return json_encode($item);
         }
-        return response(null, 200);
+        return response(json_encode([
+            'error' => 'The requested item was not found '
+        ]), 400);
     }
 
     /**
@@ -130,10 +139,6 @@ class CheckoutController extends Controller
         }
         // save cart back to session
         Session::put('cart', $cart);
-        $response = [
-            'totalPrice' => $this->getTotalPrice(),
-            'subtotal' => $this->getSubTotal()
-        ];
-        return response($response, 200);
+        return $this->getPriceResponse();
     }
 }

@@ -72,11 +72,6 @@
         </div>
     </div>
 
-    <a href="{{ route('sessionClear') }}">Clear Session</a>
-    @if(Session::get('cart'))
-        <?php echo "<pre>"; print_r(Session::get('cart')); echo "</pre>"; ?>
-    @endif
-
     <div class="modal fade" id="add-to-cart-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">

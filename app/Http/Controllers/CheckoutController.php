@@ -15,10 +15,10 @@ class CheckoutController extends Controller
     public function showCheckoutPage()
     {
         // nothing in cart so redirect to the home page
-        $cost_before_fees = $this->priceBeforeFeesFromCart();
+        $subtotal = $this->getSubTotal();
         // TODO: dynamically fill in location that gets passed to getTotalPrice
-        $total_price = $this->getTotalPrice();
-        return view('checkout', compact('total_price', 'cost_before_fees'));
+        $total_price = $this->getTotalPrice($subtotal);
+        return view('checkout', compact('total_price', 'subtotal'));
     }
 
     public function testEmail()
@@ -54,7 +54,10 @@ class CheckoutController extends Controller
         print_r($request->all());
         echo "</pre>";
 
+        return back()->with('status_good', 'Order would have been processed but we are stopping it for now');
+
         // Charge the user's card:
+        // TODO: email the user a receipt of purchase w/ order info, could be basically the same as the courier email view
         $charge = \Stripe\Charge::create(array(
             "amount" => $this->getTotalPrice() * 100,
             "currency" => "usd",

@@ -1,4 +1,4 @@
-var AJAX_DONE = false;
+var AJAX_DONE = true;
 var SUBMIT_FORM = false;
 // we need a timer for each text area so that
 // we don't overwrite the timer in case the user
@@ -36,6 +36,7 @@ var docInit = function () {
 
   // Init events on checkboxes
   $('.acc-check').each(function () {
+    // TODO: provide this same functionality when the user clicks on the entire label
     //var check = $('#' + this.id);
     var check = $(this);
     check.on('change', function () {
@@ -44,6 +45,20 @@ var docInit = function () {
       var data = {accessory: parseInt(check.val())};
       doneEditingForm(url, data);
     });
+  });
+  // Validation handlers
+  var payInputs = $('.pay-input');
+  payInputs.on('change', function () {
+    var message = validPayForm(false);
+    if (message != null) {
+      $('#payment-errors').show().text(message);
+    }
+  });
+  payInputs.on('keyup', function () {
+    var message = validPayForm(false);
+    if (message != null) {
+      $('#payment-errors').show().text(message);
+    }
   });
 }();
 
@@ -74,15 +89,23 @@ function doneEditingForm(url, data) {
       if (SUBMIT_FORM) {
         p('inside submit form');
         // TODO: fill in logic of validatePayForm()
-        if (validatePayForm()) {
+        var message = validPayForm(true);
+        // TODO: test pretend card numbers, for now leave this as message = null
+        message = null;
+        if (message == null) {
           $('#payment-form').submit();
         } else {
-          // TODO: show error message
+          $('#payment-errors').show().text(message);
         }
       }
     }
-  }).done(function (result) {
-
+  }).done(function (res) {
+    p('called and finished doneEditing');
+    // update price shown to user
+    if (res != null && res.subtotal && res.totalPrice) {
+      $('#subtotal').text(res.subtotal);
+      $('#total-price').text(res.totalPrice);
+    }
   });
 }
 
@@ -117,7 +140,9 @@ function updateUIAfterDeleteItem(delButton, res) {
 
   // give a message to the user if cart empty and hide payment form???
   if (currentCount == 0) {
-    $('#main-payment-form').hide('slow');
+    $('#main-payment-form').hide('slow', function () {
+      $(this).remove();
+    });
     setTimeout(function () {
       $('#main-container').append(
       '<div align="center"><h1>You don\'t have any items in your cart!</h1>' +
@@ -125,15 +150,63 @@ function updateUIAfterDeleteItem(delButton, res) {
       'Start your order here</a></div>'
       )
     }, 250);
+    $('#checkout-link').hide();
   } else { // cart isn't empty
     // update the cost
-    $('#subtotal').text(res.subtotal);
-    $('#total-price').text(res.totalPrice);
+    if (res != null) { // server error otherwise
+      $('#subtotal').text(res.subtotal);
+      $('#total-price').text(res.totalPrice);
+    }
   }
 }
 
-function validatePayForm() {
-  return false;
+function validPayForm(focus) {
+  var payFormError = $('#payment-form-error');
+  var expMonth = $('#exp-month');
+  var expYear = $('#exp-year');
+  var cvc = $('#cvc');
+  var cardNumber = $('#card-number');
+  var location = $('#location');
+  var phoneNumber = $('#phone-number');
+
+  // Card validation start
+  p('dsljfghsd here0');
+  if (!Stripe.card.validateCardNumber(cardNumber.val())) {
+    p('dsljfghsd here');
+    if (focus) cardNumber.focus();
+    return 'The card number provided is invalid';
+  } else {
+    payFormError.hide()
+  }
+  if (!Stripe.card.validateExpiry(expMonth.val(), expYear.val())) {
+    if (focus) expMonth.focus();
+    return 'The expiry fields are in correct. Make sure it is of the form MM/YYYY';
+  } else {
+    payFormError.hide()
+  }
+  if (!Stripe.card.validateCVC(cvc.val())) {
+    if (focus) cvc.focus();
+    return 'The CVC field is incorrect. Make sure it is a 3 or 4 digit number';
+  } else {
+    payFormError.hide()
+  } // end of card validation
+
+  if (location.val() == "") {
+    payFormError.show().text('The location field is required');
+    if (focus) location.focus();
+    return 'The location field is required';
+  } else {
+    payFormError.hide()
+  }
+  if (phoneNumber.val() == "" ||
+  phoneNumber.val().length != 10 ||
+  isNaN(parseInt(phoneNumber.val()))) {
+    if (focus) phoneNumber.focus();
+    return 'The phone number field is required and should be a 10 number with the area code';
+  } else {
+    payFormError.hide()
+  }
+  return "Would be null here";
 }
 
 function checkPayNow(event) {

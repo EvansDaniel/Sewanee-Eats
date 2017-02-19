@@ -31,7 +31,7 @@
                     });
                   });
                 </script>
-                <li><a class="nav-links" href="{{ route('checkout') }}">CHECKOUT
+                <li><a class="nav-links" id="checkout-link" href="{{ route('checkout') }}">CHECKOUT
                         <u><span id="num-items-in-cart"></span></u></a></li>
             @endif
             @if(Auth::check() && Auth::user()->hasRole('admin'))

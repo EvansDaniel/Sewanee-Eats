@@ -249,6 +249,7 @@ $(function () {
       }
       i++;
     });
+    $('#max-items-exceeded-error').hide();
     // reset quantity of items to 1
     setVal(qty, 1);
   }
