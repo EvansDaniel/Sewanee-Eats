@@ -53,9 +53,11 @@ class CheckoutController extends Controller
         $saved_index = -1;
         foreach ($cart as $cart_item_index => $cart_item) {
             if ($model_id == $cart_item['menu_item_model']->id) {
+                \Log::info('in model id');
                 $saved_index = $cart_item_index;
                 foreach ($cart[$cart_item_index]['extras'][$extras_index] as $extra_index_id => $extra_id) {
                     if ($extra_id == $acc->id) {
+                        \Log::info('in extra id');
                         unset($cart[$cart_item_index]['extras'][$extras_index][$extra_index_id]);
                         $cart[$cart_item_index]['extras'][$extras_index] =
                             array_values($cart[$cart_item_index]['extras'][$extras_index]);

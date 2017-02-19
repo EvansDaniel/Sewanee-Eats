@@ -40,7 +40,9 @@ var docInit = function () {
     check.on('change', function () {
       var url = API_URL + 'checkout/updateExtras/' +
       check.data('model-id') + '/' + check.data('index');
-      var data = {accessory: parseInt(check.val())}
+      var data = {accessory: parseInt(check.val())};
+      p(url);
+      p('sending ajax' + data);
       doneEditing(url, data);
     });
   });
@@ -82,7 +84,7 @@ function doneEditing(url, data) {
       }
     }
   }).done(function (result) {
-
+    p(result);
   });
 }
 
