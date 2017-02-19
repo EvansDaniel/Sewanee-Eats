@@ -11,10 +11,13 @@
         cursor: pointer;
     }
 
-    .hide-btn {
-        background: transparent;
-        border: none !important;
-        cursor: pointer;
+    .modal-dialog {
+        overflow-y: initial !important
+    }
+
+    .modal-body {
+        max-height: calc(100vh - 200px);
+        overflow-y: auto;
     }
 </style>
 
@@ -41,7 +44,6 @@
                     <div class="panel-body" id="mountain-menu">
                         <ul class="list-group  row">
                             @foreach($items as $item)
-                                <!--<button class="hide-btn">-->
                                     <li class="menu-li clickable list-group-item col-lg-4 col-md-4 col-sm-12 col-xs-12">
                                         <div class="menu-item">
                                             <!-- IF YOU TOUCH THIS HTML, MAKE SURE TO UPDATE THE loadModal FUNCTION WITH NEW STRUCTURE -->
@@ -62,7 +64,6 @@
                                             <hr class="col-sm-offset-1 col-sm-8 col-xs-offset-1 col-xs-8">
                                         </div>
                                     </li>
-                                    <!--</button>-->
                             @endforeach
                         </ul>
                     </div>
