@@ -1,5 +1,6 @@
 var accessories = null;
 var itemPrice = -1;
+var ADDED_TO_CART = false;
 p($('#num-items-in-cart').text());
 var CART_QUANTITY = 0;
 getCartQuantity();
@@ -207,11 +208,16 @@ $(function () {
   function docReadyInit() {
     initPopUpView();
     var error_msg = $('#max-items-exceeded-error');
+    var addToCartButton = $('#add-to-cart-button');
     if (CART_QUANTITY == MAX_ITEMS) {
-      $('#add-to-cart-button').attr('disabled', true);
+      addToCartButton.attr('disabled', true);
       error_msg.show();
     }
 
+    addToCartButton.on('click', function () {
+      // send message to popstate
+      ADDED_TO_CART = true;
+    });
 
     // load text for a potential error message to user about the max items in the cart
     error_msg.text('The max allowable items in the cart is ' + MAX_ITEMS + ". You have " + CART_QUANTITY + " items right now");

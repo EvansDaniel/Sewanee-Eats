@@ -55,15 +55,19 @@ class CheckoutController extends Controller
             if ($model_id == $cart_item['menu_item_model']->id) {
                 \Log::info('in model id');
                 $saved_index = $cart_item_index;
-                foreach ($cart[$cart_item_index]['extras'][$extras_index] as $extra_index_id => $extra_id) {
-                    if ($extra_id == $acc->id) {
-                        \Log::info('in extra id');
-                        unset($cart[$cart_item_index]['extras'][$extras_index][$extra_index_id]);
-                        $cart[$cart_item_index]['extras'][$extras_index] =
-                            array_values($cart[$cart_item_index]['extras'][$extras_index]);
-                        Session::put('cart', $cart);
-                        return $acc;
+                if (!empty($cart[$cart_item_index]['extras'][$extras_index])) {
+                    foreach ($cart[$cart_item_index]['extras'][$extras_index] as $extra_index_id => $extra_id) {
+                        if ($extra_id == $acc->id) {
+                            \Log::info('in extra id');
+                            unset($cart[$cart_item_index]['extras'][$extras_index][$extra_index_id]);
+                            $cart[$cart_item_index]['extras'][$extras_index] =
+                                array_values($cart[$cart_item_index]['extras'][$extras_index]);
+                            Session::put('cart', $cart);
+                            return $acc;
+                        }
                     }
+                } else {
+                    break;
                 }
             }
         }
@@ -74,6 +78,7 @@ class CheckoutController extends Controller
 
         // accessory wasn't found so add this accessory
         $cart[$saved_index]['extras'][$extras_index][] = $acc->id;
+        \Log::info($cart[$saved_index]['extras'][$extras_index]);
         Session::put('cart', $cart);
         return json_encode($acc);
     }

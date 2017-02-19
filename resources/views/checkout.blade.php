@@ -71,30 +71,28 @@
                                                                     @endif
                                                                     <label for="extras">Select items accessories</label>
                                                                     @foreach($order['menu_item_model']->accessories as $acc)
-                                                                        <div>
-                                                                            <div class="checkbox">
-                                                                                <label for="acc">
-                                                                                    @if(in_array($acc->id,$order['extras'][$i]))
-                                                                                        <input id="acc-{{$i}}-{{$acc->id}}"
-                                                                                               name="extras[]"
-                                                                                               type="checkbox"
-                                                                                               data-model-id="{{$order['menu_item_model']->id}}"
-                                                                                               data-index="{{$i}}"
-                                                                                               checked class="acc-check"
-                                                                                               value="{{ $acc->id }}">
-                                                                                        {{ $acc->name . "  $" . $acc->price }}
-                                                                                    @else
-                                                                                        <input id="acc-{{$i}}-{{$acc->id}}"
-                                                                                               name="extras[]"
-                                                                                               type="checkbox"
-                                                                                               class="acc-check"
-                                                                                               data-model-id="{{$order['menu_item_model']->id}}"
-                                                                                               data-index="{{$i}}"
-                                                                                               value="{{ $acc->id }}">
-                                                                                        {{ $acc->name . "  $" . $acc->price }}
-                                                                                    @endif
-                                                                                </label>
-                                                                            </div>
+                                                                        <div class="checkbox">
+                                                                            <label for="acc">
+                                                                                @if(!(empty($order['extras'][$i])) && in_array($acc->id,$order['extras'][$i]))
+                                                                                    <input id="acc-{{$i}}-{{$acc->id}}"
+                                                                                           name="extras[{{$i}}]"
+                                                                                           type="checkbox"
+                                                                                           data-model-id="{{$order['menu_item_model']->id}}"
+                                                                                           data-index="{{$i}}"
+                                                                                           checked class="acc-check"
+                                                                                           value="{{ $acc->id }}">
+                                                                                    {{ $acc->name . "  $" . $acc->price }}
+                                                                                @else
+                                                                                    <input id="acc-{{$i}}-{{$acc->id}}"
+                                                                                           name="extras{{$i}}[]"
+                                                                                           type="checkbox"
+                                                                                           class="acc-check"
+                                                                                           data-model-id="{{$order['menu_item_model']->id}}"
+                                                                                           data-index="{{$i}}"
+                                                                                           value="{{ $acc->id }}">
+                                                                                    {{ $acc->name . "  $" . $acc->price }}
+                                                                                @endif
+                                                                            </label>
                                                                         </div>
                                                                     @endforeach
                                                                 </div>

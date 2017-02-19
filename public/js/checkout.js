@@ -36,13 +36,12 @@ var docInit = function () {
 
   // Init events on checkboxes
   $('.acc-check').each(function () {
-    var check = $('#' + this.id);
+    //var check = $('#' + this.id);
+    var check = $(this);
     check.on('change', function () {
       var url = API_URL + 'checkout/updateExtras/' +
       check.data('model-id') + '/' + check.data('index');
       var data = {accessory: parseInt(check.val())};
-      p(url);
-      p('sending ajax' + data);
       doneEditing(url, data);
     });
   });
@@ -84,7 +83,7 @@ function doneEditing(url, data) {
       }
     }
   }).done(function (result) {
-    p(result);
+
   });
 }
 

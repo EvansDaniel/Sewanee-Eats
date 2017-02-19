@@ -100,6 +100,10 @@ trait PriceInformation
             'downtown' => [
                 'multiplier' => .4,
                 'distance' => 1
+            ],
+            'monteagle' => [
+                'multiplier' => .5,
+                'distance' => 2
             ]
         ];
     }
