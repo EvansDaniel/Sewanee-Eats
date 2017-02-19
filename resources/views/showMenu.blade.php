@@ -6,6 +6,18 @@
     <title>{{ $restaurant->name }} | Menu</title>
 @stop
 
+<style>
+    .clickable {
+        cursor: pointer;
+    }
+
+    .hide-btn {
+        background: transparent;
+        border: none !important;
+        cursor: pointer;
+    }
+</style>
+
 @section('body')
     <!-- TODO: get rid of this; it is for debugging, add a restaurant image logo as the head of evrypage -->
     <br><br><br>
@@ -29,26 +41,28 @@
                     <div class="panel-body" id="mountain-menu">
                         <ul class="list-group  row">
                             @foreach($items as $item)
-                                <li class="menu-li list-group-item col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                                    <div class="menu-item">
-                                        <!-- IF YOU TOUCH THIS HTML, MAKE SURE TO UPDATE THE loadModal FUNCTION WITH NEW STRUCTURE -->
-                                        <div class="row" id="menu-item-top">
-                                            <div class="menuList col-lg-10 col-md-10 col-sm-9 col-xs-9">{{ $item->name }}</div>
-                                            <div class="hidden">
-                                                <hr id="menu-item-line">
+                                <!--<button class="hide-btn">-->
+                                    <li class="menu-li clickable list-group-item col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                        <div class="menu-item">
+                                            <!-- IF YOU TOUCH THIS HTML, MAKE SURE TO UPDATE THE loadModal FUNCTION WITH NEW STRUCTURE -->
+                                            <div class="row" id="menu-item-top">
+                                                <div class="menuList col-lg-10 col-md-10 col-sm-9 col-xs-9">{{ $item->name }}</div>
+                                                <div class="hidden">
+                                                    <hr id="menu-item-line">
+                                                </div>
+                                                <div class="menu-item-price col-lg-2 col-md-2 col-sm-3 col-xs-3">{{ $item->price }}</div>
                                             </div>
-                                            <div class="menu-item-price col-lg-2 col-md-2 col-sm-3 col-xs-3">{{ $item->price }}</div>
+                                            <div class="row divider-row"></div>
+                                            <div class="row menu-item-description">
+                                                {{ $item->description }}
+                                            </div>
+                                            <div style="display: none">{{ $item->id }}</div>
                                         </div>
-                                        <div class="row divider-row"></div>
-                                        <div class="row menu-item-description">
-                                            {{ $item->description }}
+                                        <div class="hidden-hr hidden-lg hidden-md row">
+                                            <hr class="col-sm-offset-1 col-sm-8 col-xs-offset-1 col-xs-8">
                                         </div>
-                                        <div style="display: none">{{ $item->id }}</div>
-                                    </div>
-                                    <div class="hidden-hr hidden-lg hidden-md row">
-                                        <hr class="col-sm-offset-1 col-sm-8 col-xs-offset-1 col-xs-8">
-                                    </div>
-                                </li>
+                                    </li>
+                                    <!--</button>-->
                             @endforeach
                         </ul>
                     </div>
@@ -83,11 +97,13 @@
                                 QUANTITY:
                             </div>
                             <div class="row">
-                                <button type="button" id="minus" class="glyphicon glyphicon-minus col-lg-1 col-lg-offset-1 col-md-1 col-md-offset-1 col-sm-2 col-sm-offset-1 col-xs-1 col-xs-offset-1 sign"></button>
+                                <button type="button" id="minus"
+                                        class="glyphicon glyphicon-minus col-lg-1 col-lg-offset-1 col-md-1 col-md-offset-1 col-sm-2 col-sm-offset-1 col-xs-1 col-xs-offset-1 sign"></button>
                                 <input class="form-control col-lg-2 col-md-2 col-sm-2 col-xs-2" type="number" min="1"
                                        max="10" name="quantity"
                                        id="quantity">
-                                <button id="plus" type="button" class="glyphicon glyphicon-plus col-lg-1 col-md-1 col-sm-2 col-xs-2 sign"></button>
+                                <button id="plus" type="button"
+                                        class="glyphicon glyphicon-plus col-lg-1 col-md-1 col-sm-2 col-xs-2 sign"></button>
                             </div>
                             <div class="westside" id="westside">
 
