@@ -1,4 +1,4 @@
-<!-- Daniel Evans, Tariro Kandemiri, and Blaise Iradukunda -->
+<!-- Built by Daniel Evans (evansdb0@sewanee.edu), Tariro Kandemiri, and Blaise Iradukunda -->
 
 <html>
 <head>

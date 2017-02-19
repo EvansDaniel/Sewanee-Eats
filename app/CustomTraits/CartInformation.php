@@ -51,24 +51,30 @@ trait CartInformation
         return false;
     }
 
-    public function cartArrayPush($arrayToAppendTo, $arrayToAppend)
+    public
+    function itemIsFromDifferentRestaurant($r_id)
     {
-        if (empty($arrayToAppendTo))
-            return $arrayToAppend;
-        if (empty($arrayToAppend)) {
-            return $arrayToAppendTo;
+        $cart = Session::get('cart');
+        if (empty($cart)) return true;
+        foreach ($cart as $item) {
+            if ($item['menu_item_model']->restaurant->id == $r_id) {
+                return false;
+            }
         }
-        foreach ($arrayToAppend as $item) {
-            $arrayToAppendTo[] = $item;
-        }
-        return $arrayToAppendTo;
+        return true;
     }
 
-    private function maxItemInCartError($name_of_item)
+    public
+    function addCartItemQuantity($id, $quantity, $item_index = -2)
     {
-        return $name_of_item .
-            " could not be added to cart. 
-            You can have a max of " . $this->max_items_in_cart . " items in the cart";
+        $cart = Session::get('cart');
+        if ($item_index < 0) {
+            if (($item_index = $this->getItemIndex($id)) == -1) {
+                return null;
+            }
+        }
+        $cart[$item_index]['quantity'] += $quantity;
+        Session::put('cart', $cart);
     }
 
     /**
@@ -89,11 +95,45 @@ trait CartInformation
         // exact key from the array as is
         foreach ($cart as $index => $item) {
             if ($id == $cart[$index]['menu_item_model']->id) {
-                \Log::info('here');
                 return $index;
             }
         }
         return -1;
+    }
+
+    public
+    function addItemExtras($id, $extras, $item_index = -2)
+    {
+        $cart = Session::get('cart');
+        if ($item_index < 0) { // not checking for out of bounds on high end, just don't mess up
+            if (($item_index = $this->getItemIndex($id)) == -1) {
+                return null;
+            }
+        }
+        if (!empty($cart[$item_index]['extras'])) {
+            $cart[$item_index]['extras'] = $this->cartArrayPush($cart[$item_index]['extras'], $extras);
+        }
+        Session::put('cart', $cart);
+    }
+
+    public function cartArrayPush($arrayToAppendTo, $arrayToAppend)
+    {
+        if (empty($arrayToAppendTo))
+            return $arrayToAppend;
+        if (empty($arrayToAppend)) {
+            return $arrayToAppendTo;
+        }
+        foreach ($arrayToAppend as $item) {
+            $arrayToAppendTo[] = $item;
+        }
+        return $arrayToAppendTo;
+    }
+
+    private function maxItemInCartError($name_of_item)
+    {
+        return $name_of_item .
+            " could not be added to cart. 
+            You can have a max of " . $this->max_items_in_cart . " items in the cart";
     }
 
 }

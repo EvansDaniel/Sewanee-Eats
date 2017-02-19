@@ -1,8 +1,25 @@
 var accessories = null;
 var itemPrice = -1;
+p($('#num-items-in-cart').text());
+var CART_QUANTITY = 0;
+getCartQuantity();
 
 function saveAjaxResult(result) {
   accessories = result;
+}
+
+function getCartQuantity() {
+  $.ajax({
+    url: API_URL + 'cart/totalQuantity',
+    context: document.body,
+    dataType: 'json'
+  }).done(function (result) {
+    saveCartQuantity(result.num_items);
+  });
+}
+
+function saveCartQuantity(num_items) {
+  CART_QUANTITY = num_items;
 }
 
 function showOptions(i) {
@@ -184,18 +201,21 @@ $(function () {
   var plus = $("#plus");
   var minus = $("#minus");
   var qty = $("#quantity");
-  var MIN_ITEMS = 1, MAX_ITEMS = 10, CART_QUANTITY = (parseInt($('#num-items-in-cart').text()) || 0);
-  p(CART_QUANTITY);
+  var MIN_ITEMS = 1, MAX_ITEMS = 10;
   docReadyInit();
 
   function docReadyInit() {
     initPopUpView();
-    /*if(CURRENT_NUM_ITEMS == MAX_ITEMS) {
-     $('#add-to-cart-button').prop('disabled',true);
-     }*/
+    var error_msg = $('#max-items-exceeded-error');
+    if (CART_QUANTITY == MAX_ITEMS) {
+      $('#add-to-cart-button').attr('disabled', true);
+      error_msg.show();
+    }
+
 
     // load text for a potential error message to user about the max items in the cart
-    $('#max-items-exceeded-error').text('The max allowable items in the cart is ' + MAX_ITEMS);
+    error_msg.text('The max allowable items in the cart is ' + MAX_ITEMS + ". You have " + CART_QUANTITY + " items right now");
+
 
     // disable/lock click events on each menu item until
     // page completely loads. This is so ajax will fire properly
@@ -243,6 +263,7 @@ $(function () {
     var i = getVal(qty);
     i = parseInt(i);
     if (i >= MIN_ITEMS && (CART_QUANTITY + i) < MAX_ITEMS) {
+      p(CART_QUANTITY);
       ++i;
       setVal(qty, i); // set value of the new quantity
       $('#max-items-exceeded-error').hide();
@@ -250,8 +271,6 @@ $(function () {
     } else {
       // show the span
       $('#max-items-exceeded-error').show();
-      // MAX_ITEMS REACHED, set the value back
-      qty.val(MAX_ITEMS);
     }
     // maintain the current checkbox/textarea info during quantity changes
     loadCheckBoxAndSIInfo();
@@ -325,7 +344,7 @@ $(function () {
 
   minus.click(function () {
     var i = getVal(qty);
-    if (i == MAX_ITEMS) { // hide b/c we are subtracting one when it is at max items
+    if ((parseInt(CART_QUANTITY) + parseInt(i)) == MAX_ITEMS) { // hide b/c we are subtracting one when it is at max items
       $('#max-items-exceeded-error').hide();
     }
     i = parseInt(i);

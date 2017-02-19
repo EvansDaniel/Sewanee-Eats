@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\CustomTraits\CartInformation;
+use App\Models\Accessory;
 use App\Models\MenuItem;
 use Illuminate\Http\Request;
 use Session;
@@ -27,7 +28,7 @@ class ShoppingCartController extends Controller
         }
         // check that adding this new item will not put the cart
         // over the max restaurant limit
-        if ($this->itemIsFromDifferentRestaurant($item->id) &&
+        if ($this->itemIsFromDifferentRestaurant($item->restaurant->id) &&
             $this->cartContainsMaxNumberOfRestaurants()
         ) {
             return back()->with('status_bad',
@@ -64,8 +65,9 @@ class ShoppingCartController extends Controller
                 'special_instructions' => $instructs,
                 'extras' => $extras
             ];
-            Session::put('cart',
-                array_prepend($cart = Session::get('cart', []), $new_item));
+            $cart = Session::get('cart', []);
+            $cart[] = $new_item;
+            Session::put('cart', $cart);
         }
         // make the message to the user
         if ($quantity_to_add == 1) {
@@ -76,23 +78,7 @@ class ShoppingCartController extends Controller
         return back()->with('status_good', $add_item_message);
     }
 
-    private
-    function itemIsFromDifferentRestaurant($id)
-    {
-        $cart = Session::get('cart');
-        if (empty($cart)) return true;
-        foreach ($cart as $item) {
-            if ($item['menu_item_model']->id == $id) {
-                return false;
-            }
-        }
-        return true;
-    }
 
-    /**
-     * This will happen at the checkout/cart page
-     */
-    // TODO: fix this function
     private
     function cartContainsMaxNumberOfRestaurants()
     {
@@ -117,6 +103,14 @@ class ShoppingCartController extends Controller
         return 3;
     }
 
+
+    // HELPERS -------------------------------------------------------------------
+
+
+    /**
+     * This will happen at the checkout/cart page
+     */
+    // TODO: fix this function
     private function addItemInstructions($id, $instructions, $item_index = -2)
     {
         $cart = Session::get('cart');
@@ -132,65 +126,16 @@ class ShoppingCartController extends Controller
         Session::put('cart', $cart);
     }
 
-    private
-    function addCartItemQuantity($id, $quantity, $item_index = -2)
-    {
-        $cart = Session::get('cart');
-        if ($item_index < 0) {
-            if (($item_index = $this->getItemIndex($id)) == -1) {
-                return null;
-            }
-        }
-        $cart[$item_index]['quantity'] += $quantity;
-        Session::put('cart', $cart);
-    }
-
-    private
-    function addItemExtras($id, $extras, $item_index = -2)
-    {
-        $cart = Session::get('cart');
-        if ($item_index < 0) { // not checking for out of bounds on high end, just don't mess up
-            if (($item_index = $this->getItemIndex($id)) == -1) {
-                return null;
-            }
-        }
-        if (!empty($cart[$item_index]['extras'])) {
-            $cart[$item_index]['extras'] = $this->cartArrayPush($cart[$item_index]['extras'], $extras);
-        }
-        Session::put('cart', $cart);
-    }
-
-    public
-    function pr($x)
-    {
-        echo "<pre>";
-        print_r($x);
-        echo "</pre>";
-    }
-
-
     public function updateCartItem(Request $request)
     {
         $cart = Session::get('cart');
         if (empty($cart)) { // extra sanity check
             return back();
         }
-        $item = MenuItem::find($request->input('menu_item_id'));
-        $quantity_to_add = $request->input('quantity');
-        $extras = [];
-        $instructs = [];
-        for ($i = 0; $i < $quantity_to_add; $i++) {
-            // extras_i is an array of the extras to add to one of the
-            // menu_items, doesn't matter which one as long as it is
-            // consistent with special_instructions_i
-            $extras[] = $request->input('extras' . $i);
-            $instructs[] = $request->input('special_instructions' . $i);
-        }
-        // instead of either appending or deleting an instruction/extra
-        // just reset each field with this new request's info
-        // and each field for this menu item will be updated properly
+        $item = MenuItem::find($request->input('cart_item_id'));
+        $extras = Accessory::find($request->input('extras'));
+        $instructs = $request->input('special_instructions');
         $this->addItemInstructions($item->id, $instructs);
-        $this->addCartItemQuantity($item->id, $quantity_to_add);
         $this->addItemExtras($item->id, $extras);
         return back()->with('status_good',
             $item->name . ' updated successfully');
@@ -243,6 +188,14 @@ class ShoppingCartController extends Controller
     }
 
     public
+    function pr($x)
+    {
+        echo "<pre>";
+        print_r($x);
+        echo "</pre>";
+    }
+
+    public
     function getCartItem($id)
     {
         $cart = Session::get('cart');
@@ -252,8 +205,6 @@ class ShoppingCartController extends Controller
         return json_encode($cart[$item_index]);
     }
 
-
-    // HELPERS --------------------------------------------------------------------------------------------------------------------
 
     public
     function getItemExtras($id)
