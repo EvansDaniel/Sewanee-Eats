@@ -14,7 +14,30 @@
 use App\Events\NewOrderReceived;
 use App\Models\MenuItem;
 use App\Models\Order;
-use SimpleSoftwareIO\SMS\Facades\SMS;
+use Carbon\Carbon;
+
+Route::get('time', function () {
+    // if this is an ajax request
+    if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
+        $now = Carbon::now()->timezone('America/Chicago');
+        return $now->toFormattedDateString()
+            . ' ' . $now->toTimeString();
+    }
+    // not an ajax request
+    return view('countdown');
+})->name('time');
+
+//$launch = Carbon::create(2017, 02, 24, 14, 00, 00, 'America/Chicago');
+$launch = Carbon::now()->timezone('America/Chicago');
+$now = Carbon::now()->addHour(1)->timezone('America/Chicago');
+if ($now->gte($launch)) {
+
+    Route::get('{all_requests}', function () {
+        $time = Carbon::now()->timezone('America/Chicago')->toFormattedDateString()
+            . ' ' . Carbon::now()->timezone('America/Chicago')->toTimeString();
+        return view('countdown', compact('time'));
+    })->where('all_requests', '.*');
+}
 
 Route::get('/', function () {
     return view('home');
@@ -223,6 +246,7 @@ Route::group(['prefix' => 'api/v1/',
         Route::post('deleteItem/{model_id}/{item_index}', 'CheckoutController@deleteFromCart');
     });
 });
+
 
 // TODO: Protect the register route with CheckRole admin
 Auth::routes();
