@@ -67,14 +67,7 @@ div.ex1 {
 /*for computer screens*/
 @media only screen and (min-width: 760px) {
 
-    #brand_img{
-        height: 100%;
-        width: auto;
-    }
-    .navbar-brand{
-        /* top | right | bottom | left */
-        padding: 0 0 0 5px;
-    }
+
     #btn {
         position: absolute;
         top: 50%;
@@ -140,16 +133,10 @@ div.ex1 {
 
 /*for small and extra small screens*/
 @media only screen and (max-width: 760px) {
-    #push-fig {
-        height: 6%;
-    }
-    .navbar-header, .navbar-brand{
-        padding: 0;
-    }
-    .navbar-brand img{
-        height: 100%;
-        width: auto;
-    }
+    /*#push-fig {*/
+        /*height: 6%;*/
+    /*}*/
+
 
     #btn {
         position: absolute;
@@ -169,14 +156,6 @@ div.ex1 {
         font-family: 'Lato', sans-serif;
     }
 
-    #navDiv {
-        width: 100%;
-        overflow: hidden;
-    }
-
-    #collapse-button {
-        margin-right: 20px;
-    }
 
     #promo-order-button {
         background: linear-gradient(90deg, #240a54 10%, #7459a5 90%);

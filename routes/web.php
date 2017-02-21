@@ -27,7 +27,7 @@ Route::get('time', function () {
     return view('countdown');
 })->name('time');
 
-//$launch = Carbon::create(2017, 02, 24, 14, 00, 00, 'America/Chicago');
+/*//$launch = Carbon::create(2017, 02, 24, 14, 00, 00, 'America/Chicago');
 $launch = Carbon::now()->timezone('America/Chicago');
 $now = Carbon::now()->addHour(1)->timezone('America/Chicago');
 if ($now->gte($launch)) {
@@ -37,7 +37,7 @@ if ($now->gte($launch)) {
             . ' ' . Carbon::now()->timezone('America/Chicago')->toTimeString();
         return view('countdown', compact('time'));
     })->where('all_requests', '.*');
-}
+}*/
 
 Route::get('/', function () {
     return view('home');

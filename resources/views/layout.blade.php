@@ -1,4 +1,4 @@
-<!-- Built by Daniel Evans (evansdb0@sewanee.edu), Tariro Kandemiri, and Blaise Iradukunda -->
+<!-- Built by Daniel Evans (evansdb0@sewanee.edu), Tariro Kandemiri, and Blaise Iradukunda (iradub0@sewanee.edu)-->
 
 <html>
 <head>
@@ -11,9 +11,10 @@
 </head>
 <body>
 <div id="main-container" class="container-fluid">
+
+    @include('countdown')
     @include('partials.nav_bar')
     <!-- Status messages to user about what they are doing -->
-        <br><br><br><br>
     @include('partials.backend_messages')
     @yield('body')
     <div id="push-div"></div>

@@ -21,15 +21,15 @@
   function p($obj) {
     console.log($obj);
   }
-  $(document).ready(function () {
-      var bd = $(window );
-      var h = bd.height();
-      h = h - $("#main-container").height();
-      if( h >0) {
-          $("#push-div").css("height", h);
-      }
-
-  });
+//  $(document).ready(function () {
+//      var bd = $(window );
+//      var h = bd.height();
+//      h = h - $("#main-container").height();
+//      if( h >0) {
+//          $("#push-div").css("height", h);
+//      }
+//
+//  });
 </script>
 
 <meta name="viewport" content="width=device-width, initial-scale=1">

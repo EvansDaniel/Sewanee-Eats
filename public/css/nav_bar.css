@@ -12,36 +12,49 @@
 }
 
 @media only screen and (min-width: 760px) {
-
-    #collapse-button {
-        margin-right: 20px;
+    nav{
+        height: 60px;
     }
 
     #navDiv {
         margin-left: 10px;
         margin-right: 10px;
+        height: 60px;
+    }
+    #navDiv ul, #navDiv li, #navDiv a{
+        height: 60px;
+    }
+    #navDiv li {
+     vertical-align: middle;
     }
     .navbar-brand{
         width: 100%;
+        /* top | right | bottom | left */
+        padding: 0 0 0 5px;
+    }
+
+    #brand_img{
+        height: 120%;
+        width: auto;
+    }
+    #navDiv {
+        padding: 0;
+        font-size: 14px;
     }
 
 }
 
-#navDiv {
-    padding: 0;
-    font-size: 15px;
-}
 
 #navDiv ul li {
     padding: 0;
 }
 
-nav {
-    /*background: linear-gradient(90deg, #8268B3 10%, #240a54 90%);*/
-    font-size: 15px;
-    padding: 0;
+/*nav {*/
+    /*!*background: linear-gradient(90deg, #8268B3 10%, #240a54 90%);*!*/
+    /*font-size: 15px;*/
+    /*padding: 0;*/
 
-}
+/*}*/
 
 #navDiv a:hover {
     background: linear-gradient(90deg, #7459a5 10%, #240a54 90%);
@@ -57,5 +70,25 @@ nav {
         padding: 0;
         font-size: 15px;
     }
+    .navbar-header, .navbar-brand{
+        padding: 0;
+    }
+    .navbar-brand img{
+        height: 100%;
+        width: auto;
+    }
+    #navDiv {
+        width: 100%;
+        overflow: hidden;
+    }
+
+    #collapse-button {
+        margin-right: 20px;
+    }
+
+#navDiv {
+    padding: 0;
+    font-size: 15px;
+}
 
 }
