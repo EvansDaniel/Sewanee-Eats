@@ -5,9 +5,9 @@
     @include('global_config')
     <link rel="icon" href="{{asset('images/mtneats.png')}}">
     <link rel="stylesheet" type="text/css" href=" {{ asset('css/home.css') }}">
+    <link rel="stylesheet" type="text/css" href=" {{ asset('css/footer.css') }}">
     <link href="https://fonts.googleapis.com/css?family=Lato:300,400,900,900i" rel="stylesheet">
     @yield('head')
-    {{--<script type="text/javascript" src="https://js.stripe.com/v2/"></script>--}}
 </head>
 <body>
 <div id="main-container" class="container-fluid">
@@ -18,11 +18,13 @@
     @include('partials.backend_messages')
     @yield('body')
     <div id="push-div"></div>
-    <footer id="footer" class="col-xs-offset-1 col-md-offset-1 col-sm-offset-1 col-lg-offset-1">
-        <br>
-        <p>COPYRIGHT (C) SEWANEE EATS</p>
-        <br>
-    </footer>
+
 </div>
+<footer id="footer">
+    <hr>
+    <br>
+    <p>COPYRIGHT (C) SEWANEE EATS</p>
+    <br>
+</footer>
 </body>
 </html>

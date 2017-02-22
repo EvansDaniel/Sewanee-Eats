@@ -14,27 +14,26 @@
     right: -100px;
 }
 
-textarea {
-    width: 40%;
-    height: 10%;
-}
+/*textarea {*/
+    /*width: 40%;*/
+    /*height: 10%;*/
+/*}*/
 
+/*
 div.cart {
-    position: fixed;
-    top: 100px;
-    right: 10px;
-
+    position: relative;
     width: 400px;
     height: 275px;
     margin: auto;
     border: 3px solid #240a54;
     color: #240a54;
 }
+*/
 
-.divider {
-    height: 70px;
-    display: inline-block;
-}
+/*.divider {*/
+    /*height: 70px;*/
+    /*display: inline-block;*/
+/*}*/
 
 /*for small and extra small screens*/
 
@@ -65,5 +64,10 @@ h1 {
         font-size: 10px;
         font-family: 'Lato', sans-serif;
     }
+
+}
+#cart-title{
+    text-align: center;
+    font-family: "Lato", sans-serif;
 
 }
