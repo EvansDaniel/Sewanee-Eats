@@ -10,31 +10,10 @@
     <header class="container header">
         <h5 id="mountain">RESTAURANTS ON THE MOUNTAIN</h5>
         <hr>
+        <p>Coming soon!</p>
+
     </header>
-    <script>
-        $(document).ready(function () {
 
-            var rsnt = $(".restaurant");
-            var interval = 1000;
-            rsnt.each(function (index, value) {
-                rsnt.fadeIn(interval + index *200);
-            })
-
-            $(".img-responsive").get(0).height("100%");
-            change_heights();
-        });
-        function change_heights(){
-            var imgs = $(".img-responsive");
-            var img_model = imgs.get(0);
-            var li_h = img_model.width;
-            p(li_h);
-            p(imgs.length);
-            imgs.each(function () {
-                $(this).css("width", li_h);
-            })
-
-        }
-    </script>
     <ul class="list-group container" id="restaurant-group">
         @if(empty($restaurants))
             <h1>There are no restaurants open at this time</h1>
