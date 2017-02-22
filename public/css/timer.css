@@ -7,12 +7,12 @@
     box-shadow: -1px 0px 13px -2px rgba(13,12,13,1);
     background: rgb(240,240,240);
 }
-h1 {
-    color: black;
-    font-family: "Lato", sans-serif;
-    font-size: 24px;
-    margin: 40px 0px 20px;
-}
+/*h1 {*/
+    /*color: black;*/
+    /*font-family: "Lato", sans-serif;*/
+    /*font-size: 24px;*/
+    /*margin: 40px 0px 20px;*/
+/*}*/
 
 #clockdiv {
     font-family: sans-serif;
