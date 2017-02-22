@@ -13,7 +13,30 @@
         <p>Coming soon!</p>
 
     </header>
+    <script>
+      $(document).ready(function () {
 
+        var rsnt = $(".restaurant");
+        var interval = 1000;
+        rsnt.each(function (index, value) {
+          rsnt.fadeIn(interval + index * 200);
+        })
+
+        $(".img-responsive").get(0).height("100%");
+        change_heights();
+      });
+      function change_heights() {
+        var imgs = $(".img-responsive");
+        var img_model = imgs.get(0);
+        var li_h = img_model.width;
+        p(li_h);
+        p(imgs.length);
+        imgs.each(function () {
+          $(this).css("width", li_h);
+        })
+
+      }
+    </script>
     <ul class="list-group container" id="restaurant-group">
         @if(empty($restaurants))
             <h1>There are no restaurants open at this time</h1>
@@ -26,52 +49,6 @@
                 </li>
             @endforeach
         @endif
-        {{--<li class="restaurant list-group-item col-lg-3 col-md-3 col-xs-8 col-xs-offset-2 col-sm-8 col-sm-offset-2">
-                <a>
-                    <img id="rest-images"  class="img-responsive" src="{{asset('images/stirling_new.jpg')}}">
-                </a>
-
-            </li>
-        <li class="restaurant list-group-item  col-lg-3 col-lg-offset-0 col-md-3 col-md-offset-1 col-xs-8 col-xs-offset-2 col-sm-8 col-sm-offset-2">
-                <a>
-                    <img id="rest-images" class="img-responsive" src="{{asset('images/bluechair_cafe.jpg')}}">
-                </a>
-
-            </li>
-
-
-        <li class="restaurant list-group-item col-lg-3 col-md-3 col-xs-8 col-xs-offset-2 col-sm-8 col-sm-offset-2">
-                <a>
-                    <img id="rest-images" class="img-responsive " src="{{asset('images/tavern_new.jpg')}}">
-                </a>
-
-            </li>
-
-        <li class="restaurant list-group-item col-lg-3 col-md-3 col-sm-8 col-sm-offset-2 col-lg-6 col-lg-offset-3 col-xs-8 col-xs-offset-2">
-            <a>
-                <img id="rest-images" class="img-responsive" src="{{asset('images/shenanigans.jpg')}}">
-            </a>
-
-        </li>
-
-        <li class="restaurant col-lg-3 col-lg-offset-1 col-md-3 col-md-offset-1 col-xs-8 col-xs-offset-2 col-sm-8 col-sm-offset-2 list-group-item">
-                <a>
-                    <img id="rest-images" class="img-responsive" src="{{asset('images/crossroads_new.jpg')}}">
-                </a>
-
-            </li>
-        <li class="restaurant list-group-item col-lg-3 col-lg-offset-1 col-md-3 col-md-offset-1 col-xs-8 col-xs-offset-2 col-sm-8 col-sm-offset-2">
-                <a>
-                    <img id="rest-images" class="img-responsive" src="{{asset('images/ivy_wild.jpg')}}">
-                </a>
-            </li>
-        <li class="restaurant list-group-item col-lg-3 col-md-3 col-sm-8 col-sm-offset-2 col-lg-6 col-lg-offset-3 col-xs-8 col-xs-offset-2">
-                <a>
-                    <img id="rest-images" class="img-responsive" src="{{asset('images/pub.png')}}">
-                </a>
-
-        </li>--}}
-
     </ul>
     <div class="container">
         <h5 id="monteagle">RESTAURANTS IN MONTEAGLE</h5>

@@ -27,18 +27,6 @@ Route::get('time', function () {
     return view('countdown');
 })->name('time');
 
-/*//$launch = Carbon::create(2017, 02, 24, 14, 00, 00, 'America/Chicago');
-$launch = Carbon::now()->timezone('America/Chicago');
-$now = Carbon::now()->addHour(1)->timezone('America/Chicago');
-if ($now->gte($launch)) {
-
-    Route::get('{all_requests}', function () {
-        $time = Carbon::now()->timezone('America/Chicago')->toFormattedDateString()
-            . ' ' . Carbon::now()->timezone('America/Chicago')->toTimeString();
-        return view('countdown', compact('time'));
-    })->where('all_requests', '.*');
-}*/
-
 Route::get('/', function () {
     return view('home');
 })->name('home');
@@ -47,16 +35,22 @@ Route::get('home', function () {
     return view('home');
 });
 
-Route::post('handleCheckout', 'CheckoutController@handleCheckout')
-    ->name('handleCheckout');
+Route::group(['middleware' => 'role:admin'], function () {
 
-Route::get('about', function () {
+    Route::post('handleCheckout', 'CheckoutController@handleCheckout')
+        ->name('handleCheckout');
+    Route::get('checkout', 'CheckoutController@showCheckoutPage')
+        ->name('checkout');
+
+});
+
+/*Route::get('about', function () {
     return view('about');
-})->name('about');
+})->name('about');*/
+
 Route::get('support', function () {
     return view('support');
 })->name('support');
-
 
 // Restaurant Related Routes
 Route::get('restaurants', 'RestaurantController@list_restaurants')
@@ -65,12 +59,8 @@ Route::get('restaurants', 'RestaurantController@list_restaurants')
 Route::get('restaurants/{id}', 'RestaurantController@showMenu')
     ->name('showMenu');
 
-
 Route::post('cart/store', 'ShoppingCartController@loadItemIntoShoppingCart')
     ->name('addToCart');
-
-Route::get('checkout', 'CheckoutController@showCheckoutPage')
-    ->name('checkout');
 
 Route::get('sessionClear', function () {
     Session::flush();
@@ -248,6 +238,21 @@ Route::group(['prefix' => 'api/v1/',
 });
 
 
-// TODO: Protect the register route with CheckRole admin
-Auth::routes();
+// Authentication Routes...
+$this->get('login', 'Auth\LoginController@showLoginForm')->name('login');
+$this->post('login', 'Auth\LoginController@login');
+$this->post('logout', 'Auth\LoginController@logout')->name('logout');
+
+// Registration Routes...
+// Protect the register route with CheckRole admin
+Route::group(['middleware' => 'role:admin'], function () {
+    $this->get('register', 'Auth\RegisterController@showRegistrationForm')->name('register');
+    $this->post('register', 'Auth\RegisterController@register');
+});
+
+// Password Reset Routes...
+$this->get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');
+$this->post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
+$this->get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
+$this->post('password/reset', 'Auth\ResetPasswordController@reset');
 

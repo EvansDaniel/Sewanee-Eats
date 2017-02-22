@@ -3,7 +3,7 @@
 <nav class="navbar navbar-default navbar-custom navbar-fixed-top row">
     <div class="navbar-header">
         <a class="navbar-brand col-lg-12 col-md-12 col-sm-6 col-xs-6" href="{{ route('home') }}">
-            <img src="{{ asset('images/mountain_logo.jpg') }}" id="brand_img" class="img-responsive" alt="">
+            <img src="{{ asset('images/branding/mountain_logo.jpg') }}" id="brand_img" class="img-responsive" alt="">
         </a>
         <button type="button" id="collapse-button" class="navbar-toggle glyphicon glyphicon-menu-hamburger"
                 data-toggle="collapse"
@@ -15,7 +15,7 @@
     <div class="collapse navbar-collapse" id="navDiv">
         <ul id="navV" class="nav navbar-nav navbar-right">
             <li><a class="nav-links" href="{{ route('list_restaurants') }}">ORDER NOW</a></li>
-            <li><a class="nav-links" href="{{ route('about') }}">ABOUT</a></li>
+        <!--<li><a class="nav-links" href="{{--{{ route('about') }}--}}">ABOUT</a></li>-->
             <li><a class="nav-links" href="{{ route('support') }}">CONTACT</a></li>
 
             @if(!empty(Session::get('cart')))

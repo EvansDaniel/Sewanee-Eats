@@ -28,7 +28,7 @@
         <div class="row" id="restaurant-logo">
             <div class="col-lg-offset-5 col-lg-2 col-md-2 col-md-offset-5 col-sm-4 col-sm-offset-4 col-xs-offset-4 col-xs-4">
 
-                <img class="img-circle" src="{{asset('images/ivy_wild.jpg')}}">
+                <img class="img-circle" src="{{asset('images/restaurants/ivy_wild.jpg')}}">
             </div>
         </div>
         <div class="panel panel-default">
