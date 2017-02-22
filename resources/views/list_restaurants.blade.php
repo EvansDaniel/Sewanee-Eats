@@ -37,7 +37,7 @@
 
       }
     </script>
-    <ul class="list-group container" id="restaurant-group">
+    {{--<ul class="list-group container" id="restaurant-group">
         @if(empty($restaurants))
             <h1>There are no restaurants open at this time</h1>
         @else
@@ -49,7 +49,7 @@
                 </li>
             @endforeach
         @endif
-    </ul>
+    </ul>--}}
     <div class="container">
         <h5 id="monteagle">RESTAURANTS IN MONTEAGLE</h5>
         <hr>
