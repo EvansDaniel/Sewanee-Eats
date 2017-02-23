@@ -1,5 +1,4 @@
 .checkoutbtn {
-    transform: translate(-50%, -50%);
     background: linear-gradient(90deg, #240a54 10%, #7459a5 90%);
     color: white;
     padding: 10px 10px;
@@ -10,8 +9,17 @@
     font-family: 'Lato', sans-serif;
 
     position: relative;
-    bottom: -50px;
-    right: -100px;
+}
+.ckbtn{
+    background: white;
+    color: black;
+    font-weight: bold;
+    border: solid black 2px;
+    border-radius: 25px;
+}
+.ckbtn:hover{
+    background: white;
+    color: black;
 }
 
 /*textarea {*/
@@ -70,4 +78,70 @@ h1 {
     text-align: center;
     font-family: "Lato", sans-serif;
 
+}
+.menu-item{
+    font-family: "Lato", sans-serif;
+}
+.order-name{
+    font-size: 16px;
+    font-weight: bold;
+}
+.order-descr{
+    font-size: 16px;
+}
+.order-special button, .show-extra{
+    color: black;
+    border: solid black 2px;
+    background: white;
+    border-radius: 10px;
+    padding: 6px 12px;
+    margin-bottom: 0;
+    font-size: 14px;
+}
+.order-special button:hover, .show-extra:hover{
+    background: rgb(240,240,240);
+    color: black;
+}
+.si{
+    width: 23%;
+    margin: 0 1% 0 0;
+    border-radius: 10px;
+    border:solid 2px black;
+    outline: 0;
+
+}
+.si:focus{
+    border: solid 2px black;
+    outline: none;
+    -webkit-box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.75);
+    box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.75);
+}
+#cart-title{
+    font-family: "Lato", sans-serif;
+    font-size: 22px;
+}
+
+#cart-order-again{
+    border: 2px solid rebeccapurple;
+    color: white;
+    background: rebeccapurple;
+    padding: 6px 10px;
+    border-radius: 20px;
+    text-transform: capitalize;
+    -webkit-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
+    box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
+}
+#cart-order-again:hover{
+    text-decoration: none;
+    background: rebeccapurple;
+    color: white;
+    text-transform: capitalize;
+    -webkit-box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.75);
+    box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.75);
+}
+.c-t-i{
+    margin-bottom: 30px;
 }
