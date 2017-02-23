@@ -71,7 +71,7 @@ div.ex1 {
     #btn {
         position: absolute;
         top: 50%;
-        left: 53%;
+        left: 50%;
         transform: translate(-50%, -50%);
         background: linear-gradient(90deg, #240a54 10%, #7459a5 90%);
         color: white;
@@ -115,7 +115,7 @@ div.ex1 {
         padding-top: 15px;
         text-decoration: none;
         margin-bottom: 1em;
-        margin-left: 45.6%;
+        margin-left: 40%;
     }
     #navV{
         margin-right: 1%;
@@ -127,6 +127,9 @@ div.ex1 {
     }
     #promo-p2{
         font-size: 1.4em;
+    }
+    #promo-places{
+        margin-left: -15%;
     }
 
 }

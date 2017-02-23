@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="{{asset('css/restaurants.css')}}">
     <br><br><br>
     <header class="container header">
-        <h5 id="mountain">RESTAURANTS ON THE MOUNTAIN</h5>
+        <h5 id="mountain">RESTAURANTS ON THE MOUNTAIN</h5>f
         <hr>
         <p>Coming soon!</p>
 
@@ -37,7 +37,7 @@
 
       }
     </script>
-    {{--<ul class="list-group container" id="restaurant-group">
+    <ul class="list-group container" id="restaurant-group">
         @if(empty($restaurants))
             <h1>There are no restaurants open at this time</h1>
         @else
@@ -49,7 +49,7 @@
                 </li>
             @endforeach
         @endif
-    </ul>--}}
+    </ul>
     <div class="container">
         <h5 id="monteagle">RESTAURANTS IN MONTEAGLE</h5>
         <hr>

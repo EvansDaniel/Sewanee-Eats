@@ -226,4 +226,8 @@ function showInstruction(showSIbutton) {
 function showExtras(button) {
   $(button).hide();
   $($(button).parent().children()[1]).show();
+  $('.cart-review').hide();
+  $('.cart-line').each(function () {
+      this.hide();
+  });
 }
