@@ -1,7 +1,7 @@
 {{-- JQuery --}}
-<script src= {{ asset('js/app.js') }}></script>
+<script src= {{ secure_asset('js/app.js') }}></script>
 {{-- Bootstrap --}}
-<link rel="stylesheet" href= {{ asset('css/app.css') }}>
+<link rel="stylesheet" href= {{ secure_asset('css/app.css') }}>
 
 <!-- Stripe JS -->
 <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
