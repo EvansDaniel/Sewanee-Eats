@@ -134,7 +134,7 @@
                 <div class="cart col-lg-12 col-md-12 col-sm-12 col-xs-12" id="main-payment-form" style="display: none;">
                     <!-- Payment information -->
                     <h4>Enter your information to pay:</h4>
-                    <span class="" style="display: none" id="payment-errors"></span>
+                    <span class="" style="display: none;" id="payment-errors"></span>
                     <div class="form-group">
                         <label>
                             <span>Card Number</span>

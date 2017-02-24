@@ -24,6 +24,9 @@
     border: none;
 
 }
+.img-thumbnail{
+    border: solid 2px rgb(160,160,160);
+}
 
 .list-group-item {
     padding: 1%;
@@ -62,12 +65,13 @@
 .itembtn {
     font-family: "Lato", sans-serif;
     text-transform: uppercase;
-    font-size: 12px;
+    font-size: 13px;
     font-weight: bold;
     border-radius: 5px;
-    background: linear-gradient(90deg, #240a54 10%, #7459a5 90%);
-    border: 1px solid mediumpurple;
+    background: #00816A;
+    border: 1px solid #00816A;
     color: white;
+    padding: 10px;
 }
 
 #show-item-price {
@@ -82,8 +86,11 @@
     font-size: 15px;
     margin-top: 2%;
     font-family: "Lato", sans-serif;
+    font-weight: normal;
 }
-
+#mn-divider{
+    height: 12px;
+}
 textarea {
     margin-bottom: 2%;
     width: 80%;
@@ -132,17 +139,18 @@ textarea {
     cursor: pointer;
 }
 .modal-body{
-    background: rgba(40,40,40, 1);
-    color:white;
+    background: white;
+    color:black;
     font-weight: bold;
 }
+
 .special_instr_p{
     margin-left: 5%;
     width: 90%;
 }
 .free_toppings_d, .n_free_toppings_d{
     margin-left: 8%;
-    background: #7d82b8;
+    background: #00816A;
     color: white;
     /*border-radius: 5px;*/
     line-height: 25px;
@@ -157,21 +165,23 @@ textarea {
 }
 
 .sign{
-    background: #7d82b8;
-    border: 3px solid #7d82b8;
+    background: #00816A;
+    border: 3px solid #00816A;
     /*border-radius: 5px;*/
     padding: 2px;
     height: 25px;
     width: 7%;
+    color: white;
 }
 
-.free_toppings_d, .n_free_toppings_d{
-    width: 23%;
-}
-@media only screen and (min-width: 760px) {
+
+@media only screen and (min-width: 768px) {
     .free_toppings, .n_free_toppings{
         width: 60%;
         margin-left: 9%;
+    }
+    .free_toppings_d, .n_free_toppings_d{
+        width: 23%;
     }
 }
 input[type=number]::-webkit-inner-spin-button,
@@ -190,7 +200,7 @@ input::-webkit-inner-spin-button {
 .f-item{
     margin-bottom: 3px;
 }
-@media only screen and (max-width: 760px) {
+@media only screen and (max-width: 768px) {
     .free_toppings, .n_free_toppings{
         margin-left: 9%;
         background: none;
@@ -201,4 +211,41 @@ input::-webkit-inner-spin-button {
         margin-bottom: 24px;
 
     }
+    .free_toppings_d, .n_free_toppings_d{
+        width: 80%;
+    }
+
+    .q-head{
+        margin-left: 5%;
+    }
+    .sign, #quantity{
+        width: 10%;
+    }
+}
+@media only screen and (min-width:480px) and (max-width: 768px)  {
+    #add-to-cart-button{
+        width: 33%;
+    }
+    #md-rmv{
+        width: 15%;
+        margin-left: 40%;
+    }
+
+}
+.modal-title{
+    color: black;
+    font-family: "Lato", sans-serif;
+    font-size: 16px;
+    font-weight: bold;
+}
+.itembtn{
+    font-size: 12px;
+}
+#show-item-description{
+    width: 90%;
+    margin-left: 3%;
+}
+.modal-footer, .q-manip-div, .q-head{
+    width: 90%;
+    margin-left: 5%;
 }

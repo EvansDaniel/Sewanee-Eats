@@ -300,14 +300,14 @@ $(function () {
       '</div>',
       '<div class="item-extra" style="display: none" id="item-extra' + i + '">',
       '<div class="checkbox row topings" id="topings' + i + '">',
-      '<div class="row col-lg-3 free_toppings_d" id="free_toppings_d' + i + '"> Free Extras </div>',
-      '<div id="free_toppings' + i + '" class="col-lg-8 free_toppings">',
+      '<div class="row col-lg-4 col-md-4 col-sm-12 col-xs-12 free_toppings_d" id="free_toppings_d' + i + '"> Free Extras </div>',
+      '<div id="free_toppings' + i + '" class="col-lg-8 col-md-8 col-sm-12 col-xs-12 free_toppings">',
 
       '</div>',
       '</div>',
       '<div class="checkbox row o_topings" id="o_topings' + i + '">',
-      '<div class="row col-lg-4 n_free_toppings_d" id="n_free_toppings_d' + i + '"> Non-free Extras ($) </div>',
-      '<div id="n_free_toppings' + i + '" class="n_free_toppings col-lg-8">',
+      '<div class="row col-lg-4 col-md-4 col-sm-12 col-xs-12  n_free_toppings_d" id="n_free_toppings_d' + i + '"> Non-free Extras ($) </div>',
+      '<div id="n_free_toppings' + i + '" class="n_free_toppings col-lg-8 col-md-8 col-sm-12 col-xs-12 ">',
 
       '<div id="nf_item ' + i + '" class="nf-item row">',
       '</div>',

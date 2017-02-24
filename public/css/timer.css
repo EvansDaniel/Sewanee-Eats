@@ -52,8 +52,29 @@
 
 }
 
-@media only screen and (max-width: 760px) {
+
+
+@media only screen and (max-width: 768px) {
     #main-container{
         margin-bottom: 0;
+    }
+}
+#s-eat-h{
+    font-size: 30px;
+    font-family: "Lato", sans-serif;
+    font-weight: bold;
+}
+#s-eat-h span{
+    text-transform: uppercase;
+    font-size: 24px;
+    font-weight: normal;
+}
+#figure{
+}
+
+@media only screen and (max-width: 320px) {
+    #secDiv{
+        margin-top: 10px;
+        margin-left: -10px;
     }
 }
