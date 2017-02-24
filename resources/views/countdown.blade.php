@@ -10,7 +10,7 @@
     <!-- Status messages to user about what they are doing -->
     <br><br>
     <div id="header" style="display: none">
-        <h1>SewaneeEats launches this Friday at 12PM!</h1>
+        <h1>SewaneeEats launches next Friday at 12PM!</h1>
     </div>
     <div id="clockdiv">
         <div id="daysDiv" style="display: none">
@@ -32,7 +32,7 @@
     </div>
 
     <script>
-      getTime();
+     // getTime();
       // cool animations
 //      $('#timer').fadeIn(400);
       $('#header').fadeIn(2000);
@@ -53,7 +53,7 @@
 
       // Update the count down every 1 second
       var x = setInterval(function () {
-        getTime();
+     //   getTime();
       }, 1000);
 
       function getTime() {

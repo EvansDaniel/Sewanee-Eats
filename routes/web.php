@@ -27,6 +27,7 @@ Route::get('time', function () {
     return view('countdown');
 })->name('time');
 
+
 Route::get('/', function () {
     return view('home');
 })->name('home');

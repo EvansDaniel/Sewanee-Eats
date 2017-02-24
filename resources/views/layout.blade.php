@@ -3,9 +3,9 @@
 <html>
 <head>
     @include('global_config')
-    <link rel="icon" href="{{asset('images/branding/mtneats.png')}}">
-    <link rel="stylesheet" type="text/css" href=" {{ asset('css/home.css') }}">
-    <link rel="stylesheet" type="text/css" href=" {{ asset('css/footer.css') }}">
+    <link rel="icon" href="{{secure_asset('images/branding/mtneats.png')}}">
+    <link rel="stylesheet" type="text/css" href=" {{ secure_asset('css/home.css') }}">
+    <link rel="stylesheet" type="text/css" href=" {{ secure_asset('css/footer.css') }}">
     <link href="https://fonts.googleapis.com/css?family=Lato:300,400,900,900i" rel="stylesheet">
     @yield('head')
 </head>
