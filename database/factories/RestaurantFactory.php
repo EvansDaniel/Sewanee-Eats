@@ -70,6 +70,6 @@ $factory->define(Restaurant::class, function (Faker\Generator $faker) {
         'available_times' => json_encode($available_times),
         'description' => 'My restaurant description',
         'location' => $locations[RAND(0,2)],
-        'image_url' => 'http://www.minervas.net/images/jqg_13539536932.jpg'
+        'image_url' => 'https://www.minervas.net/images/jqg_13539536932.jpg'
     ];
 });
