@@ -1,8 +1,16 @@
 <!-- Built by Daniel Evans (evansdb0@sewanee.edu), Tariro Kandemiri, and Blaise Iradukunda -->
 
 <head>
-    <link rel="icon" href="{{secure_asset('images/mtneats.png')}}">
-    <link rel="stylesheet" type="text/css" href=" {{ secure_asset('css/timer.css') }}">
+    @if(env('APP_ENV') === 'local')
+        <link rel="stylesheet" href={{ asset('images/mtneats.png') }}>
+    @else
+        <link rel="stylesheet" href={{ secure_asset('images/mtneats.png') }}>
+    @endif
+    @if(env('APP_ENV') === 'local')
+        <link rel="stylesheet" href={{ asset('css/timer.css') }}>
+    @else
+        <link rel="stylesheet" href={{ secure_asset('css/timer.css') }}>
+    @endif
     <link href="https://fonts.googleapis.com/css?family=Lato:300,400,900,900i" rel="stylesheet">
 </head>
 
