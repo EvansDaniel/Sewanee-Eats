@@ -6,9 +6,9 @@
 
 @section('body')
     @if(env('APP_ENV') === 'local')
-        <link rel="stylesheet" href={{ asset('css/restaurant.css') }}>
+        <link rel="stylesheet" href={{ asset('css/restaurants.css') }}>
     @else
-        <link rel="stylesheet" href={{ secure_asset('css/restaurant.css') }}>
+        <link rel="stylesheet" href={{ secure_asset('css/restaurants.css') }}>
     @endif
     <br><br><br>
     <header class="container header">
@@ -50,10 +50,10 @@
                     <a href="{{ route('showMenu',['id' => $restaurant->id]) }}" >
                         <!-- These urls must be https -->
                         @if(env('APP_ENV') === 'local')
-                            <img src="{{ asset('image/restaurants/shenanigans_paint.jpg') }}" id="rest-images"
+                            <img src="{{ asset('images/restaurants/shenanigans_paint.jpg') }}" id="rest-images"
                                  class="img-responsive">
                         @else
-                            <img src="{{secure_asset('image/restaurants/shenanigans_paint.jpg')}}" id="rest-images"
+                            <img src="{{secure_asset('images/restaurants/shenanigans_paint.jpg')}}" id="rest-images"
                                  class="img-responsive">
                         @endif
                     </a>
