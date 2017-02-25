@@ -5,7 +5,11 @@
 @stop
 
 @section('body')
-    <link rel="stylesheet" href="{{asset('css/restaurants.css')}}">
+    @if(env('APP_ENV') === 'local')
+        <link rel="stylesheet" href={{ asset('css/restaurant.css') }}>
+    @else
+        <link rel="stylesheet" href={{ secure_asset('css/restaurant.css') }}>
+    @endif
     <br><br><br>
     <header class="container header">
         <h5 id="mountain">RESTAURANTS ON THE MOUNTAIN</h5>f
@@ -44,7 +48,14 @@
             @foreach($restaurants as $restaurant)
                 <li style="display: none" class="restaurant list-group-item col-lg-3 col-md-3 col-xs-8 col-xs-offset-2 col-sm-8 col-sm-offset-2">
                     <a href="{{ route('showMenu',['id' => $restaurant->id]) }}" >
-                        <img id="rest-images" class="img-responsive" src="{{ $restaurant->image_url }}">
+                        <!-- These urls must be https -->
+                        @if(env('APP_ENV') === 'local')
+                            <img src="{{ asset('image/restaurants/shenanigans_paint.jpg') }}" id="rest-images"
+                                 class="img-responsive">
+                        @else
+                            <img src="{{secure_asset('image/restaurants/shenanigans_paint.jpg')}}" id="rest-images"
+                                 class="img-responsive">
+                        @endif
                     </a>
                 </li>
             @endforeach

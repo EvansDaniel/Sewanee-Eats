@@ -1,8 +1,16 @@
 @extends('layout')
 
 @section('head')
-    <script src="{{asset('js/menu.js')}}"></script>
-    <link rel="stylesheet" href="{{ asset("css/menu.css") }}">
+    @if(env('APP_ENV') === 'local')
+        <script src="{{ asset('js/menu.js') }}"></script>
+    @else
+        <script src="{{secure_asset('js/menu.js')}}"></script>
+    @endif
+    @if(env('APP_ENV') === 'local')
+        <link rel="stylesheet" href={{ asset('css/menu.css') }}>
+    @else
+        <link rel="stylesheet" href={{ secure_asset('css/menu.css') }}>
+    @endif
     <title>{{ $restaurant->name }} | Menu</title>
 @stop
 
@@ -27,8 +35,11 @@
     <div class="container" id="show-menu">
         <div class="row" id="restaurant-logo">
             <div class="col-lg-offset-5 col-lg-2 col-md-2 col-md-offset-5 col-sm-4 col-sm-offset-4 col-xs-offset-4 col-xs-4">
-
-                <img class="img-circle" src="{{asset('images/restaurants/ivy_wild.jpg')}}">
+                @if(env('APP_ENV') === 'local')
+                    <img src="{{ asset('images/restaurants/ivy_wild.jpg') }}">
+                @else
+                    <img src="{{secure_asset('images/restaurants/ivy_wild.jpg')}}">
+                @endif
             </div>
         </div>
         <div class="panel panel-default">
