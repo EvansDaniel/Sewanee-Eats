@@ -50,10 +50,10 @@
                     <a href="{{ route('showMenu',['id' => $restaurant->id]) }}" >
                         <!-- These urls must be https -->
                         @if(env('APP_ENV') === 'local')
-                            <img src="{{ asset('images/restaurants/shenanigans_paint.jpg') }}" id="rest-images"
+                            <img src="{{ asset('images/restaurants/shenanigans.jpg') }}" id="rest-images"
                                  class="img-responsive">
                         @else
-                            <img src="{{secure_asset('images/restaurants/shenanigans_paint.jpg')}}" id="rest-images"
+                            <img src="{{secure_asset('images/restaurants/shenanigans.jpg')}}" id="rest-images"
                                  class="img-responsive">
                         @endif
                     </a>
