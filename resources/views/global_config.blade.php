@@ -8,9 +8,8 @@
 @if(env('APP_ENV') === 'local')
   <link rel="stylesheet" href={{ asset('css/app.css') }}>
 @else
-  <link rel="stylesheet" href={{ asset('css/app.css') }}>
+    <link rel="stylesheet" href={{ secure_asset('css/app.css') }}>
 @endif
-<link rel="stylesheet" href= {{ asset('css/app.css') }}>
 
 <!-- Stripe JS -->
 <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
