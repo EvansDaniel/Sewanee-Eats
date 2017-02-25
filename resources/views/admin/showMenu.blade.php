@@ -57,7 +57,10 @@
                                                 <button class="btn btn-primary" type="button">Update Menu Item</button>
                                             </a>
                                             <!-- TODO: make js alert button that makes sures admin wants to delete this -->
-                                            <form action="{{ route('deleteMenuItem', ['id' => $item->id]) }}"
+
+                                            {{--<form action="{{ route('deleteMenuItem', ['id' => $item->id]) }}" method="post">--}}
+                                            <form action="{{ url()->to(parse_url(route('deleteMenuItem',['id' => $item->id]),
+                                                                                 PHP_URL_PATH),[],env('APP_ENV') !== 'local') }}"
                                                   method="post">
                                                 {{ csrf_field() }}
                                                 <button class="btn btn-danger" type="submit" style="margin-top: 5px">

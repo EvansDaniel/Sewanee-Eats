@@ -3,21 +3,9 @@
 <html>
 <head>
     @include('global_config')
-    @if(env('APP_ENV') === 'local')
-        <link rel="stylesheet" href={{ asset('images/branding/mtneats.png') }}>
-    @else
-        <link rel="stylesheet" href={{ secure_asset('images/branding/mtneats.png') }}>
-    @endif
-    @if(env('APP_ENV') === 'local')
-        <link rel="stylesheet" href={{ asset('css/home.css') }}>
-    @else
-        <link rel="stylesheet" href={{ secure_asset('css/home.css') }}>
-    @endif
-    @if(env('APP_ENV') === 'local')
-        <link rel="stylesheet" href={{ asset('css/footer.css') }}>
-    @else
-        <link rel="stylesheet" href={{ secure_asset('css/footer.css') }}>
-    @endif
+    <link rel="stylesheet" href={{ asset('images/branding/mtneats.png',env('APP_ENV') !== 'local') }}>
+    <link rel="stylesheet" href={{ asset('css/home.css',env('APP_ENV') !== 'local')  }}>
+    <link rel="stylesheet" href={{ asset('css/footer.css',env('APP_ENV') !== 'local') }}>
     <link href="https://fonts.googleapis.com/css?family=Lato:300,400,900,900i" rel="stylesheet">
     @yield('head')
 </head>

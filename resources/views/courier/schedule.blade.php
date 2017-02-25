@@ -10,5 +10,6 @@
         @include('partials.schedule_table')
     </div>
 
-    <a href="{{ route('updateSchedule') }}">Update schedule</a>
+    <!-- Re-add this for testing -->
+    {{--<a href="{{ route('updateSchedule') }}">Update schedule</a>--}}
 @stop

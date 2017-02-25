@@ -9,7 +9,9 @@
 @section('body')
 
     <h1>Create New Accessory</h1>
-    <form action="{{ route('createAccessory') }}" method="post">
+    <form action="{{ url()->to(parse_url(route('createAccessory',[]),PHP_URL_PATH),[],env('APP_ENV') !== 'local') }}"
+          method="post">
+        {{--<form action="{{ route('createAccessory') }}" method="post">--}}
         {{ csrf_field() }}
         <input name="menu_item_id" type="hidden" value="{{ $menu_item->id }}">
         <div class="form-group">

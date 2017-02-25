@@ -1,19 +1,10 @@
-@if(env('APP_ENV') === 'local')
-    <link rel="stylesheet" href={{ asset('css/nav_bar.css') }}>
-@else
-    <link rel="stylesheet" href={{ secure_asset('css/nav_bar.css') }}>
-@endif
+<link rel="stylesheet" href={{ asset('css/nav_bar.css',env('APP_ENV') !== 'local')  }}>
 
 <nav class="navbar navbar-default navbar-custom navbar-fixed-top row">
     <div class="navbar-header">
         <a class="navbar-brand col-lg-12 col-md-12 col-sm-6 col-xs-6" href="{{ route('home') }}">
-            @if(env('APP_ENV') === 'local')
-                <img src="{{ asset('images/branding/mountain_logo.jpg') }}" id="brand_img" class="img-responsive"
-                     alt="">
-            @else
-                <img src="{{secure_asset('images/branding/mountain_logo.jpg')}}" id="brand_img" class="img-responsive"
-                     alt="">
-            @endif
+            <img src="{{ asset('images/branding/mountain_logo.jpg',env('APP_ENV') !== 'local')  }}"
+                 id="brand_img" class="img-responsive" alt="">
         </a>
         <button type="button" id="collapse-button" class="navbar-toggle glyphicon glyphicon-menu-hamburger"
                 data-toggle="collapse"

@@ -3,8 +3,8 @@
 @section('head')
     <title>Admin Dashboard</title>
 @stop
-
 @section('body')
+
     <style>
         div li button {
             margin-top: 5px;
@@ -34,12 +34,13 @@
                             <!-- TODO: make a js alert box that asks admin if he/she is sure that he/she wants to delete
                                        the restaurant
                             -->
-                            <form action="{{ route('deleteRestaurant', ['id' => $r->id]) }}"
+                            <form action="{{ url()->to(parse_url(route('deleteRestaurant',['id' => $r->id]),PHP_URL_PATH),[],env('APP_ENV') !== 'local') }}"
                                   method="post">
                                 {{ csrf_field() }}
-                                <button class="btn btn-danger" type="submit">Delete restaurant
-                                </button>
+
+                                <button class="btn btn-danger" type="submit">Delete restaurant</button>
                             </form>
+                            {{--<form action="{{ route('deleteRestaurant', ['id' => $r->id]) }}" method="post"> --}}
                         </div>
                     </li>
                 @endforeach

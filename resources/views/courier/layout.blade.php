@@ -3,10 +3,9 @@
 <html>
 <head>
     @include('global_config')
-    <link rel="icon" href="{{asset('images/mtneats.png')}}">
+    <link rel="icon" href="{{ asset('images/mtneats.png',env('APP_ENV') !== 'local') }} ">
     <link href="https://fonts.googleapis.com/css?family=Lato:300,400,900,900i" rel="stylesheet">
     @yield('head')
-    <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
 </head>
 <body>
 <!-- Built by Daniel Evans -->

@@ -1,16 +1,9 @@
 @extends('layout')
 
 @section('head')
-    @if(env('APP_ENV') === 'local')
-        <script src="{{ asset('js/menu.js') }}"></script>
-    @else
-        <script src="{{secure_asset('js/menu.js')}}"></script>
-    @endif
-    @if(env('APP_ENV') === 'local')
-        <link rel="stylesheet" href={{ asset('css/menu.css') }}>
-    @else
-        <link rel="stylesheet" href={{ secure_asset('css/menu.css') }}>
-    @endif
+
+    <script src="{{ asset('js/menu.js',env('APP_ENV') === 'production') }}"></script>
+    <link rel="stylesheet" href={{ asset('css/menu.css',env('APP_ENV') === 'production') }}>
     <title>{{ $restaurant->name }} | Menu</title>
 @stop
 
@@ -35,11 +28,7 @@
     <div class="container" id="show-menu">
         <div class="row" id="restaurant-logo">
             <div class="col-lg-offset-5 col-lg-2 col-md-2 col-md-offset-5 col-sm-4 col-sm-offset-4 col-xs-offset-4 col-xs-4">
-                @if(env('APP_ENV') === 'local')
-                    <img src="{{ asset('images/restaurants/ivy_wild.jpg') }}">
-                @else
-                    <img src="{{secure_asset('images/restaurants/ivy_wild.jpg')}}">
-                @endif
+                <img src="{{ asset('images/restaurants/ivy_wild.jpg',env('APP_ENV') === 'production') }}">
             </div>
         </div>
         <div class="panel panel-default">
@@ -93,7 +82,9 @@
                     <strong><span id="max-items-exceeded-error" style="display: none"></span></strong>
                 </div>
                 <div class="modal-body">
-                    <form action="{{ route('addToCart') }}" method="post">
+                    {{--<form action="{{ route('addToCart') }}" method="post">--}}
+                    <form action="{{ url()->to(parse_url(route('addToCart',[]),PHP_URL_PATH),[],env('APP_ENV') !== 'local') }}"
+                          method="post">
                         {{ csrf_field() }}
                         <div class="form-group">
                             <div class="pull-right">Price: $<span id="show-item-price"></span></div>

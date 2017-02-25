@@ -19,11 +19,8 @@
     </script>
     <figure>
         <!-- http://i67.tinypic.com/2w67w39.png responds with 503 error code -->
-        @if(env('APP_ENV') === 'local')
-            <img src="{{ asset('images/home.jpg') }}" class="img-responsive" alt="Smiley face">
-        @else
-            <img src="{{secure_asset('images/home.jpg')}}" class="img-responsive" alt="Smiley face">
-        @endif
+        <img src="{{ asset('images/home.jpg',env('APP_ENV') === 'production') }}" class="img-responsive"
+             alt="Smiley face">
         <div style="margin: 0 auto;text-align: center">
             <a href="{{ route('list_restaurants') }}" class="btn" id="btn">ORDER NOW</a>
         </div>
@@ -38,28 +35,18 @@
         <br> <br>
         <div class="row" id="promo-places">
             <div class="col-lg-3 col-md-3 col-sm-10 col-sm-offset-1 col-xs-offset-1 col-xs-10" id="promo-place1">
-                @if(env('APP_ENV') === 'local')
-                    <img class="img-circle img-thumbnail" src="{{asset('images/locations/humphreys.jpg')}}"><br><br>
-                @else
-                <img class="img-circle img-thumbnail" src="{{secure_asset('images/locations/humphreys.jpg')}}"><br><br>
-                @endif
+                <img class="img-circle img-thumbnail"
+                     src="{{asset('images/locations/humphreys.jpg',env('APP_ENV') === 'production')}}"><br><br>
                 <p class="col-md-12 col-lg-12">Order from your residential room</p>
             </div>
             <div class="col-lg-3 col-md-3 col-lg-offset-1 col-md-offset-1 col-sm-10 col-sm-offset-1 col-xs-offset-1 col-xs-10" id="promo-place2">
-                @if(env('APP_ENV') === 'local')
-                    <img class="img-circle img-thumbnail" src="{{ asset('images/locations/dupont.jpg') }}"><br><br>
-                @else
-                    <img class="img-circle img-thumbnail" src="{{secure_asset('images/locations/dupont.jpg')}}"><br><br>
-                @endif
+                <img class="img-circle img-thumbnail"
+                     src="{{ asset('images/locations/dupont.jpg',env('APP_ENV') === 'production') }}"><br><br>
                 <p class="col-md-12 col-lg-12">Your favorite place to study</p>
             </div>
             <div class="col-lg-3 col-md-3 col-lg-offset-1 col-md-offset-1 col-sm-10 col-sm-offset-1 col-xs-offset-1 col-xs-10" id="promo-place3">
-                @if(env('APP_ENV') === 'local')
-                    <img class="img-circle img-thumbnail" src="{{ asset('images/locations/kappasig.jpg') }}"><br><br>
-                @else
-                    <img class="img-circle img-thumbnail" src="{{secure_asset('images/locations/kappasig.jpg')}}"><br>
-                    <br>
-                @endif
+                <img class="img-circle img-thumbnail"
+                     src="{{ asset('images/locations/kappasig.jpg',env('APP_ENV') === 'production') }}"><br><br>
                 <p>Or your fraternity/sorority house</p>
             </div>
         </div>

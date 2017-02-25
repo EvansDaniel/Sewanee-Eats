@@ -241,14 +241,14 @@ Route::group(['prefix' => 'api/v1/',
 
 // Authentication Routes...
 $this->get('login', 'Auth\LoginController@showLoginForm')->name('login');
-$this->post('login', 'Auth\LoginController@login');
+$this->post('login', 'Auth\LoginController@login')->name('postLogin');
 $this->post('logout', 'Auth\LoginController@logout')->name('logout');
 
 // Registration Routes...
 // Protect the register route with CheckRole admin
 Route::group(['middleware' => 'role:admin'], function () {
     $this->get('register', 'Auth\RegisterController@showRegistrationForm')->name('register');
-    $this->post('register', 'Auth\RegisterController@register');
+    $this->post('register', 'Auth\RegisterController@register')->name('postRegister');
 });
 
 // Password Reset Routes...

@@ -1,15 +1,7 @@
 {{-- JQuery --}}
-@if(env('APP_ENV') === 'local')
-  <script src="{{ asset('js/app.js') }}"></script>
-@else
-  <script src="{{secure_asset('js/app.js')}}"></script>
-@endif
+<script src="{{ asset('js/app.js',env('APP_ENV') !== 'local')  }}"></script>
 {{-- Bootstrap --}}
-@if(env('APP_ENV') === 'local')
-  <link rel="stylesheet" href={{ asset('css/app.css') }}>
-@else
-    <link rel="stylesheet" href={{ secure_asset('css/app.css') }}>
-@endif
+<link rel="stylesheet" href={{ asset('css/app.css',env('APP_ENV') !== 'local') }}>
 
 <!-- Stripe JS -->
 <script type="text/javascript" src="https://js.stripe.com/v2/"></script>

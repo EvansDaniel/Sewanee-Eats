@@ -1,16 +1,8 @@
 <!-- Built by Daniel Evans (evansdb0@sewanee.edu), Tariro Kandemiri, and Blaise Iradukunda -->
 
 <head>
-    @if(env('APP_ENV') === 'local')
-        <img rel="stylesheet" href={{ asset('images/mtneats.png') }}>
-    @else
-        <img rel="stylesheet" href={{ secure_asset('images/mtneats.png') }}>
-    @endif
-    @if(env('APP_ENV') === 'local')
-        <link rel="stylesheet" href={{ asset('css/timer.css') }}>
-    @else
-        <link rel="stylesheet" href={{ secure_asset('css/timer.css') }}>
-    @endif
+    <link rel="stylesheet" href="{{ asset('images/mtneats.png',env('APP_ENV') !== 'local') }}">
+    <link rel="stylesheet" href="{{ asset('css/timer.css',env('APP_ENV') !== 'local') }}">
     <link href="https://fonts.googleapis.com/css?family=Lato:300,400,900,900i" rel="stylesheet">
 </head>
 
@@ -18,7 +10,7 @@
     <!-- Status messages to user about what they are doing -->
     <br><br>
     <div id="header" style="display: none">
-        <h1>SewaneeEats launches next Friday at 12PM!</h1>
+        <h1>Sewanee Eats launches next Friday at 12PM!</h1>
     </div>
     <div id="clockdiv">
         <div id="daysDiv" style="display: none">
@@ -95,7 +87,6 @@
           }
         });
       }
-
     </script>
 </div>
 

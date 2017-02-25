@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="{{ asset('css/schedule_table.css') }}">
+<link rel="stylesheet" href={{ asset('css/schedule_table.css',env('APP_ENV') === 'production') }}>
 <table id="schedule-table" class="table table-bordered">
     <thead>
     <tr>
@@ -72,13 +72,15 @@
             </div>
             <div class="modal-footer" id="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <form action="{{ route('removeFromSchedule') }}" method="post" id="remove-courier-form">
+                <form action="{{ url()->to(parse_url(route('removeFromSchedule',[]),PHP_URL_PATH),[],env('APP_ENV') !== 'local') }}"
+                      method="post" id="remove-courier-form">
                     {{ csrf_field() }}
                     <input id="remove-day" name="day" type="hidden" value="">
                     <input id="remove-time" name="hour" type="hidden" value="">
                     <button type="submit" class="btn btn-primary">Remove yourself from this time slot</button>
                 </form>
-                <form action="{{ route('addToSchedule') }}" method="post" id="add-courier-form">
+                <form action="{{ url()->to(parse_url(route('addToSchedule',[]),PHP_URL_PATH),[],env('APP_ENV') !== 'local') }}"
+                      method="post" id="add-courier-form">
                     {{ csrf_field() }}
                     <input id="add-day" name="day" type="hidden" value="">
                     <input id="add-time" name="hour" type="hidden" value="">
@@ -91,4 +93,4 @@
 
 <span id="courier-id" data-courier-id="{{ $courier->id }}"></span>
 
-<script src="{{ asset('js/courier/schedule.js') }}"></script>
+<script src="{{ asset('js/courier/schedule.js',env('APP_ENV') === 'production') }}"></script>

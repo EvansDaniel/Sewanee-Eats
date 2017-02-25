@@ -25,8 +25,9 @@
                                                                  'm_id' => $menu_item->id]) }}">
                         <button class="btn btn-primary" type="button">Update accessory</button>
                     </a>
-                    <form action="{{ route('deleteAccessory') }}"
+                    <form action="{{ url()->to(parse_url(route('deleteAccessory',[]),PHP_URL_PATH),[],env('APP_ENV') !== 'local')  }}"
                           method="post">
+                        {{--<form action="{{ route('deleteAccessory') }}" method="post">--}}
                         <input name="menu_item_id" type="hidden" value="{{ $menu_item->id }}">
                         <input name="accessory_id" type="hidden" value="{{ $accessory->id }}">
                         {{ csrf_field() }}
