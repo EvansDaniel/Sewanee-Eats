@@ -2,9 +2,9 @@
 
 <head>
     @if(env('APP_ENV') === 'local')
-        <link rel="stylesheet" href={{ asset('images/mtneats.png') }}>
+        <img rel="stylesheet" href={{ asset('images/mtneats.png') }}>
     @else
-        <link rel="stylesheet" href={{ secure_asset('images/mtneats.png') }}>
+        <img rel="stylesheet" href={{ secure_asset('images/mtneats.png') }}>
     @endif
     @if(env('APP_ENV') === 'local')
         <link rel="stylesheet" href={{ asset('css/timer.css') }}>
