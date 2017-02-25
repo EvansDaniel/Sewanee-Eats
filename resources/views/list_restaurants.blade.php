@@ -8,7 +8,7 @@
     <link rel="stylesheet" href={{ asset('css/restaurants.css',env('APP_ENV') === 'production') }}>
     <br><br><br>
     <header class="container header">
-        <h5 id="mountain">RESTAURANTS ON THE MOUNTAIN</h5>f
+        <h5 id="mountain">RESTAURANTS ON THE MOUNTAIN</h5>
         <hr>
         <p>Coming soon!</p>
 

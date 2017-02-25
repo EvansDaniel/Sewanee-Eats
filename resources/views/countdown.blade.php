@@ -10,7 +10,7 @@
     <!-- Status messages to user about what they are doing -->
     <br><br>
     <div id="header" style="display: none">
-        <h1>Sewanee Eats launches next Friday at 12PM!</h1>
+        <h1>SewaneeEats launches next Friday at 12PM!</h1>
     </div>
     <div id="clockdiv">
         <div id="daysDiv" style="display: none">
@@ -32,9 +32,9 @@
     </div>
 
     <script>
-     // getTime();
+      getTime(); // set the start time
       // cool animations
-//      $('#timer').fadeIn(400);
+      $('#timer').fadeIn(400);
       $('#header').fadeIn(2000);
       setTimeout(function () {
         $('#daysDiv').fadeIn(1000);
@@ -49,11 +49,12 @@
         $('#secDiv').fadeIn(1000);
       }, 1000);
       // Set the date we're counting down to
-      var countDownDate = new Date("Feb 25, 2017 12:00:00").getTime();
+      var countDownDate = new Date("Mar 3, 2017 12:00:00").getTime();
 
       // Update the count down every 1 second
       var x = setInterval(function () {
-     //   getTime();
+        EXTRA += 1000;
+        setTime();
       }, 1000);
 
       function getTime() {
@@ -61,31 +62,40 @@
           url: getBaseUrl() + '/time'
         }).done(function (result) {
           // Get todays date and time
-          var now = new Date(result).getTime();
-
-          // Find the distance between now an the count down date
-          var distance = countDownDate - now;
-
-          // Time calculations for days, hours, minutes and seconds
-          var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-          var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-          var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-          var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-          $('#days').text(days);
-          $('#hours').text(hours);
-          $('#minutes').text(minutes);
-          $('#seconds').text(seconds);
-
-          // If the count down is finished, write some text
-          if (distance < 0) {
-            clearInterval(x);
-            $('#days').text(0);
-            $('#hours').text(0);
-            $('#minutes').text(0);
-            $('#seconds').text(0);
-          }
+          setStartTime(result);
         });
+      }
+      var START_TIME = 0;
+      var EXTRA = 0;
+      function setStartTime(result) {
+        START_TIME = result
+      }
+
+      function setTime() {
+
+        var now = new Date(START_TIME).getTime() + EXTRA;
+        // Find the distance between now an the count down date
+        var distance = countDownDate - now;
+
+        // Time calculations for days, hours, minutes and seconds
+        var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        $('#days').text(days);
+        $('#hours').text(hours);
+        $('#minutes').text(minutes);
+        $('#seconds').text(seconds);
+
+        // If the count down is finished, write some text
+        if (distance < 0) {
+          clearInterval(x);
+          $('#days').text(0);
+          $('#hours').text(0);
+          $('#minutes').text(0);
+          $('#seconds').text(0);
+        }
       }
     </script>
 </div>
