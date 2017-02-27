@@ -33,6 +33,7 @@
 
     <script>
       getTime(); // set the start time
+      setTime();
       // cool animations
       $('#timer').fadeIn(400);
       $('#header').fadeIn(2000);
