@@ -33,7 +33,6 @@
 
     <script>
       getTime(); // set the start time
-      setTime();
       // cool animations
       $('#timer').fadeIn(400);
       $('#header').fadeIn(2000);
@@ -64,6 +63,7 @@
         }).done(function (result) {
           // Get todays date and time
           setStartTime(result);
+          setTime();
         });
       }
       var START_TIME = 0;
