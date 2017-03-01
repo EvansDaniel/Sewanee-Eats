@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use App\CustomTraits\IsAvailable;
 use App\Models\Role;
 use Carbon\Carbon;
 use Illuminate\Console\Scheduling\Schedule;
@@ -9,6 +10,7 @@ use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
 class Kernel extends ConsoleKernel
 {
+    use IsAvailable;
     /**
      * The Artisan commands provided by your application.
      *
@@ -37,27 +39,23 @@ class Kernel extends ConsoleKernel
         })->dailyAt('02:00')->timezone('America/Chicago');
     }
 
-    private function updateScheduleForNextDay()
+
+    /**
+     * Remove the time slots for today for each courier
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function updateScheduleForNextDay()
     {
         // get all couriers
         $couriers = Role::where('name', 'courier')->first()->users;
-        \Log::info('Running the ' . __FUNCTION__ . ' command' .
-            ' at ' . Carbon::now()->timezone($this->timezone()));
         foreach ($couriers as $courier) {
             $avail_time = json_decode($courier->available_times);
-            // pop of today's(first element) time slots and shift
-            // all elements down
-            array_shift($avail_time);
-            // append an empty time slot to each courier
-            $avail_time[] = [''];
+            // pop of all of today's time slots for each courier
+            $avail_time[Carbon::now($this->tz())->dayOfWeek] = [''];
             $courier->available_times = json_encode($avail_time);
             $courier->save();
         }
-    }
-
-    private function timezone()
-    {
-        return "America/Chicago";
+        return back();
     }
 
     /**

@@ -155,9 +155,6 @@
                     <td>{{ $courier->name }}</td>
                     <td>{{ $courier->email }}</td>
                     <td>{{ $courier->is_online == 1 ? "Yes" : "No" }}</td>
-                    {{--<td></td>
-                    <td></td>
-                    <td></td>--}}
                 </tr>
             @endforeach
             </tbody>

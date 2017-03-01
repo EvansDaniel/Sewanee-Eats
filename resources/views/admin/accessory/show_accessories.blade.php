@@ -8,7 +8,7 @@
 
     <h1>Accessories for {{ $menu_item->name }}</h1>
     <a href="{{ route('showCreateAccessoryForm',['id' => $menu_item->id]) }}">
-        <button type="button" style="margin-bottom: 10px" class="btn btn-primary">Add accessory
+        <button type="button" style="margin-bottom: 10px" class="btn btn-primary form-control">Add accessory
             for {{ $menu_item->name }}</button>
     </a>
     <ul class="list-group">
@@ -27,7 +27,6 @@
                     </a>
                     <form action="{{ url()->to(parse_url(route('deleteAccessory',[]),PHP_URL_PATH),[],env('APP_ENV') !== 'local')  }}"
                           method="post">
-                        {{--<form action="{{ route('deleteAccessory') }}" method="post">--}}
                         <input name="menu_item_id" type="hidden" value="{{ $menu_item->id }}">
                         <input name="accessory_id" type="hidden" value="{{ $accessory->id }}">
                         {{ csrf_field() }}

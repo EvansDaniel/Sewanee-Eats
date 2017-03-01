@@ -3,31 +3,15 @@
 @section('head')
     <link rel="stylesheet" href="{{ asset("css/menu.css") }}">
     <title>{{ $restaurant->name }} | Menu</title>
-    <!--<script>
-      function loadModal(div) {
-        var name = $.trim($($(div).children().children()[0]).text());
-        var price = $.trim($($(div).children().children()[1]).text());
-        var description = $.trim($($(div).children()[1]).text());
-        var item_id = $.trim($($(div).children()[2]).text());
-        // p(name); p(price); p(description); p(item_id); // for debugging
-
-        // Set the divs to show item details to user
-        $("#show-item-price").text("Price: " + price);
-        $("#show-item-name").text(name);
-        $("#show-item-description").text(description);
-
-        // fill the hidden inputs to send to server
-        $('#to-cart-item-id').val(item_id);
-        $('#quantity').val(1);
-      }
-    </script>-->
 @stop
 
 @section('body')
     <div class="container" id="show-menu">
+        <br>
         <a href="{{ route('showMenuItemCreateForm',['r_id' => $restaurant->id]) }}">
-            <button class="btn btn-primary" type="button">Add new menu item</button>
+            <button class="btn btn-primary form-control" type="button">Add item to {{ $restaurant->name }} menu</button>
         </a>
+        <br>
         <div class="panel panel-default">
             <h1 align="center">{{ $restaurant->name }}'s Menu</h1>
             @if(empty($menu_items))

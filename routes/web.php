@@ -28,13 +28,13 @@ Route::get('time', function () {
 })->name('time');
 
 
-Route::get('/', function () {
-    return view('home');
-})->name('home');
-
-Route::get('home', function () {
-    return view('home');
-});
+// -------------------------------- Home Page Routes ----------------------------------------------------------
+Route::get('/', 'HomeController@showHome')->name('home');
+Route::get('home', 'HomeController@showHome');
+Route::get('support', 'HomeController@showSupport')->name('support');
+Route::get('pricing', 'HomeController@showPricing')->name('pricing');
+Route::get('how-it-works', 'HomeController@showHowItWorks')->name('howItWorks');
+// ------------------------------------------------------------------------------------------
 
 Route::group(['middleware' => 'role:admin'], function () {
 
@@ -44,14 +44,6 @@ Route::group(['middleware' => 'role:admin'], function () {
         ->name('checkout');
 
 });
-
-/*Route::get('about', function () {
-    return view('about');
-})->name('about');*/
-
-Route::get('support', function () {
-    return view('support');
-})->name('support');
 
 // Restaurant Related Routes
 Route::get('restaurants', 'RestaurantController@list_restaurants')
@@ -72,6 +64,9 @@ Route::get('sessionClear', function () {
 Route::group(['prefix' => 'admin',
     'namespace' => 'Admin',
     'middleware' => 'role:admin'], function () {
+
+    Route::get('test', 'ScheduleController@updateScheduleForNextDay')->name('updateSchedule');
+
     // Dashboard controller routes
     // Home page for admins
     Route::get('', 'AdminDashboardController@showDashboard')

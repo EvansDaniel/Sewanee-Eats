@@ -21,7 +21,6 @@ class CourierDashboardController extends Controller
         // check current time, if it is < 02:00, then $today = day - 1
         $schedule_filler = new ScheduleFiller();
         $courier = User::find(Auth::id());
-        return view('courier.schedule',
-            compact('schedule_filler', 'courier'));
+        return view('courier.schedule', compact('schedule_filler', 'courier'));
     }
 }

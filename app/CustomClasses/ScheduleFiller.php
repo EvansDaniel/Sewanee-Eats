@@ -36,9 +36,9 @@ class ScheduleFiller
      */
     private function makeDayOfWeekMap()
     {
-        $today = Carbon::now($this->timezone);
-        // >= 0 && < 2
-        // \Log::info(Carbon::now($this->timezone)->hour); // debugging
+
+        //$num = 1; // debugging
+        $today = Carbon::now($this->timezone);//->addHours(24*$num);
 
         // $today->hour will return 17 if time is
         // between 5:00 PM and 5:59 PM
@@ -84,6 +84,7 @@ class ScheduleFiller
     private function getCountOnlineCouriersForDayTime($couriers, $day, $time)
     {
         $num_available_couriers = 0;
+        // create time of the specified hour
         $time = Carbon::createFromTime($time, 0, 0, $this->timezone);
         foreach ($couriers as $courier) {
             if ($courier->isAvailable($day, $time)) {

@@ -17,10 +17,10 @@
       $(document).ready(function () {
 
         var rsnt = $(".restaurant");
-        var interval = 1000;
+        var interval = 250;
         rsnt.each(function (index, value) {
           rsnt.fadeIn(interval + index * 200);
-        })
+        });
 
         $(".img-responsive").get(0).height("100%");
         change_heights();
@@ -45,7 +45,7 @@
                 <li style="display: none" class="restaurant list-group-item col-lg-3 col-md-3 col-xs-8 col-xs-offset-2 col-sm-8 col-sm-offset-2">
                     <a href="{{ route('showMenu',['id' => $restaurant->id]) }}" >
                         <!-- These urls must be https -->
-                        <img src="{{ asset('images/restaurants/shenanigans.jpg',env('APP_ENV') === 'production') }}"
+                        <img src="{{ asset(asset("images/restaurants/".$restaurant->image_name),env('APP_ENV') === 'production') }}"
                              id="rest-images" class="img-responsive">
                     </a>
                 </li>

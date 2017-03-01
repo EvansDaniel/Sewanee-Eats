@@ -9,12 +9,12 @@ trait IsAvailable
 {
     public function isAvailableNow($object)
     {
-        $timezone = $this->getTimezone();
+        $timezone = $this->tz();
         return $this->isAvailableOnDayAtTime
         ($object, Carbon::now()->dayOfWeek - 1, Carbon::now($timezone));
     }
 
-    public function getTimezone()
+    public function tz()
     {
         return 'America/Chicago';
     }
@@ -70,7 +70,7 @@ trait IsAvailable
         if ($available_time == "closed" || !$available_time) {
             return false;
         }
-        if (empty($current_period)) {
+        if ($cushion_period === null) {
             $cushion_period = $this->getCushionPeriod();
         }
 
@@ -89,10 +89,13 @@ trait IsAvailable
         $finish_hour = $finish[0];
         $finish_min = $finish[1];
 
-        if ($current_hour >= $finish_hour || $current_hour < $start_hour) {
+        // true if the shift starts on day 1 and ends on day 2
+        $shift_goes_til_next_day = $start_hour >= $finish_hour;
+
+
+        if (($current_hour >= $finish_hour && !$shift_goes_til_next_day) || $current_hour < $start_hour) {
             return false;
         }
-
         // restaurant opens at 11:30 and it is 11:00 right now, we need to check
         // the start_min only if start_hour == current_hour
         if ($current_hour == $start_hour) {
@@ -100,7 +103,6 @@ trait IsAvailable
                 return false;
             }
         }
-
         // hour is in the range, so check minutes only if we are in the
         // last hour of availability
         if ($finish_hour - 1 == $current_hour) {

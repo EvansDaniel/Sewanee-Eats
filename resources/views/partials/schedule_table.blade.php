@@ -27,8 +27,7 @@
                 <td id="time-slot-{{$day_index."-".$time_index}}"
                     data-day-of-week="{{ $day_index }}"
                     data-time-slot="{{ $schedule_filler->getTimes()[$time_index] }}"
-                    data-num-couriers-available="{{ /*$schedule_filler->
-                        getCountCouriers()[$day_number][$schedule_filler->getTimes()[$j]]*/
+                    data-num-couriers-available="{{
                         $schedule_filler->numCouriersOnDayAtTime($day_index,$time_index)
                     }}"
                     onclick="getAvailableCouriers(this)"

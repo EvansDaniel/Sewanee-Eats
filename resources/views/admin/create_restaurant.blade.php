@@ -17,6 +17,10 @@
                 <label for="rest-name">Restaurant Name</label>
                 <input name="name" id="rest-name" class="form-control"
                        type="text" required maxlength="100" value="Cool restaurant">
+                <label for="rest-name">Name of Restaurant Image File (all images relative to
+                    public/images/restaurants)</label>
+                <input name="image_name" id="rest-image-name" class="form-control"
+                       type="text" required maxlength="100" placeholder="ex: pub.png, mcdonalds.jpg">
                 <label for="rest-description">Restaurant Description</label>
                 <textarea name="description" id="rest-description" class="form-control"
                           cols="30" rows="10" required maxlength="250">Description</textarea>

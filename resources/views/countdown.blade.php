@@ -32,22 +32,11 @@
     </div>
 
     <script>
+
       getTime(); // set the start time
       // cool animations
-      $('#timer').fadeIn(400);
-      $('#header').fadeIn(2000);
-      setTimeout(function () {
-        $('#daysDiv').fadeIn(1000);
-      }, 250);
-      setTimeout(function () {
-        $('#hoursDiv').fadeIn(1000);
-      }, 500);
-      setTimeout(function () {
-        $('#minDiv').fadeIn(1000);
-      }, 750);
-      setTimeout(function () {
-        $('#secDiv').fadeIn(1000);
-      }, 1000);
+      p("ref = " + document.referrer);
+      loadCountdownView(wasReferred());
       // Set the date we're counting down to
       var countDownDate = new Date("Mar 3, 2017 12:00:00").getTime();
 
@@ -70,6 +59,35 @@
       var EXTRA = 0;
       function setStartTime(result) {
         START_TIME = result
+      }
+
+      function wasReferred() {
+        return !(document.referrer.indexOf("localhost") > -1 || document.referrer.indexOf("sewaneeeats.com") > -1)
+      }
+
+      function loadCountdownView(fadeIn) {
+        p("fade in " + fadeIn);
+        if (fadeIn) {
+          $('#header').fadeIn(1000);
+          setTimeout(function () {
+            $('#daysDiv').fadeIn(1000);
+          }, 125);
+          setTimeout(function () {
+            $('#hoursDiv').fadeIn(1000);
+          }, 250);
+          setTimeout(function () {
+            $('#minDiv').fadeIn(1000);
+          }, 375);
+          setTimeout(function () {
+            $('#secDiv').fadeIn(1000);
+          }, 500);
+        } else {
+          $('#header').show();
+          $('#daysDiv').fadeIn(500);
+          $('#hoursDiv').fadeIn(500);
+          $('#minDiv').fadeIn(500);
+          $('#secDiv').fadeIn(500);
+        }
       }
 
       function setTime() {

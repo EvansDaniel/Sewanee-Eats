@@ -12,21 +12,25 @@
     </style>
     <div class="container">
         <ul class="list-group">
+            <br>
             <a href="{{ route('showCreateRestaurantForm') }}">
-                <button class="btn btn-primary" type="button">Add a restaurant</button>
+                <button class="btn btn-primary form-control" type="button">Add a restaurant</button>
             </a>
+            <br><br>
             @if(count($rest) == 0)
                 <h1>No restaurants in database</h1>
             @else
                 @foreach($rest as $r)
                     <li class="list-group-item">
                         <div class="row">
-                            <img height="100" src="{{ $r->image_url }}" alt="Restaurant Image">
+                            <img height="100"
+                                 src="{{ asset("images/restaurants/".$r->image_name,env('APP_ENV') === 'production') }}"
+                                 alt="Restaurant Image">
                             {{ $r->name }}
                         </div>
                         <div class="row">
                             <a href="{{ route('showRestaurantUpdateForm', ['id' => $r->id]) }}">
-                                <button class="btn btn-primary" type="button">Update Restaurant</button>
+                                <button class="btn btn-primary" type="button">Update Restaurant Info</button>
                             </a>
                             <a href="{{ route('adminShowMenu',['id' => $r->id]) }}">
                                 <button class="btn btn-info" type="button">View restaurant menu</button>
@@ -43,6 +47,7 @@
                             {{--<form action="{{ route('deleteRestaurant', ['id' => $r->id]) }}" method="post"> --}}
                         </div>
                     </li>
+                    <br>
                 @endforeach
             @endif
         </ul>
