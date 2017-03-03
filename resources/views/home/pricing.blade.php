@@ -1,71 +1,130 @@
 @extends('layout')
-
+@section('head')
+    <title>Sewanee Eats| Pricing</title>
+@stop
 
 @section('body')
 
     <style type="text/css">
-        .prices{text-align:center}
-        .prices ul{
-            display:inline-block;
-            text-align:left;
+
+
+        .prices ul {
+            display: inline-block;
+            text-align: left;
         }
-        * html .test ul{display:inline}/* ie6 inline-block fix */
-        *+html .test ul{display:inline}/* ie7 inline-block fix */
+
+        * html .test ul {
+            display: inline
+        }
+
+        /* ie6 inline-block fix */
+        * + html .test ul {
+            display: inline
+        }
+        li{
+            font-family: "Lato", sans-serif;
+            list-style: none;
+        }
+        #promo-order-button {
+            background: linear-gradient(90deg, #240a54 10%, #7459a5 90%);
+            color: white;
+            border-radius: 0px;
+            text-align: center;
+            padding: 10px 18px;
+            text-decoration: none;
+            margin-bottom: 1em;
+            margin-left: 2%;
+            font-size: 14px;
+            font-weight: bold;
+            /*width: 20%;*/
+            margin-top: 10px;
+            border: solid rebeccapurple 2px;
+            vertical-align: middle;
+        }
+        #promo-order-button:hover {
+            background: linear-gradient(90deg, #7459a5 10%, #240a54 90%);
+            -webkit-box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.75);
+            -moz-box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.75);
+            box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.75);
+        }
+
+        .pr-page{
+            font-family: "Lato", sans-serif;
+
+        }
+        #pricing-p{
+
+        }
+        body{
+            background: white;
+        }
+        @media only screen and (max-width: 768px){
+
+
+        }
+        /* ie7 inline-block fix */
     </style>
 
-    <center>
-    <h1>Pricing</h1>
-    <h4><a href="restaurants">Place your order here!</a></h4>
+    <div class="container pr-page">
+        <h1>Pricing</h1>
 
-    <h2>How much will my order cost?</h2>
-    <p style="width:50%; padding: 0 15 0 50">The total to get your food delivered is the <b>cost of your food (the amount the
-        restaurant would charge</b> plus a <b>base delivery fee from Sewanee Eats, with tax.</b> Below are the
-        base delivery prices. Prices are <b>per order</b>.
+        <h2>How much will my order cost?</h2>
+        <h6 class="row"><a href="{{ route('list_restaurants') }}" id="promo-order-button" class="col-lg-2 col-md-3 col-sm-5 col-xs-5">
+                Order Now
+            </a>
+        </h6>
+        <p id="pricing-p">The total to get your food delivered is the <b>cost of your food (the
+                amount the
+                restaurant would charge</b> plus a <b>base delivery fee from Sewanee Eats, with tax.</b> Below are the
+            base delivery prices. Prices are <b>per order</b>.
 
-        <br>
-        <br>
+            <br>
+            <br>
 
-        If you purchase 5 or more items from inside the gates, we will add $1 per item to your order total.
-        <br>
-        If you purchase 5 or more items from outside the gates, we will add $2 per item to your delivery charge.
-    </p>
+            If you purchase 5 or more items from inside the gates, we will add $1 per item to your order total.
+            <br>
+            If you purchase 5 or more items from outside the gates, we will add $2 per item to your delivery charge.
+        </p>
 
         <h2>Restaurants Inside the Gates:</h2>
         <hr>
-        <h3>
-        <div class="prices">
-            <ul>
-                <li>Stirlings - $2</li>
-                <li>Pub - $2</li>
-                <br>
 
-                <li>Sewanee Market - $4</li>
-                <li>Shenanigans - $4</li>
-                <li>Blue Chair or Tavern - $4</li>
-            </ul>
-<hr>
-            <h2>Restaurants Outside the Gates:</h2>
-            <hr>
-                    <ul>
-                        <li>Pizza Hut - $4.50</li>
-                        <li>Waffle House - $6</li>
-                        <li>Sonic - $4.50</li>
-                        <li>McDonalds - $4.50</li>
-                        <br>
-                        <li>Mountain Goat Market - $4.50</li>
-                        <li>Wendys - $5</li>
-                    </ul>
+            <div class="prices">
+                <ul>
+                    <li>Stirlings - $3</li>
+                    <li>Pub - $3</li>
+                    <br>
+                    <li>Sewanee Market - $4</li>
+                    <li>Shenanigans - $3</li>
+                    <li>Blue Chair or Tavern - $4</li>
+                </ul>
+                <hr>
+                <h2>Restaurants Outside the Gates:</h2>
+                <hr>
+                <ul>
+                    <li>Pizza Hut - $4.50</li>
+                    <li>Waffle House - $6</li>
+                    <li>Sonic - $4.50</li>
+                    <li>McDonalds - $4.50</li>
+                    <br>
+                    <li>Mountain Goat Market - $6</li>
+                    <li>Wendys - $5</li>
+                </ul>
 
-        <hr>
-        <h2>Weekly Special Prices:</h2>
-        <hr>
-        <ul>
-            <li>Chick-fil-a - $3</li>
-            <li>Zaxbys - $3</li>
-        </ul>
-        </h3>
+                <hr>
+                <h2>Weekly Special Prices:</h2>
+                <hr>
+                <ul>
+                    <li>Chick-fil-a - $3</li>
+                    <li>Zaxbys - $3</li>
+                </ul>
+
         </div>
+        <h6 class="row"><a href="{{ route('list_restaurants') }}" id="promo-order-button" class="col-lg-2 col-md-2 col-sm-4 col-xs-4">
+                Order Now
+            </a>
+        </h6>
 
-    </center>
+    </div>
 
 @stop

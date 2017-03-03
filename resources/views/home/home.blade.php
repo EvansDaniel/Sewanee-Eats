@@ -2,6 +2,7 @@
 
 @section('head')
     <title>Sewanee Eats</title>
+    <link rel="stylesheet" href={{ asset('css/home.css',env('APP_ENV') !== 'local')  }}>
 @stop
 
 @section('body')
@@ -34,8 +35,8 @@
         </p>
         <br> <br>
         <div class="row" id="promo-places">
-            <div class="col-lg-3 col-md-3 col-sm-3 col-sm-offset-1 col-xs-offset-1 col-xs-10" id="promo-place1">
-                <img class="img-circle img-thumbnail"
+                <div class="col-lg-3 col-md-3 col-sm-3 col-sm-offset-1 col-xs-offset-1 col-xs-10" id="promo-place1">
+                    <img class="img-circle img-thumbnail"
                      src="{{asset('images/locations/humphreys.jpg',env('APP_ENV') === 'production')}}"><br><br>
                 <p class="col-md-12 col-lg-12">Order from your residential room</p>
             </div>
