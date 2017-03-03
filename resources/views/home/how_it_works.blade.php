@@ -6,7 +6,7 @@
 
     <h2>How do I place an order?</h2>
 
-    <p style="width:50%; padding: 0 15 0 50"> Ordering from your favorite place with Sewanee Eats is a breeze! Just pick a restaurant then add your desired
+    <p style="width:50%; padding: 0 15 0 50">Ordering from your favorite place with Sewanee Eats is a breeze! Just pick a restaurant then add your desired
     food items to the cart.
     </p>
 
@@ -40,9 +40,13 @@
     <p style="width:50%; padding: 0 15 0 50">
     We will always do our best to resolve your order problems. If there is an issue with your order, please email us immediately <a href="mailto:sewaneeeats@gmail.com?Subject=Order%20Issue" target="_top">here</a> and
     we will fix the issue.
-        <br>
-    Thank you for supporting Sewanee Eats!
     </p>
+
+    <h2>What are weekly specials?</h2>
+        <p style="width:50%; padding: 0 15 0 50"><a name="specials"></a>Each week, we will have food specials from establishments that might be a little farther from
+        campus than our usuals! For exam, we'll deliver Chick-fil-a or Zaxby's to your doorstep! Every Monday morning, we will
+        post what the weekly special restaurant is for the week! You can then place your order for that restaurant, and
+        we'll send you an email to confirm. Then, on the day that the special is on, we'll deliver your food to you.</p>
 
     </center>
 
