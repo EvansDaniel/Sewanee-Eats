@@ -211,18 +211,22 @@ h1 {
     div{
         margin-bottom: 10px;
     }
-}
+
+}#phone-number{
+     width: 100%;
+ }
 @media only screen and (min-width: 768px) {
     #ct-ct{
         margin-left: 15px;
+    }
+    #phone-number{
+        width: 35%;
     }
 }
 #location, #phone-number{
     font-weight: bold;
 }
-#phone-number{
-    width: 35%;
-}
+
 #pay-now-button{
     color: white;
     border: solid black 2px;
