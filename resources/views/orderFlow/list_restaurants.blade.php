@@ -8,11 +8,18 @@
     <link rel="stylesheet" href={{ asset('css/restaurants.css',env('APP_ENV') === 'production') }}>
     <br><br><br>
     <header class="container header">
-        <h5 id="mountain">RESTAURANTS ON THE MOUNTAIN</h5>
+        <h5 id="mountain">WEEKLY SPECIALS</h5>
+        <hr>
+        <p>This week's Weekly Special is Chick-fil-a! Find out more about weekly specials <a href="how-it-works#specials">here!</a></p>
+    </header>
+
+    <div class="container">
+        <h5 id="monteagle">RESTAURANTS ON THE MOUNTAIN</h5>
         <hr>
         <p>Coming soon!</p>
 
-    </header>
+    </div>
+
     <script>
       $(document).ready(function () {
 
