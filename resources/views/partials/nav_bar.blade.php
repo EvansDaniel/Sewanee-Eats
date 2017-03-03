@@ -6,7 +6,7 @@
             <img src="{{ asset('images/branding/mountain_logo.jpg',env('APP_ENV') !== 'local')  }}"
                  id="brand_img" class="img-responsive" alt="">
         </a>
-        <button type="button" id="collapse-button" class="navbar-toggle glyphicon glyphicon-menu-hamburger"
+        <button type="button" id="collapse-button" class="navbar-toggle"
                 data-toggle="collapse"
                 data-target="#navDiv">
             <span class="sr-only">Toggle navigation</span>

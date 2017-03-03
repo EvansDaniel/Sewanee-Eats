@@ -118,7 +118,7 @@
                                     <button class="ckbtn btn btn-primary"
                                             id="dfc-{{ $order['menu_item_model']->id }}-{{ $i }}"
                                             data-model-id="{{ $order['menu_item_model']->id }}"
-                                            data-item-index="{{ $i }}"
+                                        `    data-item-index="{{ $i }}"
                                             onclick="deleteItemFromCart(this)"
                                             type="button">X
                                     </button>
@@ -133,9 +133,12 @@
             @endif
             @if(!empty(Session::get('cart')) && Session::get('cart') != null)
 
-                <div class="cart col-lg-12 col-md-12 col-sm-12 col-xs-12" id="main-payment-form" style="display: none;">
+                <div class="cart col-lg-12 col-md-12 col-sm-12 col-xs-12" id="main-payment-form" style="">
                     <!-- Payment information -->
-                    <h4>Enter your information to pay:</h4>
+                    <h3 class="col-lg-12 col-md-12 col-sm-12 col-xs-12 cart-review">
+                        2. Enter your information to pay:
+                    </h3>
+                    <hr>
                     <span class="" style="display: none;" id="payment-errors"></span>
                     <div class="form-group">
                         <label>
