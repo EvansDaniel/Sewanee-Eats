@@ -33,15 +33,15 @@
         </p>
         <br> <br>
         <div class="row" id="promo-places">
-            <div class="col-lg-3 col-md-3 col-sm-10 col-sm-offset-1 col-xs-offset-1 col-xs-10" id="promo-place1">
+            <div class="col-lg-3 col-md-3 col-sm-3 col-sm-offset-1 col-xs-offset-1 col-xs-10" id="promo-place1">
                 <img class="img-circle img-thumbnail" src="{{asset('images/locations/humphreys.jpg')}}"><br><br>
                 <p class="col-md-12 col-lg-12">Order from your residential room</p>
             </div>
-            <div class="col-lg-3 col-md-3 col-sm-10 col-sm-offset-1 col-xs-offset-1 col-xs-10" id="promo-place2">
+            <div class="col-lg-3 col-md-3 col-sm-3 col-sm-offset-1 col-xs-offset-1 col-xs-10" id="promo-place2">
                 <img class="img-circle img-thumbnail" src="{{asset('images/locations/dupont.jpg')}}"><br><br><br>
                 <p class="col-md-12 col-lg-12">Your favorite study place</p>
             </div>
-            <div class="col-lg-3 col-md-3 col-md-offset-1 col-sm-10 col-sm-offset-1 col-xs-offset-1 col-xs-10" id="promo-place3">
+            <div class="col-lg-3 col-md-3 col-md-offset-1 col-sm- col-sm-offset-1 col-xs-offset-1 col-xs-10" id="promo-place3">
                 <img class="img-circle img-thumbnail" src="{{asset('images/locations/kappasig.jpg')}}"><br><br>
                 <p class="col-md-12 col-lg-12">Even your Greek house</p>
             </div>
