@@ -1,7 +1,7 @@
 @extends('layout')
 
 @section('head')
-    <link rel="stylesheet" href="{{ asset("css/cart.css") }}">
+    <link rel="stylesheet" href="{{ asset("css/cart.css",env('APP_ENV') === 'production') }}">
     <title>Checkout</title>
     <style>
         #payment-form {
@@ -13,7 +13,9 @@
 
 @section('body')
     <div class="container-fluid" id="cart-container">
-        <form action="{{ route('handleCheckout') }}" method="POST" id="payment-form">
+        <form action="{{ url()->to(parse_url(route('handleCheckout',[]),PHP_URL_PATH),[],env('APP_ENV') !== 'local') }}"
+              method="post" id="payment-form">
+            {{--<form action="{{ route('handleCheckout') }}" method="POST" id="payment-form">--}}
             {{ csrf_field() }}
             @if(empty(Session::get('cart')) || Session::get('cart') == null)
                 <h1>Your Food</h1>
@@ -235,5 +237,5 @@
         }
 
     </script>
-    <script src="{{ asset('js/checkout.js') }}"></script>
+    <script src="{{ asset('js/checkout.js',env('APP_ENV') === 'production') }}"></script>
 @stop

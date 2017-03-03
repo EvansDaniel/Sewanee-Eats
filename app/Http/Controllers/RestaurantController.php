@@ -24,7 +24,7 @@ class RestaurantController extends Controller
         foreach ($restaurant->menuItems as $item) {
             $menu_items[$item->itemCategory->name][] = $item;
         }
-        return view('showMenu',compact('restaurant','menu_items'));
+        return view('orderFlow.showMenu', compact('restaurant', 'menu_items'));
     }
 
     public function list_restaurants()
@@ -40,7 +40,7 @@ class RestaurantController extends Controller
         // boolean to use in the view show or not show a link
         // to a page with all the restaurants on it
         $showAllRestaurants = count($all_restaurants) > count($restaurants);
-        return view('list_restaurants', compact('restaurants'));
+        return view('orderFlow.list_restaurants', compact('restaurants'));
     }
 
     public function store(Request $request)

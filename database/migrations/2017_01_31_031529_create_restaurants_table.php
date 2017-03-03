@@ -26,7 +26,7 @@ class CreateRestaurantsTable extends Migration
             // simplest pricing scheme would be a flat rate
             // based on location
             $table->string('location');
-            $table->string('image_url');
+            $table->string('image_name');
             $table->timestamps();
         });
     }

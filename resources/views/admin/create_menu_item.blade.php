@@ -8,7 +8,9 @@
 
     <h1>Create Menu Item</h1>
 
-    <form action="{{ route('createMenuItem') }}" method="post">
+    <form action="{{ url()->to(parse_url(route('createMenuItem',[]),PHP_URL_PATH),[],env('APP_ENV') !== 'local') }}"
+          method="post">
+        {{--<form action="{{ route('createMenuItem') }}" method="post">--}}
         {{ csrf_field() }}
         <input name="restaurant_id" type="hidden" value="{{ $restaurant->id }}">
         <div class="form-group">
@@ -54,6 +56,5 @@
             margin-top: 10px;
         }
     </style>
-
-    <script src="{{ asset('js/admin/create_update_menu_item.js') }}"></script>
+    <script src="{{ asset('js/admin/create_update_menu_item.js',env('APP_ENV') !== 'local') }}"></script>
 @stop

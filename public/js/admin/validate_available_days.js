@@ -49,6 +49,7 @@ function validTableData(input) {
     return false
   }
 
+  // We will represent 12 AM as "00" so we reject any hh > 23
   // check start[0] -> hh
   if (!$.isNumeric(start[0]) || start[0] < 0 || start[0] > 23 || start[0].length != 2) {
     return false;

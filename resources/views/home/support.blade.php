@@ -5,7 +5,7 @@
 @stop
 
 @section('body')
-    <link rel="stylesheet" href="{{asset('css/support.css')}}">
+    <link rel="stylesheet" href="{{asset('css/support.css',env('APP_ENV') === 'production')}}">
     <br><br><br>
     <div class="container support">
         <p class="row support-h"> We are always available to listen to your concern or/and suggestion</p>

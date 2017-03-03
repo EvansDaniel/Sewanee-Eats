@@ -7,7 +7,9 @@
 @section('body')
 
     <h1>Update accessory for {{ $menu_item->name }}</h1>
-    <form action="{{ route('updateAccessory',['id' => $accessory->id]) }}" method="post">
+    <form action="{{ url()->to(parse_url(route('updateAccessory',['id' => $accessory->id]),
+                                         PHP_URL_PATH),[],env('APP_ENV') !== 'local') }}" method="post">
+        {{--<form action="{{ route('updateAccessory',['id' => $accessory->id]) }}" method="post">--}}
         {{ csrf_field() }}
         <input name="menu_item_id" type="hidden" value="{{ $menu_item->id }}">
         <input type="hidden" value="{{ $accessory->id }}" name="accessory_id">

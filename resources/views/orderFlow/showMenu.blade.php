@@ -1,8 +1,9 @@
 @extends('layout')
 
 @section('head')
-    <script src="{{asset('js/menu.js')}}"></script>
-    <link rel="stylesheet" href="{{ asset("css/menu.css") }}">
+
+    <script src="{{ asset('js/menu.js',env('APP_ENV') === 'production') }}"></script>
+    <link rel="stylesheet" href={{ asset('css/menu.css',env('APP_ENV') === 'production') }}>
     <title>{{ $restaurant->name }} | Menu</title>
 @stop
 
@@ -28,7 +29,7 @@
         <div class="row" id="restaurant-logo">
             <div class="col-lg-offset-5 col-lg-2 col-md-2 col-md-offset-5 col-sm-4 col-sm-offset-4 col-xs-offset-4 col-xs-4">
 
-                <img class="img-circle img-thumbnail" src="{{asset('images/restaurants/ivy_wild.jpg')}}">
+                <img  class="img-circle img-thumbnail" src="{{ asset('images/restaurants/ivy_wild.jpg',env('APP_ENV') === 'production') }}">
             </div>
         </div>
         <div class="panel panel-default">
@@ -78,24 +79,25 @@
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                                 aria-hidden="true">&times</span></button>
-                    <h4 class="modal-title" id="show-item-name"></h4>
+                    <h4 class="modal-title" style="color: black;" id="show-item-name"></h4>
                     <strong><span id="max-items-exceeded-error" style="display: none"></span></strong>
                 </div>
                 <div class="modal-body">
-                    <form action="{{ route('addToCart') }}" method="post">
+                    {{--<form action="{{ route('addToCart') }}" method="post">--}}
+                    <form action="{{ url()->to(parse_url(route('addToCart',[]),PHP_URL_PATH),[],env('APP_ENV') !== 'local') }}"
+                          method="post">
                         {{ csrf_field() }}
                         <div class="form-group">
                             <div class="pull-right">Price: $<span id="show-item-price"></span></div>
-                            <div id="mn-divider"  class="hidden-lg hidden-md"></div>
                             <div id="show-item-description"></div>
 
                             <input type="hidden" id="to-cart-item-id" name="menu_item_id" value="">
-                            <div class="row q-head">
+                            <div class="row q-head col-lg-offset-1 col-md-offset-1 col-sm-offset-1 col-xs-offset-1">
                                 QUANTITY:
                             </div>
-                            <div class="row q-manip-div">
+                            <div class="row">
                                 <button type="button" id="minus"
-                                        class="glyphicon glyphicon-minus col-lg-1 col-md-1  col-sm-2  col-xs-1  sign"></button>
+                                        class="glyphicon glyphicon-minus col-lg-1 col-lg-offset-1 col-md-1 col-md-offset-1 col-sm-2 col-sm-offset-1 col-xs-1 col-xs-offset-1 sign"></button>
                                 <input class="form-control col-lg-2 col-md-2 col-sm-2 col-xs-2" type="number" min="1"
                                        max="10" name="quantity"
                                        id="quantity">
@@ -112,8 +114,9 @@
 
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="itembtn col-sm-2 col-sm-offset-3 col-xs-3 col-xs-offset-2 col-lg-2 col-lg-offset-6 col-md-2 col-md-offset-6" id="md-rmv" data-dismiss="modal">Close</button>
-                                <button type="submit" class="itembtn col-sm-3 col-sm-offset-1 col-xs-6 col-xs-offset-1 col-lg-3 col-lg-offset-1 col-md-offset-1 col-md-3" id="add-to-cart-button">Add To Cart</button>
+                                <button type="button" class="itembtn" data-dismiss="modal">Close</button>
+                                <div class="divider"></div>
+                                <button type="submit" class="itembtn" id="add-to-cart-button">Add To Cart</button>
                             </div>
                         </div>
                     </form>

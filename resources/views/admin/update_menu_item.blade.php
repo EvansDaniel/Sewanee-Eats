@@ -8,7 +8,9 @@
 
     <h1>Update Menu Item</h1>
 
-    <form action="{{ route('updateMenuItem', ['id' => $menu_item->id ]) }}" method="post">
+    {{--<form action="{{ route('updateMenuItem', ['id' => $menu_item->id ]) }}" method="post">--}}
+    <form action="{{ url()->to(parse_url(route('updateMenuItem',['id' => $menu_item->id ]),PHP_URL_PATH),[],env('APP_ENV') !== 'local')  }}"
+          method="post">
         {{ csrf_field() }}
         <input name="restaurant_id" type="hidden" value="{{ $restaurant->id }}">
         <input type="hidden" name="menu_item_id" value="{{ $menu_item->id }}">
@@ -65,5 +67,5 @@
         }
     </style>
 
-    <script src="{{ asset('js/admin/create_update_menu_item.js') }}"></script>
+    <script src="{{ asset('js/admin/create_update_menu_item.js',env('APP_ENV') === 'production') }}"></script>
 @stop

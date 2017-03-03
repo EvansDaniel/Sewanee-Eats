@@ -2,13 +2,14 @@
 
 @section('head')
     <title>Create Restaurant</title>
-    <link rel="stylesheet" href="{{ asset('css/admin/create_update_restaurant.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/admin/create_update_restaurant.css',env('APP_ENV') === 'production') }}">
 @stop
 
 @section('body')
     <div class="container">
         <h1>Add a new restaurant</h1>
-        <form action="{{ route('createRestaurant') }}"
+
+        <form action="{{ url()->to(parse_url(route('createRestaurant',[]),PHP_URL_PATH),[],env('APP_ENV') !== 'local') }}"
               method="post" enctype="multipart/form-data"
               id="create-restaurant" accept-charset="utf-8">
             {{ csrf_field() }}
@@ -16,6 +17,10 @@
                 <label for="rest-name">Restaurant Name</label>
                 <input name="name" id="rest-name" class="form-control"
                        type="text" required maxlength="100" value="Cool restaurant">
+                <label for="rest-name">Name of Restaurant Image File (all images relative to
+                    public/images/restaurants)</label>
+                <input name="image_name" id="rest-image-name" class="form-control"
+                       type="text" required maxlength="100" placeholder="ex: pub.png, mcdonalds.jpg">
                 <label for="rest-description">Restaurant Description</label>
                 <textarea name="description" id="rest-description" class="form-control"
                           cols="30" rows="10" required maxlength="250">Description</textarea>

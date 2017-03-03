@@ -13,8 +13,9 @@
                                 {{ session('status') }}
                             </div>
                         @endif
-
-                        <form class="form-horizontal" role="form" method="POST" action="{{ url('/password/reset') }}">
+                        {{--<form class="form-horizontal" role="form" method="POST" action="{{ url('/password/reset') }}">--}}
+                        <form class="form-horizontal" role="form" method="POST"
+                              action="{{ url()->to(parse_url(route('password.request',[]),PHP_URL_PATH),[],env('APP_ENV') !== 'local') }}">
                             {{ csrf_field() }}
 
                             <input type="hidden" name="token" value="{{ $token }}">

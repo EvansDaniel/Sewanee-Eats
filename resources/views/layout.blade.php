@@ -3,10 +3,10 @@
 <html>
 <head>
     @include('global_config')
-    <link rel="icon" href="{{asset('images/branding/mtneats.png')}}">
-    <link rel="stylesheet" type="text/css" href=" {{ asset('css/home.css') }}">
-    <link rel="stylesheet" type="text/css" href=" {{ asset('css/footer.css') }}">
-    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,900,900i" rel="stylesheet">
+    <link rel="stylesheet" href={{ asset('images/branding/mtneats.png',env('APP_ENV') !== 'local') }}>
+    <link rel="stylesheet" href={{ asset('css/home.css',env('APP_ENV') !== 'local')  }}>
+    <link rel="stylesheet" href={{ asset('css/footer.css',env('APP_ENV') !== 'local') }}>
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet">
     @yield('head')
 </head>
 <body>

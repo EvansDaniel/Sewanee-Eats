@@ -72,7 +72,7 @@ trait UploadFile
     public function dbStoragePath($sub_dir, $file_name)
     {
         $sep = $this->separator($sub_dir);
-        return asset('storage/' . $sub_dir . $sep . $file_name);
+        return asset('storage/' . $sub_dir . $sep . $file_name, env('APP_ENV') === 'production');
     }
 
     /**

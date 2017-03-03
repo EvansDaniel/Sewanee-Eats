@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="{{asset('css/nav_bar.css')}}">
+<link rel="stylesheet" href="{{asset('css/nav_bar.css',env('APP_ENV') === 'production')}}">
 <nav class="navbar navbar-default navbar-custom navbar-fixed-top row">
     <button type="button" id="collapse-button" class="navbar-toggle" data-toggle="collapse"
             data-target="#navDiv">
@@ -14,7 +14,9 @@
                 <li><a class="nav-links" href="{{ route('showCourierDashboard') }}">YOUR COURIER DASHBOARD</a></li>
             @endif
             <li>
-                <form id="logout-form" action="{{ route('logout') }}" method="POST">
+                <form action="{{ url()->to(parse_url(route('logout',[]),PHP_URL_PATH),[],env('APP_ENV') !== 'local') }}"
+                      method="post" id="logout-form">
+                    {{--<form id="logout-form" action="{{ route('logout') }}" method="POST">--}}
                     {{ csrf_field() }}
                     <a onclick="event.preventDefault();
                                 document.getElementById('logout-form').submit();">

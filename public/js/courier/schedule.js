@@ -10,7 +10,7 @@ var table_info = {
     'darkmagenta',
     'indigo'
   ],
-  num_cols: $('th').length,
+  num_cols: $('th').length
 };
 $('td').each(function (i) {
   var num_couriers_avail = $(this).data('num-couriers-available');
@@ -24,7 +24,8 @@ $('td').each(function (i) {
     }
   }
 });
-// called on click td
+// shows the available couriers for a time slot
+// when you click on a schedule table cell
 function getAvailableCouriers(obj) {
   // the cell that is the time slot the courier clicked on
   var td = $('#' + obj.id);

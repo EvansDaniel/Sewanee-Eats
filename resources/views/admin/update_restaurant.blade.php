@@ -2,13 +2,13 @@
 
 @section('head')
     <title>Update Restaurant</title>
-    <link rel="stylesheet" href="{{ asset('css/admin/create_update_restaurant.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/admin/create_update_restaurant.css',env('APP_ENV') === 'production') }}">
 @stop
 
 @section('body')
     <div class="container">
         <h1>Add a new restaurant</h1>
-        <form action="{{ route('updateRestaurant') }}"
+        <form action="{{ url()->to(parse_url(route('updateRestaurant',[]),PHP_URL_PATH),[],env('APP_ENV') !== 'local') }}"
               method="post" enctype="multipart/form-data"
               id="update-restaurant" accept-charset="utf-8">
             {{ csrf_field() }}
