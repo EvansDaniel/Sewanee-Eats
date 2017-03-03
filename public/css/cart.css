@@ -1,30 +1,31 @@
-.checkoutbtn {
-    background: linear-gradient(90deg, #240a54 10%, #7459a5 90%);
-    color: white;
-    padding: 10px 10px;
-    border: none;
-    border-radius: 10px;
-    letter-spacing: .12em;
-    font-size: 15px;
-    font-family: 'Lato', sans-serif;
+/*.checkoutbtn {*/
+/*background: linear-gradient(90deg, #240a54 10%, #7459a5 90%);*/
+/*color: white;*/
+/*padding: 10px 10px;*/
+/*border: none;*/
+/*border-radius: 10px;*/
+/*letter-spacing: .12em;*/
+/*font-size: 15px;*/
+/*font-family: 'Lato', sans-serif;*/
 
-    position: relative;
-}
-.ckbtn{
+/*position: relative;*/
+/*}*/
+.ckbtn {
     background: white;
     color: black;
     font-weight: bold;
     border: solid black 2px;
     border-radius: 25px;
 }
-.ckbtn:hover{
+
+.ckbtn:hover {
     background: black;
     color: white;
 }
 
 /*textarea {*/
-    /*width: 40%;*/
-    /*height: 10%;*/
+/*width: 40%;*/
+/*height: 10%;*/
 /*}*/
 
 /*
@@ -39,8 +40,8 @@ div.cart {
 */
 
 /*.divider {*/
-    /*height: 70px;*/
-    /*display: inline-block;*/
+/*height: 70px;*/
+/*display: inline-block;*/
 /*}*/
 
 /*for small and extra small screens*/
@@ -50,46 +51,41 @@ h1 {
 }
 
 @media only screen and (max-width: 760px) {
-    div.cart {
-        position: relative;
-        top: -40px;
 
-        width: 300px;
-        height: 260px;
-        margin: auto;
-        border: 3px solid #240a54;
-        color: #240a54;
-    }
-
-    .checkoutbtn {
-        transform: translate(-50%, -50%);
-        background: linear-gradient(90deg, #240a54 10%, #7459a5 90%);
-        color: white;
-        padding: 10px 10px;
-        border: none;
-        border-radius: 10px;
-        letter-spacing: .12em;
-        font-size: 10px;
-        font-family: 'Lato', sans-serif;
-    }
+    /*.checkoutbtn {*/
+    /*transform: translate(-50%, -50%);*/
+    /*background: linear-gradient(90deg, #240a54 10%, #7459a5 90%);*/
+    /*color: white;*/
+    /*padding: 10px 10px;*/
+    /*border: none;*/
+    /*border-radius: 10px;*/
+    /*letter-spacing: .12em;*/
+    /*font-size: 10px;*/
+    /*font-family: 'Lato', sans-serif;*/
+    /*}*/
 
 }
-#cart-title{
+
+#cart-title {
     text-align: center;
     font-family: "Lato", sans-serif;
 
 }
-.menu-item{
+
+.menu-item {
     font-family: "Lato", sans-serif;
 }
-.order-name{
+
+.order-name {
     font-size: 16px;
     font-weight: bold;
 }
-.order-descr{
+
+.order-descr {
     font-size: 16px;
 }
-.order-special button, .show-extra{
+
+.order-special button, .show-extra {
     color: black;
     border: solid black 2px;
     background: white;
@@ -98,87 +94,148 @@ h1 {
     margin-bottom: 0;
     font-size: 14px;
 }
-.order-special button:hover, .show-extra:hover{
+
+.order-special button:hover, .show-extra:hover {
     background: black;
     color: white;
     font-weight: bold;
 }
-.si{
+
+.si {
     width: 25%;
     height: 80px;
     margin: 0 1% 0 0;
     border-radius: 0px;
-    border:solid 2px black;
+    border: solid 2px black;
     outline: 0;
     font-size: 16px;
     word-break: break-all;
 
 }
-.si:focus{
+
+.si:focus {
     border: solid 2px black;
     outline: none;
-    -webkit-box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.75);
-    -moz-box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.75);
-    box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.75);
+    -webkit-box-shadow: 1px 1px 5px 0px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 1px 1px 5px 0px rgba(0, 0, 0, 0.75);
+    box-shadow: 1px 1px 5px 0px rgba(0, 0, 0, 0.75);
 }
-#cart-title{
+
+#cart-title {
     font-family: "Lato", sans-serif;
     font-size: 22px;
 }
 
-#cart-order-again{
+#cart-order-again {
     border: 2px solid rebeccapurple;
     color: white;
     background: rebeccapurple;
     padding: 6px 10px;
     border-radius: 20px;
     text-transform: capitalize;
-    -webkit-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
-    -moz-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
-    box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
+    -webkit-box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
+    box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
 }
-#cart-order-again:hover{
+
+#cart-order-again:hover {
     text-decoration: none;
     background: rebeccapurple;
     color: white;
     text-transform: capitalize;
-    -webkit-box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.75);
-    -moz-box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.75);
-    box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.75);
+    -webkit-box-shadow: 1px 1px 5px 0px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 1px 1px 5px 0px rgba(0, 0, 0, 0.75);
+    box-shadow: 1px 1px 5px 0px rgba(0, 0, 0, 0.75);
 }
-.c-t-i{
+
+.c-t-i {
     margin-bottom: 30px;
 }
-#main-container{
+
+#main-container {
     background: white;
 }
+
 @media only screen and (min-width: 768px) {
 
 }
 
-#card-number{
+#card-number {
     margin: 0 1% 0 0;
-    border-radius: 0px;
+    border-radius: 10px;
     border: solid 2px black;
     outline: 0;
     font-size: 16px;
     word-break: break-all;
 }
-#exp-month, #exp-year, #{
-    border-radius: 0px;
+
+#exp-month, #exp-year, #phone-number, #cvc, #location {
+    border-radius: 10px;
     border: solid 2px black;
     outline: 0;
     font-size: 16px;
     word-break: break-all;
     padding: 3px;
 }
-#card-number:focus, #exp-month:focus , #exp-year:focus{
+
+#card-number:focus, #exp-month:focus, #exp-year:focus, #phone-number:focus, #cvc:focus, #location:focus {
     border: solid 2px black;
     outline: none;
-    -webkit-box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.75);
-    -moz-box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.75);
-    box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.75);
+    -webkit-box-shadow: 2px 2px 5px 0px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 2px 2px 5px 0px rgba(0, 0, 0, 0.75);
+    box-shadow: 2px 2px 5px 0px rgba(0, 0, 0, 0.75);
 }
-#main-payment-form{
+
+#main-payment-form {
     font-family: "Lato", sans-serif;
+}
+
+#loc-phone {
+    width: 75%;
+}
+
+#exp-month, #exp-year {
+    width: 60px;
+}
+
+@media only screen and (max-width: 768px) {
+    #c-cvc, #c-date {
+        margin-left: 15px;
+    }
+    #c-cvc .row, #c-date .row{
+        margin-right: -15px;
+    }
+    .si{
+        width: 90%;
+    }
+    div{
+        margin-bottom: 10px;
+    }
+}
+@media only screen and (min-width: 768px) {
+    #ct-ct{
+        margin-left: 15px;
+    }
+}
+#location, #phone-number{
+    font-weight: bold;
+}
+#phone-number{
+    width: 35%;
+}
+#pay-now-button{
+    color: white;
+    border: solid black 2px;
+    background: black;
+    border-radius: 10px;
+    padding: 6px 12px;
+    margin-bottom: 0;
+    font-size: 13px;
+    font-family: "Lato", sans-serif;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+#pay-now-button:hover{
+    color: lightgrey;
+
 }

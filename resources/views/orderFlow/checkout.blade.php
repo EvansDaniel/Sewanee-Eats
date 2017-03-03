@@ -118,7 +118,7 @@
                                     <button class="ckbtn btn btn-primary"
                                             id="dfc-{{ $order['menu_item_model']->id }}-{{ $i }}"
                                             data-model-id="{{ $order['menu_item_model']->id }}"
-                                        `    data-item-index="{{ $i }}"
+                                            ` data-item-index="{{ $i }}"
                                             onclick="deleteItemFromCart(this)"
                                             type="button">X
                                     </button>
@@ -133,52 +133,63 @@
             @endif
             @if(!empty(Session::get('cart')) && Session::get('cart') != null)
 
-                <div class="cart col-lg-12 col-md-12 col-sm-12 col-xs-12" id="main-payment-form" style="">
+                <div class="cart " id="main-payment-form" style="">
                     <!-- Payment information -->
                     <h3 class="col-lg-12 col-md-12 col-sm-12 col-xs-12 cart-review">
                         2. Enter your information to pay:
                     </h3>
                     <hr>
                     <span class="" style="display: none;" id="payment-errors"></span>
-                    <div class="form-group">
-                        <label>
-                            <span>Card Number</span>
-                            <input class="pay-input form-control" type="text" id="card-number" size="20"
-                                   data-stripe="number">
-                        </label>
-                    </div>
+                    <div id="ct-ct">
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-lg-3 col-md-3 col-sm-10   col-xs-10">
+                                    <label>
+                                        <span class="row">Card Number</span>
+                                        <input class="pay-input form-control " type="text" id="card-number" size="20"
+                                               data-stripe="number">
+                                    </label>
 
-                    <div class="form-group">
-                        <label>
-                            <span>Expiration (MM/YY)</span>
-                            <input class="pay-input" type="text" size="2" id="exp-month" maxlength="2"
-                                   data-stripe="exp_month">
-                        </label>
-                        {{--<span> / </span>--}}
-                        <input class="pay-input" type="text" size="4" id="exp-year" maxlength="4"
-                               data-stripe="exp_year">
-                    </div>
+                                </div>
 
-                    <div class="form-group">
-                        <label>
-                            <span>CVC</span>
-                            <input class="pay-input" type="text" size="4" maxlength="4" id="cvc" data-stripe="cvc">
-                        </label>
+                                <div class="form-group col-lg-3 col-md-3 col-sm-10   col-xs-10" id="c-date">
+                                    <label>
+                                        <span class="row">Expiration (MM/YY)</span>
+                                        <input class="pay-input" type="text" size="2" id="exp-month" maxlength="2"
+                                               data-stripe="exp_month">
+                                        <input class="pay-input" type="text" size="4" id="exp-year" maxlength="4"
+                                               data-stripe="exp_year">
+                                    </label>
+                                    {{--<span> / </span>--}}
+
+                                </div>
+                                <div class="form-group col-lg-3 col-md-3 col-sm-10  col-xs-10" id="c-cvc">
+                                    <label>
+                                        <span class="row">CVC</span>
+                                        <input class="pay-input" type="text" size="4" maxlength="4" id="cvc"
+                                               data-stripe="cvc">
+                                    </label>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="form-group" id="loc-phone">
+                            <label for="location">Where should we deliver the food?</label>
+                            <input class="form-control pay-input" type="text" name="location" id="location">
+                            <label for="phone-number">Please enter your phone number</label>
+                            <input class="form-control pay-input" maxlength="10" placeholder="10 digits, only numbers"
+                                   type="tel"
+                                   name="phone_number" id="phone-number">
+                        </div>
+                        <div style="color:red; display: none">TODO: compute the delivery time in the back end</div>
+                        <div>Expected delivery time: 12:30pm</div>
+                        <div>Subtotal: $<span id="subtotal">{{ $subtotal }}</span></div>
+                        <div>Order Total: $<span id="total-price">{{ $total_price }}</span></div>
+                        <button type="submit" id="pay-now-button" onclick="checkPayNow(event)" class="checkout-btn">Pay
+                            Now
+                        </button>
                     </div>
-                    <div class="form-group">
-                        <label for="location">Where should we deliver the food?</label>
-                        <input class="form-control pay-input" type="text" name="location" id="location">
-                        <label for="phone-number">Please enter your phone number</label>
-                        <input class="form-control pay-input" maxlength="10" placeholder="10 digits, only numbers"
-                               type="tel"
-                               name="phone_number" id="phone-number">
-                    </div>
-                    <div style="color:red">TODO: compute the delivery time in the back end</div>
-                    <div>Expected delivery time: 12:30pm</div>
-                    <div>Subtotal: $<span id="subtotal">{{ $subtotal }}</span></div>
-                    <div>Order Total: $<span id="total-price">{{ $total_price }}</span></div>
-                    <button type="submit" id="pay-now-button" onclick="checkPayNow(event)" class="checkout-btn">Pay Now
-                    </button>
                 </div>
         @endif
 
