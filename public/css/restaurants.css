@@ -21,7 +21,7 @@
     padding: 10px;
 }
 
-@media only screen and (min-width: 760px) {
+@media only screen and (min-width: 768px) {
 
     #restaurant-group {
         padding-left: 0;
@@ -36,7 +36,7 @@
 
 }
 
-@media only screen and (max-width: 760px) {
+@media only screen and (max-width: 768px) {
 
     #restaurant-group li {
         margin-top: 5%;
@@ -45,6 +45,10 @@
         /*margin-left: 15%;*/
         /*margin-right: 15%;*/
     }
+}
+@media only screen and (max-width: 320px) {
 
-
+    #mountain, #monteagle{
+        font-size: 16px;
+    }
 }

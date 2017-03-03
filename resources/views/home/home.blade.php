@@ -34,17 +34,17 @@
         </p>
         <br> <br>
         <div class="row" id="promo-places">
-            <div class="col-lg-3 col-md-3 col-sm-10 col-sm-offset-1 col-xs-offset-1 col-xs-10" id="promo-place1">
+            <div class="col-lg-3 col-md-3 col-sm-3 col-sm-offset-1 col-xs-offset-1 col-xs-10" id="promo-place1">
                 <img class="img-circle img-thumbnail"
                      src="{{asset('images/locations/humphreys.jpg',env('APP_ENV') === 'production')}}"><br><br>
                 <p class="col-md-12 col-lg-12">Order from your residential room</p>
             </div>
-            <div class="col-lg-3 col-md-3 col-lg-offset-1 col-md-offset-1 col-sm-10 col-sm-offset-1 col-xs-offset-1 col-xs-10" id="promo-place2">
+            <div class="col-lg-3 col-md-3 col-lg-offset-1 col-md-offset-1 col-sm-3 col-sm-offset-1 col-xs-offset-1 col-xs-10" id="promo-place2">
                 <img class="img-circle img-thumbnail"
                      src="{{ asset('images/locations/dupont.jpg',env('APP_ENV') === 'production') }}"><br><br>
                 <p class="col-md-12 col-lg-12">Your favorite place to study</p>
             </div>
-            <div class="col-lg-3 col-md-3 col-lg-offset-1 col-md-offset-1 col-sm-10 col-sm-offset-1 col-xs-offset-1 col-xs-10" id="promo-place3">
+            <div class="col-lg-3 col-md-3 col-lg-offset-1 col-md-offset-1 col-sm-3 col-sm-offset-1 col-xs-offset-1 col-xs-10" id="promo-place3">
                 <img class="img-circle img-thumbnail"
                      src="{{ asset('images/locations/kappasig.jpg',env('APP_ENV') === 'production') }}"><br><br>
                 <p>Or your fraternity/sorority house</p>

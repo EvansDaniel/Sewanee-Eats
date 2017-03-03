@@ -18,8 +18,8 @@
     border-radius: 25px;
 }
 .ckbtn:hover{
-    background: white;
-    color: black;
+    background: black;
+    color: white;
 }
 
 /*textarea {*/
@@ -99,8 +99,9 @@ h1 {
     font-size: 14px;
 }
 .order-special button:hover, .show-extra:hover{
-    background: rgb(240,240,240);
-    color: black;
+    background: black;
+    color: white;
+    font-weight: bold;
 }
 .si{
     width: 23%;
@@ -144,4 +145,7 @@ h1 {
 }
 .c-t-i{
     margin-bottom: 30px;
+}
+@media only screen and (min-width: 768px) {
+
 }

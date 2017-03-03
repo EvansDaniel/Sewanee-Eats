@@ -35,7 +35,6 @@ figure {
 
 .btn:hover, #promo-order-button:hover {
     color: white;
-    background: linear-gradient(90deg, #7459a5 10%, #240a54 90%);
 }
 
 div.ex1 {
@@ -65,7 +64,7 @@ div.ex1 {
 }
 
 /*for computer screens*/
-@media only screen and (min-width: 760px) {
+@media only screen and (min-width: 768px) {
 
 
     #btn {
@@ -76,11 +75,13 @@ div.ex1 {
         background: linear-gradient(90deg, #240a54 10%, #7459a5 90%);
         color: white;
         padding: 1% 4%;
-        border: none;
         border-radius: 10px;
         letter-spacing: .12em;
-        font-size: 1.45em;
+        font-size: 16px;
         font-family: 'Lato', sans-serif;
+        font-weight: bold;
+        border: solid rebeccapurple 2px;
+        vertical-align: middle;
     }
 
     /*.itembtn {*/
@@ -107,15 +108,17 @@ div.ex1 {
 
     #promo-order-button {
         background: linear-gradient(90deg, #240a54 10%, #7459a5 90%);
-        font-size: 20px;
+        font-size: 16px;
         color: white;
-        height: 3em;
         border-radius: 10px;
         text-align: center;
-        padding-top: 15px;
+        padding: 15px 30px;
         text-decoration: none;
         margin-bottom: 1em;
         margin-left: 40%;
+        font-weight: bold;
+        border: solid rebeccapurple 2px;
+        vertical-align: middle;
     }
     #navV{
         margin-right: 1%;
@@ -132,14 +135,18 @@ div.ex1 {
         margin-left: -15%;
     }
 
+
 }
 
 /*for small and extra small screens*/
-@media only screen and (max-width: 760px) {
+@media only screen and (max-width: 768px) {
     /*#push-fig {*/
         /*height: 6%;*/
     /*}*/
 
+    #promo-places{
+        margin-left: 0%;
+    }
 
     #btn {
         position: absolute;
@@ -150,27 +157,32 @@ div.ex1 {
         transform: translate(-50%, -50%);
         background: linear-gradient(90deg, #240a54 10%, #7459a5 90%);
         color: white;
-        padding: 1em 2em;
-        border: none;
+        padding: 10px 18px;
         border-radius: 10px;
-
+        vertical-align: middle;
         letter-spacing: .12em;
-        font-size: 16px;
+        font-size: 14px;
+        font-weight: bold;
         font-family: 'Lato', sans-serif;
+        border: solid rebeccapurple 2px;
     }
 
 
     #promo-order-button {
         background: linear-gradient(90deg, #240a54 10%, #7459a5 90%);
-        font-size: .8em;
         color: white;
-        height: 3em;
         border-radius: 10px;
         text-align: center;
-        padding-top: 10px;
+        padding: 10px 18px;
         text-decoration: none;
         margin-bottom: 1em;
-        margin-left: 32.6%;
+        margin-left: 40%;
+        font-size: 14px;
+        font-weight: bold;
+        width: 20%;
+        margin-top: 10px;
+        border: solid rebeccapurple 2px;
+        vertical-align: middle;
     }
     #promo-places img{
         width: 40%;
@@ -178,11 +190,26 @@ div.ex1 {
         margin-right: 30%;
     }
 }
+@media only screen and (max-width: 500px){
+    #btn{
+        font-size: 12px;
+    }
+    #promo-order-button{
+        font-size: 12px;
+        width: 40%;
+        margin-left: 30%;
+    }
+}
 @media only screen and (max-width: 320px){
     #promo-order-button{
-        font-size: 11px;
         padding-top: 7px;
         padding-left: 3.2%;
+        font-size: 9px;
+        width: 30%;
+        margin-left: 35%;
+    }
+    #btn{
+        font-size: 10px;
     }
 }
 .restaurant a {
@@ -194,4 +221,14 @@ div.ex1 {
 
 figure, #promo-p1, #promo-p2, #promo-place1, #promo-place2, #promo-place3, #btn{
     display: none;
+}
+
+#btn:hover, #promo-order-button:hover{
+    -webkit-box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.75);
+    box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.75);
+    background: linear-gradient(90deg, #7459a5 10%, #240a54 90%);
+}
+.img-thumbnail{
+    border: solid 2px rgb(160,160,160);
 }

@@ -28,7 +28,8 @@
     <div class="container" id="show-menu">
         <div class="row" id="restaurant-logo">
             <div class="col-lg-offset-5 col-lg-2 col-md-2 col-md-offset-5 col-sm-4 col-sm-offset-4 col-xs-offset-4 col-xs-4">
-                <img src="{{ asset('images/restaurants/ivy_wild.jpg',env('APP_ENV') === 'production') }}">
+
+                <img  class="img-circle img-thumbnail" src="{{ asset('images/restaurants/ivy_wild.jpg',env('APP_ENV') === 'production') }}">
             </div>
         </div>
         <div class="panel panel-default">
