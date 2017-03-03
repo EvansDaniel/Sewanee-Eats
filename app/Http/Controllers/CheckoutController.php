@@ -18,7 +18,7 @@ class CheckoutController extends Controller
         $subtotal = $this->getSubTotal();
         // TODO: dynamically fill in location that gets passed to getTotalPrice
         $total_price = $this->getTotalPrice($subtotal);
-        return view('checkout', compact('total_price', 'subtotal'));
+        return view('orderFlow.checkout', compact('total_price', 'subtotal'));
     }
 
     public function testEmail()

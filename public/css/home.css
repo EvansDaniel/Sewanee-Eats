@@ -66,6 +66,21 @@ div.ex1 {
 /*for computer screens*/
 @media only screen and (min-width: 768px) {
 
+    #promo-order-button {
+        background: linear-gradient(90deg, #240a54 10%, #7459a5 90%);
+        font-size: 16px;
+        color: white;
+        border-radius: 10px;
+        text-align: center;
+        padding: 15px 30px;
+        text-decoration: none;
+        margin-bottom: 1em;
+        margin-left: 39%;
+        width: 22%;
+        font-weight: bold;
+        border: solid rebeccapurple 2px;
+        vertical-align: middle;
+    }
 
     #btn {
         position: absolute;
@@ -106,20 +121,7 @@ div.ex1 {
         display: inline-block;
     }
 
-    #promo-order-button {
-        background: linear-gradient(90deg, #240a54 10%, #7459a5 90%);
-        font-size: 16px;
-        color: white;
-        border-radius: 10px;
-        text-align: center;
-        padding: 15px 30px;
-        text-decoration: none;
-        margin-bottom: 1em;
-        margin-left: 40%;
-        font-weight: bold;
-        border: solid rebeccapurple 2px;
-        vertical-align: middle;
-    }
+
     #navV{
         margin-right: 1%;
     }
@@ -184,6 +186,7 @@ div.ex1 {
         border: solid rebeccapurple 2px;
         vertical-align: middle;
     }
+
     #promo-places img{
         width: 40%;
         margin-left: 30%;
@@ -231,4 +234,29 @@ figure, #promo-p1, #promo-p2, #promo-place1, #promo-place2, #promo-place3, #btn{
 }
 .img-thumbnail{
     border: solid 2px rgb(160,160,160);
+}
+@media only screen and (min-width: 768px ) and (max-width: 991px) {
+    #promo-order-button {
+        background: linear-gradient(90deg, #240a54 10%, #7459a5 90%);
+        color: white;
+        border-radius: 10px;
+        text-align: center;
+        padding: 10px 18px;
+        text-decoration: none;
+        margin-bottom: 1em;
+        margin-left: 40%;
+        font-size: 14px;
+        font-weight: bold;
+        width: 20%;
+        margin-top: 10px;
+        border: solid rebeccapurple 2px;
+        vertical-align: middle;
+    }
+    #promo-places{
+        margin-left: -15%;
+    }
+}
+#collapse-button{
+    font-weight: bold;
+
 }

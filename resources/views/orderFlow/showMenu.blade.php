@@ -25,7 +25,7 @@
 @section('body')
     <!-- TODO: get rid of this; it is for debugging, add a restaurant image logo as the head of evrypage -->
     <br><br><br>
-    <div class="container" id="show-menu">
+    <div class="container-fluid" id="show-menu">
         <div class="row" id="restaurant-logo">
             <div class="col-lg-offset-5 col-lg-2 col-md-2 col-md-offset-5 col-sm-4 col-sm-offset-4 col-xs-offset-4 col-xs-4">
 
@@ -114,9 +114,11 @@
 
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="itembtn" data-dismiss="modal">Close</button>
-                                <div class="divider"></div>
-                                <button type="submit" class="itembtn" id="add-to-cart-button">Add To Cart</button>
+                                <div class="row">
+                                    <button type="button" class="itembtn col-lg-2 col-lg-offset-4 col-md-2 col-md-offset-4 col-sm-3 col-sm-offset-2 col-xs-3 col-xs-offset-2"  data-dismiss="modal">Close</button>
+
+                                    <button type="submit" class="itembtn col-lg-3 col-lg-offset-1 col-md-3 col-md-offset-1 col-sm-4 col-sm-offset-1 col-xs-6 col-xs-offset-1" id="add-to-cart-button">Add To Cart</button>
+                                </div>
                             </div>
                         </div>
                     </form>
