@@ -26,7 +26,7 @@ class CheckoutController extends Controller
         $user = User::findOrFail(\Auth::id());
         $items = MenuItem::all()->take(5);
         \Mail::send('emails.new_order', compact('items'), function ($message) use ($user) {
-            $message->from('hello@example.com');
+            $message->from('sewaneeeats@gmail.com');
             $message->to($user->email, $user->name)->subject('New Order Request!');
         });
     }
@@ -44,7 +44,7 @@ class CheckoutController extends Controller
 
         // Set your secret key: remember to change this to your live secret key in production
         // See your keys here: https://dashboard.stripe.com/account/apikeys
-        Stripe::setApiKey("sk_test_fkiVDbxnDU3Fnr8CH9GlBFms");
+        Stripe::setApiKey("sk_test_q1G3EAy0kSxeIdRYzqZy78ca");
 
         // Token is created using Stripe.js or Checkout!
         // Get the payment token submitted by the form:
@@ -54,16 +54,17 @@ class CheckoutController extends Controller
         print_r($request->all());
         echo "</pre>";
 
-        return back()->with('status_good', 'Order would have been processed but we are stopping it for now');
+        //return back()->with('status_good', 'Order would have been processed but we are stopping it for now');
 
         // Charge the user's card:
         // TODO: email the user a receipt of purchase w/ order info, could be basically the same as the courier email view
         $charge = \Stripe\Charge::create(array(
             "amount" => $this->getTotalPrice() * 100,
             "currency" => "usd",
+            "receipt_email" => "kandeta0@sewanee.edu",
             "description" => "SewaneeEats Delivery Charge (includes cost of food)",
-            "source" => $token,
+            "source" => $token
         ));
-        //return back()->with('status','Your order has been submitted');
+        return back()->with('status','Your order has been submitted');
     }
 }
