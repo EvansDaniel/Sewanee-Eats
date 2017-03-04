@@ -23,6 +23,7 @@
     <hr>
     <br>
     <p>COPYRIGHT (C) SEWANEE EATS</p>
+    {{--<a href="{{ route('findMyOrder') }}">Find My Order</a>--}}
     <br>
 </footer>
 </body>

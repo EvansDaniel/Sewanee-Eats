@@ -60,23 +60,10 @@
                         <hr class="hr-separator">
                     @endif
 
-                                </div>
-                                <div class="col-lg-1 col-md-1">
-                                    <button class="ckbtn btn btn-primary"
-                                            id="dfc-{{ $order['menu_item_model']->id }}-{{ $i }}"
-                                            data-model-id="{{ $order['menu_item_model']->id }}"
-                                        `    data-item-index="{{ $i }}"
-                                            onclick="deleteItemFromCart(this)"
-                                            type="button">X
-                                    </button>
-                                </div>
-                            </div>
-                            <hr class="cart-line">
-                        @endfor
-
-                    @endforeach
-
                 </div>
+
+                <hr class="cart-line">
+
             @endif
             @if(!empty(Session::get('cart')) && Session::get('cart') != null)
 
@@ -90,68 +77,76 @@
                     <div id="ct-ct">
                         <div class="form-group">
                             <div class="row">
-                                <div class="col-lg-3 col-md-3 col-sm-10   col-xs-10">
-                    <label for="pay-with-venmo" id="pay-with-what">Pay with Venmo?</label>
-                    <input type="checkbox" name="pay_with_venmo" id="pay-with-venmo" value="0">
-                    <div id="venmo-payment-div" class="form-group">
+                                <div class="col-lg-3 col-md-3 col-sm-10 col-xs-10">
+                                    <label for="pay-with-venmo" id="pay-with-what">Pay with Venmo?</label>
+                                    <input type="checkbox" name="pay_with_venmo" id="pay-with-venmo" value="0">
+                                    <div id="venmo-payment-div" class="form-group">
 
-                        <label for="venmo-username">Venmo Username</label>
-                        <input type="text" id="venmo-username" name="venmo_username"
-                               placeholder="Type in your venmo username" class="form-control">
+                                        <label for="venmo-username">Venmo Username</label>
+                                        <input type="text" id="venmo-username" name="venmo_username" maxlength="150"
+                                               placeholder="Type in your venmo username" class="form-control">
 
-                    </div>
+                                    </div>
+                                </div>
 
-                    <div id="card-payment-div">
+                                <div id="card-payment-div">
 
-                        <span class="" style="display: none;" id="payment-errors"></span>
-                        <div class="form-group  col-lg-3 col-md-3 col-sm-10   col-xs-10" id="c-date">">
-                            <label>
-                                <span class="row">Card Number</span>
-                                <input class="pay-input form-control" type="text" id="card-number" size="20"
-                                       data-stripe="number">
-                            </label>
+                                    <span class="" style="display: none;" id="payment-errors"></span>
+                                    <div class="form-group  col-lg-3 col-md-3 col-sm-10   col-xs-10" id="c-date">">
+                                        <label>
+                                            <span class="row">Card Number</span>
+                                            <input class="pay-input form-control" type="text" id="card-number" size="20"
+                                                   data-stripe="number">
+                                        </label>
+                                    </div>
+
+                                    <div class="form-group" id="c-date">
+                                        <label>
+                                            <span class="row">Expiration (MM/YY)</span>
+                                            <input class="pay-input" type="text" size="2" id="exp-month" maxlength="2"
+                                                   data-stripe="exp_month">
+                                        </label>
+                                        {{--<span> / </span>--}}
+                                        <input class="pay-input" type="text" size="4" id="exp-year" maxlength="4"
+                                               data-stripe="exp_year">
+                                    </div>
+
+                                    <div class="form-group col-lg-3 col-md-3 col-sm-10  col-xs-10" id="c-cvc">
+                                        <label>
+                                            <span class="row">CVC</span>
+                                            <input class="pay-input" type="text" size="4" maxlength="4" id="cvc"
+                                                   data-stripe="cvc">
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-
-                    <div class="form-group">
-                        <label>
-                            <span class="row">Expiration (MM/YY)</span>
-                            <input class="pay-input" type="text" size="2" id="exp-month" maxlength="2"
-                                   data-stripe="exp_month">
-                        </label>
-                        {{--<span> / </span>--}}
-                        <input class="pay-input" type="text" size="4" id="exp-year" maxlength="4"
-                               data-stripe="exp_year">
-                    </div>
-
-                    <div class="form-group col-lg-3 col-md-3 col-sm-10  col-xs-10" id="c-cvc">">
-                        <label>
-                            <span class="row">CVC</span>
-                            <input class="pay-input" type="text" size="4" maxlength="4" id="cvc" data-stripe="cvc">
-                        </label>
-                    </div>
-                    <div class="form-group"  id="loc-phone">
-                        @if(!empty($items['non_special_items']))
-                            <label for="location">Where should we deliver your On Demand items?</label>
-                            <input class="form-control pay-input" type="text" name="location" id="location">
-                        @endif
-                        <label for="email-address">Email Address</label>
-                        <input class="form-control pay-input" placeholder="Please enter your email address"
-                               type="email"
-                               name="email_address" id="email-address">
+                        <div class="form-group" id="loc-phone">
+                            @if(!empty($items['non_special_items']))
+                                <label for="location">Where should we deliver your On Demand items?</label>
+                                <input class="form-control pay-input" type="text" maxlength="100" name="location"
+                                       id="location">
+                            @endif
+                            <label for="email-address">Email Address</label>
+                            <input class="form-control pay-input" maxlength="100"
+                                   placeholder="Please enter your email address"
+                                   type="email"
+                                   name="email_address" id="email-address">
                             {{--
                            <input class="form-control pay-input" maxlength="10" placeholder="10 digits, only numbers"
                                   type="tel"
                                   name="phone_number" id="phone-number">--}}
+                        </div>
+                        <div>Subtotal: $<span id="subtotal">{{ $subtotal }}</span></div>
+                        <div>Order Total: $<span id="total-price">{{ $total_price }}</span></div>
+                        <button type="submit" id="pay-now-button" onclick="checkPayNow(event)"
+                                class="checkout-btn">Pay Now
+                        </button>
                     </div>
-                    <div>Subtotal: $<span id="subtotal">{{ $subtotal }}</span></div>
-                    <div>Order Total: $<span id="total-price">{{ $total_price }}</span></div>
-                    <button type="submit" id="pay-now-button" onclick="checkPayNow(event)" class="checkout-btn">Pay Now
-                    </button>
                 </div>
         @endif
 
         <!-- Show checkout info only if we are on the checkout page -->
-
         </form>
     </div>
 
@@ -188,10 +183,11 @@
       $(function () {
         var $form = $('#payment-form');
         $form.submit(function (event) {
+          $('#pay-now-button').prop('disabled', true);
           if (!$('#pay-with-venmo').is(':checked')) {
             // Disable the submit button to prevent repeated clicks:
-            $form.find('.submit').prop('disabled', true);
 
+            // TODO: see where this fits into the current set up
               /*var message = validPayForm(true);
                if (message !== null) { // an error message was returned
                $('#payment-errors').show().text(message);
@@ -204,6 +200,8 @@
             Stripe.card.createToken($form, stripeResponseHandler);
 
             // Prevent the form from being submitted:
+              /*$form.find('.submit').prop('disabled', false);*/
+            $('#pay-now-button').prop('disabled', false);
             event.preventDefault();
             return false;
           }

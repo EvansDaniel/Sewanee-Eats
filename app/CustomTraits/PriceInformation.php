@@ -45,7 +45,6 @@ trait PriceInformation
         // used to keep track of already looked up accessories
         $acc_price_map = [];
         foreach ($items as $cart_item) {
-            \Log::info('here');
             $price += $cart_item['menu_item_model']->price
                 * $cart_item['quantity'];
             foreach ($cart_item['extras'] as $item_extras) {
@@ -92,7 +91,21 @@ trait PriceInformation
     public function getSpecialItemsFees($s_items)
     {
         // + 1 dollar markup for each item and 3 dollar delivery fee
-        return count($s_items) + 3;
+        $num_items = count($s_items);
+        return $num_items + max(
+                $this->percentOfNumWeeklySpecialItems() * $num_items,
+                $this->weeklySpecialBaseFee()
+            );
+    }
+
+    private function percentOfNumWeeklySpecialItems()
+    {
+        return .75;
+    }
+
+    private function weeklySpecialBaseFee()
+    {
+        return 3;
     }
 
     public function restaurantLocationCostFromCart($n_s_items)

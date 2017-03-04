@@ -22,7 +22,7 @@
         }
 
         body {
-            background-color: rebeccapurple;
+            background-color: #f6f6f6;
         }
 
         @media only screen and (max-width: 640px) {
@@ -85,13 +85,13 @@
 <!-- Built by Daniel Evans -->
 
 <body itemscope itemtype="http://schema.org/EmailMessage"
-      style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; -webkit-font-smoothing: antialiased; -webkit-text-size-adjust: none; width: 100% !important; height: 100%; line-height: 1.6em; background-color: rebeccapurple; margin: 0;"
+      style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; -webkit-font-smoothing: antialiased; -webkit-text-size-adjust: none; width: 100% !important; height: 100%; line-height: 1.6em; background-color: #f6f6f6; margin: 0;"
       bgcolor="#f6f6f6">
 
 <!-- this background color will change the actual body not the billing statement -->
 <table class="body-wrap"
-       style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; width: 100%; background-color: rebeccapurple; margin: 0;"
-       bgcolor="#663399">
+       style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; width: 100%; background-color: #256F9C; margin: 0;"
+       bgcolor="#256F9C">
     <tr style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
         <td style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0;"
             valign="top"></td>
@@ -116,8 +116,8 @@
                                         <h1 class="aligncenter"
                                             style="font-family: 'Helvetica Neue',Helvetica,Arial,'Lucida Grande',sans-serif; box-sizing: border-box; font-size: 32px; color: #000; line-height: 1.2em; font-weight: 500; text-align: center; margin: 40px 0 0;"
                                             align="center">
-                                            Your SewaneeEats Delivery Order
-                                        </h1>
+                                            New {{$order->is_weekly_special ? "Weekly Special" : "On Demand"}} Order
+                                            Request</h1>
                                     </td>
                                 </tr>
                                 <tr style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
@@ -127,29 +127,19 @@
                                         <h4 class="aligncenter"
                                             style="font-family: 'Helvetica Neue',Helvetica,Arial,'Lucida Grande',sans-serif; box-sizing: border-box; text-align: center; margin: 20px 0 0;"
                                             align="center">
-                                            Thank you for choosing SewaneeEats delivery service!
+                                            Customer Email: {{ $order->email_of_customer }}
                                         </h4>
                                         <h4>
-                                            Your Order Confirmation Number: <a
-                                                    href="{{route('orderSummary',['order_id' => $order->id])}}">{{ $order->id }}</a>
-                                            {{--<br>You can use this number to <a href="{{ route('findMyOrder') }}">Find Your Order</a>--}}
+                                            Venmo Username: {{ $order->venmo_username }}
                                         </h4>
-                                        @if($order->paid_with_venmo)
-                                            <h4>
-                                                Since you requested to pay with Venmo, a SewaneeEats manager will be in
-                                                touch shortly
-                                                to finish the payment process.
-                                                @if(!$order->is_weekly_special)
-                                                    Once your payment is processed, our drivers will begin servicing
-                                                    your order.
-                                                @endif
-                                            </h4>
-                                        @endif
                                         @if(!$order->is_weekly_special)
                                             <h4>
-                                                Your Order will be delivered to {{ $order->delivery_location }}
+                                                {{ $order->delivery_location }}
                                             </h4>
                                         @endif
+                                        <h4>
+                                            <a href="{{ route('showAdminDashboard') }}">View in Admin Dashboard</a>
+                                        </h4>
                                     </td>
                                 </tr>
                                 <tr style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
@@ -158,6 +148,15 @@
                                         align="center" valign="top">
                                         <table class="invoice"
                                                style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; text-align: left; width: 80%; margin: 40px auto;">
+                                            <tr style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
+                                                <td style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 5px 0;"
+                                                    valign="top">
+                                                    Order Received:
+                                                    <br style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;"/>
+
+                                                    Order Invoice Number: {{ $order->id }}
+                                                </td>
+                                            </tr>
                                             <tr style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
                                                 <td style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 5px 0;"
                                                     valign="top">
@@ -214,12 +213,11 @@
                                                            class="mobile-button-container">
                                                         <tr>
                                                             <td align="center" style="border-radius: 3px;"
-                                                                bgcolor="#256F9C"><a
-                                                                        href="{{ route('orderSummary',['id',$order->id]) }}"
-                                                                        target="_blank"
-                                                                        style="font-size: 16px; font-family: Helvetica, Arial, sans-serif; color: #ffffff; text-decoration: none; color: #ffffff; text-decoration: none; border-radius: 3px; padding: 15px 25px; border: 1px solid #256F9C; display: inline-block;"
-                                                                        class="mobile-button">
-                                                                    View Order Summary on SewaneeEats &rarr;</a></td>
+                                                                bgcolor="#256F9C"><a href="https://litmus.com"
+                                                                                     target="_blank"
+                                                                                     style="font-size: 16px; font-family: Helvetica, Arial, sans-serif; color: #ffffff; text-decoration: none; color: #ffffff; text-decoration: none; border-radius: 3px; padding: 15px 25px; border: 1px solid #256F9C; display: inline-block;"
+                                                                                     class="mobile-button">Service
+                                                                    Order &rarr;</a></td>
                                                         </tr>
                                                     </table>
                                                 </td>
@@ -231,8 +229,7 @@
                                     <td class="content-block aligncenter"
                                         style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; text-align: center; margin: 0; padding: 0 0 20px;"
                                         align="center" valign="top">
-                                        Have questions for SewaneeEats? Ask them on via our <a
-                                                href="{{ route('support') }}">Support</a> page
+                                        Acme Inc. 123 Van Ness, San Francisco 94102
                                     </td>
                                 </tr>
                             </table>
@@ -246,7 +243,9 @@
                         <tr style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
                             <td class="aligncenter content-block"
                                 style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 12px; vertical-align: top; color: #999; text-align: center; margin: 0; padding: 0 0 20px;"
-                                align="center" valign="top">
+                                align="center" valign="top">Questions? Email <a href="mailto:"
+                                                                                style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 12px; color: #999; text-decoration: underline; margin: 0;">support@acme
+                                    .inc</a></td>
                         </tr>
                     </table>
                 </div>

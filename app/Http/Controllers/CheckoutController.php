@@ -11,7 +11,7 @@ use App\Models\OrderPriceInfo;
 use App\User;
 use Event;
 use Illuminate\Http\Request;
-use Stripe\Stripe;
+use Session;
 
 class CheckoutController extends Controller
 {
@@ -50,6 +50,7 @@ class CheckoutController extends Controller
         $pay_with_venmo = $request->input('pay_with_venmo');
         $email = $request->input('email_address');
         $location = $request->input('location');
+        $v_username = $request->input('venmo_username');
 
         if (!empty($location)) {
             // blah blah
@@ -58,13 +59,15 @@ class CheckoutController extends Controller
         // other option is to create two different orders, splitting the on demand and the weekly special
         // but give the illusion to user that it is all one order??? -> I like this idea
         // insert all pricing info into create_order_price_info table
-        $items = $this->categorizedItems(true);
+        $items = $this->categorizedItems();
 
-        // TODO: need this same thing for non special items
+        $weekly_special_order = null;
+        $on_demand_order = null;
+        // TODO: need this same thing for $on_demand_order
         if (!empty($items['special_items'])) {
             // submit a weekly special order
-            $special_menu_item_orders = [];
             $weekly_special_order = new Order;
+            $special_menu_item_orders = [];
             // set up order stuff
             $weekly_special_order->is_open_order = true;
             $weekly_special_order->delivery_location = null;
@@ -72,26 +75,29 @@ class CheckoutController extends Controller
             $weekly_special_order->is_weekly_special = true;
             $weekly_special_order->was_refunded = false;
             $weekly_special_order->paid_with_venmo = $pay_with_venmo;
-            $weekly_special_order->has_paid_with_venmo = false;
+            if ($pay_with_venmo) {
+                $weekly_special_order->venmo_username = $v_username;
+            }
             $weekly_special_order->save();
 
-            $item = 0;
             foreach ($items['special_items'] as $special_cart_item) {
-                $menu_item_order = new MenuItemOrder;
-                // the itemth index corresponds the the correct instruction and extras array
-                $menu_item_order->special_instructions = $special_cart_item['special_instructions'][$item];
-                $menu_item_order->order_id = $weekly_special_order->id;
-                $menu_item_order->menu_item_id = $special_cart_item['menu_item_model']->id;
-                // save BEFORE attaching
-                $menu_item_order->save();
-                // attach all the accessories to the menu item
-                if (!empty($special_cart_item['extras'][$item])) {
-                    foreach ($special_cart_item['extras'][$item] as $acc) {
-                        $menu_item_order->accessories()->attach($acc);
+                for ($q = 0; $q < $special_cart_item['quantity']; $q++) {
+
+                    //\Log::info($special_cart_item['special_instructions'][$q]);
+                    $menu_item_order = new MenuItemOrder;
+                    $menu_item_order->special_instructions = $special_cart_item['special_instructions'][$q];
+                    $menu_item_order->order_id = $weekly_special_order->id;
+                    $menu_item_order->menu_item_id = $special_cart_item['menu_item_model']->id;
+                    // save BEFORE attaching
+                    $menu_item_order->save();
+                    // attach all the accessories to the menu item
+                    if (!empty($special_cart_item['extras'][$q])) {
+                        foreach ($special_cart_item['extras'][$q] as $acc) {
+                            $menu_item_order->accessories()->attach($acc);
+                        }
                     }
+                    $special_menu_item_orders[] = $menu_item_order;
                 }
-                $special_menu_item_orders[] = $menu_item_order;
-                $item++;
             }
 
             // save this order's menu items with special instructions
@@ -106,10 +112,10 @@ class CheckoutController extends Controller
         }
 
         if ($pay_with_venmo == 1) { // user selected to pay with venmo
-            $v_username = $request->input('venmo_username');
             // send user an email
         } else {
-            // Stripe stuff
+            // TODO: uncomment stuff
+            /*// Stripe stuff
 
             // Set your secret key: remember to change this to your live secret key in production
             // See your keys here: https://dashboard.stripe.com/account/apikeys
@@ -127,11 +133,13 @@ class CheckoutController extends Controller
                 "receipt_email" => "evansdb0@sewanee.edu",
                 "description" => "SewaneeEats Delivery Charge (includes cost of food)",
                 "source" => $token
-            ));
+            ));*/
         }
-
-        //Event::fire(new NewOrderReceived($order));
-        return back()->with('status', 'Your order has been submitted');
+        //Session::flush();
+        // TODO: delete this from session after leave thank you
+        Session::put('weekly_special_order', $weekly_special_order);
+        Session::put('on_demand_order', $on_demand_order);
+        return redirect()->route('thankYou');
     }
 
     private function saveOrderPriceInfo($order)
@@ -144,7 +152,6 @@ class CheckoutController extends Controller
             $subtotal = $this->foodCostOfSpecialItems() + $profit;
             $priceInfo->subtotal = $subtotal;
             $priceInfo->total_price = $subtotal * $this->getStateTax();
-            \Log::info($priceInfo->totalPrice);
         } else {
             $profit = $this->getNonSpecialItemFees();
             $priceInfo->profit = $profit;

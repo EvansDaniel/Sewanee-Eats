@@ -7,7 +7,8 @@
 @section('body')
 
     <div class="container">
-        <h1 id="order-title">Open Orders</h1>
+        @if(!empty($open_n_venmo_orders))
+            <h2 class="order-title">Open Non-Venmo Orders</h2>
         <div id="open-orders-table-container">
             <table id="open-orders-table" class="table table-responsive">
                 <thead>
@@ -15,15 +16,14 @@
                 <tr>
                     <th>Order Number</th>
                     <th>Total Price</th>
-                    <th>Profit</th>
+                    <th>Weekly Special?</th>
                     <th>Courier</th>
                     <th>Location To Deliver</th>
                     <th>Restaurants</th>
-                    <th>Contact Number</th>
                 </tr>
                 </thead>
                 <tbody>
-                @foreach($open_orders as $open_order)
+                @foreach($open_n_venmo_orders as $open_order)
                     <tr>
                         <td>
                             <a href="{{ route('orderSummary',['id' => $open_order->id]) }}">
@@ -31,8 +31,11 @@
                             </a>
                         </td>
                         <td>${{ $open_order->orderPriceInfo->total_price }}</td>
-                        <td>${{ $open_order->orderPriceInfo->profit }}</td>
+                        <td>{{$open_order->is_weekly_special == 1 ? "Yes" : "No"}}</td>
                         <td>
+                            @if(empty(!$open_order->couriers))
+                                {{ "No couriers assigned" }}
+                            @else
                             @foreach($open_order->couriers as $courier)
                                 @if($loop->last)
                                     {{ $courier->name }}
@@ -40,10 +43,20 @@
                                     {{ $courier->name . ", " }}
                                 @endif
                             @endforeach
+                            @endif
                         </td>
-                        <td>{{ $open_order->location_of_user }}</td>
+                        <td>{{ $open_order->is_weekly_special ? "N/A" : $open_order->location_of_user }}</td>
                         <td>
-                            @foreach($open_order->restaurants as $r)
+                            <?php
+                            $unique_restaurants = [];
+                            foreach ($open_order->menuItemOrders as $itemOrder) {
+                                $r = $itemOrder->menuItem->restaurant;
+                                if (!in_array($r, $unique_restaurants)) {
+                                    $unique_restaurants[] = $r;
+                                }
+                            }
+                            ?>
+                            @foreach($unique_restaurants as $r)
                                 @if($loop->last)
                                     {{ $r->name }}
                                 @else
@@ -51,14 +64,90 @@
                                 @endif
                             @endforeach
                         </td>
-                        <td>{{ $open_order->contact_number_of_user }}</td>
                     </tr>
                 @endforeach
                 </tbody>
             </table>
-            {{ $open_orders->render() }}
+            {{ $open_n_venmo_orders->render() }}
+            @endif
+        </div>
+            <div id="open-orders-table-container">
+                <h2 class="order-title">Open Venmo Orders</h2>
+                <table id="open-orders-table" class="table table-responsive">
+                    <thead>
+                    <!-- TODO: add expected completion time in <th> -->
+                    <tr>
+                        <th>Order Number</th>
+                        <th>Total Price</th>
+                        <th>Total Price</th>
+                        <th>Weekly Special?</th>
+                        <th>Customer Venmo Username</th>
+                        <th>Confirm Venmo Payment</th>
+                        <th>Courier</th>
+                        <th>Location To Deliver</th>
+                        <th>Restaurants</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach($open_venmo_orders as $open_order)
+                        <tr>
+                            <td>
+                                <a href="{{ route('orderSummary',['id' => $open_order->id]) }}">
+                                    {{ $open_order->id }}
+                                </a>
+                            </td>
+                            <td>${{ $open_order->orderPriceInfo->total_price }}</td>
+                            <td>{{$open_order->is_weekly_special == 1 ? "Yes" : "No"}}</td>
+                            <td>{{ $open_order->venmo_username }}</td>
+                            <td>
+                                <form action="{{ route('closeVenmoOrder') }}" method="post">
+                                    {{ csrf_field() }}
+                                    <input name="order_id" type="hidden" value="{{ $open_order->id }}">
+                                    <button type="submit" class="btn btn-primary">
+                                        Confirm for Order #{{ $open_order->id }}
+                                    </button>
+                                </form>
+                            </td>
+                            <td>
+                                @if(empty(!$open_order->couriers))
+                                    {{ "No couriers assigned" }}
+                                @else
+                                    @foreach($open_order->couriers as $courier)
+                                        @if($loop->last)
+                                            {{ $courier->name }}
+                                        @else
+                                            {{ $courier->name . ", " }}
+                                        @endif
+                                    @endforeach
+                                @endif
+                            </td>
+                            <td>{{ $open_order->is_weekly_special ? "N/A" : $open_order->location_of_user }}</td>
+                            <td>
+                                <?php
+                                $unique_restaurants = [];
+                                foreach ($open_order->menuItemOrders as $itemOrder) {
+                                    $r = $itemOrder->menuItem->restaurant;
+                                    if (!in_array($r, $unique_restaurants)) {
+                                        $unique_restaurants[] = $r;
+                                    }
+                                }
+                                ?>
+                                @foreach($unique_restaurants as $r)
+                                    @if($loop->last)
+                                        {{ $r->name }}
+                                    @else
+                                        {{ $r->name . ", " }}
+                                    @endif
+                                @endforeach
+                            </td>
+                        </tr>
+                    @endforeach
+                    </tbody>
+                </table>
+                {{ $open_venmo_orders->render() }}
         </div>
         <div id="closed-orders-table-container">
+            <h2 class="order-title">Closed Orders</h2>
             <table id="closed-orders-table" class="table table-responsive">
                 <thead>
                 <!-- TODO: add expected completion time in <th> -->
@@ -66,10 +155,11 @@
                     <th>Order Number</th>
                     <th>Total Price</th>
                     <th>Profit</th>
-                    <th>Courier</th>
-                    <th>Location To Deliver</th>
+                    <th>Paid W/ Venmo?</th>
+                    <th>Weekly Special?</th>
+                    <th>Courier(s)</th>
+                    <th>Location Delivered</th>
                     <th>Restaurants</th>
-                    <th>Contact Number</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -82,18 +172,32 @@
                         </td>
                         <td>${{ $closed_order->orderPriceInfo->total_price }}</td>
                         <td>${{ $closed_order->orderPriceInfo->profit }}</td>
+                        <td>{{$closed_order->is_weekly_special == 1 ? "Yes" : "No"}}</td>
                         <td>
-                            @foreach($closed_order->couriers as $courier)
-                                @if($loop->last)
-                                    {{ $courier->name }}
-                                @else
-                                    {{ $courier->name . ", " }}
-                                @endif
-                            @endforeach
+                            @if(empty(!$closed_order->couriers))
+                                {{ "No couriers assigned" }}
+                            @else
+                                @foreach($closed_order->couriers as $courier)
+                                    @if($loop->last)
+                                        {{ $courier->name }}
+                                    @else
+                                        {{ $courier->name . ", " }}
+                                    @endif
+                                @endforeach
+                            @endif
                         </td>
-                        <td>{{ $closed_order->location_of_user }}</td>
+                        <td>{{ $closed_order->is_weekly_special ? "N/A" : $closed_order->location_of_user }}</td>
                         <td>
-                            @foreach($closed_order->restaurants as $r)
+                            <?php
+                            $unique_restaurants = [];
+                            foreach ($closed_order->menuItemOrders as $itemOrder) {
+                                $r = $itemOrder->menuItem->restaurant;
+                                if (!in_array($r, $unique_restaurants)) {
+                                    $unique_restaurants[] = $r;
+                                }
+                            }
+                            ?>
+                            @foreach($unique_restaurants as $r)
                                 @if($loop->last)
                                     {{ $r->name }}
                                 @else
@@ -101,17 +205,16 @@
                                 @endif
                             @endforeach
                         </td>
-                        <td>{{ $closed_order->contact_number_of_user }}</td>
                     </tr>
                 @endforeach
                 </tbody>
             </table>
             {{ $closed_orders->render() }}
         </div>
-        <button type="button" class="btn btn-primary"
-                id="flip-orders" data-open="1" onclick="openOrClosed()">
-            View Closed Orders
-        </button>
+            {{--<button type="button" class="btn btn-primary"
+                    id="flip-orders" data-open="1" onclick="openOrClosed()">
+                View Closed Orders
+            </button>--}}
     </div>
 
     <div class="container">
@@ -172,14 +275,14 @@
 
     <script>
 
-      // TODO: figure out a way to maintain the view state between paginations
+        /*// TODO: figure out a way to maintain the view state between paginations
       $('#closed-orders-table-container').hide();
-      /**
+         /!**
        * Flips the view table from open orders
        * to closed orders. data(key,value) only works
        * on selectors, not if you pass this as argument
        * to a button's onclick function
-       */
+         *!/
       function openOrClosed() {
         var button = $('#flip-orders');
         if (button.data('open') == 1) {
@@ -196,7 +299,7 @@
         }
         $('#open-orders-table-container').toggle();
         $('#closed-orders-table-container').toggle();
-      }
+         }*/
     </script>
 
 @stop

@@ -34,9 +34,8 @@
     letter-spacing: .12em;
     font-size: 15px;
     font-family: 'Lato', sans-serif;
+}
 
-/*position: relative;*/
-/*}*/
 .ckbtn {
     background: white;
     color: black;
@@ -229,32 +228,40 @@ h1 {
     #c-cvc, #c-date {
         margin-left: 15px;
     }
-    #c-cvc .row, #c-date .row{
+
+    #c-cvc .row, #c-date .row {
         margin-right: -15px;
     }
-    .si{
+
+    .si {
         width: 90%;
     }
-    div{
+
+    div {
         margin-bottom: 10px;
     }
 
-}#phone-number{
-     width: 100%;
- }
+}
+
+#phone-number {
+    width: 100%;
+}
+
 @media only screen and (min-width: 768px) {
-    #ct-ct{
+    #ct-ct {
         margin-left: 15px;
     }
-    #phone-number{
+
+    #phone-number {
         width: 35%;
     }
 }
-#location, #phone-number{
+
+#location, #phone-number {
     font-weight: bold;
 }
 
-#pay-now-button{
+#pay-now-button {
     color: white;
     border: solid black 2px;
     background: black;
@@ -266,6 +273,7 @@ h1 {
     text-transform: uppercase;
     font-weight: bold;
 }
-#pay-now-button:hover{
+
+#pay-now-button:hover {
     color: lightgrey;
 }

@@ -10,7 +10,8 @@
     <!-- Status messages to user about what they are doing -->
     <br><br>
     <div id="header" style="display: none">
-        <h1 id="s-eat-h">SewaneeEats <br class="hidden-lg hidden-md"><span id="launching">launches this Friday at 12PM!</span></h1>
+        <h1 id="s-eat-h">SewaneeEats <br class="hidden-lg hidden-md"><span
+                    id="launching">launches this Friday at 12PM!</span></h1>
     </div>
     <div id="clockdiv">
         <div id="daysDiv" style="display: none">

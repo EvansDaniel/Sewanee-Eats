@@ -21,10 +21,12 @@
         * + html .test ul {
             display: inline
         }
-        li{
+
+        li {
             font-family: "Lato", sans-serif;
             list-style: none;
         }
+
         #promo-order-button {
             background: linear-gradient(90deg, #240a54 10%, #7459a5 90%);
             color: white;
@@ -41,54 +43,59 @@
             border: solid rebeccapurple 2px;
             vertical-align: middle;
         }
+
         #promo-order-button:hover {
             background: linear-gradient(90deg, #7459a5 10%, #240a54 90%);
-            -webkit-box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.75);
-            -moz-box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.75);
-            box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.75);
+            -webkit-box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.75);
+            -moz-box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.75);
+            box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.75);
         }
 
-        .pr-page{
+        .pr-page {
             font-family: "Lato", sans-serif;
 
         }
-        #pricing-p{
+
+        #pricing-p {
 
         }
-        body{
+
+        body {
             background: white;
         }
-        @media only screen and (max-width: 768px){
 
+        @media only screen and (max-width: 768px) {
 
         }
         /* ie7 inline-block fix */
     </style>
     <div align="center">
 
-    <div class="container pr-page">
-        <h1>Pricing</h1>
+        <div class="container pr-page">
+            <h1>Pricing</h1>
 
-        <h2>How much will my order cost?</h2>
-        <h6 class="row"><a href="{{ route('list_restaurants') }}" id="promo-order-button" class="col-lg-2 col-md-3 col-sm-5 col-xs-5">
-                Order Now
-            </a>
-        </h6>
-        <p id="pricing-p">The total to get your food delivered is the <b>cost of your food (the
-                amount the
-                restaurant would charge</b> plus a <b>base delivery fee from Sewanee Eats, with tax.</b> Below are the
-            base delivery prices. Prices are <b>per order</b>.
+            <h2>How much will my order cost?</h2>
+            <h6 class="row"><a href="{{ route('list_restaurants') }}" id="promo-order-button"
+                               class="col-lg-2 col-md-3 col-sm-5 col-xs-5">
+                    Order Now
+                </a>
+            </h6>
+            <p id="pricing-p">The total to get your food delivered is the <b>cost of your food (the
+                    amount the
+                    restaurant would charge</b> plus a <b>base delivery fee from Sewanee Eats, with tax.</b> Below are
+                the
+                base delivery prices. Prices are <b>per order</b>.
 
-            <br>
-            <br>
+                <br>
+                <br>
 
-            If you purchase 5 or more items from inside the gates, we will add $1 per item to your order total.
-            <br>
-            If you purchase 5 or more items from outside the gates, we will add $2 per item to your delivery charge.
-        </p>
+                If you purchase 5 or more items from inside the gates, we will add $1 per item to your order total.
+                <br>
+                If you purchase 5 or more items from outside the gates, we will add $2 per item to your delivery charge.
+            </p>
 
-        <h2>Restaurants Inside the Gates:</h2>
-        <hr>
+            <h2>Restaurants Inside the Gates:</h2>
+            <hr>
 
             <div class="prices">
                 <ul>
@@ -120,12 +127,13 @@
                     <li>Zaxbys - $3</li>
                 </ul>
 
-        </div>
-        <h6 class="row"><a href="{{ route('list_restaurants') }}" id="promo-order-button" class="col-lg-2 col-md-2 col-sm-4 col-xs-4">
-                Order Now
-            </a>
-        </h6>
+            </div>
+            <h6 class="row"><a href="{{ route('list_restaurants') }}" id="promo-order-button"
+                               class="col-lg-2 col-md-2 col-sm-4 col-xs-4">
+                    Order Now
+                </a>
+            </h6>
 
-    </div>
+        </div>
 
 @stop

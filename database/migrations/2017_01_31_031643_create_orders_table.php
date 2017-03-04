@@ -24,8 +24,7 @@ class CreateOrdersTable extends Migration
             $table->boolean('was_refunded');
             // did they opt to pay with venmo
             $table->boolean('paid_with_venmo');
-            // have we received payment through venmo
-            $table->boolean('has_paid_with_venmo')->nullable();
+            $table->string('venmo_username')->nullable();
             $table->timestamps();
         });
     }

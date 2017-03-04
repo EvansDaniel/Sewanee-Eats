@@ -32,6 +32,7 @@ class OrdersTableSeeder extends Seeder
             // this will be created at order creation time
             $priceInfo = new OrderPriceInfo;
             $priceInfo->order_id = $order->id;
+            $priceInfo->subtotal = 15;
             $total_price = mt_rand(15, 50);
             $priceInfo->total_price = $total_price;
             $priceInfo->profit = .25 * $total_price;

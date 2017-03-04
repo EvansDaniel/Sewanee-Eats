@@ -18,15 +18,22 @@ class AdminDashboardController extends Controller
 
     public function showDashboard()
     {
-        $open_orders = Order::where('is_open', 1)->orderBy('created_at', 'DESC')
+        $open_venmo_orders = Order::where(['is_open_order' => 1, 'paid_with_venmo' => 1])->orderBy('created_at', 'DESC')
             ->paginate(8);
-        $closed_orders = Order::where('is_open', 0)->orderBy('created_at', 'DESC')
+        if (count($open_venmo_orders)) {
+            //$open
+        }
+        $open_n_venmo_orders = Order::where(['is_open_order' => 1, 'paid_with_venmo' => 0])->orderBy('created_at', 'DESC')->paginate(8);
+        if (count($open_n_venmo_orders)) {
+
+        }
+        $closed_orders = Order::where('is_open_order', 0)->orderBy('created_at', 'DESC')
             ->paginate(8);
         $admin_role = Role::where('name', 'admin')->first();
         $admins = $admin_role->users;
         $courier_role = Role::where('name', 'courier')->first();
         $couriers = $courier_role->users;
-        return view('admin.dashboard', compact('closed_orders', 'open_orders',
+        return view('admin.dashboard', compact('closed_orders', 'open_n_venmo_orders', 'open_venmo_orders',
             'admins', 'couriers'));
     }
 

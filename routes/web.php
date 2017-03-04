@@ -38,6 +38,13 @@ Route::get('home', 'HomeController@showHome');
 Route::get('support', 'HomeController@showSupport')->name('support');
 Route::get('pricing', 'HomeController@showPricing')->name('pricing');
 Route::get('how-it-works', 'HomeController@showHowItWorks')->name('howItWorks');
+Route::get('thank-you', 'HomeController@showThankYou')
+    ->name('thankYou')->middleware('redirect.thankyou');
+
+Route::get('find-my-order/', 'HomeController@findMyOrder')
+    ->name('findMyOrder');
+Route::get('orderSummary/{order_id}', 'HomeController@orderSummary')
+    ->name('orderSummary');
 // ------------------------------------------------------------------------------------------
 
 Route::group(['middleware' => 'role:admin'], function () {
@@ -64,6 +71,18 @@ Route::get('sessionClear', function () {
     return back();
 })->name('sessionClear');
 
+Route::group([
+    'prefix' => 'courierOrderOps', 'middleware:courier'], function () {
+
+});
+
+Route::group([
+    'prefix' => 'adminOrderOps', 'middleware:courier'], function () {
+
+    Route::post('closeVenmoOrder', 'OrdersController@closeVenmoOrder')
+        ->name('closeVenmoOrder');
+});
+
 // Admin Routes
 Route::group(['prefix' => 'admin',
     'namespace' => 'Admin',
@@ -84,7 +103,7 @@ Route::group(['prefix' => 'admin',
         ->name('showAdminDashboard');
 
     Route::get('orderSummary/{id}', 'AdminDashboardController@orderSummary')
-        ->name('orderSummary');
+        ->name('adminOrderSummary');
 
     // Shows a listing of the open orders and closed orders
     Route::get('orders', 'AdminDashboardController@listOrders')
@@ -198,6 +217,11 @@ Route::get('email', function () {
 
 Route::get('testEmail', 'CheckoutController@testEmail')
     ->name('testEmail');
+
+Route::get('test', function () {
+    $orders = Order::all();
+    return view('test', compact('orders'));
+});
 
 // Event routes
 Route::get('testEvent', function () {
