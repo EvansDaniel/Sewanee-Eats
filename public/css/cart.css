@@ -189,22 +189,22 @@ h1 {
 #card-number {
     margin: 0 1% 0 0;
     border-radius: 10px;
-    border: solid 2px black;
+    border: solid 1px gray;
     outline: 0;
     font-size: 16px;
     word-break: break-all;
 }
 
-#exp-month, #exp-year, #phone-number, #cvc, #location {
+#exp-month, #exp-year, #phone-number, #cvc, #location,#email-address,#venmo-username {
     border-radius: 10px;
-    border: solid 2px black;
+    border: solid 1px gray;
     outline: 0;
     font-size: 16px;
     word-break: break-all;
     padding: 3px;
 }
 
-#card-number:focus, #exp-month:focus, #exp-year:focus, #phone-number:focus, #cvc:focus, #location:focus {
+#card-number:focus, #exp-month:focus, #exp-year:focus, #phone-number:focus, #cvc:focus, #location:focus, #email-address:focus, #venmo-username:focus {
     border: solid 2px black;
     outline: none;
     -webkit-box-shadow: 2px 2px 5px 0px rgba(0, 0, 0, 0.75);
@@ -241,6 +241,20 @@ h1 {
         margin-bottom: 10px;
     }
 
+    #pay-now-button {
+        background: linear-gradient(90deg, #240a54 10%, #7459a5 90%);
+        color: white;
+        padding: 1% 4%;
+        border-radius: 10px;
+        letter-spacing: .12em;
+        font-size: 12px;
+        font-family: 'Lato', sans-serif;
+        font-weight: bold;
+        border: solid rebeccapurple 2px;
+        text-transform: uppercase;
+
+    }
+
 }
 
 #phone-number {
@@ -255,25 +269,35 @@ h1 {
     #phone-number {
         width: 35%;
     }
+
+    #pay-now-button {
+        background: linear-gradient(90deg, #240a54 10%, #7459a5 90%);
+        color: white;
+        padding: 6px 12px;
+        border-radius: 10px;
+        letter-spacing: .12em;
+        font-size: 14px;
+        font-family: 'Lato', sans-serif;
+        font-weight: bold;
+        border: solid rebeccapurple 2px;
+        text-transform: uppercase;
+    }
 }
 
 #location, #phone-number {
-    font-weight: bold;
+
 }
 
-#pay-now-button {
-    color: white;
-    border: solid black 2px;
-    background: black;
-    border-radius: 10px;
-    padding: 6px 12px;
-    margin-bottom: 0;
-    font-size: 13px;
-    font-family: "Lato", sans-serif;
-    text-transform: uppercase;
-    font-weight: bold;
-}
 
 #pay-now-button:hover {
     color: lightgrey;
+}
+.cart-review{
+    font-family: "Lato", sans-serif;
+    font-weight: bold;
+    font-size: 18px;
+    color: #00816A;
+    margin-left: -15px;
+    text-decoration: underline;
+    margin-bottom: 15px;
 }
