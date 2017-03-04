@@ -4,7 +4,6 @@
 <head>
     @include('global_config')
     <link rel="stylesheet" href={{ asset('images/branding/mtneats.png',env('APP_ENV') !== 'local') }}>
-    <link rel="stylesheet" href={{ asset('css/home.css',env('APP_ENV') !== 'local')  }}>
     <link rel="stylesheet" href={{ asset('css/footer.css',env('APP_ENV') !== 'local') }}>
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet">
     @yield('head')

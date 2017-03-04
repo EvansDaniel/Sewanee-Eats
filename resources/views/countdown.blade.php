@@ -10,7 +10,7 @@
     <!-- Status messages to user about what they are doing -->
     <br><br>
     <div id="header" style="display: none">
-        <h1 id="s-eat-h">SewaneeEats <br class="hidden-lg hidden-md"><span>launches this Friday at 12PM!</span></h1>
+        <h1 id="s-eat-h">SewaneeEats <br class="hidden-lg hidden-md"><span id="launching">launches this Friday at 12PM!</span></h1>
     </div>
     <div id="clockdiv">
         <div id="daysDiv" style="display: none">
@@ -110,10 +110,12 @@
         // If the count down is finished, write some text
         if (distance < 0) {
           clearInterval(x);
-          $('#days').text(0);
-          $('#hours').text(0);
-          $('#minutes').text(0);
-          $('#seconds').text(0);
+          $('#days').remove();
+          $('#hours').remove();
+          $('#minutes').remove();
+          $('#seconds').remove();
+
+          $('#launching').html("has launched!");
         }
       }
     </script>

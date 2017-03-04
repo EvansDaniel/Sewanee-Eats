@@ -60,37 +60,37 @@
                         <hr class="hr-separator">
                     @endif
 
+                                </div>
+                                <div class="col-lg-1 col-md-1">
+                                    <button class="ckbtn btn btn-primary"
+                                            id="dfc-{{ $order['menu_item_model']->id }}-{{ $i }}"
+                                            data-model-id="{{ $order['menu_item_model']->id }}"
+                                        `    data-item-index="{{ $i }}"
+                                            onclick="deleteItemFromCart(this)"
+                                            type="button">X
+                                    </button>
+                                </div>
+                            </div>
+                            <hr class="cart-line">
+                        @endfor
 
-                    @if(!empty($items['non_special_items']))
-                        <h3>Your On Demand Items</h3>
-                        @foreach($items['non_special_items'] as $order)
-                            @if(!$loop->last)
-                                @for($i = 0; $i < $order['quantity']; $i++)
-                                    @include('partials.checkout_items')
-                                    <hr class="cart-line">
-                                @endfor
-                            @else
-                                @for($i = 0; $i < $order['quantity']; $i++)
-                                    @include('partials.checkout_items')
-                                    @if($i != $order['quantity']-1)
-                                        <hr class="cart-line">
-                                    @endif
-                                @endfor
-                            @endif
-                        @endforeach
-                        <hr class="hr-separator">
-                    @endif
+                    @endforeach
+
                 </div>
             @endif
             @if(!empty(Session::get('cart')) && Session::get('cart') != null)
 
-                <div class="cart col-lg-12 col-md-12 col-sm-12 col-xs-12" id="main-payment-form" style="">
+                <div class="cart " id="main-payment-form" style="">
                     <!-- Payment information -->
 
                     <h3 class="col-lg-12 col-md-12 col-sm-12 col-xs-12 cart-review">
                         2. Enter your information to pay:
                     </h3>
                     <hr>
+                    <div id="ct-ct">
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-lg-3 col-md-3 col-sm-10   col-xs-10">
                     <label for="pay-with-venmo" id="pay-with-what">Pay with Venmo?</label>
                     <input type="checkbox" name="pay_with_venmo" id="pay-with-venmo" value="0">
                     <div id="venmo-payment-div" class="form-group">
@@ -104,33 +104,32 @@
                     <div id="card-payment-div">
 
                         <span class="" style="display: none;" id="payment-errors"></span>
-                        <div class="form-group">
+                        <div class="form-group  col-lg-3 col-md-3 col-sm-10   col-xs-10" id="c-date">">
                             <label>
-                                <span>Card Number</span>
+                                <span class="row">Card Number</span>
                                 <input class="pay-input form-control" type="text" id="card-number" size="20"
                                        data-stripe="number">
                             </label>
                         </div>
 
-                        <div class="form-group">
-                            <label>
-                                <span>Expiration (MM/YY)</span>
-                                <input class="pay-input" type="text" size="2" id="exp-month" maxlength="2"
-                                       data-stripe="exp_month">
-                            </label>
-                            <span> / </span>
-                            <input class="pay-input" type="text" size="4" id="exp-year" maxlength="4"
-                                   data-stripe="exp_year">
-                        </div>
-
-                        <div class="form-group">
-                            <label>
-                                <span>CVC</span>
-                                <input class="pay-input" type="text" size="4" maxlength="4" id="cvc" data-stripe="cvc">
-                            </label>
-                        </div>
-                    </div>
                     <div class="form-group">
+                        <label>
+                            <span class="row">Expiration (MM/YY)</span>
+                            <input class="pay-input" type="text" size="2" id="exp-month" maxlength="2"
+                                   data-stripe="exp_month">
+                        </label>
+                        {{--<span> / </span>--}}
+                        <input class="pay-input" type="text" size="4" id="exp-year" maxlength="4"
+                               data-stripe="exp_year">
+                    </div>
+
+                    <div class="form-group col-lg-3 col-md-3 col-sm-10  col-xs-10" id="c-cvc">">
+                        <label>
+                            <span class="row">CVC</span>
+                            <input class="pay-input" type="text" size="4" maxlength="4" id="cvc" data-stripe="cvc">
+                        </label>
+                    </div>
+                    <div class="form-group"  id="loc-phone">
                         @if(!empty($items['non_special_items']))
                             <label for="location">Where should we deliver your On Demand items?</label>
                             <input class="form-control pay-input" type="text" name="location" id="location">
@@ -139,17 +138,14 @@
                         <input class="form-control pay-input" placeholder="Please enter your email address"
                                type="email"
                                name="email_address" id="email-address">
-                        {{--
-                        <input class="form-control pay-input" maxlength="10" placeholder="10 digits, only numbers"
-                               type="tel"
-                               name="phone_number" id="phone-number">--}}
+                            {{--
+                           <input class="form-control pay-input" maxlength="10" placeholder="10 digits, only numbers"
+                                  type="tel"
+                                  name="phone_number" id="phone-number">--}}
                     </div>
-                    {{--<div style="color:red">TODO: compute the delivery time in the back end</div>
-                    <div>Expected delivery time: 12:30pm</div>--}}
                     <div>Subtotal: $<span id="subtotal">{{ $subtotal }}</span></div>
                     <div>Order Total: $<span id="total-price">{{ $total_price }}</span></div>
-                    <button type="submit" id="pay-now-button" onclick="checkPayNow(event)" class="btn checkout-btn">Pay
-                        Now
+                    <button type="submit" id="pay-now-button" onclick="checkPayNow(event)" class="checkout-btn">Pay Now
                     </button>
                 </div>
         @endif
