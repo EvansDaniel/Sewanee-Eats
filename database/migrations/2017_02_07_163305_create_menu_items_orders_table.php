@@ -13,12 +13,12 @@ class CreateMenuItemsOrdersTable extends Migration
      */
     public function up()
     {
+        // Relates menu items to orders
         Schema::create('menu_items_orders', function (Blueprint $table) {
+            $table->increments('id');
             $table->integer('order_id')->unsigned();
             $table->integer('menu_item_id')->unsigned();
-
-            $table->string('special_instructions');
-            $table->integer('quantity')->unsigned();
+            $table->string('special_instructions')->nullable();
 
             // either add create json array of accessories for this menu_item_order
             // or create a table joining a menu_item_order with

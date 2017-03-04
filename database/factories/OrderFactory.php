@@ -17,10 +17,13 @@ use App\Models\Order;
 $factory->define(Order::class, function (Faker\Generator $faker) {
     $bool = [0, 1];
     $location = ['Smith Hall', 'Tuckaway', 'Library', 'Quintard'];
+    $email = "hello@gmail.com";
     return [
-        'is_open' => 1,
-        'location_of_user' => $location[mt_rand(0, 3)],
-        'contact_number_of_user' => 1,
+        'is_open_order' => 1,
+        'is_weekly_special' => 0,
+        'delivery_location' => $location[mt_rand(0, 3)],
+        'email_of_customer' => $email,
+        //,'contact_number_of_user' => 1,
         'was_refunded' => $bool[mt_rand(0, 1)]
     ];
 });

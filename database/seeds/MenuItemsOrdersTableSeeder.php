@@ -21,21 +21,18 @@ class MenuItemsOrdersTableSeeder extends Seeder
                 'menu_item_id' => $menu_item->id,
                 'order_id' => $order->id,
                 'special_instructions' => 'My Special Instructions',
-                'quantity' => $q[mt_rand(0, count($q) - 1)]
             ]);
             $menu_item = MenuItem::orderByRaw("RAND()")->first();
             DB::table('menu_items_orders')->insert([
                 'menu_item_id' => $menu_item->id,
                 'order_id' => $order->id,
                 'special_instructions' => 'My Special Instructions',
-                'quantity' => $q[mt_rand(0, count($q) - 1)]
             ]);
             $menu_item = MenuItem::orderByRaw("RAND()")->first();
             DB::table('menu_items_orders')->insert([
                 'menu_item_id' => $menu_item->id,
                 'order_id' => $order->id,
                 'special_instructions' => 'My Special Instructions',
-                'quantity' => $q[mt_rand(0, count($q) - 1)]
             ]);
         }
     }

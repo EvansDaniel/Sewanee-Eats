@@ -24,7 +24,7 @@
                     <li class="list-group-item">
                         <div class="row">
                             <img height="100"
-                                 src="{{ asset("images/restaurants/".$r->image_name,env('APP_ENV') === 'production') }}"
+                                 src="{{ asset("images/restaurants/".$r->image_url,env('APP_ENV') === 'production') }}"
                                  alt="Restaurant Image">
                             {{ $r->name }}
                         </div>

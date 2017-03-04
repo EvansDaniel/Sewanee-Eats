@@ -18,7 +18,7 @@ class ManageRestaurantController extends Controller
 
     public function __construct()
     {
-        $this->restImageDir = 'restaurantImages/';
+        $this->restImageDir = 'restaurants/';
     }
 
     public function showRestaurants()
@@ -33,27 +33,34 @@ class ManageRestaurantController extends Controller
         // get request info
         $location = $request->input('location');
         $name = $request->input('name');
-        $desc = $request->input('description');
         $image = $request->file('image');
+        $is_weekly_special = $request->input('is_special');
 
+        // stuff to do regardless of if it is special weekly restaurant
+        // validate request
         $validator = $this->imageUploadValidator($request);
         if ($validator->fails()) {
             return back()->withErrors($validator);
         }
-
-        $hours_open = $this->createAvailableTimesJsonStringFromRequest($request);
-
         // Store the restaurant image to file system
         $file_name = $this->getFileName($image, $this->restImageDir);
         $this->storeFile($this->restImageDir, $image, $file_name);
 
-        // Store restaurant info to database
         $restaurant = new Restaurant;
+
+        // Store restaurant info to database
         $restaurant->name = $name;
-        $restaurant->location = $location;
-        $restaurant->description = $desc;
-        $restaurant->available_times = $hours_open;
         $restaurant->image_url = $this->dbStoragePath($this->restImageDir, $file_name);
+        $restaurant->is_weekly_special = $is_weekly_special;
+
+        // stuff to do if restaurant is not special
+        if ($is_weekly_special == 0) {
+            $hours_open = $this->createAvailableTimesJsonStringFromRequest($request);
+            $restaurant->location = $location;
+            $restaurant->available_times = $hours_open;
+        }
+
+        \Log::info($this->dbStoragePath($this->restImageDir, $file_name));
         $restaurant->save();
         return back()->with('status_good', $restaurant->name . " has been added to the database!");
     }

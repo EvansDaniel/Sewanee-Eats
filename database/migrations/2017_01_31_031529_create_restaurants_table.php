@@ -17,16 +17,10 @@ class CreateRestaurantsTable extends Migration
         Schema::create('restaurants', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->longText('available_times');
-            $table->string('description');
-            // we need location b/c price is
-            // a function of location
-            // Valid locations include (not case sensitive):
-            // campus, downtown, Monteagle
-            // simplest pricing scheme would be a flat rate
-            // based on location
-            $table->string('location');
-            $table->string('image_name');
+            $table->longText('available_times')->nullable();
+            $table->string('location')->nullable();
+            $table->boolean('is_weekly_special');
+            $table->string('image_url');
             $table->timestamps();
         });
     }

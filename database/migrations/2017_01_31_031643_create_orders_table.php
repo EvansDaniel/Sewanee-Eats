@@ -15,11 +15,17 @@ class CreateOrdersTable extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->increments('id');
-            $table->boolean('is_open');
-            $table->string('location_of_user', 150);
-            $table->bigInteger('contact_number_of_user');
+            $table->boolean('is_open_order');
+            $table->string('delivery_location', 150)->nullable();
+            $table->boolean('is_weekly_special');
+            //$table->bigInteger('customer_phone_number');
+            $table->string('email_of_customer');
             // was this order refunded?
             $table->boolean('was_refunded');
+            // did they opt to pay with venmo
+            $table->boolean('paid_with_venmo');
+            // have we received payment through venmo
+            $table->boolean('has_paid_with_venmo')->nullable();
             $table->timestamps();
         });
     }

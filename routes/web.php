@@ -16,6 +16,10 @@ use App\Models\MenuItem;
 use App\Models\Order;
 use Carbon\Carbon;
 
+Route::get('temp', function () {
+    return view('home.temp');
+});
+
 Route::get('time', function () {
     // if this is an ajax request
     if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {

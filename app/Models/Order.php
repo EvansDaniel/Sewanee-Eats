@@ -11,11 +11,16 @@ class Order extends Model
 
     protected $table = "orders";
 
-    public function menuItems()
+    /*public function menuItems()
     {
         return $this->belongsToMany('App\Models\MenuItem', 'menu_items_orders',
             'order_id', 'menu_item_id')
             ->withPivot('special_instructions', 'quantity');
+    }*/
+
+    public function menuItemOrders()
+    {
+        return $this->hasMany('App\Models\MenuItemOrder', 'order_id', 'id');
     }
 
     public function restaurants()

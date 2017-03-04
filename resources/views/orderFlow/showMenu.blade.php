@@ -25,11 +25,36 @@
 @section('body')
     <!-- TODO: get rid of this; it is for debugging, add a restaurant image logo as the head of evrypage -->
     <br><br><br>
+    <!-- DON'T DELETE THIS YET -->
+    {{--@if(!empty($remove_items))
+        <div class="alert alert-danger" align="center">
+            <div>
+                {{ $message }}
+            </div>
+            <br>
+            <ul>
+                @foreach($remove_items as $item)
+                    <li style="list-style-type: none">
+                        {{ $item->name }}
+                    </li>
+                @endforeach
+            </ul>
+        </div>
+        <script>
+
+            {{ "var DISABLE_ADD_BUTTON = true" }}
+        </script>
+    @else
+        <script>
+
+            {{ "var DISABLE_ADD_BUTTON = false" }}
+        </script>
+    @endif--}}
     <div class="container-fluid" id="show-menu">
         <div class="row" id="restaurant-logo">
             <div class="col-lg-offset-5 col-lg-2 col-md-2 col-md-offset-5 col-sm-4 col-sm-offset-4 col-xs-offset-4 col-xs-4">
 
-                <img  class="img-circle img-thumbnail" src="{{ asset('images/restaurants/ivy_wild.jpg',env('APP_ENV') === 'production') }}">
+                <img class="img-circle img-thumbnail" src="{{ $restaurant->image_url }}">
             </div>
         </div>
         <div class="panel panel-default">
@@ -45,26 +70,26 @@
                     <div class="panel-body" id="mountain-menu">
                         <ul class="list-group  row">
                             @foreach($items as $item)
-                                    <li class="menu-li clickable list-group-item col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                                        <div class="menu-item">
-                                            <!-- IF YOU TOUCH THIS HTML, MAKE SURE TO UPDATE THE loadModal FUNCTION WITH NEW STRUCTURE -->
-                                            <div class="row" id="menu-item-top">
-                                                <div class="menuList col-lg-10 col-md-10 col-sm-9 col-xs-9">{{ $item->name }}</div>
-                                                <div class="hidden">
-                                                    <hr id="menu-item-line">
-                                                </div>
-                                                <div class="menu-item-price col-lg-2 col-md-2 col-sm-3 col-xs-3">{{ $item->price }}</div>
+                                <li class="menu-li clickable list-group-item col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                    <div class="menu-item">
+                                        <!-- IF YOU TOUCH THIS HTML, MAKE SURE TO UPDATE THE loadModal FUNCTION WITH NEW STRUCTURE -->
+                                        <div class="row" id="menu-item-top">
+                                            <div class="menuList col-lg-10 col-md-10 col-sm-9 col-xs-9">{{ $item->name }}</div>
+                                            <div class="hidden">
+                                                <hr id="menu-item-line">
                                             </div>
-                                            <div class="row divider-row"></div>
-                                            <div class="row menu-item-description">
-                                                {{ $item->description }}
-                                            </div>
-                                            <div style="display: none">{{ $item->id }}</div>
+                                            <div class="menu-item-price col-lg-2 col-md-2 col-sm-3 col-xs-3">{{ $item->price }}</div>
                                         </div>
-                                        <div class="hidden-hr hidden-lg hidden-md row">
-                                            <hr class="col-sm-offset-1 col-sm-8 col-xs-offset-1 col-xs-8">
+                                        <div class="row divider-row"></div>
+                                        <div class="row menu-item-description">
+                                            {{ $item->description }}
                                         </div>
-                                    </li>
+                                        <div style="display: none">{{ $item->id }}</div>
+                                    </div>
+                                    <div class="hidden-hr hidden-lg hidden-md row">
+                                        <hr class="col-sm-offset-1 col-sm-8 col-xs-offset-1 col-xs-8">
+                                    </div>
+                                </li>
                             @endforeach
                         </ul>
                     </div>

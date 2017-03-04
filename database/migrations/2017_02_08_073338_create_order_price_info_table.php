@@ -16,11 +16,10 @@ class CreateOrderPriceInfoTable extends Migration
         Schema::create('order_price_info', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('order_id')->unsigned();
-            // subtotal can be computed from the below two fields
             $table->float('total_price')->unsigned();
+            $table->float('subtotal')->unsigned();
             $table->float('profit')->unsigned();
             $table->float('state_tax')->unsigned();
-
             $table->foreign('order_id')
                 ->references('id')->on('orders')->onDelete('cascade');
             $table->timestamps();

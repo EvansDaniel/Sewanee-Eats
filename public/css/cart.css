@@ -1,3 +1,30 @@
+#pay-now-button {
+    background: linear-gradient(90deg, #240a54 10%, #7459a5 90%);
+    color: white;
+    padding: .5% 2%;
+    border-radius: 10px;
+    letter-spacing: .12em;
+    font-size: 16px;
+    font-family: 'Lato', sans-serif;
+    font-weight: bold;
+    border: solid rebeccapurple 2px;
+}
+
+.pay-input {
+    border-radius: 5px;
+}
+
+.hr-separator {
+    display: block;
+    background-color: rebeccapurple;
+    height: 1px;
+    border: 0;
+    border-top: 1px solid #ccc;
+    margin-top: 2.5%;
+    margin-bottom: 2.5%;
+    padding: 0;
+}
+
 .checkoutbtn {
     background: linear-gradient(90deg, #240a54 10%, #7459a5 90%);
     color: white;
@@ -158,27 +185,25 @@ h1 {
 
 #card-number{
     margin: 0 1% 0 0;
-    border-radius: 0px;
-    border: solid 2px black;
     outline: 0;
     font-size: 16px;
     word-break: break-all;
 }
-#exp-month, #exp-year, #{
-    border-radius: 0px;
-    border: solid 2px black;
+
+#exp-month, #exp-year {
     outline: 0;
     font-size: 16px;
     word-break: break-all;
     padding: 3px;
 }
-#card-number:focus, #exp-month:focus , #exp-year:focus{
-    border: solid 2px black;
+
+.pay-input:focus {
     outline: none;
-    -webkit-box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.75);
+    /*-webkit-box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.75);
     -moz-box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.75);
-    box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.75);
+    box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.75);*/
 }
+
 #main-payment-form{
     font-family: "Lato", sans-serif;
 }

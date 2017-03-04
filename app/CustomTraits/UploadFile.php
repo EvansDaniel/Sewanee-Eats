@@ -3,6 +3,7 @@
 namespace App\CustomTraits;
 
 use File;
+use Illuminate\Http\UploadedFile;
 use Log;
 use Storage;
 
@@ -11,7 +12,7 @@ trait UploadFile
 
     /**
      * @param $directory_to_store string Subdirectory from the baseStoragePath()
-     * @param $uploaded_file File Actual instance of uploaded file i.e. $request->file('my_image');
+     * @param $uploaded_file UploadedFile Actual instance of uploaded file i.e. $request->file('my_image');
      * @param $file_name string The name to store the file as
      */
     public function storeFile($directory_to_store,
@@ -24,11 +25,16 @@ trait UploadFile
         // Possible problem: If subdirs don't exist, mkdir will fail
         // Possible solution: use recursive flag on mkdir() call
         // Probably best solution: Don't call storeFile on with subdirs that don't exist
-        if (!file_exists($directory_to_store))
-            mkdir($directory_to_store);
+        if (!file_exists($this->baseStoragePath() . $directory_to_store))
+            mkdir($this->baseStoragePath() . $directory_to_store);
 
         Storage::put($directory_to_store . $file_name,
             File::get($uploaded_file->getRealPath()));
+    }
+
+    public function baseStoragePath()
+    {
+        return storage_path() . '/app/';
     }
 
     /**
@@ -58,11 +64,6 @@ trait UploadFile
         return substr($dir, $len - 1, $len) == '/' ? "" : "/";
     }
 
-    public function baseStoragePath()
-    {
-        return storage_path() . '/app/';
-    }
-
     /**
      * @param $sub_dir string the subdirectory under baseStoragePath()
      *                 where you would store $file_name
@@ -72,7 +73,7 @@ trait UploadFile
     public function dbStoragePath($sub_dir, $file_name)
     {
         $sep = $this->separator($sub_dir);
-        return asset('storage/' . $sub_dir . $sep . $file_name, env('APP_ENV') === 'production');
+        return asset('app/' . $sub_dir . $sep . $file_name, env('APP_ENV') === 'production');
     }
 
     /**

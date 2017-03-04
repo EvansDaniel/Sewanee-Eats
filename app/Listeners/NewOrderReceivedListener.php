@@ -3,6 +3,7 @@
 namespace App\Listeners;
 
 use App\Events\NewOrderReceived;
+use Mail;
 
 class NewOrderReceivedListener
 {
@@ -25,6 +26,34 @@ class NewOrderReceivedListener
      */
     public function handle(NewOrderReceived $event)
     {
+        $managers = [
+            'evansdb0@sewanee.edu', 'kandeta0@sewanee.edu', 'iradub0@sewanee.edu'
+        ];
+        $m_name = [
+            'Daniel Evans', 'Tariro Kandemiri', 'Blaise Iradukunda'
+        ];
+        $order = $event->orderRequest;
+        if ($event->orderRequest->paid_with_venmo) {
+            for ($i = 0; $i < count($managers); $i++) {
+                Mail::send('emails.new_venmo_order', compact('items', 'order'), function ($message) use ($managers, $m_name, $i) {
+                    $message->from('sewaneeeats@gmail.com');
+                    $message->to($m_name[$i], $managers[$i])->subject('New Venmo Order Request!');
+                });
+            }
+        } else {
+            foreach ($managers as $manager) {
+                Mail::send('emails.new_order', compact('order'), function ($message) use ($manager) {
+                    $message->from('sewaneeeats@gmail.com');
+                    $message->to($manager, $manager)->subject('New Order Request!');
+                });
+            }
+        }
+        /*$user = User::findOrFail(\Auth::id());
+        Mail::send('emails.new_order', compact('items'), function ($message) use ($user) {
+            $message->from('sewaneeeats@gmail.com');
+            $message->to('evansdb0@sewanee.edu', 'Daniel Evans')->subject('New Order Request!');
+        });*/
+
         /**
          * Compile the list of menu items from within the $event->orderRequest object,
          * mapping each menu item to its restaurant i.e.

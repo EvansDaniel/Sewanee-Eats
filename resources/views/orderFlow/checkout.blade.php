@@ -18,11 +18,11 @@
             {{--<form action="{{ route('handleCheckout') }}" method="POST" id="payment-form">--}}
             {{ csrf_field() }}
             @if(empty(Session::get('cart')) || Session::get('cart') == null)
-                <h1>Your Food</h1>
-                <hr>
+                <h2>Your Food</h2>
+                <hr style="color: rebeccapurple">
                 <div id="cart-title" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <div class="c-t-i">
-                        <h1>You don't have any items in your cart!</h1>
+                        <h2>You don't have any items in your cart!</h2>
                     </div>
                     <div class="row">
                         <a id="cart-order-again" href="{{ route('list_restaurants') }}">Start your order here</a>
@@ -40,144 +40,116 @@
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="orders">
 
                     <!-- Loop through all menu items in the cart -->
-                    @foreach(Session::get('cart') as $order)
-
-                        @for($i = 0; $i < $order['quantity']; $i++)
-                            <div class="menu-item row" id="mid-{{$order['menu_item_model']->id}}">
-
-                                <div class="col-lg-2 col-md-2 order-name"><p>{{ $order['menu_item_model']->name }}</p>
-                                </div>
-                                <div class="col-lg-2 col-md-2 order-price">
-                                    $ {{ $order['menu_item_model']->price }}</div>
-                                <div class="col-lg-2 col-md-2 order-descr">{{ $order['menu_item_model']->description }}</div>
-
-                                <input type="hidden" name="cart_item_id" value="{{ $order['menu_item_model']->id }}">
-                                <div class="col-lg-3 col-md-3 order-special">
-                                    @if(empty($order['special_instructions'][$i]))
-                                        <button type="button" class="checkout-btn"
-                                                onclick="showInstruction(this)">
-                                            Add Special Instructions
-                                        </button>
-                                @endif <!-- Make the div hidden or not -->
-                                    <div style="display: {{ empty($order['special_instructions'][$i]) ? "none" : "block"}};">
-                                        <label for="si-id" id="special-btn">Special
-                                            instructions</label>
-                                        <div class="container row">
-                                               <textarea id="si-id-{{$order['menu_item_model']->id}}-{{$i}}"
-                                                         class="si"
-                                                         data-model-id="{{$order['menu_item_model']->id}}"
-                                                         data-index="{{$i}}"
-                                                         name="special_instructions">{{ $order['special_instructions'][$i] }}</textarea>
-                                        </div>
-                                        <input name="special_instructions" type="hidden"
-                                               value="{{ $order['special_instructions'][$i] }}">
-                                    </div>
-                                </div>
-
-
-                                <div class="col-lg-2 col-md-2">
-                                    @if(empty($order['extras'][$i]))
-                                        <button type="button"
-                                                onclick="showExtras(this)"
-                                                class="btn btn-primary show-extra">
-                                            Add extras
-                                        </button>
+                    @if(!empty($items['special_items']))
+                        <h3>Your Weekly Special Items</h3>
+                        @foreach($items['special_items'] as $order)
+                            @if(!$loop->last)
+                                @for($i = 0; $i < $order['quantity']; $i++)
+                                    @include('partials.checkout_items')
+                                    <hr class="cart-line">
+                                @endfor
+                            @else
+                                @for($i = 0; $i < $order['quantity']; $i++)
+                                    @include('partials.checkout_items')
+                                    @if($i != $order['quantity']-1)
+                                        <hr class="cart-line">
                                     @endif
-                                    <div class="row"
-                                         style="display: {{ empty($order['extras'][$i]) ? "none" : "block"}};">
-                                        <label for="extras">Select items accessories</label>
-                                        @foreach($order['menu_item_model']->accessories as $acc)
-                                            <div class="checkbox">
-                                                <label for="acc">
-                                                    @if(!(empty($order['extras'][$i])) && in_array($acc->id,$order['extras'][$i]))
-                                                        <input id="acc-{{$i}}-{{$acc->id}}"
-                                                               name="extras{{$i}}[]"
-                                                               type="checkbox"
-                                                               data-model-id="{{$order['menu_item_model']->id}}"
-                                                               data-index="{{$i}}"
-                                                               checked class="acc-check"
-                                                               value="{{ $acc->id }}">
-                                                        {{ $acc->name . "  $" . $acc->price }}
-                                                    @else
-                                                        <input id="acc-{{$i}}-{{$acc->id}}"
-                                                               name="extras{{$i}}[]"
-                                                               type="checkbox"
-                                                               class="acc-check"
-                                                               data-model-id="{{$order['menu_item_model']->id}}"
-                                                               data-index="{{$i}}"
-                                                               value="{{ $acc->id }}">
-                                                        {{ $acc->name . "  $" . $acc->price }}
-                                                    @endif
-                                                </label>
-                                            </div>
-                                        @endforeach
-                                    </div>
+                                @endfor
+                            @endif
+                        @endforeach
+                        <hr class="hr-separator">
+                    @endif
 
-                                </div>
-                                <div class="col-lg-1 col-md-1">
-                                    <button class="ckbtn btn btn-primary"
-                                            id="dfc-{{ $order['menu_item_model']->id }}-{{ $i }}"
-                                            data-model-id="{{ $order['menu_item_model']->id }}"
-                                        `    data-item-index="{{ $i }}"
-                                            onclick="deleteItemFromCart(this)"
-                                            type="button">X
-                                    </button>
-                                </div>
-                            </div>
-                            <hr class="cart-line">
-                        @endfor
 
-                    @endforeach
-
+                    @if(!empty($items['non_special_items']))
+                        <h3>Your On Demand Items</h3>
+                        @foreach($items['non_special_items'] as $order)
+                            @if(!$loop->last)
+                                @for($i = 0; $i < $order['quantity']; $i++)
+                                    @include('partials.checkout_items')
+                                    <hr class="cart-line">
+                                @endfor
+                            @else
+                                @for($i = 0; $i < $order['quantity']; $i++)
+                                    @include('partials.checkout_items')
+                                    @if($i != $order['quantity']-1)
+                                        <hr class="cart-line">
+                                    @endif
+                                @endfor
+                            @endif
+                        @endforeach
+                        <hr class="hr-separator">
+                    @endif
                 </div>
             @endif
             @if(!empty(Session::get('cart')) && Session::get('cart') != null)
 
                 <div class="cart col-lg-12 col-md-12 col-sm-12 col-xs-12" id="main-payment-form" style="">
                     <!-- Payment information -->
+
                     <h3 class="col-lg-12 col-md-12 col-sm-12 col-xs-12 cart-review">
                         2. Enter your information to pay:
                     </h3>
                     <hr>
-                    <span class="" style="display: none;" id="payment-errors"></span>
-                    <div class="form-group">
-                        <label>
-                            <span>Card Number</span>
-                            <input class="pay-input form-control" type="text" id="card-number" size="20"
-                                   data-stripe="number">
-                        </label>
+                    <label for="pay-with-venmo" id="pay-with-what">Pay with Venmo?</label>
+                    <input type="checkbox" name="pay_with_venmo" id="pay-with-venmo" value="0">
+                    <div id="venmo-payment-div" class="form-group">
+
+                        <label for="venmo-username">Venmo Username</label>
+                        <input type="text" id="venmo-username" name="venmo_username"
+                               placeholder="Type in your venmo username" class="form-control">
+
                     </div>
 
-                    <div class="form-group">
-                        <label>
-                            <span>Expiration (MM/YY)</span>
-                            <input class="pay-input" type="text" size="2" id="exp-month" maxlength="2"
-                                   data-stripe="exp_month">
-                        </label>
-                        {{--<span> / </span>--}}
-                        <input class="pay-input" type="text" size="4" id="exp-year" maxlength="4"
-                               data-stripe="exp_year">
-                    </div>
+                    <div id="card-payment-div">
 
-                    <div class="form-group">
-                        <label>
-                            <span>CVC</span>
-                            <input class="pay-input" type="text" size="4" maxlength="4" id="cvc" data-stripe="cvc">
-                        </label>
+                        <span class="" style="display: none;" id="payment-errors"></span>
+                        <div class="form-group">
+                            <label>
+                                <span>Card Number</span>
+                                <input class="pay-input form-control" type="text" id="card-number" size="20"
+                                       data-stripe="number">
+                            </label>
+                        </div>
+
+                        <div class="form-group">
+                            <label>
+                                <span>Expiration (MM/YY)</span>
+                                <input class="pay-input" type="text" size="2" id="exp-month" maxlength="2"
+                                       data-stripe="exp_month">
+                            </label>
+                            <span> / </span>
+                            <input class="pay-input" type="text" size="4" id="exp-year" maxlength="4"
+                                   data-stripe="exp_year">
+                        </div>
+
+                        <div class="form-group">
+                            <label>
+                                <span>CVC</span>
+                                <input class="pay-input" type="text" size="4" maxlength="4" id="cvc" data-stripe="cvc">
+                            </label>
+                        </div>
                     </div>
                     <div class="form-group">
-                        <label for="location">Where should we deliver the food?</label>
-                        <input class="form-control pay-input" type="text" name="location" id="location">
-                        <label for="phone-number">Please enter your phone number</label>
+                        @if(!empty($items['non_special_items']))
+                            <label for="location">Where should we deliver your On Demand items?</label>
+                            <input class="form-control pay-input" type="text" name="location" id="location">
+                        @endif
+                        <label for="email-address">Email Address</label>
+                        <input class="form-control pay-input" placeholder="Please enter your email address"
+                               type="email"
+                               name="email_address" id="email-address">
+                        {{--
                         <input class="form-control pay-input" maxlength="10" placeholder="10 digits, only numbers"
                                type="tel"
-                               name="phone_number" id="phone-number">
+                               name="phone_number" id="phone-number">--}}
                     </div>
-                    <div style="color:red">TODO: compute the delivery time in the back end</div>
-                    <div>Expected delivery time: 12:30pm</div>
+                    {{--<div style="color:red">TODO: compute the delivery time in the back end</div>
+                    <div>Expected delivery time: 12:30pm</div>--}}
                     <div>Subtotal: $<span id="subtotal">{{ $subtotal }}</span></div>
                     <div>Order Total: $<span id="total-price">{{ $total_price }}</span></div>
-                    <button type="submit" id="pay-now-button" onclick="checkPayNow(event)" class="checkout-btn">Pay Now
+                    <button type="submit" id="pay-now-button" onclick="checkPayNow(event)" class="btn checkout-btn">Pay
+                        Now
                     </button>
                 </div>
         @endif
@@ -186,59 +158,103 @@
 
         </form>
     </div>
+
+    <style>
+        #pay-now-button {
+            background: linear-gradient(90deg, #240a54 10%, #7459a5 90%);
+            color: white;
+            padding: 1% 4%;
+            border-radius: 10px;
+            letter-spacing: .12em;
+            font-size: 16px;
+            font-family: 'Lato', sans-serif;
+            font-weight: bold;
+            border: solid rebeccapurple 2px;
+        }
+
+        .hr-separator {
+            display: block;
+            background-color: rebeccapurple;
+            height: 1px;
+            border: 0;
+            border-top: 1px solid #ccc;
+            margin-top: 2.5%;
+            margin-bottom: 2.5%;
+            padding: 0;
+        }
+    </style>
     <!-- End payment information -->
 
     <!-- Strip payment script -->
     <script>
-        Stripe.setPublishableKey('pk_test_GALLn3YWDPqPycDBzdxuMz2z');
+      Stripe.setPublishableKey('pk_test_GALLn3YWDPqPycDBzdxuMz2z');
 
-        $(function () {
-            var $form = $('#payment-form');
-            $form.submit(function (event) {
-                // Disable the submit button to prevent repeated clicks:
-                $form.find('.submit').prop('disabled', true);
+      $(function () {
+        var $form = $('#payment-form');
+        $form.submit(function (event) {
+          if (!$('#pay-with-venmo').is(':checked')) {
+            // Disable the submit button to prevent repeated clicks:
+            $form.find('.submit').prop('disabled', true);
 
-                /*var message = validPayForm(true);
-                 if (message !== null) { // an error message was returned
-                 $('#payment-errors').show().text(message);
-                 event.preventDefault();
-                 $form.find('.submit').prop('disabled', false);
-                 return false;
-                 }*/
+              /*var message = validPayForm(true);
+               if (message !== null) { // an error message was returned
+               $('#payment-errors').show().text(message);
+               event.preventDefault();
+               $form.find('.submit').prop('disabled', false);
+               return false;
+               }*/
 
-                // Request a token from Stripe:
-                Stripe.card.createToken($form, stripeResponseHandler);
+            // Request a token from Stripe:
+            Stripe.card.createToken($form, stripeResponseHandler);
 
-                // Prevent the form from being submitted:
-                event.preventDefault();
-                return false;
-            });
+            // Prevent the form from being submitted:
+            event.preventDefault();
+            return false;
+          }
         });
+      });
 
-        function stripeResponseHandler(status, response) {
-            // Grab the form:
-            var $form = $('#payment-form');
+      function stripeResponseHandler(status, response) {
+        // Grab the form:
+        var $form = $('#payment-form');
 
-            p('in response handler');
-            if (response.error) { // Problem!
+        p('in response handler');
+        if (response.error) { // Problem!
 
-                // Show the errors on the form:
-                $form.find('.payment-errors').text(response.error.message);
-                $form.find('.submit').prop('disabled', false); // Re-enable submission
+          // Show the errors on the form:
+          $form.find('.payment-errors').text(response.error.message);
+          $form.find('.submit').prop('disabled', false); // Re-enable submission
 
-            } else { // Token was created!
+        } else { // Token was created!
 
-                // Get the token ID:
-                var token = response.id;
+          // Get the token ID:
+          var token = response.id;
 
-                // Insert the token ID into the form so it gets submitted to the server:
-                $form.append($('<input type="hidden" name="stripeToken">').val(token));
+          // Insert the token ID into the form so it gets submitted to the server:
+          $form.append($('<input type="hidden" name="stripeToken">').val(token));
 
-                // Submit the form:
-                $form.get(0).submit();
-            }
+          // Submit the form:
+          $form.get(0).submit();
         }
+      }
 
     </script>
     <script src="{{ asset('js/checkout.js',env('APP_ENV') === 'production') }}"></script>
+    <script>
+      $('#venmo-payment-div').hide();
+      $('#pay-with-venmo').on('change', function () {
+        var box = $(this);
+        if (box.is(':checked')) {
+          // set pay with venmo to true
+          $('#pay-with-venmo').val(1);
+          $('#venmo-payment-div').show(350);
+          $('#card-payment-div').hide(350);
+        } else {
+          // set pay with venmo to false
+          $('#pay-with-venmo').val(0);
+          $('#venmo-payment-div').hide(350);
+          $('#card-payment-div').show(350);
+        }
+      })
+    </script>
 @stop

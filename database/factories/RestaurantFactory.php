@@ -65,12 +65,12 @@ $factory->define(Restaurant::class, function (Faker\Generator $faker) {
     ];
     // note that hours_open is a 24 hour clock
     // so this one is open from 1 to 5 and 8pm to 12am on Mondays
-    $images = ['ivy_wild.jpg', 'crossroads_new.jpg', 'bluechair_cafe.jpg', 'pub.png'];
+    $images = ['http://localhost:8000/app/restaurants/n1s35o1.gif'];
     return [
         'name' => $faker->company,
         'available_times' => json_encode($available_times),
-        'description' => 'My restaurant description',
         'location' => $locations[RAND(0,2)],
-        'image_name' => $images[mt_rand(0, count($images) - 1)]
+        'is_weekly_special' => 1,
+        'image_url' => $images[mt_rand(0, count($images) - 1)]
     ];
 });

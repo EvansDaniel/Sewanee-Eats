@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\Order;
 use Illuminate\Database\Seeder;
 
 class RestaurantsOrdersTableSeeder extends Seeder
@@ -12,12 +11,12 @@ class RestaurantsOrdersTableSeeder extends Seeder
      */
     public function run()
     {
-        // TODO: This needs to be tested to make sure
+        /*// TODO: This needs to be tested to make sure
         // it is doing what is expected
         $orders = Order::all();
         foreach ($orders as $order) {
             $rest_ids = [];
-            foreach ($order->menuItems as $item) {
+            foreach ($order->menuItemOrders as $item) {
                 if (in_array($item->restaurant->id, $rest_ids)) {
                     continue;
                 }
@@ -25,5 +24,6 @@ class RestaurantsOrdersTableSeeder extends Seeder
             }
             $order->restaurants()->attach($rest_ids);
         }
+        */
     }
 }

@@ -124,7 +124,7 @@ function deleteItemFromCart(button) {
             // TODO: error deleting item from the cart
         }
     }).done(function (res) {
-        delButton.parent().parent().hide('slow', function () {
+      delButton.parent().parent().hide(350, function () {
             updateUIAfterDeleteItem(delButton, res);
         });
     });
@@ -140,7 +140,7 @@ function updateUIAfterDeleteItem(delButton, res) {
 
     // give a message to the user if cart empty and hide payment form???
     if (currentCount == 0) {
-        $('#main-payment-form').hide('slow', function () {
+      $('#main-payment-form').hide(350, function () {
             $(this).remove();
         });
         setTimeout(function () {
@@ -150,7 +150,7 @@ function updateUIAfterDeleteItem(delButton, res) {
                 '<h1>You don\'t have any items in your cart!</h1>' +
                 '</div>' +
                 '<div class="row">' +
-                ' <a id="cart-order-again" href="{{ route(\'list_restaurants\') }}">Start your order here</a>' +
+                '<a id="cart-order-again" href="/restaurants"">Start your order here</a>' +
                 '</div>'+
                 '</div>'
             )
@@ -230,6 +230,7 @@ function showInstruction(showSIbutton) {
 
 function showExtras(button) {
     $(button).hide();
+  p($($(button).parent().children()[1]));
     $($(button).parent().children()[1]).show();
     $('.cart-review').hide();
     $('.cart-line').each(function () {

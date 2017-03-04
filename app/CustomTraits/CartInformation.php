@@ -14,6 +14,39 @@ trait CartInformation
         $this->max_items_in_cart = 10;
     }
 
+    public function categorizedItems($expanded_items = false)
+    {
+        $cart = Session::get('cart');
+        if (empty($cart)) {
+            return ['special_items' => null, 'non_special_items' => null];
+        }
+        $special_items = [];
+        $non_special_items = [];
+        foreach ($cart as $cart_item) {
+            if ($cart_item['menu_item_model']->restaurant->is_weekly_special) {
+                if ($expanded_items) {
+                    for ($i = 0; $i < $cart_item['quantity']; $i++)
+                        //$cart_item['special_instructions'] = $cart['special_instructions'][$i];
+                        $special_items[] = $cart_item;
+                } else {
+                    $special_items[] = $cart_item;
+                }
+            } else {
+                if ($expanded_items) {
+                    for ($i = 0; $i < $cart_item['quantity']; $i++)
+                        //$cart_item['special_instructions'] = $cart['special_instructions'][$i];
+                        $non_special_items[] = $cart_item;
+                } else {
+                    $non_special_items[] = $cart_item;
+                }
+            }
+        }
+        return [
+            'special_items' => $special_items,
+            'non_special_items' => $non_special_items
+        ];
+    }
+
     public function cartHasValidNumberOfItems($id = -1)
     {
         return $this->getCartQuantity($id) < $this->max_items_in_cart;

@@ -263,6 +263,9 @@ $(function () {
     addAnotherOrderButton(i);
     // make the quantity input read only
     $('#quantity').prop('readonly', true);
+    /*if (DISABLE_ADD_BUTTON) { // this would be defined in showMenu.blade.php by a php script
+     $('#add-to-cart-button').prop('disabled', true);
+     }*/
   }
 
 
