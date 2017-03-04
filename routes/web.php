@@ -236,7 +236,6 @@ Route::get('testEvent', function () {
 Route::group(['prefix' => 'api/v1/',
     'namespace' => 'Api'], function () {
     Route::group(['prefix' => 'couriers'], function () {
-
         Route::get('getOnlineCouriers/{day}/{time}',
             'CourierController@getOnlineCouriersForDayTime')
             ->name('getCouriers');
@@ -280,3 +279,8 @@ $this->post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail'
 $this->get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
 $this->post('password/reset', 'Auth\ResetPasswordController@reset');
 
+//---------------404------------
+//
+Route::get('404', function () {
+    return view('404');
+});
