@@ -86,8 +86,16 @@
                         <div class="form-group">
                             <div class="row">
                                 <div class="col-lg-4 col-md-4 col-sm-10 col-xs-10">
-                                    <label for="pay-with-venmo" id="pay-with-what">Pay with Venmo?</label>
+
+                                    <label for="full-name">Full Name</label>
+                                    <input class="form-control name-input" maxlength="100"
+                                           placeholder="Please enter your full name"
+                                           type="name"
+                                           name="full-name" id="full-name">
+                                    <br>
+                                    <label for="pay-with-venmo" id="pay-with-what">Check the box if you would like to pay with Venmo.</label>
                                     <input type="checkbox" name="pay_with_venmo" id="pay-with-venmo" value="0">
+
                                     <div id="venmo-payment-div" class="form-group">
 
                                         <label for="venmo-username">Venmo Username</label>
@@ -97,6 +105,9 @@
                                     </div>
                                 </div>
                             </div>
+
+                            <label for="pay-with-card" id="pay-with-card">Otherwise, fill out the information below to pay with a card.</label>
+
                             <div class="row">
 
 
@@ -138,6 +149,7 @@
                                     <input class="form-control pay-input" type="text" maxlength="100" name="location"
                                            id="location">
                                 @endif
+
                                 <label for="email-address">Email Address</label>
                                 <input class="form-control pay-input" maxlength="100"
                                        placeholder="Please enter your email address"
@@ -148,8 +160,8 @@
                                       type="tel"
                                       name="phone_number" id="phone-number">--}}
                             </div>
-                            <div>Subtotal: $<span id="subtotal">{{ $subtotal }}</span></div>
-                            <div>Order Total: $<span id="total-price">{{ $total_price }}</span></div>
+                            <div>Subtotal (w/ delivery fee included): $<span id="subtotal">{{ $subtotal }}</span></div>
+                            <div>Order Total (subtotal + tax): $<span id="total-price">{{ $total_price }}</span></div>
                             <button type="submit" id="pay-now-button" onclick="checkPayNow(event)"
                                     class="checkout-btn">Pay Now
                             </button>
@@ -179,7 +191,7 @@
 
     <!-- Strip payment script -->
     <script>
-        Stripe.setPublishableKey('pk_test_GALLn3YWDPqPycDBzdxuMz2z');
+        Stripe.setPublishableKey('pk_test_OiMnD5TXa75gY8Kk9Ao7LwY2');
 
         $(function () {
             var $form = $('#payment-form');
@@ -244,11 +256,13 @@
                 $('#pay-with-venmo').val(1);
                 $('#venmo-payment-div').show(350);
                 $('#card-payment-div').hide(350);
+                $('#pay-with-card').hide(350);
             } else {
                 // set pay with venmo to false
                 $('#pay-with-venmo').val(0);
                 $('#venmo-payment-div').hide(350);
                 $('#card-payment-div').show(350);
+                $('#pay-with-card').show(350);
             }
         })
     </script>
