@@ -18,14 +18,14 @@ class CreateIssuesTable extends Migration
             $table->increments('id');
 
             // order id number in case it is a issue with the number
-            $table->integer('order_id')->unsigned();
+            $table->integer('order_id')->nullable()->unsigned();
             $table->string('c_name');
             $table->string('c_email');
             $table->string('subject');
             $table->string('body');
 
             // id of admin that is corresponding
-            $table->integer('admin_id')->unsigned();
+            $table->integer('admin_id')->nullable()->unsigned();
 
             // actions that have been taken
             // no response yet

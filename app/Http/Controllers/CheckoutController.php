@@ -13,6 +13,7 @@ use Event;
 use Illuminate\Http\Request;
 use Session;
 use Stripe\Stripe;
+use Validator;
 
 class CheckoutController extends Controller
 {
@@ -42,6 +43,10 @@ class CheckoutController extends Controller
 
     public function handleCheckout(Request $request)
     {
+        $checkoutValidator = $this->handleCheckoutValidation($request);
+        if ($checkoutValidator->fails()) {
+            return back()->withErrors($checkoutValidator);
+        }
         /*
          * Check that there is someone available to service order request
          * (possibly at the checkout page so that they can’t hit the submit button)
@@ -59,7 +64,7 @@ class CheckoutController extends Controller
         $v_username = $request->input('venmo_username');
 
         if (!empty($location)) {
-            // blah blah
+            // TODO: blah blah
         }
         // attach all menu_items in the menu_items_orders table, attach whether it is special_item here????
         // other option is to create two different orders, splitting the on demand and the weekly special
@@ -147,6 +152,25 @@ class CheckoutController extends Controller
         return redirect()->route('thankYou');
     }
 
+    private function handleCheckoutValidation(Request $request)
+    {
+        // TODO: handle validation for location if on demand order request
+        $rules = null;
+        if ($request->input('pay_with_venmo') == 1) {
+            $rules = array(
+                'name' => 'required',
+                'email_address' => 'email|required',
+                'venmo_username' => 'required',
+            );
+        } else {
+            $rules = array(
+                'name' => 'required',
+                'email_address' => 'email|required'
+            );
+        }
+        return Validator::make($request->all(), $rules);
+    }
+
     private function saveOrderPriceInfo($order)
     {
         $priceInfo = new OrderPriceInfo;
@@ -168,5 +192,17 @@ class CheckoutController extends Controller
         $priceInfo->state_tax = ($subtotal * ($this->getStateTax() - 1));
         $priceInfo->save();
         return round($total*100);
+    }
+
+    private function issueValidator($request)
+    {
+        $rules = array(
+            'name' => 'required',
+            'email' => 'email|required',
+            'subject' => 'required',
+            'confirmation_number' => 'integer|min:1|max:65565',
+            'body' => 'required'
+        );
+        return Validator::make($request->all(), $rules);
     }
 }

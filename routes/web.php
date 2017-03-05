@@ -48,7 +48,7 @@ Route::get('orderSummary/{order_id}', 'HomeController@orderSummary')
 
 // Support Controller Routes -------------------------------------------------
 Route::get('support', 'SupportController@showSupport')->name('support');
-Route::get('support/create', 'SupportController@createIssue')->name('createIssue');
+Route::post('support/create', 'SupportController@createIssue')->name('createIssue');
 
 
 // Admin Support Controller Routes
@@ -57,8 +57,8 @@ Route::group([
     'prefix' => 'admin'], function () {
 
     Route::get('issues', 'SupportController@listIssues')->name('listIssues');
-    Route::get('issues/markAsResolved', 'SupportController@markAsResolved')->name('markAsResolved');
-    Route::get('issues/markAsCorresponding', 'SupportController@markAsCorresponding')->name('markAsCorresponding');
+    Route::post('issues/markAsResolved', 'SupportController@markAsResolved')->name('markAsResolved');
+    Route::post('issues/markAsCorresponding', 'SupportController@markAsCorresponding')->name('markAsCorresponding');
     Route::get('viewIssue/{issue_id}', 'SupportController@viewIssue')->name('viewIssue');
 
     Route::get('suggestions', 'SupportController@listSuggestions')->name('list_suggestions');
@@ -301,9 +301,6 @@ $this->get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm
 $this->post('password/reset', 'Auth\ResetPasswordController@reset');
 
 // ---------------404------------
-/*Route::any('{catchall}', function () {
+Route::any('{catchall}', function () {
     return view('404');
-})->where('catchall', '(.*)');*/
-
-/*Route::get('404', function () {
-});*/
+})->where('catchall', '(.*)');

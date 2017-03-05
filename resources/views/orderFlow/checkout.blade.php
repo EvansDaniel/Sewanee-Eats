@@ -92,8 +92,10 @@
                                            type="text"
                                            name="name" id="full-name">
                                     <br>
-                                    <label for="pay-with-venmo" id="pay-with-what">Check the box if you would like to pay with Venmo.</label>
+                                    <label for="pay-with-venmo" id="pay-with-what">Check the box if you would like to
+                                        pay with Venmo.</label><br>
                                     <input type="checkbox" name="pay_with_venmo" id="pay-with-venmo" value="0">
+                                    <br>
 
                                     <div id="venmo-payment-div" class="form-group">
 

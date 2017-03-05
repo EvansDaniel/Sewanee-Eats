@@ -14,15 +14,20 @@
             {{ csrf_field() }}
             <div class="form-group">
                 <label for="formGroupExampleInput">Full Name</label>
-                <input type="text" class="form-control" id="fullname" name="name">
+                <input type="text" class="form-control" id="fullname" name="name" maxlength="150" required>
             </div>
             <div class="form-group">
                 <label for="formGroupExampleInput2"> Your Email</label>
-                <input type="text" class="form-control" id="email" name="email">
+                <input type="text" class="form-control" id="email" name="email" maxlength="150" required>
             </div>
             <div class="form-group">
                 <label for="formGroupExampleInput2"> Subject </label>
-                <input type="text" class="form-control" id="subject" name="subject">
+                <input type="text" class="form-control" id="subject" name="subject" maxlength="150" required>
+            </div>
+            <div class="form-group">
+                <label for="formGroupExampleInput2">If your concern/suggestion is about your order, please provide your
+                    order confirmation number below</label>
+                <input type="text" class="form-control" id="order-id" name="confirmation_number" maxlength="100">
             </div>
             <div class="form-group">
                 <div class="row">
@@ -30,16 +35,15 @@
 
                 </div>
                 <div class="row">
-                    <select class="row custom-select" name="issue_type" id="inlineFormCustomSelect">
-                        <option selected>Choose...</option>
-                        <option value="1">Concern</option>
+                    <select class="row custom-select" name="issue_type" id="inlineFormCustomSelect" required>
+                        <option value="1" selected>Concern</option>
                         <option value="2">Suggestion</option>
                     </select>
                 </div>
             </div>
             <div class="form-group">
                 <label for="formGroupExampleInput2"> Please expand your concern</label>
-                <textarea maxlength="300" class="form-control" name="body" id="concern"
+                <textarea maxlength="500" required class="form-control" name="body" id="concern"
                           placeholder=""></textarea>
             </div>
             <div class="form-group">
