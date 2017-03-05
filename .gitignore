@@ -1,7 +1,7 @@
 /node_modules
 /public/templates
 /public/storage
-/storage/app
+/storage/app/*
 /public/hot
 /storage/*.key
 /vendor
