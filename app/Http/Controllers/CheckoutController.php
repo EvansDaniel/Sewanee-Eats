@@ -64,6 +64,7 @@ class CheckoutController extends Controller
 
         $weekly_special_order = null;
         $on_demand_order = null;
+        $totalPrice = 0;
         // TODO: need this same thing for $on_demand_order
         if (!empty($items['special_items'])) {
             // submit a weekly special order
@@ -107,14 +108,12 @@ class CheckoutController extends Controller
 
             // handle price information saving
             // this will be created at order creation time
-            $this->saveOrderPriceInfo($weekly_special_order);
+            $totalPrice = $this->saveOrderPriceInfo($weekly_special_order);
 
             Event::fire(new NewOrderReceived($weekly_special_order));
         }
 
-        if ($pay_with_venmo == 1) { // user selected to pay with venmo
-            // send user an email
-        } else {
+        if ($pay_with_venmo != 1) {
             // TODO: uncomment stuff
             // Stripe stuff
 
@@ -129,9 +128,8 @@ class CheckoutController extends Controller
             // Charge the user's card:
             // TODO: email the user a receipt of purchase w/ order info, could be basically the same as the courier email view
             $charge = \Stripe\Charge::create(array(
-                "amount" => 0,
+                "amount" => $totalPrice,
                 "currency" => "usd",
-                "receipt_email" => "evansdb0@sewanee.edu",
                 "description" => "SewaneeEats Delivery Charge (includes cost of food)",
                 "source" => $token
             ));
@@ -147,20 +145,22 @@ class CheckoutController extends Controller
     {
         $priceInfo = new OrderPriceInfo;
         $priceInfo->order_id = $order->id;
+        $total = 0;
         if ($order->is_weekly_special) {
             $profit = $this->getSpecialItemsFees($order->menuItemOrders);
             $priceInfo->profit = $profit;
             $subtotal = $this->foodCostOfSpecialItems() + $profit;
             $priceInfo->subtotal = $subtotal;
-            $priceInfo->total_price = $subtotal * $this->getStateTax();
+            $total = $priceInfo->total_price = $subtotal * $this->getStateTax();
         } else {
             $profit = $this->getNonSpecialItemFees();
             $priceInfo->profit = $profit;
             $subtotal = $this->foodCostOfNonSpecialItems() + $profit;
             $priceInfo->subtotal = $subtotal;
-            $priceInfo->total_price = $subtotal * $this->getStateTax();
+            $total = $priceInfo->total_price = $subtotal * $this->getStateTax();
         }
         $priceInfo->state_tax = ($subtotal * ($this->getStateTax() - 1));
         $priceInfo->save();
+        return $total;
     }
 }

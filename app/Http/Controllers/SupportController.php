@@ -21,6 +21,7 @@ class SupportController extends Controller
         $email = $request->input('email');
         $issue = new Issue;
         $issue->c_name = $name;
+
     }
 
     // Admin Capabilities ---------------------------------------------
