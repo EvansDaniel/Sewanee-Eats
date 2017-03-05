@@ -87,11 +87,10 @@
                             <div class="row">
                                 <div class="col-lg-4 col-md-4 col-sm-10 col-xs-10">
 
-                                    <label for="full-name">Full Name</label>
-                                    <input class="form-control name-input" maxlength="100"
-                                           placeholder="Please enter your full name"
-                                           type="name"
-                                           name="full-name" id="full-name">
+                                    <label for="email-address">Name</label>
+                                    <input class="form-control pay-input" maxlength="100"
+                                           type="text"
+                                           name="name" id="full-name">
                                     <br>
                                     <label for="pay-with-venmo" id="pay-with-what">Check the box if you would like to pay with Venmo.</label>
                                     <input type="checkbox" name="pay_with_venmo" id="pay-with-venmo" value="0">
@@ -155,10 +154,6 @@
                                        placeholder="Please enter your email address"
                                        type="email"
                                        name="email_address" id="email-address">
-                                <label for="email-address">Name</label>
-                                <input class="form-control pay-input" maxlength="100"
-                                       type="text"
-                                       name="name" id="email-address">
                                 {{--
                                <input class="form-control pay-input" maxlength="10" placeholder="10 digits, only numbers"
                                       type="tel"
