@@ -27,34 +27,34 @@
             @endif
         </ul>
     </header>
-    <header class="container header">
-        <h5 id="mountain" class="restaurant-cat-header">RESTAURANTS ON THE MOUNTAIN</h5>
-        <hr>
-        <p>Coming soon!</p>
-        <ul class="list-group container" id="restaurant-group">
-            @if(empty($restaurants))
-                <h1>There are no restaurants open at this time</h1>
-            @else
-                @foreach($restaurants as $restaurant)
-                    <li style="display: none"
-                        class="restaurant list-group-item col-lg-3 col-md-3 col-xs-8 col-xs-offset-2 col-sm-8 col-sm-offset-2">
-                        <a href="{{ route('showMenu',['id' => $restaurant->id]) }}">
-                            <!-- These urls must be https -->
-                            <img src="{{ $restaurant->image_url }}"
-                                 id="rest-images" class="img-responsive">
-                        </a>
-                    </li>
-                @endforeach
-            @endif
-        </ul>
-    </header>
+    {{-- <header class="container header">
+         <h5 id="mountain" class="restaurant-cat-header">RESTAURANTS ON THE MOUNTAIN</h5>
+         <hr>
+         <p>Coming soon!</p>
+         <ul class="list-group container" id="restaurant-group">
+             @if(empty($restaurants))
+                 <h1>There are no restaurants open at this time</h1>
+             @else
+                 @foreach($restaurants as $restaurant)
+                     <li style="display: none"
+                         class="restaurant list-group-item col-lg-3 col-md-3 col-xs-8 col-xs-offset-2 col-sm-8 col-sm-offset-2">
+                         <a href="{{ route('showMenu',['id' => $restaurant->id]) }}">
+                             <!-- These urls must be https -->
+                             <img src="{{ $restaurant->image_url }}"
+                                  id="rest-images" class="img-responsive">
+                         </a>
+                     </li>
+                 @endforeach
+             @endif
+         </ul>
+     </header>
 
-    <div class="container">
-        <h5 id="monteagle" class="restaurant-cat-header">RESTAURANTS IN MONTEAGLE</h5>
-        <hr>
-        <p>Coming soon!</p>
+     <div class="container">
+         <h5 id="monteagle" class="restaurant-cat-header">RESTAURANTS IN MONTEAGLE</h5>
+         <hr>
+         <p>Coming soon!</p>
 
-    </div>
+     </div>--}}
     <script>
       $(document).ready(function () {
 

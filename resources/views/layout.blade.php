@@ -11,7 +11,7 @@
 <body>
 <div id="main-container" class="container-fluid">
 
-    @include('countdown')
+{{--@include('countdown')--}}
     @include('partials.nav_bar')
     <!-- Status messages to user about what they are doing -->
     @include('partials.backend_messages')
