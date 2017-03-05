@@ -19,7 +19,7 @@
     @include('partials.nav_bar')
 <!-- TODO: Blaise -> temporary fix for messages not showing and tops of pages not showing -->
     @if(url()->current() != route("home"))
-        <div style="margin-top: 4%"></div>
+        <div style="margin-top: 100px"></div>
     @endif
 
     <!-- Status messages to user about what they are doing -->
