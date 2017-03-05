@@ -19,6 +19,7 @@ class SupportController extends Controller
     {
         $name = $request->input('name');
         $email = $request->input('email');
+        $body = $request->input('body');
         $issue = new Issue;
         $issue->c_name = $name;
 
