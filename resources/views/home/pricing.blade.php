@@ -75,6 +75,7 @@
             <h1>Pricing</h1>
 
             <h2>How much will my order cost?</h2>
+
             <h6 class="row"><a href="{{ route('list_restaurants') }}" id="promo-order-button"
                                class="col-lg-2 col-md-3 col-sm-5 col-xs-5">
                     Order Now
@@ -105,11 +106,9 @@
                     <li>Sewanee Market - $4</li>
                     <li>Shenanigans - $3</li>
                     <li>Blue Chair or Tavern - $4</li>
-                </ul>
                 <hr>
                 <h2>Restaurants Outside the Gates:</h2>
                 <hr>
-                <ul>
                     <li>Pizza Hut - $4.50</li>
                     <li>Waffle House - $6</li>
                     <li>Sonic - $4.50</li>
@@ -117,13 +116,11 @@
                     <br>
                     <li>Mountain Goat Market - $6</li>
                     <li>Wendys - $5</li>
-                </ul>
 
                 <hr>
                 <h2>Weekly Special Prices:</h2>
                 <hr>
-                <ul>
-                    <li>Chick-fil-a - $3</li>
+                    <li>Chick-fil-a - $3 for less than 5 items, 75 cents per item for more than 5 items.</li>
                     <li>Zaxbys - $3</li>
                 </ul>
 
