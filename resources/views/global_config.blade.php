@@ -22,18 +22,21 @@
   function p($obj) {
     console.log($obj);
   }
-//  $(document).ready(function () {
-//      var wn = $('.main-main-main-container');
-//      var h = wn.height();
-//      p(h + "window height");
-//      var bd_h = $("body").height();
-//      p(h + "body height");
-//      h = h -  bd_h
-//      if( h >0) {
-//          $("#push-div").css("height", h);
-//      }
-//
-//  });
+  $(document).ready(function () {
+      var wn = $('#main-container');
+      var h = wn.height();
+      var bd_h = $("#footer").height();
+      h = bd_h + h;
+      p(h + "container height");
+      var b = $(window).height();
+      p(b);
+      h = b - h;
+      p(h + "after math");
+      if( h >0) {
+          $("#push-div").css("height", h);
+      }
+
+  });
 </script>
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
