@@ -9,6 +9,11 @@
     @yield('head')
 </head>
 <body>
+<style>
+    body{
+        background: white;
+    }
+</style>
 <div id="main-container" class="container-fluid">
 {{--@include('countdown')--}}
     @include('partials.nav_bar')
