@@ -1,5 +1,5 @@
 <!-- Built by Daniel Evans (evansdb0@sewanee.edu), Tariro Kandemiri (kandeta0@sewanee.edu), and Blaise Iradukunda (iradub0@sewanee.edu)-->
-
+<!DOCTYPE html>
 <html>
 <head>
     @include('global_config')
@@ -9,12 +9,17 @@
     @yield('head')
 </head>
 <body>
+<style>
+    body{
+        background: white;
+    }
+</style>
 <div id="main-container" class="container-fluid">
 {{--@include('countdown')--}}
     @include('partials.nav_bar')
 <!-- TODO: Blaise -> temporary fix for messages not showing and tops of pages not showing -->
     @if(url()->current() != route("home"))
-    <div style="margin-top: 10%"></div>
+        <div style="margin-top: 4%"></div>
     @endif
 
     <!-- Status messages to user about what they are doing -->
