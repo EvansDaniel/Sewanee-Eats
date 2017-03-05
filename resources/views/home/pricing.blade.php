@@ -22,7 +22,7 @@
             display: inline
         }
 
-        li {
+        .rests {
             font-family: "Lato", sans-serif;
             list-style: none;
         }
@@ -39,6 +39,7 @@
             font-size: 14px;
             font-weight: bold;
             /*width: 20%;*/
+            border-radius: 5px;
             margin-top: 10px;
             border: solid rebeccapurple 2px;
             vertical-align: middle;
@@ -72,7 +73,7 @@
             font-size: 18px;
         }
 
-        li {
+        .rests {
             font-size: 18px;
         }
         #pricing-header{
@@ -111,28 +112,29 @@
 
             <div class="prices">
                 <ul>
-                    <li>Stirlings - $3</li>
-                    <li>Pub - $3</li>
+                    <li class="rests">Stirlings - $3</li>
+                    <li class="rests">Pub - $3</li>
                     <br>
-                    <li>Sewanee Market - $4</li>
-                    <li>Shenanigans - $3</li>
-                    <li>Blue Chair or Tavern - $4</li>
+                    <li class="rests">Sewanee Market - $4</li>
+                    <li class="rests">Shenanigans - $3</li>
+                    <li class="rests">Blue Chair or Tavern - $4</li>
                 <hr>
                 <h2>Restaurants Outside the Gates:</h2>
                 <hr>
-                    <li>Pizza Hut - $4.50</li>
-                    <li>Waffle House - $6</li>
-                    <li>Sonic - $4.50</li>
-                    <li>McDonalds - $4.50</li>
+                    <li class="rests">Pizza Hut - $4.50</li>
+                    <li class="rests">Waffle House - $6</li>
+                    <li class="rests">Sonic - $4.50</li>
+                    <li class="rests">McDonalds - $4.50</li>
                     <br>
-                    <li>Mountain Goat Market - $6</li>
-                    <li>Wendys - $5</li>
+                    <li class="rests">Mountain Goat Market - $6</li>
+                    <li class="rests">Wendys - $5</li>
 
                 <hr>
                 <h2>Weekly Special Prices:</h2>
                 <hr>
-                    <li>Chick-fil-a - $3 for less than 5 items, 75 cents per item for more than 5 items.</li>
-                    <li>Zaxbys - $3</li>
+                    <li class="rests">Chick-fil-a - $3 for less than 5 items, 75 cents per item for more than 5 items.
+                    </li>
+                    <li class="rests">Zaxbys - $3</li>
                 </ul>
 
             </div>
