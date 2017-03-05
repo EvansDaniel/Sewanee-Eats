@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Issue;
 use Illuminate\Http\Request;
 
 class SupportController extends Controller
@@ -16,7 +17,10 @@ class SupportController extends Controller
     // create new issue or concern from support page
     public function createIssue(Request $request)
     {
-        // TODO: must be implemented before 9
+        $name = $request->input('name');
+        $email = $request->input('email');
+        $issue = new Issue;
+        $issue->c_name = $name;
     }
 
     // Admin Capabilities ---------------------------------------------

@@ -18,9 +18,6 @@
                 <input name="name" id="rest-name" class="form-control"
                        type="text" required maxlength="100"
                        value="{{ $r->name }}">
-                <label for="rest-description">Restaurant Description</label>
-                <textarea name="description" id="rest-description" class="form-control"
-                          cols="30" rows="10" required maxlength="250">{{ $r->description }}</textarea>
                 <label for="rest-location">Restaurant Location</label>
                 <select name="location" class="form-control" id="rest-location" required>
                     <option value="campus">Campus</option>

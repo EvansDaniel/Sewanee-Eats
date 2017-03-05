@@ -104,7 +104,6 @@ class ManageRestaurantController extends Controller
         // get request info
         $location = $request->input('location');
         $name = $request->input('name');
-        $desc = $request->input('description');
         $image = $request->file('image');
 
         $hours_open = $this->createAvailableTimesJsonStringFromRequest($request);

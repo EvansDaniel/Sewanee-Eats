@@ -12,6 +12,7 @@ use App\User;
 use Event;
 use Illuminate\Http\Request;
 use Session;
+use Stripe\Stripe;
 
 class CheckoutController extends Controller
 {
@@ -115,7 +116,7 @@ class CheckoutController extends Controller
             // send user an email
         } else {
             // TODO: uncomment stuff
-            /*// Stripe stuff
+            // Stripe stuff
 
             // Set your secret key: remember to change this to your live secret key in production
             // See your keys here: https://dashboard.stripe.com/account/apikeys
@@ -133,7 +134,7 @@ class CheckoutController extends Controller
                 "receipt_email" => "evansdb0@sewanee.edu",
                 "description" => "SewaneeEats Delivery Charge (includes cost of food)",
                 "source" => $token
-            ));*/
+            ));
         }
         //Session::flush();
         // TODO: delete this from session after leave thank you
