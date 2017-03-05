@@ -22,7 +22,7 @@
 <footer id="footer">
     <hr>
     <br>
-    <p>COPYRIGHT (C) SEWANEE EATS</p>
+    <p>COPYRIGHT © SEWANEE EATS - ALL PAYMENTS ARE PROCESSED SECURELY THROUGH VENMO AND <a href="https://www.stripe.com">STRIPE</a>.</p>
     {{--<a href="{{ route('findMyOrder') }}">Find My Order</a>--}}
     <br>
 </footer>
