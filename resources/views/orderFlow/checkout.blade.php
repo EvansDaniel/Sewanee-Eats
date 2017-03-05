@@ -33,13 +33,13 @@
                     Thank you for shopping with us. This is your order summary,
                 </h1>
 
-            <div class="row">
-                <h3 class="col-lg-12 col-md-12 col-sm-12 col-xs-12 cart-review">
-                    1.Review item(s)
-                </h3>
+                <div class="row">
+                    <h3 class="col-lg-12 col-md-12 col-sm-12 col-xs-12 cart-review">
+                        1.Review item(s)
+                    </h3>
 
 
-            </div>
+                </div>
 
 
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="orders">
@@ -108,7 +108,8 @@
                             </div>
                             <br>
 
-                            <label for="pay-with-card" id="pay-with-card">Otherwise, fill out the information below to pay with a card.</label>
+                            <label for="pay-with-card" id="pay-with-card">Otherwise, fill out the information below to
+                                pay with a card.</label>
 
                             <div class="row">
 
@@ -175,12 +176,14 @@
                             <br>
                             <br>
 
-                            <i>*By clicking submit, you are agreeing to the Sewanee Eats <a href="terms">Terms and Conditions</a>.</i>
+                            <i>*By clicking submit, you are agreeing to the Sewanee Eats <a href="terms">Terms and
+                                    Conditions</a>.</i>
                         </div>
                     </div>
                 @endif
 
                 <!-- Show checkout info only if we are on the checkout page -->
+                </div>
         </form>
     </div>
 
@@ -202,80 +205,84 @@
 
     <!-- Strip payment script -->
     <script>
-        Stripe.setPublishableKey('pk_live_bn3zbGLp1CWIUuBCTEmXARSI');
+      @if(env('APP_ENV') === "production")
+          Stripe.setPublishableKey({{ env('STRIPE_LIVE_PUBLISHABLE_KEY') }});
+      @else
+          Stripe.setPublishableKey({{ env('STRIPE_TEST_PUBLISHABLE_KEY') }});
+      @endif
 
-        $(function () {
-            var $form = $('#payment-form');
-            $form.submit(function (event) {
-                $('#pay-now-button').prop('disabled', true);
-                if (!$('#pay-with-venmo').is(':checked')) {
-                    // Disable the submit button to prevent repeated clicks:
+      $(function () {
+        var $form = $('#payment-form');
+        $form.submit(function (event) {
+          $('#pay-now-button').prop('disabled', true);
+          if (!$('#pay-with-venmo').is(':checked')) {
+            // Disable the submit button to prevent repeated clicks:
 
-                    // TODO: see where this fits into the current set up
-                    /*var message = validPayForm(true);
-                     if (message !== null) { // an error message was returned
-                     $('#payment-errors').show().text(message);
-                     event.preventDefault();
-                     $form.find('.submit').prop('disabled', false);
-                     return false;
-                     }*/
+            // TODO: see where this fits into the current set up
+              /*var message = validPayForm(true);
+               if (message !== null) { // an error message was returned
+               $('#payment-errors').show().text(message);
+               event.preventDefault();
+               $form.find('.submit').prop('disabled', false);
+               return false;
+               }*/
 
-                    // Request a token from Stripe:
-                    Stripe.card.createToken($form, stripeResponseHandler);
+            // Request a token from Stripe:
+            Stripe.card.createToken($form, stripeResponseHandler);
 
-                    // Prevent the form from being submitted:
-                    /*$form.find('.submit').prop('disabled', false);*/
-                    $('#pay-now-button').prop('disabled', false);
-                    event.preventDefault();
-                    return false;
-                }
-            });
+            // Prevent the form from being submitted:
+              /*$form.find('.submit').prop('disabled', false);*/
+            $('#pay-now-button').prop('disabled', false);
+            event.preventDefault();
+            return false;
+          }
         });
+      });
 
-        function stripeResponseHandler(status, response) {
-            // Grab the form:
-            var $form = $('#payment-form');
+      function stripeResponseHandler(status, response) {
+        // Grab the form:
+        var $form = $('#payment-form');
 
-            p('in response handler');
-            if (response.error) { // Problem!
+        p('in response handler');
+        if (response.error) { // Problem!
 
-                // Show the errors on the form:
-              $('#payment-errors-div').show();
-              $('#payment-errors').text(response.error.message);
-              $form.find('.submit').prop('disabled', true); // Re-enable submission
+          // Show the errors on the form:
+          $('#payment-errors-div').show();
+          $('#payment-errors').text(response.error.message);
+          $form.find('.submit').prop('disabled', true); // Re-enable submission
 
-            } else { // Token was created!
+        } else { // Token was created!
 
-                // Get the token ID:
-                var token = response.id;
+          // Get the token ID:
+          var token = response.id;
 
-                // Insert the token ID into the form so it gets submitted to the server:
-                $form.append($('<input type="hidden" name="stripeToken">').val(token));
+          // Insert the token ID into the form so it gets submitted to the server:
+          $form.append($('<input type="hidden" name="stripeToken">').val(token));
 
-                // Submit the form:
-                $form.get(0).submit();
-            }
+          // Submit the form:
+          $form.get(0).submit();
         }
+      }
 
     </script>
     <script src="{{ asset('js/checkout.js',env('APP_ENV') === 'production') }}"></script>
     <script>
-        $('#venmo-payment-div').hide();
-        $('#pay-with-venmo').on('change', function () {
-            var box = $(this);
-            if (box.is(':checked')) {
-                // set pay with venmo to true
-                $('#pay-with-venmo').val(1);
-                $('#venmo-payment-div').show(350);
-                $('#card-payment-div').hide(350);
-                $('#pay-with-card').hide(350);
-            } else {
-                // set pay with venmo to false
-                $('#pay-with-venmo').val(0);
-                $('#venmo-payment-div').hide(350);
-                $('#card-payment-div').show(350);
-                $('#pay-with-card').show(350);
-            }
-        })
+      $('#venmo-payment-div').hide();
+      $('#pay-with-venmo').on('change', function () {
+        var box = $(this);
+        if (box.is(':checked')) {
+          // set pay with venmo to true
+          $('#pay-with-venmo').val(1);
+          $('#venmo-payment-div').show(350);
+          $('#card-payment-div').hide(350);
+          $('#pay-with-card').hide(350);
+        } else {
+          // set pay with venmo to false
+          $('#pay-with-venmo').val(0);
+          $('#venmo-payment-div').hide(350);
+          $('#card-payment-div').show(350);
+          $('#pay-with-card').show(350);
+        }
+      })
     </script>
 @stop
