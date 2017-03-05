@@ -130,7 +130,6 @@ class ManageRestaurantController extends Controller
 
         $restaurant->name = $name;
         $restaurant->location = $location;
-        $restaurant->description = $desc;
         $restaurant->available_times = $hours_open;
 
         $restaurant->save();
