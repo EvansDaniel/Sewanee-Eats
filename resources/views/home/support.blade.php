@@ -10,7 +10,8 @@
     <div class="container support">
         <p class="row support-h"> We are always available to listen to your concern or/and suggestion</p>
         <hr>
-        <form action="{{ route('createIssue') }}" method="post">
+        <form action="{{ url()->to(parse_url(route('createIssue',[]),PHP_URL_PATH),[],env('APP_ENV') !== 'local') }}"
+              method="post">
             {{ csrf_field() }}
             <div class="form-group">
                 <label for="formGroupExampleInput">Full Name</label>

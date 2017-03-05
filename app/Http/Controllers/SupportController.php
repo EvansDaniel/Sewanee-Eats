@@ -50,9 +50,6 @@ class SupportController extends Controller
             $s->c_email = $email;
             $s->subject = $subject;
             $s->body = $body;
-            $s->not_viewed = true;
-            $s->is_corresponding = false;
-            $s->is_resolved = false;
             $s->save();
         }
         $message = null;
@@ -68,13 +65,22 @@ class SupportController extends Controller
 
     private function issueValidator($request)
     {
-        $rules = array(
-            'name' => 'required',
-            'email' => 'email|required',
-            'subject' => 'required',
-            'confirmation_number' => 'integer|min:1|max:65565',
-            'body' => 'required'
-        );
+        if (!empty($request->input('confirmation_number'))) {
+            $rules = array(
+                'name' => 'required',
+                'email' => 'email|required',
+                'subject' => 'required',
+                'confirmation_number' => 'integer|min:1|max:65565',
+                'body' => 'required'
+            );
+        } else {
+            $rules = array(
+                'name' => 'required',
+                'email' => 'email|required',
+                'subject' => 'required',
+                'body' => 'required'
+            );
+        }
         return Validator::make($request->all(), $rules);
     }
 

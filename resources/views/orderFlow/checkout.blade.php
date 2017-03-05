@@ -172,7 +172,8 @@
                             <br>
                             <br>
 
-                            <i>*By clicking submit, you are agreeing to the Sewanee Eats <a href="terms">Terms and
+                            <i>*By clicking submit, you are agreeing to the Sewanee Eats <a href="{{ route('terms') }}">Terms
+                                    and
                                     Conditions</a>.</i>
                         </div>
                     </div>
@@ -228,7 +229,6 @@
 
             // Prevent the form from being submitted:
               /*$form.find('.submit').prop('disabled', false);*/
-            $('#pay-now-button').prop('disabled', false);
             event.preventDefault();
             return false;
           }
@@ -244,7 +244,8 @@
           // Show the errors on the form:
           $('#payment-errors-div').show();
           $('#payment-errors').text(response.error.message);
-          $form.find('.submit').prop('disabled', true); // Re-enable submission
+          p('here');
+          $('#pay-now-button').prop('disabled', false); // Re-enable submission
 
         } else { // Token was created!
 
@@ -257,6 +258,7 @@
           // Submit the form:
           $form.get(0).submit();
         }
+        return response
       }
 
     </script>

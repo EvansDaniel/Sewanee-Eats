@@ -44,7 +44,7 @@ Route::get('orderSummary/{order_id}', 'HomeController@orderSummary')
 
 Route::get('terms', function(){
     return view('terms');
-});
+})->name('terms');
 // ------------------------------------------------------------------------------------------
 
 // Support Controller Routes -------------------------------------------------
