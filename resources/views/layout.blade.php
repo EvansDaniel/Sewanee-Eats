@@ -10,14 +10,17 @@
 </head>
 <body>
 <div id="main-container" class="container-fluid">
-
 {{--@include('countdown')--}}
     @include('partials.nav_bar')
+<!-- TODO: Blaise -> temporary fix for messages not showing and tops of pages not showing -->
+    <div style="margin-top: 10%"></div>
+
     <!-- Status messages to user about what they are doing -->
     @include('partials.backend_messages')
-    @yield('body')
-    <div id="push-div"></div>
 
+    @yield('body')
+
+    <div id="push-div"></div>
 </div>
 <footer id="footer">
     <hr>

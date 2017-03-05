@@ -206,9 +206,9 @@
     <!-- Strip payment script -->
     <script>
       @if(env('APP_ENV') === "production")
-          Stripe.setPublishableKey({{ env('STRIPE_LIVE_PUBLISHABLE_KEY') }});
+          Stripe.setPublishableKey("{{ env('STRIPE_LIVE_PUBLISHABLE_KEY') }}");
       @else
-          Stripe.setPublishableKey({{ env('STRIPE_TEST_PUBLISHABLE_KEY') }});
+          Stripe.setPublishableKey("{{ env('STRIPE_TEST_PUBLISHABLE_KEY') }}");
       @endif
 
       $(function () {
@@ -243,7 +243,6 @@
         // Grab the form:
         var $form = $('#payment-form');
 
-        p('in response handler');
         if (response.error) { // Problem!
 
           // Show the errors on the form:
