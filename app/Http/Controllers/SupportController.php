@@ -16,11 +16,10 @@ class SupportController extends Controller
     // create new issue or concern from support page
     public function createIssue(Request $request)
     {
-
+        // TODO: must be implemented before 9
     }
 
     // Admin Capabilities ---------------------------------------------
-
     public function listIssues()
     {
 
@@ -41,7 +40,6 @@ class SupportController extends Controller
 
     }
 
-
     public function updateIssue(Request $request)
     {
 
@@ -61,7 +59,7 @@ class SupportController extends Controller
 
     private function sendIssueConfirmationEmail()
     {
-
+        // must be implemented
     }
 
 

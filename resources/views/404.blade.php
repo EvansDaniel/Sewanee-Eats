@@ -14,4 +14,4 @@
         <a href="{{ route('home') }}"> return home</a>
     </div>
 
-    @stop
+@stop

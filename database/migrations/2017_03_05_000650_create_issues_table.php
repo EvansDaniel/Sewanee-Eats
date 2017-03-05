@@ -18,6 +18,8 @@ class CreateIssuesTable extends Migration
 
             // order id number in case it is a issue with the number
             $table->integer('order_id')->nullable()->unsigned();
+            $table->string('c_name');
+            $table->string('c_email');
             $table->string('subject');
             $table->string('body');
 
