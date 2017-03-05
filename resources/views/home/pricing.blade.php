@@ -35,7 +35,7 @@
             padding: 10px 18px;
             text-decoration: none;
             margin-bottom: 1em;
-            margin-left: 2%;
+            margin-left: 40%;
             font-size: 14px;
             font-weight: bold;
             /*width: 20%;*/
