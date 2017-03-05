@@ -130,8 +130,7 @@
                                             Thank you for choosing SewaneeEats delivery service!
                                         </h4>
                                         <h4>
-                                            Your Order Confirmation Number: <a
-                                                    href="{{route('orderSummary',['order_id' => $order->id])}}">{{ $order->id }}</a>
+                                            Your Order Confirmation Number: {{ $order->id }}
                                             {{--<br>You can use this number to <a href="{{ route('findMyOrder') }}">Find Your Order</a>--}}
                                         </h4>
                                         @if($order->paid_with_venmo)
@@ -212,7 +211,7 @@
                                                 <td align="center" style="padding-top: 25px;" class="padding">
                                                     <table border="0" cellspacing="0" cellpadding="0"
                                                            class="mobile-button-container">
-                                                        <tr>
+                                                        {{--<tr>
                                                             <td align="center" style="border-radius: 3px;"
                                                                 bgcolor="#256F9C"><a
                                                                         href="{{ route('orderSummary',['id',$order->id]) }}"
@@ -220,7 +219,7 @@
                                                                         style="font-size: 16px; font-family: Helvetica, Arial, sans-serif; color: #ffffff; text-decoration: none; color: #ffffff; text-decoration: none; border-radius: 3px; padding: 15px 25px; border: 1px solid #256F9C; display: inline-block;"
                                                                         class="mobile-button">
                                                                     View Order Summary on SewaneeEats &rarr;</a></td>
-                                                        </tr>
+                                                        </tr>--}}
                                                     </table>
                                                 </td>
                                             </tr>

@@ -99,7 +99,7 @@ Route::group([
 });
 
 Route::group([
-    'prefix' => 'adminOrderOps', 'middleware:courier'], function () {
+    'prefix' => 'adminOrderOps', 'middleware:admin'], function () {
 
     Route::post('closeVenmoOrder', 'OrdersController@closeVenmoOrder')
         ->name('closeVenmoOrder');

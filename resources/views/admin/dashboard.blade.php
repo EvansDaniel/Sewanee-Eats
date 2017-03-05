@@ -12,6 +12,7 @@
                 <button>View Customer Concerns</button>
             </a>
         </div>
+        <!----------------------------- Non Venmo Orders ---------------------------------------->
         @if(!empty($open_n_venmo_orders))
             <h2 class="order-title">Open Non-Venmo Orders</h2>
         <div id="open-orders-table-container">
@@ -21,6 +22,7 @@
                 <tr>
                     <th>Order Number</th>
                     <th>Total Price</th>
+                    <th>Customer Name</th>
                     <th>Weekly Special?</th>
                     <th>Courier</th>
                     <th>Location To Deliver</th>
@@ -35,7 +37,8 @@
                                 {{ $open_order->id }}
                             </a>
                         </td>
-                        <td>${{ $open_order->orderPriceInfo->total_price }}</td>
+                        <td>${{ $open_order->orderPriceInfo->total_price }}
+                        <td>{{ $open_order->c_name }}</td>
                         <td>{{$open_order->is_weekly_special == 1 ? "Yes" : "No"}}</td>
                         <td>
                             @if(empty(!$open_order->couriers))
@@ -76,6 +79,7 @@
             {{ $open_n_venmo_orders->render() }}
             @endif
         </div>
+            <!--------------------------- Venmo orders ------------------------------------------------------------------>
             <div id="open-orders-table-container">
                 <h2 class="order-title">Open Venmo Orders</h2>
                 <table id="open-orders-table" class="table table-responsive">
@@ -84,7 +88,7 @@
                     <tr>
                         <th>Order Number</th>
                         <th>Total Price</th>
-                        <th>Total Price</th>
+                        <th>Customer Name</th>
                         <th>Weekly Special?</th>
                         <th>Customer Venmo Username</th>
                         <th>Confirm Venmo Payment</th>
@@ -102,6 +106,7 @@
                                 </a>
                             </td>
                             <td>${{ $open_order->orderPriceInfo->total_price }}</td>
+                            <td>{{ $open_order->c_name }}</td>
                             <td>{{$open_order->is_weekly_special == 1 ? "Yes" : "No"}}</td>
                             <td>{{ $open_order->venmo_username }}</td>
                             <td>
@@ -159,6 +164,7 @@
                 <tr>
                     <th>Order Number</th>
                     <th>Total Price</th>
+                    <th>Customer Name</th>
                     <th>Profit</th>
                     <th>Paid W/ Venmo?</th>
                     <th>Weekly Special?</th>
@@ -176,6 +182,7 @@
                             </a>
                         </td>
                         <td>${{ $closed_order->orderPriceInfo->total_price }}</td>
+                        <td>{{ $closed_order->c_name }}</td>
                         <td>${{ $closed_order->orderPriceInfo->profit }}</td>
                         <td>{{$closed_order->is_weekly_special == 1 ? "Yes" : "No"}}</td>
                         <td>
