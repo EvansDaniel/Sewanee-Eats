@@ -155,6 +155,10 @@
                                        placeholder="Please enter your email address"
                                        type="email"
                                        name="email_address" id="email-address">
+                                <label for="email-address">Name</label>
+                                <input class="form-control pay-input" maxlength="100"
+                                       type="text"
+                                       name="name" id="email-address">
                                 {{--
                                <input class="form-control pay-input" maxlength="10" placeholder="10 digits, only numbers"
                                       type="tel"

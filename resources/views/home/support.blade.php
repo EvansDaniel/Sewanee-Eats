@@ -10,14 +10,19 @@
     <div class="container support">
         <p class="row support-h"> We are always available to listen to your concern or/and suggestion</p>
         <hr>
-        <form>
+        <form action="{{ route('createIssue') }}" method="post">
+            {{ csrf_field() }}
             <div class="form-group">
                 <label for="formGroupExampleInput">Full Name</label>
-                <input type="text" class="form-control" id="fullname" name="name" placeholder="Example input">
+                <input type="text" class="form-control" id="fullname" name="name">
             </div>
             <div class="form-group">
                 <label for="formGroupExampleInput2"> Your Email</label>
-                <input type="text" class="form-control" id="email" name="email" placeholder="Another input">
+                <input type="text" class="form-control" id="email" name="email">
+            </div>
+            <div class="form-group">
+                <label for="formGroupExampleInput2"> Subject </label>
+                <input type="text" class="form-control" id="subject" name="subject">
             </div>
             <div class="form-group">
                 <div class="row">
@@ -35,7 +40,7 @@
             <div class="form-group">
                 <label for="formGroupExampleInput2"> Please expand your concern</label>
                 <textarea maxlength="300" class="form-control" name="body" id="concern"
-                          placeholder="Another input"></textarea>
+                          placeholder=""></textarea>
             </div>
             <div class="form-group">
                 <button type="submit" class="btn btn-primary">Submit</button>

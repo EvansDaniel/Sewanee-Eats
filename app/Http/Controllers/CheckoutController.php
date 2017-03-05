@@ -74,6 +74,7 @@ class CheckoutController extends Controller
         if (!empty($items['special_items'])) {
             // submit a weekly special order
             $weekly_special_order = new Order;
+            $weekly_special_order->c_name = $request->input('name');
             $special_menu_item_orders = [];
             // set up order stuff
             $weekly_special_order->is_open_order = true;
@@ -166,6 +167,6 @@ class CheckoutController extends Controller
         }
         $priceInfo->state_tax = ($subtotal * ($this->getStateTax() - 1));
         $priceInfo->save();
-        return $total;
+        return round($total, 2);
     }
 }

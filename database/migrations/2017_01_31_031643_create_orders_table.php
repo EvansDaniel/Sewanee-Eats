@@ -20,6 +20,7 @@ class CreateOrdersTable extends Migration
             $table->boolean('is_weekly_special');
             //$table->bigInteger('customer_phone_number');
             $table->string('email_of_customer');
+            $table->string('c_name');
             // was this order refunded?
             $table->boolean('was_refunded');
             // did they opt to pay with venmo

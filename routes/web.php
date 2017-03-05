@@ -301,9 +301,9 @@ $this->get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm
 $this->post('password/reset', 'Auth\ResetPasswordController@reset');
 
 // ---------------404------------
-Route::any('{catchall}', function () {
+/*Route::any('{catchall}', function () {
     return view('404');
-})->where('catchall', '(.*)');
+})->where('catchall', '(.*)');*/
 
 /*Route::get('404', function () {
 });*/

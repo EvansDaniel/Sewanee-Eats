@@ -4,6 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
+
 class CreateIssuesTable extends Migration
 {
     /**
@@ -17,14 +18,14 @@ class CreateIssuesTable extends Migration
             $table->increments('id');
 
             // order id number in case it is a issue with the number
-            $table->integer('order_id')->nullable()->unsigned();
+            $table->integer('order_id')->unsigned();
             $table->string('c_name');
             $table->string('c_email');
             $table->string('subject');
             $table->string('body');
 
             // id of admin that is corresponding
-            $table->string('admin_id')->nullable();
+            $table->integer('admin_id')->unsigned();
 
             // actions that have been taken
             // no response yet
