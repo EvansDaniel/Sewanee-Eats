@@ -69,14 +69,14 @@ Route::group([
 // --------------------------------------------------------------------------------------
 
 // TODO: remove this middleware to allow customers access to checkout
-Route::group(['middleware' => 'role:admin'], function () {
+//Route::group(['middleware' => 'role:admin'], function () {
 
     Route::post('handleCheckout', 'CheckoutController@handleCheckout')
         ->name('handleCheckout');
     Route::get('checkout', 'CheckoutController@showCheckoutPage')
         ->name('checkout');
 
-});
+//});
 
 // Restaurant Related Routes
 Route::get('restaurants', 'RestaurantController@list_restaurants')

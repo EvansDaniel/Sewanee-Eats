@@ -20,7 +20,7 @@
     </script>
     <figure>
         <!-- http://i67.tinypic.com/2w67w39.png responds with 503 error code -->
-        <img src="{{ asset('images/home.jpg',env('APP_ENV') === 'production') }}" class="img-responsive"
+        <img src="{{ asset('images/homefront.jpg',env('APP_ENV') === 'production') }}" class="img-responsive"
              alt="Smiley face">
         <div style="margin: 0 auto;text-align: center">
             <a href="{{ route('list_restaurants') }}" class="btn" id="btn">ORDER NOW</a>

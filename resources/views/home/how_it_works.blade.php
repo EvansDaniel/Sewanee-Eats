@@ -3,14 +3,14 @@
 
 @section('body')
     <style>
-        p {
+        .works {
             width: 50%;
             font-size: 18px;
         }
     </style>
     <div align="center">
         <h2>How do I place an order?</h2>
-        <p>Ordering from your favorite place with Sewanee Eats is a breeze! Just
+        <p class="works">Ordering from your favorite place with Sewanee Eats is a breeze! Just
             pick a restaurant then add your desired
             food items to the cart.
         </p>
@@ -18,7 +18,8 @@
         <h2>How do I pay for my food?</h2>
 
 
-        <p>Once you've added food to your cart, click the Checkout link in the top right corner and you will be
+        <p class="works">Once you've added food to your cart, click the Checkout link in the top right corner and you
+            will be
             directed to
             a page where you can pay for your order. You can pay the following ways:
         <p>
@@ -26,13 +27,13 @@
         <h3>Paying With Venmo</h3>
 
 
-        <p>To pay with Venmo, leave your Venmo username in the empty box and click
+        <p class="works">To pay with Venmo, leave your Venmo username in the empty box and click
             'Submit'. We will immediately send you a request on Venmo
             for the amount listed as your order total. Once you have paid, you are good to go!</p>
 
         <h3>Pay with Card</h3>
 
-        <p>
+        <p class="works">
             We accept all major debit and credit cards. Simply enter your information and click 'Submit'. Our payment
             processor is
             secure and all your information is safe. We process all card payments using <a
@@ -40,21 +41,21 @@
         </p>
 
         <h2>I've paid, now what?</h2>
-        <p>
+        <p class="works">
             Once you have paid for your order, you will receive an email receipt from Sewanee Eats confirming your
             order. One of our delivery
             carriers will go and pick up your order and deliver it to you within 30-45 minutes.
         <p>
 
         <h2>Help! There was a problem with my order!</h2>
-        <p>
+        <p class="works">
             We will always do our best to resolve your order problems. If there is an issue with your order, please
-            contact us immediately <a href="support">here</a> and
+            contact us immediately <a href="{{ route('support') }}">here</a> and
             we will fix the issue.
         </p>
 
         <h2>What are weekly specials?</h2>
-        <p><a id="specials"></a>Each week, we will have food specials from
+        <p class="works"><a id="specials"></a>Each week, we will have food specials from
             establishments that might be a little farther from
             campus than our usuals! For example, we'll deliver Chick-fil-a or Zaxby's to your doorstep! Every Monday
             morning, we will
