@@ -11,14 +11,11 @@
 |
 */
 
-use App\Events\NewOrderReceived;
-use App\Models\MenuItem;
-use App\Models\Order;
 use Carbon\Carbon;
 
-Route::get('temp', function () {
+/*Route::get('temp', function () {
     return view('home.temp');
-});
+});*/
 
 Route::get('time', function () {
     // if this is an ajax request
@@ -87,10 +84,10 @@ Route::get('restaurants/{id}', 'RestaurantController@showMenu')
 Route::post('cart/store', 'ShoppingCartController@loadItemIntoShoppingCart')
     ->name('addToCart');
 
-Route::get('sessionClear', function () {
+/*Route::get('sessionClear', function () {
     Session::flush();
     return back();
-})->name('sessionClear');
+})->name('sessionClear');*/
 
 Route::group([
     'prefix' => 'courierOrderOps', 'middleware:courier'], function () {
@@ -109,7 +106,7 @@ Route::group(['prefix' => 'admin',
     'namespace' => 'Admin',
     'middleware' => 'role:admin'], function () {
 
-    Route::get('test', 'ScheduleController@updateScheduleForNextDay')->name('updateSchedule');
+    //Route::get('test', 'ScheduleController@updateScheduleForNextDay')->name('updateSchedule');
 
     // Dashboard controller routes
     // Home page for admins
@@ -228,28 +225,28 @@ Route::group(['prefix' => 'courier',
 });
 
 
-// Email Routes
+/*// Email Routes
 Route::get('email', function () {
     $items = MenuItem::all()->take(5);
 
     return view('emails.new_order',
         compact('items'));
-});
-
+});*/
+/*
 Route::get('testEmail', 'CheckoutController@testEmail')
-    ->name('testEmail');
+    ->name('testEmail');*/
 
-Route::get('test', function () {
+/*Route::get('test', function () {
     $orders = Order::all();
     return view('test', compact('orders'));
-});
-
+});*/
+/*
 // Event routes
 Route::get('testEvent', function () {
     $order = new Order;
     // TODO: add event logic to listener
     Event::fire(new NewOrderReceived($order));
-});
+});*/
 
 
 // Api Routes for Ajax
@@ -289,10 +286,10 @@ $this->post('logout', 'Auth\LoginController@logout')->name('logout');
 
 // Registration Routes...
 // Protect the register route with CheckRole admin
-Route::group(['middleware' => 'role:admin'], function () {
+//Route::group(['middleware' => 'role:admin'], function () {
     $this->get('register', 'Auth\RegisterController@showRegistrationForm')->name('register');
     $this->post('register', 'Auth\RegisterController@register')->name('postRegister');
-});
+//});
 
 // Password Reset Routes...
 $this->get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');

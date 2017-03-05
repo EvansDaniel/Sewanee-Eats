@@ -48,18 +48,22 @@ var docInit = function () {
     });
     // Validation handlers
     var payInputs = $('.pay-input');
-    payInputs.on('change', function () {
+  /*payInputs.on('change', function () {
         var message = validPayForm(false);
         if (message != null) {
             $('#payment-errors').show().text(message);
+   } else {
+   $('#payment-errors').hide();
         }
     });
     payInputs.on('keyup', function () {
         var message = validPayForm(false);
         if (message != null) {
             $('#payment-errors').show().text(message);
+   } else {
+   $('#payment-errors').hide();
         }
-    });
+   });*/
 }();
 
 // user is "finished typing," do something
@@ -175,7 +179,6 @@ function validPayForm(focus) {
     var phoneNumber = $('#phone-number');
 
     // Card validation start
-    p('dsljfghsd here0');
     if (!Stripe.card.validateCardNumber(cardNumber.val())) {
         p('dsljfghsd here');
         if (focus) cardNumber.focus();

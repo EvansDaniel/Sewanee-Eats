@@ -111,10 +111,14 @@
 
                             <div class="row">
 
+                                <div id="payment-errors-div" style="display: none">
+                                    <br>
+                                    <span class="alert alert-danger" id="payment-errors"></span>
+                                    <br><br>
+                                </div>
 
                                 <div id="card-payment-div">
 
-                                    <span class="" style="display: none;" id="payment-errors"></span>
                                     <div class="form-group  col-lg-3 col-md-3 col-sm-10   col-xs-10" id="c-number">
                                         <label>
                                             <span class="row">Card Number</span>
@@ -230,8 +234,9 @@
             if (response.error) { // Problem!
 
                 // Show the errors on the form:
-                $form.find('.payment-errors').text(response.error.message);
-                $form.find('.submit').prop('disabled', false); // Re-enable submission
+              $('#payment-errors-div').show();
+              $('#payment-errors').text(response.error.message);
+              $form.find('.submit').prop('disabled', true); // Re-enable submission
 
             } else { // Token was created!
 

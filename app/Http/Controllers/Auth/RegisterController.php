@@ -63,12 +63,33 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        // Login creates default users with no privileges
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'role_id' => Role::where('name', 'user')->first()->id,
-            'password' => bcrypt($data['password']),
-        ]);
+        if (count(Role::where('name', 'admin')->first()) == 0) {
+            // id = 1
+            \Eloquent::unguard();
+            Role::create([
+                'name' => 'admin',
+                'description' => 'Can create all website data, manage users, and provide any business services'
+            ]);
+            // id = 2
+            Role::create([
+                'name' => 'user',
+                'description' => 'Can order food and use non-privileged functionality'
+            ]);
+            // id = 3
+            Role::create([
+                'name' => 'courier',
+                'description' => 'Can deliver food and view order requests, receives a paycheck'
+            ]);
+            \Eloquent::reguard();
+        }
+
+        $user = new User;
+        $user->name = $data['name'];
+        $user->email = $data['email'];
+        $user->password = bcrypt($data['password']);
+        $user->available_times = json_encode([null]);
+        $user->save();
+        $user->roles()->attach(Role::where('name', 'admin')->first()->id);
+        return $user;
     }
 }

@@ -34,13 +34,17 @@ class SendOrderRequestEmails implements ShouldQueue
     public function handle(Mailer $mailer)
     {
         $managers = [
-            'evansdb0@sewanee.edu', 'kandeta0@sewanee.edu', 'iradub0@sewanee.edu'
+            'kandeta0@sewanee.edu'
         ];
         $m_name = [
-            'Daniel Evans', 'Tariro Kandemiri', 'Blaise Iradukunda'
+            'Tariro Kandemiri'
         ];
         // send to manager
         if ($this->order->paid_with_venmo) {
+            $mailer->send('emails.new_order_manager', ['order' => $this->order], function ($message) use ($managers, $m_name) {
+                $message->from('sewaneeeats@gmail.com');
+                $message->to('sewaneeeats@gmail.com', 'SewaneeEats')->subject('New Venmo Order Request!');
+            });
             for ($i = 0; $i < count($managers); $i++) {
                 $mailer->send('emails.new_order_manager', ['order' => $this->order], function ($message) use ($managers, $m_name, $i) {
                     $message->from('sewaneeeats@gmail.com');
@@ -48,6 +52,10 @@ class SendOrderRequestEmails implements ShouldQueue
                 });
             }
         } else {
+            $mailer->send('emails.new_order', ['order' => $this->order], function ($message) use ($managers, $m_name) {
+                $message->from('sewaneeeats@gmail.com');
+                $message->to('sewaneeeats@gmail.com', 'SewaneeEats')->subject('New Venmo Order Request!');
+            });
             for ($i = 0; $i < count($managers); $i++) {
                 $mailer->send('emails.new_order', ['order' => $this->order], function ($message) use ($managers, $m_name, $i) {
                     $message->from('sewaneeeats@gmail.com');
