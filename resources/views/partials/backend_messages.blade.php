@@ -2,6 +2,12 @@
 @if (session('status_good'))
     <div align="center" class="alert alert-success">
         {{ session('status_good') }}
+        @if(session('user_added_item'))
+            <br>
+            <a href="{{ route('checkout') }}">
+                <button class="btn btn-primary" style="background-color: rebeccapurple">Proceed to Checkout</button>
+            </a>
+        @endif
     </div>
 @endif
 @if (session('status_bad'))

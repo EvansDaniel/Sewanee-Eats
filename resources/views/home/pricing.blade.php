@@ -67,6 +67,14 @@
         @media only screen and (max-width: 768px) {
 
         }
+
+        p {
+            font-size: 18px;
+        }
+
+        li {
+            font-size: 18px;
+        }
         /* ie7 inline-block fix */
     </style>
     <div align="center">

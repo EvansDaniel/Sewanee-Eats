@@ -61,7 +61,7 @@
             morning, we will
             post what the weekly special restaurant is for the week! You can then place your order for that restaurant,
             and
-            we'll send you an email to confirm. Then, on the day that the special is on, we'll deliver your food to you.
+            we'll send you an email to confirm. Then, we will deliver your order this Tuesday in the BC!
         </p>
 
     </div>

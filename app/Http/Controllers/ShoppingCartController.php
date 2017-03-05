@@ -74,6 +74,7 @@ class ShoppingCartController extends Controller
         } else {
             $add_item_message = "The items have been added to your cart!";
         }
+        Session::flash('user_added_item', true);
         return back()->with('status_good', $add_item_message);
     }
 

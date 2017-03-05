@@ -47,18 +47,15 @@
                     <!-- Loop through all menu items in the cart -->
                     @if(!empty($items['special_items']))
                         <h3>Your Weekly Special Items</h3>
+                        <hr class="hr-separator">
                         @foreach($items['special_items'] as $order)
                             @if(!$loop->last)
                                 @for($i = 0; $i < $order['quantity']; $i++)
                                     @include('partials.checkout_items')
-                                    <hr class="cart-line">
                                 @endfor
                             @else
                                 @for($i = 0; $i < $order['quantity']; $i++)
                                     @include('partials.checkout_items')
-                                    @if($i != $order['quantity']-1)
-                                        <hr class="cart-line">
-                                    @endif
                                 @endfor
                             @endif
                         @endforeach
@@ -66,9 +63,7 @@
                     @endif
 
                 </div>
-
                 <hr class="cart-line">
-
             @endif
             @if(!empty(Session::get('cart')) && Session::get('cart') != null)
 
