@@ -23,9 +23,12 @@
     console.log($obj);
   }
 //  $(document).ready(function () {
-//      var bd = $(window );
-//      var h = bd.height();
-//      h = h - $("#main-container").height();
+//      var wn = $('.main-main-main-container');
+//      var h = wn.height();
+//      p(h + "window height");
+//      var bd_h = $("body").height();
+//      p(h + "body height");
+//      h = h -  bd_h
 //      if( h >0) {
 //          $("#push-div").css("height", h);
 //      }

@@ -1,4 +1,4 @@
-@media only screen and (max-width: 760px) {
+@media only screen and (max-width: 768px) {
 
     #collapse-button {
         margin-right: 20px;
@@ -7,18 +7,17 @@
     #navDiv {
         /*margin-left: 5%;*/
         text-indent: 10px;
-        margin-right: 10px;
     }
 }
 
-@media only screen and (min-width: 760px) {
+@media only screen and (min-width: 768px) {
     nav{
         height: 60px;
     }
 
     #navDiv {
-        margin-left: 10px;
-        margin-right: 10px;
+        /*margin-left: 10px;*/
+        /*margin-right: 10px;*/
         height: 60px;
     }
     #navDiv ul, #navDiv li, #navDiv a{
@@ -40,6 +39,10 @@
     #navDiv {
         padding: 0;
         font-size: 14px;
+        /*margin-left: -200px;*/
+    }
+    .nav-container{
+        padding-right: 30px;
     }
 
 }
@@ -62,7 +65,7 @@
 }
 
 /*for small and extra small screens*/
-@media only screen and (max-width: 760px) {
+@media only screen and (max-width: 768px) {
 
     #navDiv {
         margin-left: 20px;
@@ -92,3 +95,7 @@
 }
 
 }
+
+/*#nav-divider{*/
+
+/*}*/

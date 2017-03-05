@@ -9,7 +9,7 @@
     @yield('head')
 </head>
 <body>
-<div id="main-container" class="container-fluid">
+<div id="main-container" class="container-fluid main-main-main-container">
 
 {{--@include('countdown')--}}
     @include('partials.nav_bar')
