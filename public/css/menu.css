@@ -68,8 +68,8 @@
     font-size: 13px;
     font-weight: bold;
     border-radius: 5px;
-    background: #00816A;
-    border: 1px solid #00816A;
+    background: rebeccapurple;
+    border: 1px solid rebeccapurple;
     color: white;
     padding: 10px;
 }
@@ -150,7 +150,7 @@ textarea {
 }
 .free_toppings_d, .n_free_toppings_d{
     margin-left: 8%;
-    background: #00816A;
+    background: rebeccapurple;
     color: white;
     /*border-radius: 5px;*/
     line-height: 25px;
@@ -165,8 +165,8 @@ textarea {
 }
 
 .sign{
-    background: #00816A;
-    border: 3px solid #00816A;
+    background: rebeccapurple;
+    border: 3px solid rebeccapurple;
     /*border-radius: 5px;*/
     padding: 2px;
     height: 25px;
