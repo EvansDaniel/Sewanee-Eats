@@ -140,7 +140,7 @@ class CheckoutController extends Controller
                 "source" => $token
             ));
         }
-        //Session::flush();
+        Session::flush();
         // TODO: delete this from session after leave thank you
         Session::put('weekly_special_order', $weekly_special_order);
         Session::put('on_demand_order', $on_demand_order);
@@ -167,6 +167,6 @@ class CheckoutController extends Controller
         }
         $priceInfo->state_tax = ($subtotal * ($this->getStateTax() - 1));
         $priceInfo->save();
-        return round($total, 2);
+        return round($total*100);
     }
 }
