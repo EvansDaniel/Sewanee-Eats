@@ -25,16 +25,16 @@
                     <!-- TODO: find my order will also provide tracking if the order is on demand -->
                     </h4>
                 </div>
-                <a href="{{ route('orderSummary',['order_id' => $weekly_special_order->id]) }}">
-                    <button class="btn btn-primary">View Your Weekly Special Order Summary</button>
-                </a>
+                {{--<a href="{{ route('orderSummary',['order_id' => $weekly_special_order->id]) }}">--}}
+                    {{--<button class="btn btn-primary">View Your Weekly Special Order Summary</button>--}}
+                {{--</a>--}}
             </div>
         @endif
         @if(!empty($on_demand_order))
             <div class="row" id="on-demand-order-div">
-                <a href="{{ route('orderSummary',['order_id' => $on_demand_order->id]) }}">
-                    <button>View Your On Demand Order Summary</button>
-                </a>
+                {{--<a href="{{ route('orderSummary',['order_id' => $on_demand_order->id]) }}">--}}
+                    {{--<button>View Your On Demand Order Summary</button>--}}
+                {{--</a>--}}
                 <h4>
                     Your On Demand Order Confirmation Number is {{ $on_demand_order->id }}
                     <br><br>
@@ -51,10 +51,10 @@
                 <h2>Payment</h2>
                 <hr>
                 <h4>
-                    Since you requested to pay with Venmo, one of our manangers will be in touch soon to proceed with
-                    the payment
+                    Since you requested to pay with Venmo, one of our managers will be in touch soon to proceed with
+                    the payment. You can pick up your food at 12:30pm in the BC.
                     @if(!empty($on_demand_order))
-                        Once payment is confirmed, our drivers will be notified and will begin servicing your order
+                        Please come and pick up your order at 12:30pm in the BC.
                     @endif
                 </h4>
             </div>
