@@ -3,6 +3,9 @@
     <title>Sewanee Eats| Thank you!</title>
 @stop
 @section('body')
+    @if(empty($weekly_special_order))
+        You haven't placed an order. Start your order <a href="{{ route('list_restaurants') }}">here</a>
+    @else
     <div class="container">
         <h3 align="center">Your Order Has Been Confirmed!</h3>
         <hr>
@@ -46,6 +49,7 @@
             (!empty($weekly_special_order) && $weekly_special_order->paid_with_venmo))
             <div id="order-payment-info">
                 <h2>Payment</h2>
+                <hr>
                 <h4>
                     Since you requested to pay with Venmo, one of our manangers will be in touch soon to proceed with
                     the payment
@@ -62,7 +66,14 @@
                 in your confirmation email
             </h4>
         </div>
-    </div>
+
+        <div align="center">
+            <h4>
+                To place another order, start <a href="{{ route('list_restaurants') }}">here</a>
+            </h4>
+        </div>
+
+        @endif
     <style>
 
     </style>

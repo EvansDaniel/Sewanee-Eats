@@ -35,7 +35,7 @@ Route::get('home', 'HomeController@showHome');
 Route::get('pricing', 'HomeController@showPricing')->name('pricing');
 Route::get('how-it-works', 'HomeController@showHowItWorks')->name('howItWorks');
 Route::get('thank-you', 'HomeController@showThankYou')
-    ->name('thankYou')->middleware('redirect.thankyou');
+    ->name('thankYou');//->middleware('redirect.thankyou');
 
 Route::get('find-my-order/', 'HomeController@findMyOrder')
     ->name('findMyOrder');
