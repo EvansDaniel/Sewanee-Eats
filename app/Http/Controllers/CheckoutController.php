@@ -49,6 +49,11 @@ class CheckoutController extends Controller
          */
         // $available_couriers = User::find(\Auth::id())->first();
         $pay_with_venmo = $request->input('pay_with_venmo');
+        if (empty($pay_with_venmo)) {
+            $pay_with_venmo = 0;
+        } else {
+            $pay_with_venmo = 1;
+        }
         $email = $request->input('email_address');
         $location = $request->input('location');
         $v_username = $request->input('venmo_username');
