@@ -34,7 +34,7 @@ class ManageRestaurantController extends Controller
         $location = $request->input('location');
         $name = $request->input('name');
         $image = $request->file('image');
-        $is_weekly_special = $request->input('is_special');
+        $is_weekly_special = $request->input('is_weekly_special');
 
         // stuff to do regardless of if it is special weekly restaurant
         // validate request
