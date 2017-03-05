@@ -160,6 +160,9 @@ function updateUIAfterDeleteItem(delButton, res) {
             )
         }, 250);
         $('#checkout-link').hide();
+      $('#cart-container').each(function () {
+        $(this).hide(350);
+      })
     } else { // cart isn't empty
         // update the cost
         if (res != null) { // server error otherwise

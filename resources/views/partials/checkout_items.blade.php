@@ -78,4 +78,7 @@
                 type="button">X
         </button>
     </div>
+    @if($i != $order['quantity']-1)
+        <hr class="cart-line">
+    @endif
 </div>
