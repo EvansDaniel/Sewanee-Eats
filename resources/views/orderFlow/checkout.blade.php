@@ -196,7 +196,7 @@
 
     <!-- Strip payment script -->
     <script>
-        Stripe.setPublishableKey('pk_test_OiMnD5TXa75gY8Kk9Ao7LwY2');
+        Stripe.setPublishableKey('pk_live_bn3zbGLp1CWIUuBCTEmXARSI');
 
         $(function () {
             var $form = $('#payment-form');
