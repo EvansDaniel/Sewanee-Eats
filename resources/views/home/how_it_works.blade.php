@@ -49,7 +49,7 @@
         <h2>Help! There was a problem with my order!</h2>
         <p>
             We will always do our best to resolve your order problems. If there is an issue with your order, please
-            contact us immediately <a href="support">here</a> and
+            contact us immediately <a href="{{ route('support') }}">here</a> and
             we will fix the issue.
         </p>
 
