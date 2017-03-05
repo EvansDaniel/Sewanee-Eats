@@ -41,6 +41,10 @@ Route::get('find-my-order/', 'HomeController@findMyOrder')
     ->name('findMyOrder');
 Route::get('orderSummary/{order_id}', 'HomeController@orderSummary')
     ->name('orderSummary');
+
+Route::get('terms', function(){
+    return view('terms');
+});
 // ------------------------------------------------------------------------------------------
 
 // Support Controller Routes -------------------------------------------------

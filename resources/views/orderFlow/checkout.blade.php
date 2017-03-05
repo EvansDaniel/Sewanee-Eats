@@ -93,7 +93,7 @@
                                            name="name" id="full-name">
                                     <br>
                                     <label for="pay-with-venmo" id="pay-with-what">Check the box if you would like to
-                                        pay with Venmo.</label><br>
+                                        pay with Venmo.</label>
                                     <input type="checkbox" name="pay_with_venmo" id="pay-with-venmo" value="0">
                                     <br>
 
@@ -106,6 +106,7 @@
                                     </div>
                                 </div>
                             </div>
+                            <br>
 
                             <label for="pay-with-card" id="pay-with-card">Otherwise, fill out the information below to pay with a card.</label>
 
@@ -170,6 +171,11 @@
                             <button type="submit" id="pay-now-button" onclick="checkPayNow(event)"
                                     class="checkout-btn">Pay Now
                             </button>
+
+                            <br>
+                            <br>
+
+                            <i>*By clicking submit, you are agreeing to the Sewanee Eats <a href="terms">Terms and Conditions</a>.</i>
                         </div>
                     </div>
                 @endif
