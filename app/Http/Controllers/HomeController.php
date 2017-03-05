@@ -34,11 +34,6 @@ class HomeController extends Controller
         return view('home.pricing');
     }
 
-    public function showSupport()
-    {
-        return view('home.support');
-    }
-
     public function showHowItWorks()
     {
         return view('home.how_it_works');

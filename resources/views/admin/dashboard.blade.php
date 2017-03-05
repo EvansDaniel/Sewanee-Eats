@@ -7,6 +7,11 @@
 @section('body')
 
     <div class="container">
+        <div class="row">
+            <a href="{{ route('listIssues') }}">
+                <button>View Customer Concerns</button>
+            </a>
+        </div>
         @if(!empty($open_n_venmo_orders))
             <h2 class="order-title">Open Non-Venmo Orders</h2>
         <div id="open-orders-table-container">

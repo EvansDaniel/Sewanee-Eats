@@ -35,7 +35,6 @@ Route::get('time', function () {
 // -------------------------------- Home Page Routes ----------------------------------------------------------
 Route::get('/', 'HomeController@showHome')->name('home');
 Route::get('home', 'HomeController@showHome');
-Route::get('support', 'HomeController@showSupport')->name('support');
 Route::get('pricing', 'HomeController@showPricing')->name('pricing');
 Route::get('how-it-works', 'HomeController@showHowItWorks')->name('howItWorks');
 Route::get('thank-you', 'HomeController@showThankYou')
@@ -47,6 +46,28 @@ Route::get('orderSummary/{order_id}', 'HomeController@orderSummary')
     ->name('orderSummary');
 // ------------------------------------------------------------------------------------------
 
+// Support Controller Routes -------------------------------------------------
+Route::get('support', 'SupportController@showSupport')->name('support');
+Route::get('support/create', 'SupportController@createIssue')->name('createIssue');
+
+
+// Admin Support Controller Routes
+Route::group([
+    'middleware' => 'role:admin',
+    'prefix' => 'admin'], function () {
+
+    Route::get('issues', 'SupportController@listIssues')->name('listIssues');
+    Route::get('issues/markAsResolved', 'SupportController@markAsResolved')->name('markAsResolved');
+    Route::get('issues/markAsCorresponding', 'SupportController@markAsCorresponding')->name('markAsCorresponding');
+    Route::get('viewIssue/{issue_id}', 'SupportController@viewIssue')->name('viewIssue');
+
+    Route::get('suggestions', 'SupportController@listSuggestions')->name('list_suggestions');
+    Route::get('viewSuggestion/{suggestion_id}', 'SupportController@viewSuggestion')->name('viewSuggestion');
+});
+
+// --------------------------------------------------------------------------------------
+
+// TODO: remove this middleware to allow customers access to checkout
 Route::group(['middleware' => 'role:admin'], function () {
 
     Route::post('handleCheckout', 'CheckoutController@handleCheckout')
