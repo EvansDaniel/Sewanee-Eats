@@ -125,7 +125,8 @@
                                         <label>
                                             <span class="row">Card Number</span>
                                             <input class="pay-input form-control" type="text" id="card-number" size="20"
-                                                   data-stripe="number">
+                                                   data-stripe="number"
+                                                   value="@if(env('APP_ENV') === "local") {{ 4242424242424242 }} @endif">
                                         </label>
                                     </div>
 
