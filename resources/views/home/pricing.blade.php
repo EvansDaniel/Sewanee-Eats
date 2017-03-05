@@ -75,12 +75,15 @@
         li {
             font-size: 18px;
         }
+        #pricing-header{
+            margin-left: -30px;
+        }
         /* ie7 inline-block fix */
     </style>
     <div align="center">
 
         <div class="container pr-page">
-            <h1>Pricing</h1>
+            <h1 id="pricing-header">Pricing</h1>
 
             <h2>How much will my order cost?</h2>
 
