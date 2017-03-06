@@ -47,12 +47,7 @@ class CheckoutController extends Controller
         if ($checkoutValidator->fails()) {
             return back()->withErrors($checkoutValidator);
         }
-        /*
-         * Check that there is someone available to service order request
-         * (possibly at the checkout page so that they can’t hit the submit button)
-         * Check further that there is enough deliverers to handle the request
-         */
-        // $available_couriers = User::find(\Auth::id())->first();
+
         $pay_with_venmo = $request->input('pay_with_venmo');
         if (empty($pay_with_venmo)) {
             $pay_with_venmo = 0;
@@ -90,6 +85,9 @@ class CheckoutController extends Controller
             $weekly_special_order->paid_with_venmo = $pay_with_venmo;
             if ($pay_with_venmo) {
                 $weekly_special_order->venmo_username = $v_username;
+                $weekly_special_order->is_open_order = true;
+            } else {
+                $weekly_special_order->is_open_order = false;
             }
             $weekly_special_order->save();
 
@@ -121,7 +119,6 @@ class CheckoutController extends Controller
             // this will be created at order creation time
             $totalPrice = $this->saveOrderPriceInfo($weekly_special_order);
 
-            Event::fire(new NewOrderReceived($weekly_special_order));
         }
 
         if ($pay_with_venmo != 1) {
@@ -140,15 +137,51 @@ class CheckoutController extends Controller
             // Get the payment token submitted by the form:
             $token = $request->input('stripeToken');
 
-            // Charge the user's card:
-            // TODO: email the user a receipt of purchase w/ order info, could be basically the same as the courier email view
-            $charge = \Stripe\Charge::create(array(
-                "amount" => $totalPrice,
-                "currency" => "usd",
-                "description" => "SewaneeEats Delivery Charge (includes cost of food)",
-                "source" => $token
-            ));
+            $problem_with_stripe = 'There was a problem processing your paymen. Please try again';
+            try {
+                // Use Stripe's library to make requests...
+                // Charge the user's card:
+                // TODO: email the user a receipt of purchase w/ order info, could be basically the same as the courier email view
+                $charge = \Stripe\Charge::create(array(
+                    "amount" => $totalPrice,
+                    "currency" => "usd",
+                    "description" => "SewaneeEats Delivery Charge (includes cost of food)",
+                    "source" => $token
+                ));
+            } catch (\Stripe\Error\Card $e) {
+                // Since it's a decline, \Stripe\Error\Card will be caught
+                /*$body = $e->getJsonBody();
+                $err  = $body['error'];
+
+                print('Status is:' . $e->getHttpStatus() . "\n");
+                print('Type is:' . $err['type'] . "\n");
+                print('Code is:' . $err['code'] . "\n");
+                // param is '' in this case
+                print('Param is:' . $err['param'] . "\n");
+                print('Message is:' . $err['message'] . "\n");*/
+                return back()->with('status_bad', 'There was a problem processing your payment. 
+            Your card may have insufficient funds or the number may be incorrect. That\'s all we know');
+            } catch (\Stripe\Error\RateLimit $e) {
+                \Log::info('Stripe Error: Rate Limit Exception');
+                return back()->with('status_bad', $problem_with_stripe);
+            } catch (\Stripe\Error\InvalidRequest $e) {
+                // Invalid parameters were supplied to Stripe's API
+                \Log::info('Stripe Error: Invalid parameters were supplied to Stripe\'s API');
+                return back()->with('status_bad', $problem_with_stripe);
+            } catch (\Stripe\Error\Authentication $e) {
+                \Log::info('Stripe Error: Stripe Authentication error');
+                return back()->with('status_bad', $problem_with_stripe);
+            } catch (\Stripe\Error\ApiConnection $e) {
+                // Network communication with Stripe failed
+                \Log::info('Network Error: Network communication failure with Stripe');
+                return back()->with('status_bad', $problem_with_stripe);
+            } catch (\Stripe\Error\Base $e) {
+                // Display a very generic error to the user, and maybe send
+                // yourself an email
+                return back()->with('status_bad', $problem_with_stripe);
+            }
         }
+        Event::fire(new NewOrderReceived($weekly_special_order));
         Session::flush();
         // TODO: delete this from session after leave thank you
         Session::put('weekly_special_order', $weekly_special_order);

@@ -129,9 +129,11 @@
                                             align="center">
                                             Customer Email: {{ $order->email_of_customer }}
                                         </h4>
+                                        @if($order->paid_with_venmo)
                                         <h4>
                                             Venmo Username: {{ $order->venmo_username }}
                                         </h4>
+                                        @endif
                                         @if(!$order->is_weekly_special)
                                             <h4>
                                                 {{ $order->delivery_location }}

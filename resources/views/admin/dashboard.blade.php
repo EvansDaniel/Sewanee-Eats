@@ -12,7 +12,7 @@
                 <button class="btn btn-primary">Go to Support</button>
             </a>
             <a href="{{ route('listWeeklyOrders') }}">
-                <button class="btn btn-primary">View Weekly Orders</button>
+                <button class="btn btn-primary">View Confirmed Weekly Orders</button>
             </a>
         </div>
         <!----------------------------- Non Venmo Orders ---------------------------------------->
