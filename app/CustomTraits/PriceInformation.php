@@ -92,7 +92,7 @@ trait PriceInformation
     {
         // + 1 dollar markup for each item and 3 dollar delivery fee
         $num_items = count($s_items);
-        return /*$num_items + */
+        return $num_items + 
             max(
                 $this->percentOfNumWeeklySpecialItems() * $num_items,
                 $this->weeklySpecialBaseFee()
