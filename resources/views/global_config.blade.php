@@ -22,18 +22,6 @@
   function p($obj) {
     console.log($obj);
   }
-  $(document).ready(function () {
-      var wn = $('#main-container');
-      var h = wn.height();
-      var bd_h = $("#footer").height();
-      h = bd_h + h;
-      var b = $(window).height();
-      h = b - h;
-      if( h >0) {
-          $("#push-div").css("height", h);
-      }
-
-  });
 </script>
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
