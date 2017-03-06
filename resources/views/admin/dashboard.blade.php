@@ -30,6 +30,7 @@
                     <th>Courier</th>
                     <th>Location To Deliver</th>
                     <th>Restaurants</th>
+                    <th>Cancel Order</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -75,6 +76,14 @@
                                 @endif
                             @endforeach
                         </td>
+                        <td>
+                            <form action="{{ url()->to(parse_url(route('removeCancelledOrder',[]),PHP_URL_PATH),[],env('APP_ENV') !== 'local') }}"
+                                  method="post">
+                                {{ csrf_field() }}
+                                <input name="order_id" type="hidden" value="{{ $open_order->id }}">
+                                <button type="submit">Cancel Order</button>
+                            </form>
+                        </td>
                     </tr>
                 @endforeach
                 </tbody>
@@ -98,6 +107,7 @@
                         <th>Courier</th>
                         <th>Location To Deliver</th>
                         <th>Restaurants</th>
+                        <th>Cancel Order</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -113,7 +123,8 @@
                             <td>{{$open_order->is_weekly_special == 1 ? "Yes" : "No"}}</td>
                             <td>{{ $open_order->venmo_username }}</td>
                             <td>
-                                <form action="{{ route('closeVenmoOrder') }}" method="post">
+                                <form action="{{ url()->to(parse_url(route('closeVenmoOrder',[]),PHP_URL_PATH),[],env('APP_ENV') !== 'local') }}"
+                                      method="post">
                                     {{ csrf_field() }}
                                     <input name="order_id" type="hidden" value="{{ $open_order->id }}">
                                     <button type="submit" class="btn btn-primary">
@@ -153,6 +164,14 @@
                                     @endif
                                 @endforeach
                             </td>
+                            <td>
+                                <form action="{{ url()->to(parse_url(route('removeCancelledOrder',[]),PHP_URL_PATH),[],env('APP_ENV') !== 'local') }}"
+                                      method="post">
+                                    {{ csrf_field() }}
+                                    <input name="order_id" type="hidden" value="{{ $open_order->id }}">
+                                    <button type="submit">Cancel Order</button>
+                                </form>
+                            </td>
                         </tr>
                     @endforeach
                     </tbody>
@@ -169,11 +188,12 @@
                     <th>Total Price</th>
                     <th>Customer Name</th>
                     <th>Profit</th>
-                    <th>Paid W/ Venmo?</th>
                     <th>Weekly Special?</th>
+                    <th>Customer Venmo Username</th>
                     <th>Courier(s)</th>
                     <th>Location Delivered</th>
                     <th>Restaurants</th>
+                    <th>Cancel Order</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -188,6 +208,7 @@
                         <td>{{ $closed_order->c_name }}</td>
                         <td>${{ $closed_order->orderPriceInfo->profit }}</td>
                         <td>{{$closed_order->is_weekly_special == 1 ? "Yes" : "No"}}</td>
+                        <td>{{ empty($closed_order->venmo_username) ? "N/A" : $open_order->venmo_username }}</td>
                         <td>
                             @if(empty(!$closed_order->couriers))
                                 {{ "No couriers assigned" }}
@@ -219,6 +240,14 @@
                                     {{ $r->name . ", " }}
                                 @endif
                             @endforeach
+                        </td>
+                        <td>
+                            <form action="{{ url()->to(parse_url(route('removeCancelledOrder',[]),PHP_URL_PATH),[],env('APP_ENV') !== 'local') }}"
+                                  method="post">
+                                {{ csrf_field() }}
+                                <input name="order_id" type="hidden" value="{{ $open_order->id }}">
+                                <button type="submit">Cancel Order</button>
+                            </form>
                         </td>
                     </tr>
                 @endforeach

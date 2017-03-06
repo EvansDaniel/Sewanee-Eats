@@ -111,6 +111,9 @@ Route::group([
 
     Route::post('closeVenmoOrder', 'OrdersController@closeVenmoOrder')
         ->name('closeVenmoOrder');
+
+    Route::post('removeCancelledOrder', 'OrdersController@removeCancelledOrder')
+        ->name('removeCancelledOrder');
 });
 
 // Admin Routes

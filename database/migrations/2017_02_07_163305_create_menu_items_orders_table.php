@@ -28,8 +28,7 @@ class CreateMenuItemsOrdersTable extends Migration
                 ->references('id')->on('orders')
                 ->onDelete('cascade');
             $table->foreign('menu_item_id')
-                ->references('id')->on('menu_items')
-                ->onDelete('cascade');
+                ->references('id')->on('menu_items');
             $table->timestamps();
         });
     }
