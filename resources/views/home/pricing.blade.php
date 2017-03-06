@@ -95,7 +95,7 @@
             </h6>
             <p id="pricing-p">The total to get your food delivered is the <b>cost of your food (the
                     amount the
-                    restaurant would charge</b> plus a <b>base delivery fee from Sewanee Eats, with tax.</b> Below are
+                    restaurant would charge</b> plus a <b>base delivery fee from Sewanee Eats, with tax).</b> Below are
                 the
                 base delivery prices. Prices are <b>per order</b>.
 
@@ -115,8 +115,8 @@
                     <li class="rests">Stirlings - $3</li>
                     <li class="rests">Pub - $3</li>
                     <br>
-                    <li class="rests">Sewanee Market - $4</li>
-                    <li class="rests">Shenanigans - $3</li>
+                    <li class="rests">Sewanee Market - $3</li>
+                    <li class="rests">Shenanigans - $4</li>
                     <li class="rests">Blue Chair or Tavern - $4</li>
                 <hr>
                 <h2>Restaurants Outside the Gates:</h2>
