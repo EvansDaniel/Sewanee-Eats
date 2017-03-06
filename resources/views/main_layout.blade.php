@@ -16,7 +16,7 @@
 </style>
 <div id="main-container" class="container-fluid main-main-container">
 @include('countdown')
-@include('partials.nav_bar')
+@include('partials.main_nav_bar')
 <!-- TODO: Blaise -> temporary fix for messages not showing and tops of pages not showing -->
     @if(url()->current() != route("home"))
         <script src={{ asset('js/resize.js',env('APP_ENV') !== 'local') }}></script>
