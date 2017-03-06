@@ -23,7 +23,7 @@ class OrdersController extends Controller
 
     public function listWeeklyOrders()
     {
-        $orders = Order::where('is_weekly_special', 1)->get();
+        $orders = Order::where('is_weekly_special', 1)->andWhere('email', '!=', 'kandet0@sewanee.edu')->andWhere('is_open_order', false)->get();
         return view('admin.order.list_weekly_orders', compact('orders'));
     }
 }
