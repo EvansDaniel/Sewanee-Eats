@@ -28,10 +28,11 @@ Route::get('time', function () {
     return view('countdown');
 })->name('time');
 
-
 // -------------------------------- Home Page Routes ----------------------------------------------------------
 Route::get('/', 'HomeController@showHome')->name('home');
-Route::get('home', 'HomeController@showHome');
+Route::get('home', function () { // redirect route to home
+    return redirect()->route('home');
+});
 Route::get('pricing', 'HomeController@showPricing')->name('pricing');
 Route::get('how-it-works', 'HomeController@showHowItWorks')->name('howItWorks');
 Route::get('thank-you', 'HomeController@showThankYou')
@@ -44,7 +45,7 @@ Route::get('orderSummary/{order_id}', 'HomeController@orderSummary')
 
 Route::get('terms', function(){
     return view('terms');
-});
+})->name('terms');
 // ------------------------------------------------------------------------------------------
 
 // Support Controller Routes -------------------------------------------------
@@ -57,12 +58,19 @@ Route::group([
     'middleware' => 'role:admin',
     'prefix' => 'admin'], function () {
 
-    Route::get('issues', 'SupportController@listIssues')->name('listIssues');
-    Route::post('issues/markAsResolved', 'SupportController@markAsResolved')->name('markAsResolved');
-    Route::post('issues/markAsCorresponding', 'SupportController@markAsCorresponding')->name('markAsCorresponding');
+    Route::get('weeklyOrders', 'OrdersController@listWeeklyOrders')->name('listWeeklyOrders');
+
+    Route::get('issues/open', 'SupportController@listOpenIssues')->name('listOpenIssues');
+    Route::get('issues/closed', 'SupportController@listClosedIssues')->name('listClosedIssues');
+    Route::get('issues/corresponding', 'SupportController@listCorrespondingIssues')->name('listCorrespondingIssues');
+
     Route::get('viewIssue/{issue_id}', 'SupportController@viewIssue')->name('viewIssue');
 
-    Route::get('suggestions', 'SupportController@listSuggestions')->name('list_suggestions');
+    Route::post('issues/markAsResolved', 'SupportController@markAsResolved')->name('markAsResolved');
+    Route::post('issues/markAsCorresponding', 'SupportController@markAsCorresponding')->name('markAsCorresponding');
+    Route::post('issues/updateIssueOrderId', 'SupportController@updateIssueOrderId')->name('updateIssueOrderId');
+
+    Route::get('suggestions', 'SupportController@listSuggestions')->name('listSuggestions');
     Route::get('viewSuggestion/{suggestion_id}', 'SupportController@viewSuggestion')->name('viewSuggestion');
 });
 
@@ -103,6 +111,9 @@ Route::group([
 
     Route::post('closeVenmoOrder', 'OrdersController@closeVenmoOrder')
         ->name('closeVenmoOrder');
+
+    Route::post('removeCancelledOrder', 'OrdersController@removeCancelledOrder')
+        ->name('removeCancelledOrder');
 });
 
 // Admin Routes

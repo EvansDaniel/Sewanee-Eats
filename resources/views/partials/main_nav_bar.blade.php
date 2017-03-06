@@ -24,24 +24,26 @@
                 <li><a class="nav-links" href="{{ route('support') }}">CONTACT</a></li>
                 @if(!empty(Session::get('cart')))
                     <script>
-                        // load number of items in the cart
-                        $(function () {
-                            $.ajax({
-                                url: API_URL + 'cart/totalQuantity',
-                                context: document.body,
-                                dataType: 'json'
-                            }).done(function (result) {
-                                $('#num-items-in-cart').text(result.num_items);
-                            });
+                      // load number of items in the cart
+                      $(function () {
+                        $.ajax({
+                          url: API_URL + 'cart/totalQuantity',
+                          context: document.body,
+                          dataType: 'json'
+                        }).done(function (result) {
+                          $('#num-items-in-cart').text(result.num_items);
                         });
+                      });
                     </script>
                     <li><a class="nav-links" id="checkout-link" href="{{ route('checkout') }}">CHECKOUT
                             <u><span id="num-items-in-cart"></span></u></a></li>
                 @endif
+            <!-- User is logged in and an admin -->
                 @if(Auth::check() && Auth::user()->hasRole('admin'))
                     <li><a class="nav-links" href="{{ route('showAdminDashboard') }}">ADMIN DASHBOARD</a></li>
                 @endif
-                @if(Auth::check() && Auth::user()->hasRole('courier'))
+            <!-- User is logged in, a courier and not an admin -->
+                @if(Auth::check() && Auth::user()->hasRole('courier') && !Auth::user()->hasRole('admin'))
                     <li><a class="nav-links" href="{{ route('showCourierDashboard') }}">COURIER DASHBOARD</a></li>
                 @endif
             </ul>

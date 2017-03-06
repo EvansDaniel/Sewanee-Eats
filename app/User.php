@@ -41,6 +41,11 @@ class User extends Authenticatable
         return $this->isAvailableOnDayAtTime($this, $day, $time);
     }
 
+    public function issues() // TODO: double check that this is working
+    {
+        return $this->hasMany('App\Models\Issue', 'admin_id', 'id');
+    }
+
     /* public function orders()
      {
          if($this->hasRole('admin') || $this->hasRole('courier')) {

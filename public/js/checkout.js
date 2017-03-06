@@ -93,18 +93,17 @@ function doneEditingForm(url, data) {
             if (SUBMIT_FORM) {
                 p('inside submit form');
                 // TODO: fill in logic of validatePayForm()
-                var message = validPayForm(true);
                 // TODO: test pretend card numbers, for now leave this as message = null
                 message = null;
                 if (message == null) {
                     $('#payment-form').submit();
                 } else {
+                  $('#pay-now-button').prop('disabled', false);
                     $('#payment-errors').show().text(message);
                 }
             }
         }
     }).done(function (res) {
-        p('called and finished doneEditing');
         // update price shown to user
         if (res != null && res.subtotal && res.totalPrice) {
             $('#subtotal').text(res.subtotal);
@@ -112,6 +111,7 @@ function doneEditingForm(url, data) {
         }
     });
 }
+
 
 function deleteItemFromCart(button) {
     var delButton = $('#' + button.id);
@@ -223,6 +223,8 @@ function validPayForm(focus) {
 function checkPayNow(event) {
     if (!AJAX_DONE) {
         SUBMIT_FORM = true;
+      p('in check pay now');
+      $('#pay-now-button').prop('disabled', true);
         event.preventDefault();
     }
 }

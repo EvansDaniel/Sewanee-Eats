@@ -18,6 +18,16 @@ class Order extends Model
             ->withPivot('special_instructions', 'quantity');
     }*/
 
+    public function sumPriceBeforeFees()
+    {
+        $price = 0;
+        foreach ($this->menuItemOrders as $menuItemOrder) {
+            $menu_item = MenuItem::find($menuItemOrder->menu_item_id);
+            $price += $menu_item->price;
+        }
+        return $price;
+    }
+
     public function menuItemOrders()
     {
         return $this->hasMany('App\Models\MenuItemOrder', 'order_id', 'id');

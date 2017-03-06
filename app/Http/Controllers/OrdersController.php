@@ -18,6 +18,21 @@ class OrdersController extends Controller
 
     public function undoCloseVenmoOrder(Request $request)
     {
-        // TODO: here
+
+    }
+
+    public function removeCancelledOrder(Request $request)
+    {
+        $order_id = $request->input('order_id');
+        $order = Order::find($order_id);
+        $order->delete();
+
+        return back()->with('status_good', 'Order Cancelled');
+    }
+
+    public function listWeeklyOrders()
+    {
+        $orders = Order::where([['is_weekly_special', 1], ['is_open_order', false]])->get();
+        return view('admin.order.list_weekly_orders', compact('orders'));
     }
 }

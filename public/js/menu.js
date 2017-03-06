@@ -1,7 +1,6 @@
 var accessories = null;
 var itemPrice = -1;
 var ADDED_TO_CART = false;
-p($('#num-items-in-cart').text());
 var CART_QUANTITY = 0;
 getCartQuantity();
 

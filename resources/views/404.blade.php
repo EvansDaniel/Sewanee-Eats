@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('main_layout')
 
 @section('head')
     <link rel="stylesheet" href="{{ asset("css/cart.css",env('APP_ENV') === 'production') }}">

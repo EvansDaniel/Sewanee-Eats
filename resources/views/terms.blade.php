@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('main_layout')
 
 @section('head')
     <title>Sewanee Eats</title>
@@ -29,6 +29,9 @@
         The carriers of your order will stay in touch with you. Sewanee Eats also provides a way of tracking your order.
 
         The order is always going to be delivered at your place of convenience.
+
+        Sewanee Eats does not own any restaurant logos or photos posted unless stated otherwise. All logo credit belongs
+        to the restaurants themselves.
 
     </div>
     <style>
