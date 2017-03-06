@@ -10,19 +10,20 @@
 </head>
 <body>
 <style>
-    body{
+    body {
         background: white;
     }
 </style>
-<div id="main-container" class="container-fluid">
-{{--@include('countdown')--}}
-    @include('partials.nav_bar')
+<div id="main-container" class="container-fluid main-main-container">
+@include('countdown')
+@include('partials.nav_bar')
 <!-- TODO: Blaise -> temporary fix for messages not showing and tops of pages not showing -->
     @if(url()->current() != route("home"))
+        <script src={{ asset('js/resize.js',env('APP_ENV') !== 'local') }}></script>
         <div style="margin-top: 4%"></div>
     @endif
 
-    <!-- Status messages to user about what they are doing -->
+<!-- Status messages to user about what they are doing -->
     @include('partials.backend_messages')
 
     @yield('body')
@@ -32,7 +33,8 @@
 <footer id="footer">
     <hr>
     <br>
-    <p>COPYRIGHT © SEWANEE EATS - ALL PAYMENTS ARE PROCESSED SECURELY THROUGH VENMO AND <a href="https://www.stripe.com">STRIPE</a>.</p>
+    <p>COPYRIGHT © SEWANEE EATS - ALL PAYMENTS ARE PROCESSED SECURELY THROUGH VENMO AND <a
+                href="https://www.stripe.com">STRIPE</a>.</p>
     {{--<a href="{{ route('findMyOrder') }}">Find My Order</a>--}}
     <br>
 </footer>

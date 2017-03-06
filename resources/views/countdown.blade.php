@@ -11,7 +11,7 @@
     <br><br>
     <div id="header" style="display: none">
         <h1 id="s-eat-h">SewaneeEats <br class="hidden-lg hidden-md"><span
-                    id="launching">launches this Friday at 12PM!</span></h1>
+                    id="launching">is closing Chick-Fil-A weekly special orders at 6:30pm today!</span></h1>
     </div>
     <div id="clockdiv">
         <div id="daysDiv" style="display: none">
@@ -39,7 +39,7 @@
       p("ref = " + document.referrer);
       loadCountdownView(wasReferred());
       // Set the date we're counting down to
-      var countDownDate = new Date("Mar 3, 2017 12:00:00").getTime();
+      var countDownDate = new Date("Mar 6, 2017 18:30:00").getTime();
 
       // Update the count down every 1 second
       var x = setInterval(function () {
@@ -116,7 +116,7 @@
           $('#minutes').remove();
           $('#seconds').remove();
 
-          $('#launching').html("has launched!");
+          $('#launching').html("closed Chick-Fil-A weekly special orders at 6:30pm today!!");
         }
       }
     </script>
