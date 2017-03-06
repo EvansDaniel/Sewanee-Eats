@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('main_layout')
 
 @section('head')
     <title>Sewanee Eats | Restaurants</title>

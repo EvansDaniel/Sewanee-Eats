@@ -104,7 +104,6 @@ function doneEditingForm(url, data) {
             }
         }
     }).done(function (res) {
-        p('called and finished doneEditing');
         // update price shown to user
         if (res != null && res.subtotal && res.totalPrice) {
             $('#subtotal').text(res.subtotal);

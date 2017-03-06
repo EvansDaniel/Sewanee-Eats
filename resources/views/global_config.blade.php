@@ -27,11 +27,8 @@
       var h = wn.height();
       var bd_h = $("#footer").height();
       h = bd_h + h;
-      p(h + "container height");
       var b = $(window).height();
-      p(b);
       h = b - h;
-      p(h + "after math");
       if( h >0) {
           $("#push-div").css("height", h);
       }

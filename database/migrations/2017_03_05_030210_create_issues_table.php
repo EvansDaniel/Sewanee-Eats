@@ -35,6 +35,9 @@ class CreateIssuesTable extends Migration
             // admin has resolved the issue
             $table->boolean('is_resolved');
 
+            $table->foreign('admin_id')
+                ->references('id')->on('users');
+
             $table->timestamps();
         });
     }

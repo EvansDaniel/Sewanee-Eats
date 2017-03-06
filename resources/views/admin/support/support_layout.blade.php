@@ -12,7 +12,7 @@
 <!-- Built by Daniel Evans -->
 <div id="main-container" class="container-fluid">
 
-    @include('admin.nav_bar')
+    @include('admin.support.support_nav_bar')
     <br><br><br>
     <!-- Status messages to admin about what they are doing -->
     @include('partials.backend_messages')

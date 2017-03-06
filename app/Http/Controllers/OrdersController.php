@@ -20,4 +20,10 @@ class OrdersController extends Controller
     {
         // TODO: here
     }
+
+    public function listWeeklyOrders()
+    {
+        $orders = Order::where('is_weekly_special', 1)->get();
+        return view('admin.order.list_weekly_orders', compact('orders'));
+    }
 }

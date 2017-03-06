@@ -18,6 +18,7 @@ class AdminDashboardController extends Controller
 
     public function showDashboard()
     {
+        // by DESC to show most recent first
         $open_venmo_orders = Order::where(['is_open_order' => 1, 'paid_with_venmo' => 1])->orderBy('created_at', 'DESC')
             ->paginate(8);
         if (count($open_venmo_orders)) {

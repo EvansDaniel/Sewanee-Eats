@@ -1,4 +1,4 @@
-@extends('admin.layout')
+@extends('admin.admin_dashboard_layout')
 
 @section('head')
     <title>Schedule</title>

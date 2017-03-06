@@ -1,4 +1,4 @@
-@extends('admin.layout')
+@extends('admin.admin_dashboard_layout')
 
 @section('head')
     <title>Admin Dashboard</title>
@@ -8,8 +8,11 @@
 
     <div class="container">
         <div class="row">
-            <a href="{{ route('listIssues') }}">
-                <button>View Customer Concerns</button>
+            <a href="{{ route('listOpenIssues') }}">
+                <button class="btn btn-primary">Go to Support</button>
+            </a>
+            <a href="{{ route('listWeeklyOrders') }}">
+                <button class="btn btn-primary">View Weekly Orders</button>
             </a>
         </div>
         <!----------------------------- Non Venmo Orders ---------------------------------------->

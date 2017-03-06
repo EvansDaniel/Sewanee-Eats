@@ -24,9 +24,10 @@ class OrdersTableSeeder extends Seeder
             $order->delivery_location = $locations[mt_rand(0, 3)];
             //$order->contact_number_of_user = 9316919435;
             $order->was_refunded = mt_rand(0, 1);
+            $order->c_name = "My Name";
             $order->paid_with_venmo = 1;
             $order->is_weekly_special = 1;
-            $order->has_paid_with_venmo = mt_rand(0, 1);
+            $order->paid_with_venmo = mt_rand(0, 1);
             $order->email_of_customer = "evansdb0@sewanee.edu";
             $order->save();
             // this will be created at order creation time

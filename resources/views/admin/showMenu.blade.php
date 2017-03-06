@@ -1,4 +1,4 @@
-@extends('admin.layout')
+@extends('admin.admin_dashboard_layout')
 
 @section('head')
     <link rel="stylesheet" href="{{ asset("css/menu.css") }}">
