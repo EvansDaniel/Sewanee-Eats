@@ -30,6 +30,9 @@
 
         The order is always going to be delivered at your place of convenience.
 
+        Sewanee Eats does not own any restaurant logos or photos posted unless stated otherwise. All logo credit belongs
+        to the restaurants themselves.
+
     </div>
     <style>
         #terms {
