@@ -12,6 +12,7 @@
             <li class="list-group-item">
                 <h3>{{ $order->c_name }}</h3>
                 <h3>{{ $order->email_of_customer }}</h3>
+                <h3>{{ $order->special_instructions }}</h3>
                 <span class="order-price-before-fees">{{ $order->sumPriceBeforeFees() }}</span>
                 <ul>
                     @foreach($order->menuItemOrders as $menuItemOrder)

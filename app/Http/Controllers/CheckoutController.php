@@ -74,6 +74,7 @@ class CheckoutController extends Controller
         if (!empty($items['special_items'])) {
             // submit a weekly special order
             $weekly_special_order = new Order;
+            $weekly_special_order->is_cancelled = false;
             $weekly_special_order->c_name = $request->input('name');
             $special_menu_item_orders = [];
             // set up order stuff

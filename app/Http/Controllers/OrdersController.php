@@ -21,17 +21,18 @@ class OrdersController extends Controller
 
     }
 
-    public function removeCancelledOrder(Request $request)
+    public function cancelOrder(Request $request)
     {
         $order_id = $request->input('order_id');
         $order = Order::find($order_id);
-        $order->delete();
+        \Log::info('here i am');
+        $order->is_cancelled = 1;
         return back()->with('status_good', 'Order Cancelled');
     }
 
     public function listWeeklyOrders()
     {
-        $orders = Order::where([['is_weekly_special', 1], ['is_open_order', false]])->get();
+        $orders = Order::where([['is_weekly_special', 1], ['is_open_order', false], ['is_cancelled', false]])->get();
         return view('admin.order.list_weekly_orders', compact('orders'));
     }
 }

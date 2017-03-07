@@ -112,7 +112,7 @@ Route::group([
     Route::post('closeVenmoOrder', 'OrdersController@closeVenmoOrder')
         ->name('closeVenmoOrder');
 
-    Route::post('removeCancelledOrder', 'OrdersController@removeCancelledOrder')
+    Route::post('removeCancelledOrder', 'OrdersController@cancelOrder')
         ->name('removeCancelledOrder');
 });
 

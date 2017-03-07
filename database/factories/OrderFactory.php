@@ -23,6 +23,7 @@ $factory->define(Order::class, function (Faker\Generator $faker) {
         'is_weekly_special' => 0,
         'delivery_location' => $location[mt_rand(0, 3)],
         'email_of_customer' => $email,
+        'is_cancelled' => 0,
         //,'contact_number_of_user' => 1,
         'was_refunded' => $bool[mt_rand(0, 1)]
     ];
