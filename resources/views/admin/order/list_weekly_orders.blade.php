@@ -10,19 +10,22 @@
         @foreach($orders as $order)
 
             <li class="list-group-item">
-                <h3>{{ $order->c_name }}</h3>
-                <h3>{{ $order->email_of_customer }}</h3>
-                <h3>{{ $order->special_instructions }}</h3>
+                Customer Name: <h3>{{ $order->c_name }}</h3>
+                Customer Email: <h3>{{ $order->email_of_customer }}</h3>
                 <span class="order-price-before-fees">{{ $order->sumPriceBeforeFees() }}</span>
                 <ul>
                     @foreach($order->menuItemOrders as $menuItemOrder)
                         <li>
-                            {{ $menuItemOrder->menuItem->name }}
-                            {{ $menuItemOrder->menuItem->price }}
+                            Name: {{ $menuItemOrder->menuItem->name }}
+                            <br>
+                            Price: {{ $menuItemOrder->menuItem->price }}
+                            <br>
+                            Instructions: {{ $menuItemOrder->special_instructions }}
                             <ul>
                                 @foreach($menuItemOrder->accessories() as $acc)
-                                    {{ $acc->name }}
-                                    {{ $acc->price }}
+                                    Acc name: {{ $acc->name }}
+                                    <br>
+                                    Acc price: {{ $acc->price }}
                                 @endforeach
                             </ul>
                         </li>
