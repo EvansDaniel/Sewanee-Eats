@@ -13,6 +13,20 @@
                 <h3>{{ $order->c_name }}</h3>
                 <h3>{{ $order->email_of_customer }}</h3>
                 <span class="order-price-before-fees">{{ $order->sumPriceBeforeFees() }}</span>
+                <ul>
+                    @foreach($order->menuItemOrders as $menuItemOrder)
+                        <li>
+                            {{ $menuItemOrder->menuItem->name }}
+                            {{ $menuItemOrder->menuItem->price }}
+                            <ul>
+                                @foreach($menuItemOrder->accessories() as $acc)
+                                    {{ $acc->name }}
+                                    {{ $acc->price }}
+                                @endforeach
+                            </ul>
+                        </li>
+                    @endforeach
+                </ul>
             </li>
 
         @endforeach

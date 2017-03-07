@@ -26,7 +26,6 @@ class OrdersController extends Controller
         $order_id = $request->input('order_id');
         $order = Order::find($order_id);
         $order->delete();
-
         return back()->with('status_good', 'Order Cancelled');
     }
 
