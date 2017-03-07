@@ -71,7 +71,7 @@
         });
         profit = numItems + (numOrders * deliveryFee);
         $('#total-cost-before-fees').text(totalBeforeFees);
-        var totalForAllOrders = (profit + totalBeforeFees) * tax;
+        var totalForAllOrders = ((profit - numItems) + (totalBeforeFees)) * tax;
 
         var totalForTax = totalForAllOrders * (1 - tax);
         $('#tax').text(totalForTax);
