@@ -27,12 +27,13 @@ class OrdersController extends Controller
         $order = Order::find($order_id);
         \Log::info('here i am');
         $order->is_cancelled = 1;
+        $order->save();
         return back()->with('status_good', 'Order Cancelled');
     }
 
     public function listWeeklyOrders()
     {
-        $orders = Order::where([['is_weekly_special', 1], ['is_open_order', false], ['is_cancelled', false]])->get();
+        $orders = Order::where([['is_weekly_special', 1], ['is_open_order', 0], ['is_cancelled', 0]])->get();
         return view('admin.order.list_weekly_orders', compact('orders'));
     }
 }

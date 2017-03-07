@@ -208,7 +208,7 @@
                         <td>{{ $closed_order->c_name }}</td>
                         <td>${{ $closed_order->orderPriceInfo->profit }}</td>
                         <td>{{$closed_order->is_weekly_special == 1 ? "Yes" : "No"}}</td>
-                        <td>{{ empty($closed_order->venmo_username) ? "N/A" : $open_order->venmo_username }}</td>
+                        <td>{{ empty($closed_order->venmo_username) ? "N/A" : $closed_order->venmo_username }}</td>
                         <td>
                             @if(empty(!$closed_order->couriers))
                                 {{ "No couriers assigned" }}
@@ -245,7 +245,7 @@
                             <form action="{{ url()->to(parse_url(route('removeCancelledOrder',[]),PHP_URL_PATH),[],env('APP_ENV') !== 'local') }}"
                                   method="post">
                                 {{ csrf_field() }}
-                                <input name="order_id" type="hidden" value="{{ $open_order->id }}">
+                                <input name="order_id" type="hidden" value="{{ $closed_order->id }}">
                                 <button type="submit">Cancel Order</button>
                             </form>
                         </td>
