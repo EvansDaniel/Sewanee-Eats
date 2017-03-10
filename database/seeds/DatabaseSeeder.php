@@ -26,13 +26,14 @@ class DatabaseSeeder extends Seeder
             $this->call(AccessoryTableSeeder::class);
             // after menu_items and accessories
             $this->call(MenuItemAccessoriesTableSeeder::class);
-            //$this->call(OrdersTableSeeder::class);
+            $this->call(OrdersTableSeeder::class);
 
             // Must go after restaurants, users, menu_items
             $this->call(MenuItemsOrdersTableSeeder::class);
             // Not necessarily needed b/c we can access the restaurant through the menu item
             //$this->call(RestaurantsOrdersTableSeeder::class);
             //$this->call(CouriersOrdersTableSeeder::class);
+            $this->call(ArticleTableSeeder::class);
         }
 
         Eloquent::reguard();

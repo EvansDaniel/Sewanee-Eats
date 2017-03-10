@@ -142,7 +142,7 @@ class CheckoutController extends Controller
             try {
                 // Use Stripe's library to make requests...
                 // Charge the user's card:
-                // TODO: email the user a receipt of purchase w/ order info, could be basically the same as the courier email view
+                // TODO: email the user a receipt of purchase w/ order info, could be basically the same as the employee email view
                 $charge = \Stripe\Charge::create(array(
                     "amount" => $totalPrice,
                     "currency" => "usd",

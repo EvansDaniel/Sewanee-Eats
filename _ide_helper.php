@@ -1,7 +1,7 @@
 <?php
 /**
  * A helper file for Laravel 5, to provide autocomplete information to your IDE
- * Generated for Laravel 5.4.8 on 2017-02-07.
+ * Generated for Laravel 5.4.11 on 2017-03-09.
  *
  * @author Barry vd. Heuvel <barryvdh@gmail.com>
  * @see https://github.com/barryvdh/laravel-ide-helper
@@ -1156,6 +1156,17 @@ namespace {
 
 
     class Artisan extends \Illuminate\Support\Facades\Artisan{
+
+        /**
+         * Remove the time slots for today for each courier
+         *
+         * @return \Illuminate\Http\RedirectResponse
+         * @static
+         */
+        public static function updateScheduleForNextDay()
+        {
+            return \App\Console\Kernel::updateScheduleForNextDay();
+        }
         
         /**
          * Run the console application.
@@ -1278,6 +1289,74 @@ namespace {
         public static function setArtisan($artisan){
             //Method inherited from \Illuminate\Foundation\Console\Kernel            
             \App\Console\Kernel::setArtisan($artisan);
+        }
+
+        /**
+         *
+         *
+         * @static
+         */
+        public static function isAvailableNow($object)
+        {
+            return \App\Console\Kernel::isAvailableNow($object);
+        }
+
+        /**
+         *
+         *
+         * @static
+         */
+        public static function tz()
+        {
+            return \App\Console\Kernel::tz();
+        }
+
+        /**
+         * Determines if the given $object is available on the
+         * given $day at the given $time
+         *
+         * @param $object mixed This object must have an attribute
+         * available_times which is a 2D-array of times (in the form "hh:mm-hh:mm")
+         * for each day that denote when $object is available for a certain day
+         * @param $day integer of the week [0-6] on which you want to check if the
+         * $object is available
+         * @param $time Carbon/Carbon the time at which you would like to
+         * check if the object is available
+         * @return bool true if the $object is available
+         * @static
+         */
+        public static function isAvailableOnDayAtTime($object, $day, $time)
+        {
+            return \App\Console\Kernel::isAvailableOnDayAtTime($object, $day, $time);
+        }
+
+        /**
+         *
+         *
+         * @param \Request $request request must contain name attributes
+         * that are contained within either the update_available_times partial
+         * or the create_available_times partial
+         * @return string json string of the $array_of_times array
+         * with the available times normalized (no spaces in them)
+         * @static
+         */
+        public static function createAvailableTimesJsonStringFromRequest($request)
+        {
+            return \App\Console\Kernel::createAvailableTimesJsonStringFromRequest($request);
+        }
+
+        /**
+         *
+         *
+         * @param $array_of_times array a 2D array that is an array of times
+         * for which some object is available for each day of the week
+         * @return string json string of the $array_of_times array
+         * with the available times normalized (no spaces in them)
+         * @static
+         */
+        public static function createAvailableTimesJsonString($array_of_times)
+        {
+            return \App\Console\Kernel::createAvailableTimesJsonString($array_of_times);
         }
         
     }
@@ -4145,18 +4224,6 @@ namespace {
         }
         
         /**
-         * Extend the builder with a given callback.
-         *
-         * @param string $name
-         * @param \Closure $callback
-         * @return void 
-         * @static 
-         */
-        public static function macro($name, $callback){
-            \Illuminate\Database\Eloquent\Builder::macro($name, $callback);
-        }
-        
-        /**
          * Get the given macro by name.
          *
          * @param string $name
@@ -5394,6 +5461,19 @@ namespace {
          */
         public static function cloneWithoutBindings($except){
             return \Illuminate\Database\Query\Builder::cloneWithoutBindings($except);
+        }
+
+        /**
+         * Register a custom macro.
+         *
+         * @param string $name
+         * @param callable $macro
+         * @return void
+         * @static
+         */
+        public static function macro($name, $macro)
+        {
+            \Illuminate\Database\Query\Builder::macro($name, $macro);
         }
         
         /**
@@ -6635,11 +6715,13 @@ namespace {
          *
          * @param string $name
          * @param string $level
+         * @param mixed $facility
          * @return \Psr\Log\LoggerInterface 
          * @static 
          */
-        public static function useSyslog($name = 'laravel', $level = 'debug'){
-            return \Illuminate\Log\Writer::useSyslog($name, $level);
+        public static function useSyslog($name = 'laravel', $level = 'debug', $facility = 8)
+        {
+            return \Illuminate\Log\Writer::useSyslog($name, $level, $facility);
         }
         
         /**
@@ -7830,6 +7912,18 @@ namespace {
         public static function fingerprint(){
             return \Illuminate\Http\Request::fingerprint();
         }
+
+        /**
+         * Set the JSON payload for the request.
+         *
+         * @param array $json
+         * @return $this
+         * @static
+         */
+        public static function setJson($json)
+        {
+            return \Illuminate\Http\Request::setJson($json);
+        }
         
         /**
          * Get the user resolver callback.
@@ -8064,6 +8158,7 @@ namespace {
          *  * Request::HEADER_CLIENT_HOST:  defaults to X-Forwarded-Host  (see getHost())
          *  * Request::HEADER_CLIENT_PORT:  defaults to X-Forwarded-Port  (see getPort())
          *  * Request::HEADER_CLIENT_PROTO: defaults to X-Forwarded-Proto (see getScheme() and isSecure())
+         *  * Request::HEADER_FORWARDED:    defaults to Forwarded         (see RFC 7239)
          * 
          * Setting an empty value allows to disable the trusted header for the given key.
          *
@@ -12159,6 +12254,31 @@ namespace {
          */
         public static function stopPush(){
             return \Illuminate\View\Factory::stopPush();
+        }
+
+        /**
+         * Start prepending content into a push section.
+         *
+         * @param string $section
+         * @param string $content
+         * @return void
+         * @static
+         */
+        public static function startPrepend($section, $content = '')
+        {
+            \Illuminate\View\Factory::startPrepend($section, $content);
+        }
+
+        /**
+         * Stop prepending content into a push section.
+         *
+         * @return string
+         * @throws \InvalidArgumentException
+         * @static
+         */
+        public static function stopPrepend()
+        {
+            return \Illuminate\View\Factory::stopPrepend();
         }
         
         /**

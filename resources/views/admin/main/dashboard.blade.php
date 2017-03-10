@@ -1,10 +1,16 @@
-@extends('admin.admin_dashboard_layout')
+@extends('admin.main.admin_dashboard_layout')
 
 @section('head')
     <title>Admin Dashboard</title>
 @stop
 
 @section('body')
+
+    <style>
+        td, th {
+            font-size: 12px;
+        }
+    </style>
 
     <div class="container">
         <div class="row">
@@ -17,7 +23,7 @@
         </div>
         <!----------------------------- Non Venmo Orders ---------------------------------------->
         @if(!empty($open_n_venmo_orders))
-            <h2 class="order-title">Open Non-Venmo Orders</h2>
+            <h4 class="order-title">Open Non-Venmo Orders</h4>
         <div id="open-orders-table-container">
             <table id="open-orders-table" class="table table-responsive">
                 <thead>
@@ -81,7 +87,7 @@
                                   method="post">
                                 {{ csrf_field() }}
                                 <input name="order_id" type="hidden" value="{{ $open_order->id }}">
-                                <button type="submit">Cancel Order</button>
+                                <button type="submit" class="btn btn-primary">Cancel Order</button>
                             </form>
                         </td>
                     </tr>
@@ -93,7 +99,7 @@
         </div>
             <!--------------------------- Venmo orders ------------------------------------------------------------------>
             <div id="open-orders-table-container">
-                <h2 class="order-title">Open Venmo Orders</h2>
+                <h4 class="order-title">Open Venmo Orders</h4>
                 <table id="open-orders-table" class="table table-responsive">
                     <thead>
                     <!-- TODO: add expected completion time in <th> -->
@@ -169,7 +175,7 @@
                                       method="post">
                                     {{ csrf_field() }}
                                     <input name="order_id" type="hidden" value="{{ $open_order->id }}">
-                                    <button type="submit">Cancel Order</button>
+                                    <button type="submit" class="btn btn-primary">Cancel Order</button>
                                 </form>
                             </td>
                         </tr>
@@ -179,7 +185,7 @@
                 {{ $open_venmo_orders->render() }}
         </div>
         <div id="closed-orders-table-container">
-            <h2 class="order-title">Closed Orders</h2>
+            <h4 class="order-title">Closed Orders</h4>
             <table id="closed-orders-table" class="table table-responsive">
                 <thead>
                 <!-- TODO: add expected completion time in <th> -->
@@ -246,7 +252,7 @@
                                   method="post">
                                 {{ csrf_field() }}
                                 <input name="order_id" type="hidden" value="{{ $closed_order->id }}">
-                                <button type="submit">Cancel Order</button>
+                                <button type="submit" class="btn btn-primary">Cancel Order</button>
                             </form>
                         </td>
                     </tr>
@@ -262,7 +268,7 @@
     </div>
 
     <div class="container">
-        <h1>Admins</h1>
+        <h4>Admins</h4>
         <table id="admin-table" class="table table-responsive">
             <thead>
             <!-- TODO: add expected completion time in <th> -->
@@ -290,7 +296,7 @@
     </div>
 
     <div class="container">
-        <h1>Couriers</h1>
+        <h4>Couriers</h4>
         <table id="admin-table" class="table table-responsive">
             <thead>
             <!-- TODO: add expected completion time in <th> -->

@@ -11,7 +11,7 @@
     <br><br>
     <div id="header" style="display: none">
         <h1 id="s-eat-h">SewaneeEats <br class="hidden-lg hidden-md"><span
-                    id="launching">is closing Chick-Fil-A weekly special orders at 6:30pm today!</span></h1>
+                    id="launching">weekly special orders for Chick-Fil-A have closed.</span></h1>
     </div>
     <div id="clockdiv">
         <div id="daysDiv" style="display: none">
@@ -116,7 +116,7 @@
           $('#minutes').remove();
           $('#seconds').remove();
 
-          $('#launching').html("closed Chick-Fil-A weekly special orders at 6:30pm today!!");
+          $('#clockdiv').hide();
         }
       }
     </script>

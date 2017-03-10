@@ -13,7 +13,7 @@ class RolesUsersTableSeeder extends Seeder
      */
     public function run()
     {
-        $courier_role = Role::where('name', 'courier')->first();
+        $courier_role = Role::where('name', 'employee')->first();
         $admin_role = Role::where('name', 'admin')->first();
 
         $danny = User::where('email', 'evansdb0@sewanee.edu')->first();

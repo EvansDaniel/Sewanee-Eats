@@ -1,4 +1,4 @@
-@extends('courier.layout')
+@extends('employee.layout')
 
 @section('head')
     <title>Courier Dashboard <!-- Which week --></title>

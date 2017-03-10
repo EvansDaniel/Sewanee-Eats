@@ -10,10 +10,10 @@ use Auth;
 class CourierDashboardController extends Controller
 {
     // currently only shows the schedule
-    // TODO: show a courier's payment
+    // TODO: show a employee's payment
     public function showDashboard()
     {
-        return view('courier.dashboard');
+        return view('employee.dashboard');
     }
 
     public function showSchedule()
@@ -21,6 +21,6 @@ class CourierDashboardController extends Controller
         // check current time, if it is < 02:00, then $today = day - 1
         $schedule_filler = new ScheduleFiller();
         $courier = User::find(Auth::id());
-        return view('courier.schedule', compact('schedule_filler', 'courier'));
+        return view('employee.schedule', compact('schedule_filler', 'courier'));
     }
 }

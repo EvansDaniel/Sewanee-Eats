@@ -35,6 +35,7 @@ class RestaurantController extends Controller
         if((!empty($categorized_items['special_items']) && !$restaurant->is_weekly_special) ||
             (!empty($categorized_items['non_special_items']) && $restaurant->is_weekly_special))
         {
+
             if($restaurant->is_weekly_special) {
                 $message = "Your cart contains items that are not part of the weekly special. 
                     To order items from this restaurant, please remove the following non-weekly-special items from your cart";
@@ -63,10 +64,11 @@ class RestaurantController extends Controller
                 //}
             }
         }
+        $name = "baisee";
         // boolean to use in the view show or not show a link
         // to a page with all the restaurants on it
         $showAllRestaurants = count($all_restaurants) > count($restaurants);
-        return view('orderFlow.list_restaurants', compact('restaurants', 's_restaurants'));
+        return view('orderFlow.list_restaurants', compact('restaurants', 's_restaurants', 'name'));
     }
 
     public function store(Request $request)

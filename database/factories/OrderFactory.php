@@ -21,6 +21,7 @@ $factory->define(Order::class, function (Faker\Generator $faker) {
     return [
         'is_open_order' => 1,
         'is_weekly_special' => 0,
+        'is_delivered' => 0,
         'delivery_location' => $location[mt_rand(0, 3)],
         'email_of_customer' => $email,
         'is_cancelled' => 0,

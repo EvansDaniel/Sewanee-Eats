@@ -24,7 +24,7 @@ class ManageRestaurantController extends Controller
     public function showRestaurants()
     {
         $rest = DB::table('restaurants')->orderBy('name', 'desc')->get();
-        return view('admin.list_restaurants', compact('rest'));
+        return view('admin.restaurants.list_restaurants', compact('rest'));
     }
 
     // TODO: Double check file storage
@@ -78,14 +78,14 @@ class ManageRestaurantController extends Controller
 
     public function showNewRestaurantForm()
     {
-        return view('admin.create_restaurant');
+        return view('admin.restaurants.create_restaurant');
     }
 
     public function showRestaurantUpdate($id)
     {
         $r = Restaurant::find($id); // updating this restaurant so pass it to view
         $available_times = json_decode($r->available_times);
-        return view('admin.update_restaurant', compact('r', 'available_times'));
+        return view('admin.restaurants.update_restaurant', compact('r', 'available_times'));
     }
 
     public function deleteRestaurant($id)

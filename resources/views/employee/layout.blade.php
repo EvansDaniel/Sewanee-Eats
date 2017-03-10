@@ -2,7 +2,7 @@
 
 <html>
 <head>
-    @include('global_config')
+    @include('main.global_config')
     <link rel="icon" href="{{ asset('images/mtneats.png',env('APP_ENV') !== 'local') }} ">
     <link href="https://fonts.googleapis.com/css?family=Lato:300,400,900,900i" rel="stylesheet">
     @yield('head')
@@ -10,7 +10,7 @@
 <body>
 <!-- Built by Daniel Evans -->
 <div id="main-container" class="container-fluid">
-    @include('courier.nav_bar')
+    @include('employee.nav_bar')
     <br><br><br><br><br>
     <!-- Status messages to user about what they are doing -->
     @include('partials.backend_messages')

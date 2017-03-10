@@ -23,7 +23,7 @@ class CreateCouriersOrdersTable extends Migration
                 ->references('id')->on('orders')
                 ->onDelete('cascade');
             // going to leave these timestamps so there is data about
-            // when a user added him/herself as a courier to the order request
+            // when a user added him/herself as a employee to the order request
             $table->timestamps();
         });
     }

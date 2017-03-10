@@ -34,14 +34,14 @@ class AdminDashboardController extends Controller
         $admins = $admin_role->users;
         $courier_role = Role::where('name', 'courier')->first();
         $couriers = $courier_role->users;
-        return view('admin.dashboard', compact('closed_orders', 'open_n_venmo_orders', 'open_venmo_orders',
+        return view('admin.main.dashboard', compact('closed_orders', 'open_n_venmo_orders', 'open_venmo_orders',
             'admins', 'couriers'));
     }
 
     public function orderSummary($id)
     {
         $order = Order::find($id);
-        return view('admin.order_summary', compact('order'));
+        return view('admin.order.order_summary', compact('order'));
     }
 
     public function showSchedule()
@@ -49,7 +49,7 @@ class AdminDashboardController extends Controller
         // check current time, if it is < 02:00, then $today = day - 1
         $schedule_filler = new ScheduleFiller();
         $courier = User::find(Auth::id());
-        return view('courier.schedule', compact('schedule_filler', 'courier'));
+        return view('admin.main.schedule', compact('schedule_filler', 'courier'));
     }
 
     // Some tasks:

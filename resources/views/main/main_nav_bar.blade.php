@@ -42,7 +42,7 @@
                 @if(Auth::check() && Auth::user()->hasRole('admin'))
                     <li><a class="nav-links" href="{{ route('showAdminDashboard') }}">ADMIN DASHBOARD</a></li>
                 @endif
-            <!-- User is logged in, a courier and not an admin -->
+            <!-- User is logged in, a employee and not an admin -->
                 @if(Auth::check() && Auth::user()->hasRole('courier') && !Auth::user()->hasRole('admin'))
                     <li><a class="nav-links" href="{{ route('showCourierDashboard') }}">COURIER DASHBOARD</a></li>
                 @endif

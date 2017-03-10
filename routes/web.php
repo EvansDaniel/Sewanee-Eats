@@ -74,6 +74,22 @@ Route::group([
     Route::get('viewSuggestion/{suggestion_id}', 'SupportController@viewSuggestion')->name('viewSuggestion');
 });
 
+Route::group(['middleware' => 'role:admin', 'prefix' => 'api/v1/chart/orders', 'namespace' => 'Charts'], function () {
+    Route::get('confirmedWeeklySpecials', 'ChartOrdersApiController@actualWeeklySpecialOrders');
+});
+
+Route::get('articles/{id}', 'ArticleController@showArticle')
+    ->name('showArticle');
+
+Route::group([
+    'middleware' => 'role:admin',
+    'prefix' => 'admin/order'], function () {
+
+    Route::get('', function () {
+        return view('admin.order.orders');
+    })->name('orders');
+});
+
 // --------------------------------------------------------------------------------------
 
 // TODO: remove this middleware to allow customers access to checkout

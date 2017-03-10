@@ -19,14 +19,14 @@ class MenuItemController extends Controller
         foreach ($restaurant->menuItems as $item) {
             $menu_items[$item->itemCategory->name][] = $item;
         }
-        return view('admin.showMenu', compact('restaurant', 'menu_items'));
+        return view('admin.restaurants.showMenu', compact('restaurant', 'menu_items'));
     }
 
     public function showMenuItemCreateForm($r_id)
     {
         $categories = ItemCategory::orderBy('name', 'ASC')->get();
         $restaurant = Restaurant::find($r_id);
-        return view('admin.create_menu_item', compact('restaurant', 'categories'));
+        return view('admin.restaurants.create_menu_item', compact('restaurant', 'categories'));
     }
 
     public function showMenuItemUpdateForm($r_id, $id)
@@ -35,7 +35,7 @@ class MenuItemController extends Controller
         $categories = ItemCategory::orderBy('name', 'ASC')->get();
         $available_times = json_decode($menu_item->available_times);
         $restaurant = Restaurant::find($r_id);
-        return view('admin.update_menu_item',
+        return view('admin.restaurants.update_menu_item',
             compact('menu_item', 'categories', 'available_times',
                 'restaurant'));
     }

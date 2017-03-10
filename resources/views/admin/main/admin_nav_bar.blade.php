@@ -16,9 +16,10 @@
         <div class="collapse navbar-collapse" id="navDiv">
             <ul id="nav" class="nav navbar-nav navbar-right">
                 <li><a class="active nav-links" href="{{ route('showAdminDashboard') }}">DASHBOARD</a></li>
+                <li><a class="active nav-links" href="{{ route('orders') }}">ORDERS</a></li>
                 <li><a href="{{ route('adminListRestaurants') }}">MANAGE RESTAURANTS INFO</a></li>
                 <li><a class="nav-links" href="{{ route('adminShowSchedule') }}">SCHEDULE</a></li>
-                @if(Auth::check() && Auth::user()->hasRole('courier'))
+                @if(Auth::check() && Auth::user()->hasRole('employee'))
                     <li><a class="nav-links" href="{{ route('showCourierDashboard') }}">YOUR COURIER DASHBOARD</a></li>
                 @endif
                 <li id="logout-li">

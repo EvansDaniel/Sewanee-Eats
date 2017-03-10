@@ -1,4 +1,4 @@
-@extends('admin.admin_dashboard_layout')
+@extends('admin.main.admin_dashboard_layout')
 
 @section('head')
     <title>Accessories | {{ $menu_item->name }}</title>
