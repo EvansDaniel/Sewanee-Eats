@@ -33,8 +33,8 @@ class AdminDashboardController extends Controller
         $admin_role = Role::where('name', 'admin')->first();
         $admins = $admin_role->users;
         $courier_role = Role::where('name', 'courier')->first();
-        $couriers = $courier_role->users;
-        return view('admin.main.dashboard', compact('closed_orders', 'open_n_venmo_orders', 'open_venmo_orders',
+        $couriers = null;/*$courier_role->users;*/
+        return view('admin.main.dashboard2', compact('closed_orders', 'open_n_venmo_orders', 'open_venmo_orders',
             'admins', 'couriers'));
     }
 

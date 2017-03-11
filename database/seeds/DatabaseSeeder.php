@@ -34,6 +34,7 @@ class DatabaseSeeder extends Seeder
             //$this->call(RestaurantsOrdersTableSeeder::class);
             //$this->call(CouriersOrdersTableSeeder::class);
             $this->call(ArticleTableSeeder::class);
+            $this->call(SpecialEventsTableSeeder::class);
         }
 
         Eloquent::reguard();

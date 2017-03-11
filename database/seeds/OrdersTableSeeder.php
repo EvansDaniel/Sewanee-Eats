@@ -38,11 +38,14 @@ class OrdersTableSeeder extends Seeder
             // this will be created at order creation time
             $priceInfo = new OrderPriceInfo;
             $priceInfo->order_id = $order->id;
-            $priceInfo->subtotal = 15;
+            $priceInfo->subtotal = 12;
             $total_price = mt_rand(15, 50);
             $priceInfo->total_price = $total_price;
             $priceInfo->profit = .25 * $total_price;
-            $priceInfo->state_tax = .0925;
+            $priceInfo->stripe_fees = .25 * $total_price;
+            $priceInfo->delivery_fee = .25 * $total_price;
+            $priceInfo->cost_of_food = .25 * $total_price;
+            $priceInfo->state_tax_charged = .0925;
             $priceInfo->save();
         }
     }

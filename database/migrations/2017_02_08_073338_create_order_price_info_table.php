@@ -19,7 +19,10 @@ class CreateOrderPriceInfoTable extends Migration
             $table->float('total_price')->unsigned();
             $table->float('subtotal')->unsigned();
             $table->float('profit')->unsigned();
-            $table->float('state_tax')->unsigned();
+            $table->float('cost_of_food');
+            $table->float('stripe_fees');
+            $table->float('delivery_fee');
+            $table->float('state_tax_charged')->unsigned();
             $table->foreign('order_id')
                 ->references('id')->on('orders')->onDelete('cascade');
             $table->timestamps();

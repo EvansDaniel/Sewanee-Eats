@@ -121,7 +121,8 @@
                                             <span class="row">Card Number</span>
                                             <input class="pay-input form-control" type="text" id="card-number" size="20"
                                                    data-stripe="number"
-                                                   value="@if(env('APP_ENV') === "local") {{ 4242424242424242 }} @endif">
+                                                   name="card_number"
+                                                   value="@if(env('APP_ENV') != "production") {{ 4242424242424242 }} @endif">
                                         </label>
                                     </div>
 
@@ -129,18 +130,18 @@
                                         <label>
                                             <span class="row">Expiration (MM/YY)</span>
                                             <input class="pay-input" type="text" size="2" id="exp-month" maxlength="2"
-                                                   data-stripe="exp_month">
+                                                   data-stripe="exp_month" name="expire_month">
                                         </label>
                                         {{--<span> / </span>--}}
                                         <input class="pay-input" type="text" size="4" id="exp-year" maxlength="4"
-                                               data-stripe="exp_year">
+                                               data-stripe="exp_year" name="expire_year">
                                     </div>
 
                                     <div class="form-group col-lg-3 col-md-3 col-sm-10  col-xs-10" id="c-cvc">
                                         <label>
                                             <span class="row">CVC</span>
                                             <input class="pay-input" type="text" size="4" maxlength="4" id="cvc"
-                                                   data-stripe="cvc">
+                                                   data-stripe="cvc" name="cvc">
                                         </label>
                                     </div>
                                 </div>
@@ -163,8 +164,14 @@
                                       type="tel"
                                       name="phone_number" id="phone-number">--}}
                             </div>
-                            <div>Subtotal (w/ delivery fee included): $<span id="subtotal">{{ $subtotal }}</span></div>
-                            <div>Order Total (subtotal + tax): $<span id="total-price">{{ $total_price }}</span></div>
+                            <div>Cost of Food: <span id="cost-of-food">{{ $price_summary['cost_of_food'] }}</span></div>
+                            <div>Delivery Fee:
+                                @if($price_summary['delivery_fee_percentage_saved'] != 0)
+                                    (you saved {{ $price_summary['delivery_fee_percentage_saved']  }}%!)
+                                @endif
+                                <span id="delivery-fee">{{ $price_summary['delivery_fee']  }}</span></div>
+                            <div>Subtotal: <span id="subtotal">{{ $price_summary['subtotal'] }}</span></div>
+                            <div>Order Total (subtotal + tax): <span id="total-price">{{ $price_summary['total_price'] }}</span></div>
                             <button type="submit" id="pay-now-button" onclick="checkPayNow(event)"
                                     class="checkout-btn">Pay Now
                             </button>
@@ -185,8 +192,6 @@
     </div>
 
     <style>
-
-
         .hr-separator {
             display: block;
             background-color: rebeccapurple;

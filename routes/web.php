@@ -43,7 +43,7 @@ Route::get('find-my-order/', 'HomeController@findMyOrder')
 Route::get('orderSummary/{order_id}', 'HomeController@orderSummary')
     ->name('orderSummary');
 
-Route::get('terms', function(){
+Route::get('terms', function () {
     return view('terms');
 })->name('terms');
 // ------------------------------------------------------------------------------------------
@@ -57,8 +57,6 @@ Route::post('support/create', 'SupportController@createIssue')->name('createIssu
 Route::group([
     'middleware' => 'role:admin',
     'prefix' => 'admin'], function () {
-
-    Route::get('weeklyOrders', 'OrdersController@listWeeklyOrders')->name('listWeeklyOrders');
 
     Route::get('issues/open', 'SupportController@listOpenIssues')->name('listOpenIssues');
     Route::get('issues/closed', 'SupportController@listClosedIssues')->name('listClosedIssues');
@@ -74,16 +72,21 @@ Route::group([
     Route::get('viewSuggestion/{suggestion_id}', 'SupportController@viewSuggestion')->name('viewSuggestion');
 });
 
+/* Chart data for Orders */
 Route::group(['middleware' => 'role:admin', 'prefix' => 'api/v1/chart/orders', 'namespace' => 'Charts'], function () {
     Route::get('confirmedWeeklySpecials', 'ChartOrdersApiController@actualWeeklySpecialOrders');
 });
+// ---------------------------------------------------------------------------
 
 Route::get('articles/{id}', 'ArticleController@showArticle')
     ->name('showArticle');
 
+// Order Information for Admins
 Route::group([
     'middleware' => 'role:admin',
-    'prefix' => 'admin/order'], function () {
+    'prefix' => 'admin'], function () {
+
+    Route::get('weeklyOrders', 'OrdersController@listWeeklyOrders')->name('listWeeklyOrders');
 
     Route::get('', function () {
         return view('admin.order.orders');
@@ -92,17 +95,13 @@ Route::group([
 
 // --------------------------------------------------------------------------------------
 
-// TODO: remove this middleware to allow customers access to checkout
-//Route::group(['middleware' => 'role:admin'], function () {
+// Order Flow routes ------------------------------------------------------------------
+Route::post('handleCheckout', 'CheckoutController@handleCheckout')
+    ->name('handleCheckout');
 
-    Route::post('handleCheckout', 'CheckoutController@handleCheckout')
-        ->name('handleCheckout');
-    Route::get('checkout', 'CheckoutController@showCheckoutPage')
-        ->name('checkout');
+Route::get('checkout', 'CheckoutController@showCheckoutPage')
+    ->name('checkout');
 
-//});
-
-// Restaurant Related Routes
 Route::get('restaurants', 'RestaurantController@list_restaurants')
     ->name('list_restaurants');
 
@@ -112,11 +111,8 @@ Route::get('restaurants/{id}', 'RestaurantController@showMenu')
 Route::post('cart/store', 'ShoppingCartController@loadItemIntoShoppingCart')
     ->name('addToCart');
 
-/*Route::get('sessionClear', function () {
-    Session::flush();
-    return back();
-})->name('sessionClear');*/
 
+// Admin and Courier Order operation endpoints ------------------------------------------------
 Route::group([
     'prefix' => 'courierOrderOps', 'middleware:courier'], function () {
 
@@ -132,12 +128,30 @@ Route::group([
         ->name('removeCancelledOrder');
 });
 
+
+
 // Admin Routes
 Route::group(['prefix' => 'admin',
     'namespace' => 'Admin',
     'middleware' => 'role:admin'], function () {
 
-    //Route::get('test', 'ScheduleController@updateScheduleForNextDay')->name('updateSchedule');
+    // Special Events Routes ---------------------------------------------
+
+    Route::group(['namespace' => 'Events','prefix' => 'events'],function() {
+        // shows
+        Route::get('','SpecialEventsController@showEvents')->name('showEvents');
+        Route::get('{event_id}','SpecialEventsController@showEvent')->name('showEvent');
+        Route::get('createEvent','SpecialEventsController@showCreateEvent')->name('showCreateEvent');
+        Route::get('updateEvent/{event_id}','SpecialEventsController@showUpdateEvent')->name('showUpdateEvent');
+        // backends
+        Route::post('create','SpecialEventsController@createEvent')->name('createEvent');
+        Route::post('update','SpecialEventsController@updateEvent')->name('updateEvent');
+        Route::post('delete','SpecialEventsController@deleteEvent')->name('deleteEvent');
+
+
+    });
+
+    // -------------------------------------------------------------------
 
     // Dashboard controller routes
     // Home page for admins
@@ -318,8 +332,8 @@ $this->post('logout', 'Auth\LoginController@logout')->name('logout');
 // Registration Routes...
 // Protect the register route with CheckRole admin
 //Route::group(['middleware' => 'role:admin'], function () {
-    $this->get('register', 'Auth\RegisterController@showRegistrationForm')->name('register');
-    $this->post('register', 'Auth\RegisterController@register')->name('postRegister');
+$this->get('register', 'Auth\RegisterController@showRegistrationForm')->name('register');
+$this->post('register', 'Auth\RegisterController@register')->name('postRegister');
 //});
 
 // Password Reset Routes...
@@ -330,5 +344,5 @@ $this->post('password/reset', 'Auth\ResetPasswordController@reset');
 
 // ---------------404------------
 Route::any('{catchall}', function () {
-    return view('404');
+    return view('main.404');
 })->where('catchall', '(.*)');
