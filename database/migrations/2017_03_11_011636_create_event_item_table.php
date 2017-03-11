@@ -17,11 +17,9 @@ class CreateEventItemTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->string('price');
-            $table->string('');
-            $table->string('');
+            $table->string('description');
 
             $table->integer('event_id')->unsigned();
-
             $table->foreign('event_id')
                 ->references('id')->on('special_events');
             $table->timestamps();
