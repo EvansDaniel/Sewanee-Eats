@@ -1,27 +1,27 @@
 "use strict";
 
-module.exports = function(Chart) {
+module.exports = function (Chart) {
 
   var helpers = Chart.helpers;
 
   Chart.elements = {};
 
-  Chart.Element = function(configuration) {
+  Chart.Element = function (configuration) {
     helpers.extend(this, configuration);
     this.initialize.apply(this, arguments);
   };
   helpers.extend(Chart.Element.prototype, {
-    initialize: function() {
+    initialize: function () {
       this.hidden = false;
     },
-    pivot: function() {
+    pivot: function () {
       if (!this._view) {
         this._view = helpers.clone(this._model);
       }
       this._start = helpers.clone(this._view);
       return this;
     },
-    transition: function(ease) {
+    transition: function (ease) {
       if (!this._view) {
         this._view = helpers.clone(this._model);
       }
@@ -37,7 +37,7 @@ module.exports = function(Chart) {
         this.pivot();
       }
 
-      helpers.each(this._model, function(value, key) {
+      helpers.each(this._model, function (value, key) {
 
         if (key[0] === '_') {
           // Only non-underscored properties
@@ -79,13 +79,13 @@ module.exports = function(Chart) {
 
       return this;
     },
-    tooltipPosition: function() {
+    tooltipPosition: function () {
       return {
         x: this._model.x,
         y: this._model.y
       };
     },
-    hasValue: function() {
+    hasValue: function () {
       return helpers.isNumber(this._model.x) && helpers.isNumber(this._model.y);
     }
   });

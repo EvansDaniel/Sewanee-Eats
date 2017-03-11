@@ -1,12 +1,12 @@
 define(function (require) {
 
-    require('../coord/single/singleCreator');
-    require('./singleAxis');
+  require('../coord/single/singleCreator');
+  require('./singleAxis');
 
-    var echarts = require('../echarts');
+  var echarts = require('../echarts');
 
-    echarts.extendComponentView({
-        type: 'single'
-    });
-    
+  echarts.extendComponentView({
+    type: 'single'
+  });
+
 });

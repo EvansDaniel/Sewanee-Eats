@@ -41,10 +41,10 @@
 @include('partials.backend_messages')
 <div class="container body">
     <div class="main_container">
-    <!-- Sidebar -->
+        <!-- Sidebar -->
     @include('admin.partials.admin_sidebar')
-            <!-- /top tiles -->
-            @yield('body')
+    <!-- /top tiles -->
+        @yield('body')
 
 
     </div>

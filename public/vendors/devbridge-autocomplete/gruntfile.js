@@ -1,15 +1,15 @@
-module.exports = function(grunt) {
+module.exports = function (grunt) {
 
   var pkg = grunt.file.readJSON('package.json');
 
   var banner = [
-      '/**',
-      '*  Ajax Autocomplete for jQuery, version ' + pkg.version, 
-      '*  (c) 2014 Tomas Kirda',
-      '*',
-      '*  Ajax Autocomplete for jQuery is freely distributable under the terms of an MIT-style license.',
-      '*  For details, see the web site: https://github.com/devbridge/jQuery-Autocomplete',
-      '*/'].join('\n') + '\n';
+    '/**',
+    '*  Ajax Autocomplete for jQuery, version ' + pkg.version,
+    '*  (c) 2014 Tomas Kirda',
+    '*',
+    '*  Ajax Autocomplete for jQuery is freely distributable under the terms of an MIT-style license.',
+    '*  For details, see the web site: https://github.com/devbridge/jQuery-Autocomplete',
+    '*/'].join('\n') + '\n';
 
   // Project configuration.
   grunt.initConfig({
@@ -31,10 +31,10 @@ module.exports = function(grunt) {
   // Default task(s).
   grunt.registerTask('default', ['uglify']);
 
-  grunt.task.registerTask('build', 'Create release', function() {
+  grunt.task.registerTask('build', 'Create release', function () {
     var version = pkg.version,
-        src = grunt.file.read('src/jquery.autocomplete.js').replace('%version%', version),
-        filePath = 'dist/jquery.autocomplete.js';
+    src = grunt.file.read('src/jquery.autocomplete.js').replace('%version%', version),
+    filePath = 'dist/jquery.autocomplete.js';
 
     // Update not minimized release version:
     console.log('Updating: ' + filePath);
@@ -47,7 +47,7 @@ module.exports = function(grunt) {
     filePath = 'devbridge-autocomplete.jquery.json';
     src = grunt.file.readJSON(filePath);
 
-    if (src.version !== version){
+    if (src.version !== version) {
       src.version = version;
       console.log('Updating: ' + filePath);
       grunt.file.write(filePath, JSON.stringify(src, null, 4));
@@ -59,7 +59,7 @@ module.exports = function(grunt) {
     filePath = 'bower.json';
     src = grunt.file.readJSON(filePath);
 
-    if (src.version !== version){
+    if (src.version !== version) {
       src.version = version;
       console.log('Updating: ' + filePath);
       grunt.file.write(filePath, JSON.stringify(src, null, 4));

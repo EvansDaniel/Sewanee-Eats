@@ -1,7 +1,7 @@
 define([
   'jquery'
 ], function ($) {
-  function Tokenizer (decorated, $element, options) {
+  function Tokenizer(decorated, $element, options) {
     var tokenizer = options.get('tokenizer');
 
     if (tokenizer !== undefined) {
@@ -14,14 +14,14 @@ define([
   Tokenizer.prototype.bind = function (decorated, container, $container) {
     decorated.call(this, container, $container);
 
-    this.$search =  container.dropdown.$search || container.selection.$search ||
-      $container.find('.select2-search__field');
+    this.$search = container.dropdown.$search || container.selection.$search ||
+    $container.find('.select2-search__field');
   };
 
   Tokenizer.prototype.query = function (decorated, params, callback) {
     var self = this;
 
-    function createAndSelect (data) {
+    function createAndSelect(data) {
       // Normalize the data object so we can use it for checks
       var item = self._normalizeItem(data);
 
@@ -44,7 +44,7 @@ define([
       select(item);
     }
 
-    function select (data) {
+    function select(data) {
       self.trigger('select', {
         data: data
       });

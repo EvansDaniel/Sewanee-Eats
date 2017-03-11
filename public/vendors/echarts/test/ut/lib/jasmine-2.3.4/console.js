@@ -1,25 +1,25 @@
 /*
-Copyright (c) 2008-2015 Pivotal Labs
+ Copyright (c) 2008-2015 Pivotal Labs
 
-Permission is hereby granted, free of charge, to any person obtaining
-a copy of this software and associated documentation files (the
-"Software"), to deal in the Software without restriction, including
-without limitation the rights to use, copy, modify, merge, publish,
-distribute, sublicense, and/or sell copies of the Software, and to
-permit persons to whom the Software is furnished to do so, subject to
-the following conditions:
+ Permission is hereby granted, free of charge, to any person obtaining
+ a copy of this software and associated documentation files (the
+ "Software"), to deal in the Software without restriction, including
+ without limitation the rights to use, copy, modify, merge, publish,
+ distribute, sublicense, and/or sell copies of the Software, and to
+ permit persons to whom the Software is furnished to do so, subject to
+ the following conditions:
 
-The above copyright notice and this permission notice shall be
-included in all copies or substantial portions of the Software.
+ The above copyright notice and this permission notice shall be
+ included in all copies or substantial portions of the Software.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
-LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
-OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
-WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-*/
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+ MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+ LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+ OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ */
 function getJasmineRequireObj() {
   if (typeof module !== 'undefined' && module.exports) {
     return exports;
@@ -29,37 +29,41 @@ function getJasmineRequireObj() {
   }
 }
 
-getJasmineRequireObj().console = function(jRequire, j$) {
+getJasmineRequireObj().console = function (jRequire, j$) {
   j$.ConsoleReporter = jRequire.ConsoleReporter();
 };
 
-getJasmineRequireObj().ConsoleReporter = function() {
+getJasmineRequireObj().ConsoleReporter = function () {
 
   var noopTimer = {
-    start: function(){},
-    elapsed: function(){ return 0; }
+    start: function () {
+    },
+    elapsed: function () {
+      return 0;
+    }
   };
 
   function ConsoleReporter(options) {
     var print = options.print,
-      showColors = options.showColors || false,
-      onComplete = options.onComplete || function() {},
-      timer = options.timer || noopTimer,
-      specCount,
-      failureCount,
-      failedSpecs = [],
-      pendingCount,
-      ansi = {
-        green: '\x1B[32m',
-        red: '\x1B[31m',
-        yellow: '\x1B[33m',
-        none: '\x1B[0m'
-      },
-      failedSuites = [];
+    showColors = options.showColors || false,
+    onComplete = options.onComplete || function () {
+    },
+    timer = options.timer || noopTimer,
+    specCount,
+    failureCount,
+    failedSpecs = [],
+    pendingCount,
+    ansi = {
+      green: '\x1B[32m',
+      red: '\x1B[31m',
+      yellow: '\x1B[33m',
+      none: '\x1B[0m'
+    },
+    failedSuites = [];
 
     print('ConsoleReporter is deprecated and will be removed in a future version.');
 
-    this.jasmineStarted = function() {
+    this.jasmineStarted = function () {
       specCount = 0;
       failureCount = 0;
       pendingCount = 0;
@@ -68,17 +72,17 @@ getJasmineRequireObj().ConsoleReporter = function() {
       timer.start();
     };
 
-    this.jasmineDone = function() {
+    this.jasmineDone = function () {
       printNewline();
       for (var i = 0; i < failedSpecs.length; i++) {
         specFailureDetails(failedSpecs[i]);
       }
 
-      if(specCount > 0) {
+      if (specCount > 0) {
         printNewline();
 
         var specCounts = specCount + ' ' + plural('spec', specCount) + ', ' +
-          failureCount + ' ' + plural('failure', failureCount);
+        failureCount + ' ' + plural('failure', failureCount);
 
         if (pendingCount) {
           specCounts += ', ' + pendingCount + ' pending ' + plural('spec', pendingCount);
@@ -94,14 +98,14 @@ getJasmineRequireObj().ConsoleReporter = function() {
       print('Finished in ' + seconds + ' ' + plural('second', seconds));
       printNewline();
 
-      for(i = 0; i < failedSuites.length; i++) {
+      for (i = 0; i < failedSuites.length; i++) {
         suiteFailureDetails(failedSuites[i]);
       }
 
       onComplete(failureCount === 0);
     };
 
-    this.specDone = function(result) {
+    this.specDone = function (result) {
       specCount++;
 
       if (result.status == 'pending') {
@@ -122,7 +126,7 @@ getJasmineRequireObj().ConsoleReporter = function() {
       }
     };
 
-    this.suiteDone = function(result) {
+    this.suiteDone = function (result) {
       if (result.failedExpectations && result.failedExpectations.length > 0) {
         failureCount++;
         failedSuites.push(result);

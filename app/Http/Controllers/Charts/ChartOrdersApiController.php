@@ -3,10 +3,9 @@
 namespace App\Http\Controllers\Charts;
 
 use App\CustomTraits\IsAvailable;
-use Carbon\Carbon;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
+use Carbon\Carbon;
 
 class ChartOrdersApiController extends Controller
 {
@@ -17,8 +16,8 @@ class ChartOrdersApiController extends Controller
         $monday = Carbon::now($this->tz())->startOfWeek();
         $nextWeek = $monday->addDays(7);
         $weekly_specials = Order::where([
-            ['created_at','>=',$monday],
-            ['is_open_order',0]
+            ['created_at', '>=', $monday],
+            ['is_open_order', 0]
         ])->get();
         return $weekly_specials;
     }
@@ -28,7 +27,7 @@ class ChartOrdersApiController extends Controller
         $monday = Carbon::now($this->tz())->startOfWeek();
         $nextWeek = $monday->addDays(7);
         $confirmed_weekly_specials = Order::where([
-                ['created_at','>=',$monday]/*,
+            ['created_at', '>=', $monday]/*,
                 ['is_open_order',0],
                 ['is_delivered',1]*/
         ])->get();

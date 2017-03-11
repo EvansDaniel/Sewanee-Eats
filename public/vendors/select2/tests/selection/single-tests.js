@@ -20,8 +20,8 @@ test('display uses templateSelection', function (assert) {
   });
 
   var selection = new SingleSelection(
-    $('#qunit-fixture .single'),
-    templateOptions
+  $('#qunit-fixture .single'),
+  templateOptions
   );
 
   var out = selection.display({
@@ -45,12 +45,12 @@ test('templateSelection can addClass', function (assert) {
   });
 
   var selection = new SingleSelection(
-    $('#qunit-fixture .single'),
-    templateOptions
+  $('#qunit-fixture .single'),
+  templateOptions
   );
 
   var $container = selection.selectionContainer();
-  
+
   var out = selection.display({
     text: 'test'
   }, $container);
@@ -58,14 +58,14 @@ test('templateSelection can addClass', function (assert) {
   assert.ok(called);
 
   assert.equal(out, 'test');
-  
+
   assert.ok($container.hasClass('testclass'));
 });
 
 test('empty update clears the selection', function (assert) {
   var selection = new SingleSelection(
-    $('#qunit-fixture .single'),
-    options
+  $('#qunit-fixture .single'),
+  options
   );
 
   var $selection = selection.render();
@@ -80,8 +80,8 @@ test('empty update clears the selection', function (assert) {
 
 test('update renders the data text', function (assert) {
   var selection = new SingleSelection(
-    $('#qunit-fixture .single'),
-    options
+  $('#qunit-fixture .single'),
+  options
   );
 
   var $selection = selection.render();
@@ -96,8 +96,8 @@ test('update renders the data text', function (assert) {
 
 test('escapeMarkup is being used', function (assert) {
   var selection = new SingleSelection(
-    $('#qunit-fixture .single'),
-    options
+  $('#qunit-fixture .single'),
+  options
   );
 
   var $selection = selection.render();
@@ -110,8 +110,8 @@ test('escapeMarkup is being used', function (assert) {
   }]);
 
   assert.equal(
-    $rendered.text(),
-    unescapedText,
-    'The text should be escaped by default to prevent injection'
+  $rendered.text(),
+  unescapedText,
+  'The text should be escaped by default to prevent injection'
   );
 });

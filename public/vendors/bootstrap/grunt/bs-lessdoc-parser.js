@@ -18,19 +18,19 @@ function markdown2html(markdownString) {
 
 
 /*
-Mini-language:
-  //== This is a normal heading, which starts a section. Sections group variables together.
-  //## Optional description for the heading
+ Mini-language:
+ //== This is a normal heading, which starts a section. Sections group variables together.
+ //## Optional description for the heading
 
-  //=== This is a subheading.
+ //=== This is a subheading.
 
-  //** Optional description for the following variable. You **can** use Markdown in descriptions to discuss `<html>` stuff.
-  @foo: #fff;
+ //** Optional description for the following variable. You **can** use Markdown in descriptions to discuss `<html>` stuff.
+ @foo: #fff;
 
-  //-- This is a heading for a section whose variables shouldn't be customizable
+ //-- This is a heading for a section whose variables shouldn't be customizable
 
-  All other lines are ignored completely.
-*/
+ All other lines are ignored completely.
+ */
 
 
 var CUSTOMIZABLE_HEADING = /^[/]{2}={2}(.*)$/;

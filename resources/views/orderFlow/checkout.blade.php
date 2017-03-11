@@ -171,7 +171,8 @@
                                 @endif
                                 <span id="delivery-fee">{{ $price_summary['delivery_fee']  }}</span></div>
                             <div>Subtotal: <span id="subtotal">{{ $price_summary['subtotal'] }}</span></div>
-                            <div>Order Total (subtotal + tax): <span id="total-price">{{ $price_summary['total_price'] }}</span></div>
+                            <div>Order Total (subtotal + tax): <span
+                                        id="total-price">{{ $price_summary['total_price'] }}</span></div>
                             <button type="submit" id="pay-now-button" onclick="checkPayNow(event)"
                                     class="checkout-btn">Pay Now
                             </button>

@@ -6,7 +6,7 @@ var $ = require('jquery');
 var Options = require('select2/options');
 var Utils = require('select2/utils');
 
-function MaximumSelectionStub () {
+function MaximumSelectionStub() {
   this.called = false;
   this.currentData = [];
 }
@@ -24,8 +24,8 @@ MaximumSelectionStub.prototype.query = function (params, callback) {
 };
 
 var MaximumSelectionData = Utils.Decorate(
-  MaximumSelectionStub,
-  MaximumSelectionLength
+MaximumSelectionStub,
+MaximumSelectionLength
 );
 
 test('0 never displays the notice', function (assert) {
@@ -122,7 +122,7 @@ test('< 0 never displays the notice', function (assert) {
   assert.ok(data.called);
 });
 
-test('triggers when >= 1 selection' , function (assert) {
+test('triggers when >= 1 selection', function (assert) {
   var maxOfOneOptions = new Options({
     maximumSelectionLength: 1
   });
@@ -154,7 +154,7 @@ test('triggers when >= 1 selection' , function (assert) {
 
 });
 
-test('triggers when >= 2 selections' , function (assert) {
+test('triggers when >= 2 selections', function (assert) {
   var maxOfTwoOptions = new Options({
     maximumSelectionLength: 2
   });

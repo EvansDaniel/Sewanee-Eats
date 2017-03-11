@@ -19,7 +19,7 @@
     Select2.
   </p>
 
-<pre class="prettyprint linenums">
+  <pre class="prettyprint linenums">
 $.fn.select2.amd.require(
     ["select2/utils", "select2/selection/single", "select2/selection/placeholder"],
     function (Utils, SingleSelection, Placeholder) {
@@ -49,7 +49,7 @@ $.fn.select2.amd.require(
     This means that if you declare your <code>&lt;select&gt;</code> tag as...
   </p>
 
-<pre class="prettyprint">
+  <pre class="prettyprint">
 &lt;select data-tags="true" data-placeholder="Select an option"&gt;&lt;/select&gt;
 </pre>
 
@@ -57,7 +57,7 @@ $.fn.select2.amd.require(
     Will be interpreted the same as initializing Select2 as...
   </p>
 
-<pre class="prettyprint linenums">
+  <pre class="prettyprint linenums">
 $("select").select2({
   tags: "true",
   placeholder: "Select an option"
@@ -73,7 +73,7 @@ $("select").select2({
     <a href="https://github.com/select2/select2/issues/2969">do not work in jQuery 1.x</a>.
   </p>
 
-<pre class="prettyprint">
+  <pre class="prettyprint">
 &lt;select data-ajax--url="http://example.org/api/test" data-ajax--cache="true"&gt;&lt;/select&gt;
 </pre>
 
@@ -81,7 +81,7 @@ $("select").select2({
     Which will be interpreted the same as initializing Select2 with...
   </p>
 
-<pre class="prettyprint linenums">
+  <pre class="prettyprint linenums">
 $("select").select2({
   ajax: {
     url: "http://example.org/api/test",
@@ -171,7 +171,7 @@ $("select").select2({
         <dd>string or object</dd>
       </dl>
 
-      <hr />
+      <hr/>
 
       <dl class="dl-horizontal">
         <dt>Adapter</dt>
@@ -206,19 +206,19 @@ $("select").select2({
     placeholders.
   </p>
 
-<pre class="prettyprint">
+  <pre class="prettyprint">
 placeholder: "Select a repository"
 </pre>
 
-      <p>
-        If the <strong>value is an object</strong>, the object should be
-        compatible with Select2's internal objects. The <code>id</code> should
-        be the id to look for when determining if the placeholder should be
-        displayed. The <code>text</code> should be the placeholder to display
-        when that option is selected.
-      </p>
+  <p>
+    If the <strong>value is an object</strong>, the object should be
+    compatible with Select2's internal objects. The <code>id</code> should
+    be the id to look for when determining if the placeholder should be
+    displayed. The <code>text</code> should be the placeholder to display
+    when that option is selected.
+  </p>
 
-<pre class="prettyprint linenums">
+  <pre class="prettyprint linenums">
 placeholder: {
   id: "-1",
   text: "Select a repository"
@@ -306,36 +306,36 @@ placeholder: {
     <div class="col-sm-6">
       <table class="table table-striped table-bordered">
         <thead>
-          <tr>
-            <th>Value</th>
-            <th>Description</th>
-          </tr>
+        <tr>
+          <th>Value</th>
+          <th>Description</th>
+        </tr>
         </thead>
         <tbody>
-          <tr>
-            <td><code>"element"</code></td>
-            <td>
-              Uses javascript to calculate the width of the source element.
-            </td>
-          </tr>
-          <tr>
-            <td><code>"style"</code></td>
-            <td>
-              Copies the value of the width <code>style</code> attribute set on the source element.
-            </td>
-          </tr>
-          <tr>
-            <td><code>"resolve"</code></td>
-            <td>
-              Tries to use <code>style</code> to determine the width, falling back to <code>element</code>.
-            </td>
-          </tr>
-          <tr>
-            <td>Anything else</td>
-            <td>
-              The value of the <code>width</code> option is directly set as the width of the container.
-            </td>
-          </tr>
+        <tr>
+          <td><code>"element"</code></td>
+          <td>
+            Uses javascript to calculate the width of the source element.
+          </td>
+        </tr>
+        <tr>
+          <td><code>"style"</code></td>
+          <td>
+            Copies the value of the width <code>style</code> attribute set on the source element.
+          </td>
+        </tr>
+        <tr>
+          <td><code>"resolve"</code></td>
+          <td>
+            Tries to use <code>style</code> to determine the width, falling back to <code>element</code>.
+          </td>
+        </tr>
+        <tr>
+          <td>Anything else</td>
+          <td>
+            The value of the <code>width</code> option is directly set as the width of the container.
+          </td>
+        </tr>
         </tbody>
       </table>
     </div>
@@ -373,7 +373,7 @@ placeholder: {
         <dd>object or string</dd>
       </dl>
 
-      <hr />
+      <hr/>
 
       <dl class="dl-horizontal">
         <dt>Module</dt>
@@ -406,7 +406,7 @@ placeholder: {
     the one below.
   </p>
 
-<pre class="prettyprint linenums">
+  <pre class="prettyprint linenums">
 language: {
   // You can find all of the options in the language files provided in the
   // build. They all must be functions that return the string that should be
@@ -423,7 +423,7 @@ language: {
 
   <p>
     By default, Select2 will display the option text within the list of
-    results and when the option has been selected.  Select2 comes with options
+    results and when the option has been selected. Select2 comes with options
     that allow you to further customize the display of results and selections,
     allowing you to display them however you want.
   </p>
@@ -469,7 +469,7 @@ language: {
     <strong>
       Anything else will be passed
       <a href="https://api.jquery.com/append/">directly to <code>jQuery.fn.append</code></a>
-    </strong> and will be handled directly by jQuery.  Any markup, such as
+    </strong> and will be handled directly by jQuery. Any markup, such as
     HTML, returned will not be escaped and it is up to you to escape any
     malicious input provided by users.
   </p>
@@ -503,7 +503,7 @@ language: {
   <p>
     The <code>templateResult</code> function should return a string
     containing the text to be displayed, or an object (such as a jQuery
-    object) that contains the data that should be displayed.  It can also
+    object) that contains the data that should be displayed. It can also
     return <code>null</code>, which will prevent the option from being
     displayed in the results list.
   </p>
@@ -518,7 +518,7 @@ language: {
     <strong>
       Anything else will be passed
       <a href="https://api.jquery.com/append/">directly to <code>jQuery.fn.append</code></a>
-    </strong> and will be handled directly by jQuery.  Any markup, such as
+    </strong> and will be handled directly by jQuery. Any markup, such as
     HTML, returned will not be escaped and it is up to you to escape any
     malicious input provided by users.
   </p>
@@ -606,7 +606,7 @@ language: {
     custom options that Select2 will intercept, allowing you to customize the
     request as it is being made.
 
-<pre class="prettyprint linenums">
+  <pre class="prettyprint linenums">
 ajax: {
   // The number of milliseconds to wait for the user to stop typing before
   // issuing the ajax request.
@@ -756,7 +756,7 @@ ajax: {
     match those individually</strong>.
   </p>
 
-<pre class="prettyprint linenums">
+  <pre class="prettyprint linenums">
 matcher: function (params, data) {
   // If there are no search terms, return all of the data
   if ($.trim(params.term) === '') {

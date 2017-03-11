@@ -1,4 +1,4 @@
-(function(){
+(function () {
 
   var apiParams = {
     colors: 1,
@@ -51,12 +51,12 @@
     } else if (options === 'set' && apiParams[arguments[1]]) {
       map['set' + arguments[1].charAt(0).toUpperCase() + arguments[1].substr(1)].apply(map, Array.prototype.slice.call(arguments, 2));
     } else if (typeof options === 'string' &&
-      typeof map[options] === 'function') {
+    typeof map[options] === 'function') {
       return map[options].apply(map, Array.prototype.slice.call(arguments, 1));
     } else {
       jQuery.extend(defaultParams, options);
       defaultParams.container = this;
-      this.css({ position: 'relative', overflow: 'hidden' });
+      this.css({position: 'relative', overflow: 'hidden'});
 
       map = new JQVMap(defaultParams);
 

@@ -18,18 +18,19 @@
  * ======================================================================== */
 
 
-+function ($) { "use strict";
++function ($) {
+  "use strict";
 
   // ALERT CLASS DEFINITION
   // ======================
 
   var dismiss = '[data-dismiss="alert"]'
-  var Alert   = function (el) {
+  var Alert = function (el) {
     $(el).on('click', dismiss, this.close)
   }
 
   Alert.prototype.close = function (e) {
-    var $this    = $(this)
+    var $this = $(this)
     var selector = $this.attr('data-target')
 
     if (!selector) {
@@ -56,10 +57,10 @@
     }
 
     $.support.transition && $parent.hasClass('fade') ?
-      $parent
-        .one($.support.transition.end, removeElement)
-        .emulateTransitionEnd(150) :
-      removeElement()
+    $parent
+    .one($.support.transition.end, removeElement)
+    .emulateTransitionEnd(150) :
+    removeElement()
   }
 
 
@@ -71,7 +72,7 @@
   $.fn.alert = function (option) {
     return this.each(function () {
       var $this = $(this)
-      var data  = $this.data('bs.alert')
+      var data = $this.data('bs.alert')
 
       if (!data) $this.data('bs.alert', (data = new Alert(this)))
       if (typeof option == 'string') data[option].call($this)

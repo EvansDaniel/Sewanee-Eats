@@ -1,39 +1,37 @@
 /**
  * @file Timeilne action
  */
-define(function(require) {
+define(function (require) {
 
-    var echarts = require('../../echarts');
+  var echarts = require('../../echarts');
 
-    echarts.registerAction(
+  echarts.registerAction(
+  {type: 'timelineChange', event: 'timelineChanged', update: 'prepareAndUpdate'},
 
-        {type: 'timelineChange', event: 'timelineChanged', update: 'prepareAndUpdate'},
+  function (payload, ecModel) {
 
-        function (payload, ecModel) {
+    var timelineModel = ecModel.getComponent('timeline');
+    if (timelineModel && payload.currentIndex != null) {
+      timelineModel.setCurrentIndex(payload.currentIndex);
 
-            var timelineModel = ecModel.getComponent('timeline');
-            if (timelineModel && payload.currentIndex != null) {
-                timelineModel.setCurrentIndex(payload.currentIndex);
+      if (!timelineModel.get('loop', true) && timelineModel.isIndexMax()) {
+        timelineModel.setPlayState(false);
+      }
+    }
 
-                if (!timelineModel.get('loop', true) && timelineModel.isIndexMax()) {
-                    timelineModel.setPlayState(false);
-                }
-            }
+    ecModel.resetOption('timeline');
+  }
+  );
 
-            ecModel.resetOption('timeline');
-        }
-    );
+  echarts.registerAction(
+  {type: 'timelinePlayChange', event: 'timelinePlayChanged', update: 'update'},
 
-    echarts.registerAction(
-
-        {type: 'timelinePlayChange', event: 'timelinePlayChanged', update: 'update'},
-
-        function (payload, ecModel) {
-            var timelineModel = ecModel.getComponent('timeline');
-            if (timelineModel && payload.playState != null) {
-                timelineModel.setPlayState(payload.playState);
-            }
-        }
-    );
+  function (payload, ecModel) {
+    var timelineModel = ecModel.getComponent('timeline');
+    if (timelineModel && payload.playState != null) {
+      timelineModel.setPlayState(payload.playState);
+    }
+  }
+  );
 
 });

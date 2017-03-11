@@ -32,8 +32,12 @@ var diffResults = function (newResult, oldResult, deep) {
 ParsleyUI.Form = {
 
   _actualizeTriggers: function () {
-    this.$element.on('submit.Parsley', evt => { this.onSubmitValidate(evt); });
-    this.$element.on('click.Parsley', 'input[type="submit"], button[type="submit"]', evt => { this.onSubmitButton(evt); });
+    this.$element.on('submit.Parsley', evt = > {this.onSubmitValidate(evt);
+  })
+    ;
+    this.$element.on('click.Parsley', 'input[type="submit"], button[type="submit"]', evt = > {this.onSubmitButton(evt);
+  })
+    ;
 
     // UI could be disabled
     if (false === this.options.uiEnabled)
@@ -111,7 +115,7 @@ ParsleyUI.Field = {
 
     for (var i = 0; i < this.validationResult.length; i++)
       messages.push(this.validationResult[i].errorMessage ||
-       this._getErrorMessage(this.validationResult[i].assert));
+      this._getErrorMessage(this.validationResult[i].assert));
 
     return messages;
   },
@@ -165,21 +169,21 @@ ParsleyUI.Field = {
 
         if (0 === this._ui.$errorsWrapper.find('.parsley-custom-error-message').length)
           this._ui.$errorsWrapper
-            .append(
-              $(this.options.errorTemplate)
-              .addClass('parsley-custom-error-message')
-            );
+          .append(
+          $(this.options.errorTemplate)
+          .addClass('parsley-custom-error-message')
+          );
 
         return this._ui.$errorsWrapper
-          .addClass('filled')
-          .find('.parsley-custom-error-message')
-          .html(this.options.errorMessage);
+        .addClass('filled')
+        .find('.parsley-custom-error-message')
+        .html(this.options.errorMessage);
       }
 
       return this._ui.$errorsWrapper
-        .removeClass('filled')
-        .find('.parsley-custom-error-message')
-        .remove();
+      .removeClass('filled')
+      .find('.parsley-custom-error-message')
+      .remove();
     }
 
     // Show, hide, update failing constraints messages
@@ -197,26 +201,26 @@ ParsleyUI.Field = {
   _addError: function (name, {message, assert}) {
     this._insertErrorWrapper();
     this._ui.$errorsWrapper
-      .addClass('filled')
-      .append(
-        $(this.options.errorTemplate)
-        .addClass('parsley-' + name)
-        .html(message || this._getErrorMessage(assert))
-      );
+    .addClass('filled')
+    .append(
+    $(this.options.errorTemplate)
+    .addClass('parsley-' + name)
+    .html(message || this._getErrorMessage(assert))
+    );
   },
 
   _updateError: function (name, {message, assert}) {
     this._ui.$errorsWrapper
-      .addClass('filled')
-      .find('.parsley-' + name)
-      .html(message || this._getErrorMessage(assert));
+    .addClass('filled')
+    .find('.parsley-' + name)
+    .html(message || this._getErrorMessage(assert));
   },
 
   _removeError: function (name) {
     this._ui.$errorsWrapper
-      .removeClass('filled')
-      .find('.parsley-' + name)
-      .remove();
+    .removeClass('filled')
+    .find('.parsley-' + name)
+    .remove();
   },
 
   _getErrorMessage: function (constraint) {
@@ -306,13 +310,16 @@ ParsleyUI.Field = {
     // Remove Parsley events already bound on this field
     $toBind.off('.Parsley');
     if (this._failedOnce)
-      $toBind.on(ParsleyUtils.namespaceEvents(this.options.triggerAfterFailure, 'Parsley'), () => {
+      $toBind.on(ParsleyUtils.namespaceEvents(this.options.triggerAfterFailure, 'Parsley'), () = > {
         this.validate();
-      });
-    else if (trigger = ParsleyUtils.namespaceEvents(this.options.trigger, 'Parsley')) {
-      $toBind.on(trigger, event => {
+  })
+    ;
+    else
+    if (trigger = ParsleyUtils.namespaceEvents(this.options.trigger, 'Parsley')) {
+      $toBind.on(trigger, event = > {
         this._eventValidate(event);
-      });
+    })
+      ;
     }
   },
 
@@ -338,9 +345,9 @@ ParsleyUI.Field = {
 
     // Reset all errors' li
     this._ui.$errorsWrapper
-      .removeClass('filled')
-      .children()
-      .remove();
+    .removeClass('filled')
+    .children()
+    .remove();
 
     // Reset validation class
     this._resetClass();

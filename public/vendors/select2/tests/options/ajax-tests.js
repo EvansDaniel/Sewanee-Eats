@@ -17,15 +17,15 @@ test('options are merged recursively with default options', function (assert) {
   });
 
   assert.equal(
-    mergedOptions.ajax.delay,
-    ajaxDelay,
-    'Ajax default options are present on the merged options'
+  mergedOptions.ajax.delay,
+  ajaxDelay,
+  'Ajax default options are present on the merged options'
   );
 
   assert.equal(
-    mergedOptions.ajax.url,
-    ajaxUrl,
-    'Ajax provided options are present on the merged options'
+  mergedOptions.ajax.url,
+  ajaxUrl,
+  'Ajax provided options are present on the merged options'
   );
 
   defaults.reset();

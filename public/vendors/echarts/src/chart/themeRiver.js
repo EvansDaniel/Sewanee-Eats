@@ -1,18 +1,18 @@
 define(function (require) {
 
-    var echarts = require('../echarts');
-    var zrUtil = require('zrender/core/util');
+  var echarts = require('../echarts');
+  var zrUtil = require('zrender/core/util');
 
 
-    require('./themeRiver/ThemeRiverSeries');
-    
-    require('./themeRiver/ThemeRiverView');
+  require('./themeRiver/ThemeRiverSeries');
 
-    echarts.registerLayout(require('./themeRiver/themeRiverLayout'));
+  require('./themeRiver/ThemeRiverView');
 
-    echarts.registerVisualCoding('chart', require('./themeRiver/themeRiverVisual'));
+  echarts.registerLayout(require('./themeRiver/themeRiverLayout'));
 
-    echarts.registerProcessor(
-        'filter', zrUtil.curry(require('../processor/dataFilter'), 'themeRiver')
-    );    
+  echarts.registerVisualCoding('chart', require('./themeRiver/themeRiverVisual'));
+
+  echarts.registerProcessor(
+  'filter', zrUtil.curry(require('../processor/dataFilter'), 'themeRiver')
+  );
 });

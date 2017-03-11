@@ -1,7 +1,6 @@
-define([
-
-], function () {
-  function SelectOnClose () { }
+define([], function () {
+  function SelectOnClose() {
+  }
 
   SelectOnClose.prototype.bind = function (decorated, container, $container) {
     var self = this;
@@ -35,14 +34,14 @@ define([
 
     // Don't re-select already selected resulte
     if (
-      (data.element != null && data.element.selected) ||
-      (data.element == null && data.selected)
+    (data.element != null && data.element.selected) ||
+    (data.element == null && data.selected)
     ) {
       return;
     }
 
     this.trigger('select', {
-        data: data
+      data: data
     });
   };
 

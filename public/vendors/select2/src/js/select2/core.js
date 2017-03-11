@@ -193,8 +193,8 @@ define([
     }
 
     var observer = window.MutationObserver ||
-      window.WebKitMutationObserver ||
-      window.MozMutationObserver
+    window.WebKitMutationObserver ||
+    window.MozMutationObserver
     ;
 
     if (observer != null) {
@@ -209,19 +209,19 @@ define([
       });
     } else if (this.$element[0].addEventListener) {
       this.$element[0].addEventListener(
-        'DOMAttrModified',
-        self._syncA,
-        false
+      'DOMAttrModified',
+      self._syncA,
+      false
       );
       this.$element[0].addEventListener(
-        'DOMNodeInserted',
-        self._syncS,
-        false
+      'DOMNodeInserted',
+      self._syncS,
+      false
       );
       this.$element[0].addEventListener(
-        'DOMNodeRemoved',
-        self._syncS,
-        false
+      'DOMNodeRemoved',
+      self._syncS,
+      false
       );
     }
   };
@@ -321,7 +321,7 @@ define([
 
       if (self.isOpen()) {
         if (key === KEYS.ESC || key === KEYS.TAB ||
-            (key === KEYS.UP && evt.altKey)) {
+        (key === KEYS.UP && evt.altKey)) {
           self.close();
 
           evt.preventDefault();
@@ -344,7 +344,7 @@ define([
         }
       } else {
         if (key === KEYS.ENTER || key === KEYS.SPACE ||
-            (key === KEYS.DOWN && evt.altKey)) {
+        (key === KEYS.DOWN && evt.altKey)) {
           self.open();
 
           evt.preventDefault();
@@ -374,9 +374,9 @@ define([
     // Ignore any mutation events raised for elements that aren't options or
     // optgroups. This handles the case when the select element is destroyed
     if (
-      evt && evt.target && (
-        evt.target.nodeName !== 'OPTION' && evt.target.nodeName !== 'OPTGROUP'
-      )
+    evt && evt.target && (
+    evt.target.nodeName !== 'OPTION' && evt.target.nodeName !== 'OPTGROUP'
+    )
     ) {
       return;
     }
@@ -493,9 +493,9 @@ define([
   Select2.prototype.enable = function (args) {
     if (this.options.get('debug') && window.console && console.warn) {
       console.warn(
-        'Select2: The `select2("enable")` method has been deprecated and will' +
-        ' be removed in later Select2 versions. Use $element.prop("disabled")' +
-        ' instead.'
+      'Select2: The `select2("enable")` method has been deprecated and will' +
+      ' be removed in later Select2 versions. Use $element.prop("disabled")' +
+      ' instead.'
       );
     }
 
@@ -510,10 +510,10 @@ define([
 
   Select2.prototype.data = function () {
     if (this.options.get('debug') &&
-        arguments.length > 0 && window.console && console.warn) {
+    arguments.length > 0 && window.console && console.warn) {
       console.warn(
-        'Select2: Data can no longer be set using `select2("data")`. You ' +
-        'should consider setting the value instead using `$element.val()`.'
+      'Select2: Data can no longer be set using `select2("data")`. You ' +
+      'should consider setting the value instead using `$element.val()`.'
       );
     }
 
@@ -529,8 +529,8 @@ define([
   Select2.prototype.val = function (args) {
     if (this.options.get('debug') && window.console && console.warn) {
       console.warn(
-        'Select2: The `select2("val")` method has been deprecated and will be' +
-        ' removed in later Select2 versions. Use $element.val() instead.'
+      'Select2: The `select2("val")` method has been deprecated and will be' +
+      ' removed in later Select2 versions. Use $element.val() instead.'
       );
     }
 
@@ -561,11 +561,11 @@ define([
       this._observer = null;
     } else if (this.$element[0].removeEventListener) {
       this.$element[0]
-        .removeEventListener('DOMAttrModified', this._syncA, false);
+      .removeEventListener('DOMAttrModified', this._syncA, false);
       this.$element[0]
-        .removeEventListener('DOMNodeInserted', this._syncS, false);
+      .removeEventListener('DOMNodeInserted', this._syncS, false);
       this.$element[0]
-        .removeEventListener('DOMNodeRemoved', this._syncS, false);
+      .removeEventListener('DOMNodeRemoved', this._syncS, false);
     }
 
     this._syncA = null;
@@ -591,10 +591,10 @@ define([
 
   Select2.prototype.render = function () {
     var $container = $(
-      '<span class="select2 select2-container">' +
-        '<span class="selection"></span>' +
-        '<span class="dropdown-wrapper" aria-hidden="true"></span>' +
-      '</span>'
+    '<span class="select2 select2-container">' +
+    '<span class="selection"></span>' +
+    '<span class="dropdown-wrapper" aria-hidden="true"></span>' +
+    '</span>'
     );
 
     $container.attr('dir', this.options.get('dir'));

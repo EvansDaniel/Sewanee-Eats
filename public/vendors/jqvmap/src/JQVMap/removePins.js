@@ -1,3 +1,3 @@
-JQVMap.prototype.removePins = function(){
+JQVMap.prototype.removePins = function () {
   this.container.find('.jqvmap-pin').remove();
 };

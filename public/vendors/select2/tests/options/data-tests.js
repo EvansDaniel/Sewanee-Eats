@@ -17,8 +17,8 @@ test('with nesting', function (assert) {
 
   if ($test[0].dataset == null) {
     assert.ok(
-      true,
-      'We can not run this test with jQuery 1.x if dataset is not implemented'
+    true,
+    'We can not run this test with jQuery 1.x if dataset is not implemented'
     );
 
     return;

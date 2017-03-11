@@ -138,9 +138,9 @@
     var parts = url.match(/^(https?:)\/\/([^\:\/\?#]+):?(\d*)/i);
 
     return parts && (
-      parts[1] !== location.protocol ||
-      parts[2] !== location.hostname ||
-      parts[3] !== location.port
+    parts[1] !== location.protocol ||
+    parts[2] !== location.hostname ||
+    parts[3] !== location.port
     );
   }
 
@@ -501,8 +501,8 @@
       // XMLHttpRequest disallows to open a Data URL in some browsers like IE11 and Safari
       if (REGEXP_DATA_URL.test(url)) {
         return REGEXP_DATA_URL_JPEG.test(url) ?
-          read(dataURLToArrayBuffer(url)) :
-          this.clone();
+        read(dataURLToArrayBuffer(url)) :
+        this.clone();
       }
 
       xhr = new XMLHttpRequest();
@@ -537,39 +537,39 @@
 
         switch (orientation) {
 
-          // flip horizontal
+        // flip horizontal
           case 2:
             scaleX = -1;
             break;
 
-          // rotate left 180°
+        // rotate left 180°
           case 3:
             rotate = -180;
             break;
 
-          // flip vertical
+        // flip vertical
           case 4:
             scaleY = -1;
             break;
 
-          // flip vertical + rotate right 90°
+        // flip vertical + rotate right 90°
           case 5:
             rotate = 90;
             scaleY = -1;
             break;
 
-          // rotate right 90°
+        // rotate right 90°
           case 6:
             rotate = 90;
             break;
 
-          // flip horizontal + rotate right 90°
+        // flip horizontal + rotate right 90°
           case 7:
             rotate = 90;
             scaleX = -1;
             break;
 
-          // rotate left 90°
+        // rotate left 90°
           case 8:
             rotate = -90;
             break;
@@ -620,11 +620,7 @@
           $this.one(EVENT_LOAD, $.proxy(this.start, this));
         }
       } else {
-        $clone.
-          one(EVENT_LOAD, $.proxy(this.start, this)).
-          one(EVENT_ERROR, $.proxy(this.stop, this)).
-          addClass(CLASS_HIDE).
-          insertAfter($this);
+        $clone.one(EVENT_LOAD, $.proxy(this.start, this)).one(EVENT_ERROR, $.proxy(this.stop, this)).addClass(CLASS_HIDE).insertAfter($this);
       }
     },
 
@@ -931,12 +927,12 @@
 
           if (isCropped && this.isLimited) {
             canvas.minLeft = min(
-              cropBox.left,
-              cropBox.left + cropBox.width - canvas.width
+            cropBox.left,
+            cropBox.left + cropBox.width - canvas.width
             );
             canvas.minTop = min(
-              cropBox.top,
-              cropBox.top + cropBox.height - canvas.height
+            cropBox.top,
+            cropBox.top + cropBox.height - canvas.height
             );
             canvas.maxLeft = cropBox.left;
             canvas.maxTop = cropBox.top;
@@ -1087,9 +1083,9 @@
       var aspectRatio = options.aspectRatio;
       var autoCropArea = num(options.autoCropArea) || 0.8;
       var cropBox = {
-            width: canvas.width,
-            height: canvas.height
-          };
+        width: canvas.width,
+        height: canvas.height
+      };
 
       if (aspectRatio) {
         if (canvas.height * aspectRatio > canvas.width) {
@@ -1264,11 +1260,11 @@
          * (Occur only when margin-top <= -height)
          */
         $this.html(
-          '<img' + crossOrigin + ' src="' + url + '" style="' +
-          'display:block;width:100%;height:auto;' +
-          'min-width:0!important;min-height:0!important;' +
-          'max-width:none!important;max-height:none!important;' +
-          'image-orientation:0deg!important;">'
+        '<img' + crossOrigin + ' src="' + url + '" style="' +
+        'display:block;width:100%;height:auto;' +
+        'min-width:0!important;min-height:0!important;' +
+        'max-width:none!important;max-height:none!important;' +
+        'image-orientation:0deg!important;">'
         );
       });
     },
@@ -1376,9 +1372,7 @@
         $cropper.on(EVENT_DBLCLICK, $.proxy(this.dblclick, this));
       }
 
-      $document.
-        on(EVENT_MOUSE_MOVE, (this._cropMove = proxy(this.cropMove, this))).
-        on(EVENT_MOUSE_UP, (this._cropEnd = proxy(this.cropEnd, this)));
+      $document.on(EVENT_MOUSE_MOVE, (this._cropMove = proxy(this.cropMove, this))).on(EVENT_MOUSE_UP, (this._cropEnd = proxy(this.cropEnd, this)));
 
       if (options.responsive) {
         $window.on(EVENT_RESIZE, (this._resize = proxy(this.resize, this)));
@@ -1420,9 +1414,7 @@
         $cropper.off(EVENT_DBLCLICK, this.dblclick);
       }
 
-      $document.
-        off(EVENT_MOUSE_MOVE, this._cropMove).
-        off(EVENT_MOUSE_UP, this._cropEnd);
+      $document.off(EVENT_MOUSE_MOVE, this._cropMove).off(EVENT_MOUSE_UP, this._cropEnd);
 
       if (options.responsive) {
         $window.off(EVENT_RESIZE, this._resize);
@@ -1679,16 +1671,16 @@
       }
 
       switch (action) {
-        // Move crop box
+      // Move crop box
         case ACTION_ALL:
           left += range.x;
           top += range.y;
           break;
 
-        // Resize crop box
+      // Resize crop box
         case ACTION_EAST:
           if (range.x >= 0 && (right >= maxWidth || aspectRatio &&
-            (top <= minTop || bottom >= maxHeight))) {
+          (top <= minTop || bottom >= maxHeight))) {
 
             renderable = false;
             break;
@@ -1710,7 +1702,7 @@
 
         case ACTION_NORTH:
           if (range.y <= 0 && (top <= minTop || aspectRatio &&
-            (left <= minLeft || right >= maxWidth))) {
+          (left <= minLeft || right >= maxWidth))) {
 
             renderable = false;
             break;
@@ -1733,7 +1725,7 @@
 
         case ACTION_WEST:
           if (range.x <= 0 && (left <= minLeft || aspectRatio &&
-            (top <= minTop || bottom >= maxHeight))) {
+          (top <= minTop || bottom >= maxHeight))) {
 
             renderable = false;
             break;
@@ -1756,7 +1748,7 @@
 
         case ACTION_SOUTH:
           if (range.y >= 0 && (bottom >= maxHeight || aspectRatio &&
-            (left <= minLeft || right >= maxWidth))) {
+          (left <= minLeft || right >= maxWidth))) {
 
             renderable = false;
             break;
@@ -1960,13 +1952,13 @@
 
           break;
 
-        // Move canvas
+      // Move canvas
         case ACTION_MOVE:
           this.move(range.x, range.y);
           renderable = false;
           break;
 
-        // Zoom canvas
+      // Zoom canvas
         case ACTION_ZOOM:
           this.zoom((function (x1, y1, x2, y2) {
             var z1 = sqrt(x1 * x1 + y1 * y1);
@@ -1974,17 +1966,17 @@
 
             return (z2 - z1) / z1;
           })(
-            abs(this.startX - this.startX2),
-            abs(this.startY - this.startY2),
-            abs(this.endX - this.endX2),
-            abs(this.endY - this.endY2)
+          abs(this.startX - this.startX2),
+          abs(this.startY - this.startY2),
+          abs(this.endX - this.endX2),
+          abs(this.endY - this.endY2)
           ), event);
           this.startX2 = this.endX2;
           this.startY2 = this.endY2;
           renderable = false;
           break;
 
-        // Create crop box
+      // Create crop box
         case ACTION_CROP:
           if (!range.x || !range.y) {
             renderable = false;
@@ -2020,7 +2012,7 @@
 
           break;
 
-        // No default
+      // No default
       }
 
       if (renderable) {
@@ -2179,8 +2171,8 @@
       var canvas = this.canvas;
 
       this.moveTo(
-        isUndefined(offsetX) ? offsetX : canvas.left + num(offsetX),
-        isUndefined(offsetY) ? offsetY : canvas.top + num(offsetY)
+      isUndefined(offsetX) ? offsetX : canvas.left + num(offsetX),
+      isUndefined(offsetY) ? offsetY : canvas.top + num(offsetY)
       );
     },
 
@@ -2231,7 +2223,7 @@
       ratio = num(ratio);
 
       if (ratio < 0) {
-        ratio =  1 / (1 - ratio);
+        ratio = 1 / (1 - ratio);
       } else {
         ratio = 1 + ratio;
       }
@@ -2285,10 +2277,10 @@
 
           // Zoom from the triggering point of the event
           canvas.left -= (newWidth - width) * (
-            ((center.pageX - offset.left) - canvas.left) / width
+          ((center.pageX - offset.left) - canvas.left) / width
           );
           canvas.top -= (newHeight - height) * (
-            ((center.pageY - offset.top) - canvas.top) / height
+          ((center.pageY - offset.top) - canvas.top) / height
           );
         } else {
 
@@ -2812,18 +2804,12 @@
         movable = options.movable && mode === ACTION_MOVE;
         mode = (croppable || movable) ? mode : ACTION_NONE;
 
-        this.$dragBox.
-          data(DATA_ACTION, mode).
-          toggleClass(CLASS_CROP, croppable).
-          toggleClass(CLASS_MOVE, movable);
+        this.$dragBox.data(DATA_ACTION, mode).toggleClass(CLASS_CROP, croppable).toggleClass(CLASS_MOVE, movable);
 
         if (!options.cropBoxMovable) {
 
           // Sync drag mode to crop box when it is not movable(#300)
-          this.$face.
-            data(DATA_ACTION, mode).
-            toggleClass(CLASS_CROP, croppable).
-            toggleClass(CLASS_MOVE, movable);
+          this.$face.data(DATA_ACTION, mode).toggleClass(CLASS_CROP, croppable).toggleClass(CLASS_MOVE, movable);
         }
       }
     }
@@ -2932,31 +2918,31 @@
   };
 
   Cropper.TEMPLATE = (
-    '<div class="cropper-container">' +
-      '<div class="cropper-wrap-box">' +
-        '<div class="cropper-canvas"></div>' +
-      '</div>' +
-      '<div class="cropper-drag-box"></div>' +
-      '<div class="cropper-crop-box">' +
-        '<span class="cropper-view-box"></span>' +
-        '<span class="cropper-dashed dashed-h"></span>' +
-        '<span class="cropper-dashed dashed-v"></span>' +
-        '<span class="cropper-center"></span>' +
-        '<span class="cropper-face"></span>' +
-        '<span class="cropper-line line-e" data-action="e"></span>' +
-        '<span class="cropper-line line-n" data-action="n"></span>' +
-        '<span class="cropper-line line-w" data-action="w"></span>' +
-        '<span class="cropper-line line-s" data-action="s"></span>' +
-        '<span class="cropper-point point-e" data-action="e"></span>' +
-        '<span class="cropper-point point-n" data-action="n"></span>' +
-        '<span class="cropper-point point-w" data-action="w"></span>' +
-        '<span class="cropper-point point-s" data-action="s"></span>' +
-        '<span class="cropper-point point-ne" data-action="ne"></span>' +
-        '<span class="cropper-point point-nw" data-action="nw"></span>' +
-        '<span class="cropper-point point-sw" data-action="sw"></span>' +
-        '<span class="cropper-point point-se" data-action="se"></span>' +
-      '</div>' +
-    '</div>'
+  '<div class="cropper-container">' +
+  '<div class="cropper-wrap-box">' +
+  '<div class="cropper-canvas"></div>' +
+  '</div>' +
+  '<div class="cropper-drag-box"></div>' +
+  '<div class="cropper-crop-box">' +
+  '<span class="cropper-view-box"></span>' +
+  '<span class="cropper-dashed dashed-h"></span>' +
+  '<span class="cropper-dashed dashed-v"></span>' +
+  '<span class="cropper-center"></span>' +
+  '<span class="cropper-face"></span>' +
+  '<span class="cropper-line line-e" data-action="e"></span>' +
+  '<span class="cropper-line line-n" data-action="n"></span>' +
+  '<span class="cropper-line line-w" data-action="w"></span>' +
+  '<span class="cropper-line line-s" data-action="s"></span>' +
+  '<span class="cropper-point point-e" data-action="e"></span>' +
+  '<span class="cropper-point point-n" data-action="n"></span>' +
+  '<span class="cropper-point point-w" data-action="w"></span>' +
+  '<span class="cropper-point point-s" data-action="s"></span>' +
+  '<span class="cropper-point point-ne" data-action="ne"></span>' +
+  '<span class="cropper-point point-nw" data-action="nw"></span>' +
+  '<span class="cropper-point point-sw" data-action="sw"></span>' +
+  '<span class="cropper-point point-se" data-action="se"></span>' +
+  '</div>' +
+  '</div>'
   );
 
   // Save the other cropper

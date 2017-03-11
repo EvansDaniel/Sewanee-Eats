@@ -12,6 +12,7 @@
       margin: 0;
       background-color: white;
     }
+
     #chart {
       width: 500px;
       height: 300px;
@@ -22,10 +23,10 @@
       window.alert(JSON.stringify(e));
     }
     window.snapshot = function () {
-      bridge({ fn: "snapshot" });
+      bridge({fn: "snapshot"});
     };
     window.mousemove = function (x, y) {
-      bridge({ fn: "mousemove", x: x, y: y });
+      bridge({fn: "mousemove", x: x, y: y});
     };
   </script>
 </head>

@@ -19,7 +19,7 @@
 
   if (!$.fn.tooltip) throw new Error('Popover requires tooltip.js')
 
-  Popover.VERSION  = '3.3.6'
+  Popover.VERSION = '3.3.6'
 
   Popover.DEFAULTS = $.extend({}, $.fn.tooltip.Constructor.DEFAULTS, {
     placement: 'right',
@@ -41,13 +41,13 @@
   }
 
   Popover.prototype.setContent = function () {
-    var $tip    = this.tip()
-    var title   = this.getTitle()
+    var $tip = this.tip()
+    var title = this.getTitle()
     var content = this.getContent()
 
     $tip.find('.popover-title')[this.options.html ? 'html' : 'text'](title)
     $tip.find('.popover-content').children().detach().end()[ // we use append for html objects to maintain js events
-      this.options.html ? (typeof content == 'string' ? 'html' : 'append') : 'text'
+    this.options.html ? (typeof content == 'string' ? 'html' : 'append') : 'text'
     ](content)
 
     $tip.removeClass('fade top bottom left right in')
@@ -63,12 +63,12 @@
 
   Popover.prototype.getContent = function () {
     var $e = this.$element
-    var o  = this.options
+    var o = this.options
 
     return $e.attr('data-content')
-      || (typeof o.content == 'function' ?
-            o.content.call($e[0]) :
-            o.content)
+    || (typeof o.content == 'function' ?
+    o.content.call($e[0]) :
+    o.content)
   }
 
   Popover.prototype.arrow = function () {
@@ -81,8 +81,8 @@
 
   function Plugin(option) {
     return this.each(function () {
-      var $this   = $(this)
-      var data    = $this.data('bs.popover')
+      var $this = $(this)
+      var data = $this.data('bs.popover')
       var options = typeof option == 'object' && option
 
       if (!data && /destroy|hide/.test(option)) return
@@ -93,7 +93,7 @@
 
   var old = $.fn.popover
 
-  $.fn.popover             = Plugin
+  $.fn.popover = Plugin
   $.fn.popover.Constructor = Popover
 
 

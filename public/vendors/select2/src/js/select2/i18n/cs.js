@@ -1,7 +1,7 @@
 define(function () {
   // Czech
-  function small (count, masc) {
-    switch(count) {
+  function small(count, masc) {
+    switch (count) {
       case 2:
         return masc ? 'dva' : 'dvě';
       case 3:
@@ -11,6 +11,7 @@ define(function () {
     }
     return '';
   }
+
   return {
     errorLoading: function () {
       return 'Výsledky nemohly být načteny.';

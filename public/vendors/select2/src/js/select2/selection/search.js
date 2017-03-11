@@ -3,17 +3,17 @@ define([
   '../utils',
   '../keys'
 ], function ($, Utils, KEYS) {
-  function Search (decorated, $element, options) {
+  function Search(decorated, $element, options) {
     decorated.call(this, $element, options);
   }
 
   Search.prototype.render = function (decorated) {
     var $search = $(
-      '<li class="select2-search select2-search--inline">' +
-        '<input class="select2-search__field" type="search" tabindex="-1"' +
-        ' autocomplete="off" autocorrect="off" autocapitalize="off"' +
-        ' spellcheck="false" role="textbox" aria-autocomplete="list" />' +
-      '</li>'
+    '<li class="select2-search select2-search--inline">' +
+    '<input class="select2-search__field" type="search" tabindex="-1"' +
+    ' autocomplete="off" autocorrect="off" autocapitalize="off"' +
+    ' spellcheck="false" role="textbox" aria-autocomplete="list" />' +
+    '</li>'
     );
 
     this.$searchContainer = $search;
@@ -78,7 +78,7 @@ define([
 
       if (key === KEYS.BACKSPACE && self.$search.val() === '') {
         var $previousChoice = self.$searchContainer
-          .prev('.select2-selection__choice');
+        .prev('.select2-selection__choice');
 
         if ($previousChoice.length > 0) {
           var item = $previousChoice.data('data');
@@ -102,48 +102,48 @@ define([
     // This will prevent double-triggering of events for browsers which support
     // both the `keyup` and `input` events.
     this.$selection.on(
-      'input.searchcheck',
-      '.select2-search--inline',
-      function (evt) {
-        // IE will trigger the `input` event when a placeholder is used on a
-        // search box. To get around this issue, we are forced to ignore all
-        // `input` events in IE and keep using `keyup`.
-        if (disableInputEvents) {
-          self.$selection.off('input.search input.searchcheck');
-          return;
-        }
-
-        // Unbind the duplicated `keyup` event
-        self.$selection.off('keyup.search');
+    'input.searchcheck',
+    '.select2-search--inline',
+    function (evt) {
+      // IE will trigger the `input` event when a placeholder is used on a
+      // search box. To get around this issue, we are forced to ignore all
+      // `input` events in IE and keep using `keyup`.
+      if (disableInputEvents) {
+        self.$selection.off('input.search input.searchcheck');
+        return;
       }
+
+      // Unbind the duplicated `keyup` event
+      self.$selection.off('keyup.search');
+    }
     );
 
     this.$selection.on(
-      'keyup.search input.search',
-      '.select2-search--inline',
-      function (evt) {
-        // IE will trigger the `input` event when a placeholder is used on a
-        // search box. To get around this issue, we are forced to ignore all
-        // `input` events in IE and keep using `keyup`.
-        if (disableInputEvents && evt.type === 'input') {
-          self.$selection.off('input.search input.searchcheck');
-          return;
-        }
-
-        var key = evt.which;
-
-        // We can freely ignore events from modifier keys
-        if (key == KEYS.SHIFT || key == KEYS.CTRL || key == KEYS.ALT) {
-          return;
-        }
-
-        // Tabbing will be handled during the `keydown` phase
-        if (key == KEYS.TAB) {
-          return;
-        }
-
-        self.handleSearch(evt);
+    'keyup.search input.search',
+    '.select2-search--inline',
+    function (evt) {
+      // IE will trigger the `input` event when a placeholder is used on a
+      // search box. To get around this issue, we are forced to ignore all
+      // `input` events in IE and keep using `keyup`.
+      if (disableInputEvents && evt.type === 'input') {
+        self.$selection.off('input.search input.searchcheck');
+        return;
       }
+
+      var key = evt.which;
+
+      // We can freely ignore events from modifier keys
+      if (key == KEYS.SHIFT || key == KEYS.CTRL || key == KEYS.ALT) {
+        return;
+      }
+
+      // Tabbing will be handled during the `keydown` phase
+      if (key == KEYS.TAB) {
+        return;
+      }
+
+      self.handleSearch(evt);
+    }
     );
   };
 
@@ -171,7 +171,7 @@ define([
     decorated.call(this, data);
 
     this.$selection.find('.select2-selection__rendered')
-                   .append(this.$searchContainer);
+    .append(this.$searchContainer);
 
     this.resizeSearch();
     if (searchHadFocus) {

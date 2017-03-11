@@ -10,17 +10,17 @@
     option should be passed in during the initialization of Select2.
   </p>
 
-{% highlight js linenos %}
-$('select').select2({
+  {% highlight js linenos %}
+  $('select').select2({
   data: [
-    {
-      id: 'value',
-      text: 'Text to display'
-    },
-    // ... more data objects ...
+  {
+  id: 'value',
+  text: 'Text to display'
+  },
+  // ... more data objects ...
   ]
-});
-{% endhighlight %}
+  });
+  {% endhighlight %}
 
   <h3>
     What properties are required on the objects passed in to the array?
@@ -65,18 +65,18 @@ $('select').select2({
     property on the root data object.
   </p>
 
-{% highlight js linenos %}
-{
+  {% highlight js linenos %}
+  {
   text: 'Group label',
   children: [
-    {
-      id: 'nested-1',
-      text: 'First nested option'
-    },
-    // ... more data objects ...
+  {
+  id: 'nested-1',
+  text: 'First nested option'
+  },
+  // ... more data objects ...
   ]
-}
-{% endhighlight %}
+  }
+  {% endhighlight %}
 
   <h3>
     How many levels of nesting are allowed?
@@ -120,13 +120,13 @@ $('select').select2({
     it to Select2.
   </p>
 
-{% highlight js linenos %}
-var data = $.map(yourArrayData, function (obj) {
+  {% highlight js linenos %}
+  var data = $.map(yourArrayData, function (obj) {
   obj.id = obj.id || obj.pk; // replace pk with your identifier
 
   return obj;
-});
-{% endhighlight %}
+  });
+  {% endhighlight %}
 
   <h3>
     My objects use a property other than <code>text</code> for the text that
@@ -140,11 +140,11 @@ var data = $.map(yourArrayData, function (obj) {
     following JavaScript.
   </p>
 
-{% highlight js linenos %}
-var data = $.map(yourArrayData, function (obj) {
+  {% highlight js linenos %}
+  var data = $.map(yourArrayData, function (obj) {
   obj.text = obj.text || obj.name; // replace name with the property used for the text
 
   return obj;
-});
-{% endhighlight %}
+  });
+  {% endhighlight %}
 </section>

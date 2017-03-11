@@ -16,11 +16,11 @@
 
 var transitionize = require('../transitionize');
 
-window.onload = function() {
+window.onload = function () {
   var elem = document.querySelector('.js-elem')
-    , prop = {};
+  , prop = {};
 
-  elem.addEventListener('click', function() {
+  elem.addEventListener('click', function () {
     var position = parseInt(elem.style.left) || 0;
 
     if (position == 0) {
@@ -28,7 +28,7 @@ window.onload = function() {
       this.style.backgroundColor = '#53e7d0';
 
       prop = {
-          'background-color': '0.3s'
+        'background-color': '0.3s'
         , 'left': '0.3s'
       };
     } else {
@@ -36,7 +36,7 @@ window.onload = function() {
       this.style.backgroundColor = '#febf04';
 
       prop = {
-          'background-color': '1s'
+        'background-color': '1s'
         , 'left': '1s'
       };
     }

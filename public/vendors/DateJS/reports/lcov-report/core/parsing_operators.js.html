@@ -1,218 +1,368 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <title>Code coverage report for core/parsing_operators.js</title>
-    <meta charset="utf-8">
+  <title>Code coverage report for core/parsing_operators.js</title>
+  <meta charset="utf-8">
 
-    <link rel="stylesheet" href="../prettify.css">
+  <link rel="stylesheet" href="../prettify.css">
 
-    <style>
-        body, html {
-            margin:0; padding: 0;
-        }
-        body {
-            font-family: Helvetica Neue, Helvetica,Arial;
-            font-size: 10pt;
-        }
-        div.header, div.footer {
-            background: #eee;
-            padding: 1em;
-        }
-        div.header {
-            z-index: 100;
-            position: fixed;
-            top: 0;
-            border-bottom: 1px solid #666;
-            width: 100%;
-        }
-        div.footer {
-            border-top: 1px solid #666;
-        }
-        div.body {
-            margin-top: 10em;
-        }
-        div.meta {
-            font-size: 90%;
-            text-align: center;
-        }
-        h1, h2, h3 {
-            font-weight: normal;
-        }
-        h1 {
-            font-size: 12pt;
-        }
-        h2 {
-            font-size: 10pt;
-        }
-        pre {
-            font-family: Consolas, Menlo, Monaco, monospace;
-            margin: 0;
-            padding: 0;
-            line-height: 14px;
-            font-size: 14px;
-            -moz-tab-size: 2;
-            -o-tab-size:  2;
-            tab-size: 2;
-        }
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+    }
 
-        div.path { font-size: 110%; }
-        div.path a:link, div.path a:visited { color: #000; }
-        table.coverage { border-collapse: collapse; margin:0; padding: 0 }
+    body {
+      font-family: Helvetica Neue, Helvetica, Arial;
+      font-size: 10pt;
+    }
 
-        table.coverage td {
-            margin: 0;
-            padding: 0;
-            color: #111;
-            vertical-align: top;
-        }
-        table.coverage td.line-count {
-            width: 50px;
-            text-align: right;
-            padding-right: 5px;
-        }
-        table.coverage td.line-coverage {
-            color: #777 !important;
-            text-align: right;
-            border-left: 1px solid #666;
-            border-right: 1px solid #666;
-        }
+    div.header, div.footer {
+      background: #eee;
+      padding: 1em;
+    }
 
-        table.coverage td.text {
-        }
+    div.header {
+      z-index: 100;
+      position: fixed;
+      top: 0;
+      border-bottom: 1px solid #666;
+      width: 100%;
+    }
 
-        table.coverage td span.cline-any {
-            display: inline-block;
-            padding: 0 5px;
-            width: 40px;
-        }
-        table.coverage td span.cline-neutral {
-            background: #eee;
-        }
-        table.coverage td span.cline-yes {
-            background: #b5d592;
-            color: #999;
-        }
-        table.coverage td span.cline-no {
-            background: #fc8c84;
-        }
+    div.footer {
+      border-top: 1px solid #666;
+    }
 
-        .cstat-yes { color: #111; }
-        .cstat-no { background: #fc8c84; color: #111; }
-        .fstat-no { background: #ffc520; color: #111 !important; }
-        .cbranch-no { background:  yellow !important; color: #111; }
+    div.body {
+      margin-top: 10em;
+    }
 
-        .cstat-skip { background: #ddd; color: #111; }
-        .fstat-skip { background: #ddd; color: #111 !important; }
-        .cbranch-skip { background: #ddd !important; color: #111; }
+    div.meta {
+      font-size: 90%;
+      text-align: center;
+    }
 
-        .missing-if-branch {
-            display: inline-block;
-            margin-right: 10px;
-            position: relative;
-            padding: 0 4px;
-            background: black;
-            color: yellow;
-        }
+    h1, h2, h3 {
+      font-weight: normal;
+    }
 
-        .skip-if-branch {
-            display: none;
-            margin-right: 10px;
-            position: relative;
-            padding: 0 4px;
-            background: #ccc;
-            color: white;
-        }
+    h1 {
+      font-size: 12pt;
+    }
 
-        .missing-if-branch .typ, .skip-if-branch .typ {
-            color: inherit !important;
-        }
+    h2 {
+      font-size: 10pt;
+    }
 
-        .entity, .metric { font-weight: bold; }
-        .metric { display: inline-block; border: 1px solid #333; padding: 0.3em; background: white; }
-        .metric small { font-size: 80%; font-weight: normal; color: #666; }
+    pre {
+      font-family: Consolas, Menlo, Monaco, monospace;
+      margin: 0;
+      padding: 0;
+      line-height: 14px;
+      font-size: 14px;
+      -moz-tab-size: 2;
+      -o-tab-size: 2;
+      tab-size: 2;
+    }
 
-        div.coverage-summary table { border-collapse: collapse; margin: 3em; font-size: 110%; }
-        div.coverage-summary td, div.coverage-summary table  th { margin: 0; padding: 0.25em 1em; border-top: 1px solid #666; border-bottom: 1px solid #666; }
-        div.coverage-summary th { text-align: left; border: 1px solid #666; background: #eee; font-weight: normal; }
-        div.coverage-summary th.file { border-right: none !important; }
-        div.coverage-summary th.pic { border-left: none !important; text-align: right; }
-        div.coverage-summary th.pct { border-right: none !important; }
-        div.coverage-summary th.abs { border-left: none !important; text-align: right; }
-        div.coverage-summary td.pct { text-align: right; border-left: 1px solid #666; }
-        div.coverage-summary td.abs { text-align: right; font-size: 90%; color: #444; border-right: 1px solid #666; }
-        div.coverage-summary td.file { text-align: right; border-left: 1px solid #666; white-space: nowrap;  }
-        div.coverage-summary td.pic { min-width: 120px !important;  }
-        div.coverage-summary a:link { text-decoration: none; color: #000; }
-        div.coverage-summary a:visited { text-decoration: none; color: #333; }
-        div.coverage-summary a:hover { text-decoration: underline; }
-        div.coverage-summary tfoot td { border-top: 1px solid #666; }
+    div.path {
+      font-size: 110%;
+    }
 
-        div.coverage-summary .yui3-datatable-sort-indicator, div.coverage-summary .dummy-sort-indicator {
-            height: 10px;
-            width: 7px;
-            display: inline-block;
-            margin-left: 0.5em;
-        }
-        div.coverage-summary .yui3-datatable-sort-indicator {
-            background: url("https://yui-s.yahooapis.com/3.6.0/build/datatable-sort/assets/skins/sam/sort-arrow-sprite.png") no-repeat scroll 0 0 transparent;
-        }
-        div.coverage-summary .yui3-datatable-sorted .yui3-datatable-sort-indicator {
-            background-position: 0 -20px;
-        }
-        div.coverage-summary .yui3-datatable-sorted-desc .yui3-datatable-sort-indicator {
-            background-position: 0 -10px;
-        }
+    div.path a:link, div.path a:visited {
+      color: #000;
+    }
 
-        .high { background: #b5d592 !important; }
-        .medium { background: #ffe87c !important; }
-        .low { background: #fc8c84 !important; }
+    table.coverage {
+      border-collapse: collapse;
+      margin: 0;
+      padding: 0
+    }
 
-        span.cover-fill, span.cover-empty {
-            display:inline-block;
-            border:1px solid #444;
-            background: white;
-            height: 12px;
-        }
-        span.cover-fill {
-            background: #ccc;
-            border-right: 1px solid #444;
-        }
-        span.cover-empty {
-            background: white;
-            border-left: none;
-        }
-        span.cover-full {
-            border-right: none !important;
-        }
-        pre.prettyprint {
-            border: none !important;
-            padding: 0 !important;
-            margin: 0 !important;
-        }
-        .com { color: #999 !important; }
-        .ignore-none { color: #999; font-weight: normal; }
+    table.coverage td {
+      margin: 0;
+      padding: 0;
+      color: #111;
+      vertical-align: top;
+    }
 
-    </style>
+    table.coverage td.line-count {
+      width: 50px;
+      text-align: right;
+      padding-right: 5px;
+    }
+
+    table.coverage td.line-coverage {
+      color: #777 !important;
+      text-align: right;
+      border-left: 1px solid #666;
+      border-right: 1px solid #666;
+    }
+
+    table.coverage td.text {
+    }
+
+    table.coverage td span.cline-any {
+      display: inline-block;
+      padding: 0 5px;
+      width: 40px;
+    }
+
+    table.coverage td span.cline-neutral {
+      background: #eee;
+    }
+
+    table.coverage td span.cline-yes {
+      background: #b5d592;
+      color: #999;
+    }
+
+    table.coverage td span.cline-no {
+      background: #fc8c84;
+    }
+
+    .cstat-yes {
+      color: #111;
+    }
+
+    .cstat-no {
+      background: #fc8c84;
+      color: #111;
+    }
+
+    .fstat-no {
+      background: #ffc520;
+      color: #111 !important;
+    }
+
+    .cbranch-no {
+      background: yellow !important;
+      color: #111;
+    }
+
+    .cstat-skip {
+      background: #ddd;
+      color: #111;
+    }
+
+    .fstat-skip {
+      background: #ddd;
+      color: #111 !important;
+    }
+
+    .cbranch-skip {
+      background: #ddd !important;
+      color: #111;
+    }
+
+    .missing-if-branch {
+      display: inline-block;
+      margin-right: 10px;
+      position: relative;
+      padding: 0 4px;
+      background: black;
+      color: yellow;
+    }
+
+    .skip-if-branch {
+      display: none;
+      margin-right: 10px;
+      position: relative;
+      padding: 0 4px;
+      background: #ccc;
+      color: white;
+    }
+
+    .missing-if-branch .typ, .skip-if-branch .typ {
+      color: inherit !important;
+    }
+
+    .entity, .metric {
+      font-weight: bold;
+    }
+
+    .metric {
+      display: inline-block;
+      border: 1px solid #333;
+      padding: 0.3em;
+      background: white;
+    }
+
+    .metric small {
+      font-size: 80%;
+      font-weight: normal;
+      color: #666;
+    }
+
+    div.coverage-summary table {
+      border-collapse: collapse;
+      margin: 3em;
+      font-size: 110%;
+    }
+
+    div.coverage-summary td, div.coverage-summary table th {
+      margin: 0;
+      padding: 0.25em 1em;
+      border-top: 1px solid #666;
+      border-bottom: 1px solid #666;
+    }
+
+    div.coverage-summary th {
+      text-align: left;
+      border: 1px solid #666;
+      background: #eee;
+      font-weight: normal;
+    }
+
+    div.coverage-summary th.file {
+      border-right: none !important;
+    }
+
+    div.coverage-summary th.pic {
+      border-left: none !important;
+      text-align: right;
+    }
+
+    div.coverage-summary th.pct {
+      border-right: none !important;
+    }
+
+    div.coverage-summary th.abs {
+      border-left: none !important;
+      text-align: right;
+    }
+
+    div.coverage-summary td.pct {
+      text-align: right;
+      border-left: 1px solid #666;
+    }
+
+    div.coverage-summary td.abs {
+      text-align: right;
+      font-size: 90%;
+      color: #444;
+      border-right: 1px solid #666;
+    }
+
+    div.coverage-summary td.file {
+      text-align: right;
+      border-left: 1px solid #666;
+      white-space: nowrap;
+    }
+
+    div.coverage-summary td.pic {
+      min-width: 120px !important;
+    }
+
+    div.coverage-summary a:link {
+      text-decoration: none;
+      color: #000;
+    }
+
+    div.coverage-summary a:visited {
+      text-decoration: none;
+      color: #333;
+    }
+
+    div.coverage-summary a:hover {
+      text-decoration: underline;
+    }
+
+    div.coverage-summary tfoot td {
+      border-top: 1px solid #666;
+    }
+
+    div.coverage-summary .yui3-datatable-sort-indicator, div.coverage-summary .dummy-sort-indicator {
+      height: 10px;
+      width: 7px;
+      display: inline-block;
+      margin-left: 0.5em;
+    }
+
+    div.coverage-summary .yui3-datatable-sort-indicator {
+      background: url("https://yui-s.yahooapis.com/3.6.0/build/datatable-sort/assets/skins/sam/sort-arrow-sprite.png") no-repeat scroll 0 0 transparent;
+    }
+
+    div.coverage-summary .yui3-datatable-sorted .yui3-datatable-sort-indicator {
+      background-position: 0 -20px;
+    }
+
+    div.coverage-summary .yui3-datatable-sorted-desc .yui3-datatable-sort-indicator {
+      background-position: 0 -10px;
+    }
+
+    .high {
+      background: #b5d592 !important;
+    }
+
+    .medium {
+      background: #ffe87c !important;
+    }
+
+    .low {
+      background: #fc8c84 !important;
+    }
+
+    span.cover-fill, span.cover-empty {
+      display: inline-block;
+      border: 1px solid #444;
+      background: white;
+      height: 12px;
+    }
+
+    span.cover-fill {
+      background: #ccc;
+      border-right: 1px solid #444;
+    }
+
+    span.cover-empty {
+      background: white;
+      border-left: none;
+    }
+
+    span.cover-full {
+      border-right: none !important;
+    }
+
+    pre.prettyprint {
+      border: none !important;
+      padding: 0 !important;
+      margin: 0 !important;
+    }
+
+    .com {
+      color: #999 !important;
+    }
+
+    .ignore-none {
+      color: #999;
+      font-weight: normal;
+    }
+
+  </style>
 </head>
 <body>
 <div class="header medium">
-    <h1>Code coverage report for <span class="entity">core/parsing_operators.js</span></h1>
-    <h2>
-        
-        Statements: <span class="metric">72.12% <small>(150 / 208)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
-        
-        
-        Branches: <span class="metric">65% <small>(52 / 80)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
-        
-        
-        Functions: <span class="metric">70.45% <small>(31 / 44)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
-        
-        
-        Lines: <span class="metric">72.12% <small>(150 / 208)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
-        
-        Ignored: <span class="metric"><span class="ignore-none">none</span></span> &nbsp;&nbsp;&nbsp;&nbsp;
-    </h2>
-    <div class="path"><a href="../index.html">All files</a> &#187; <a href="index.html">core/</a> &#187; parsing_operators.js</div>
+  <h1>Code coverage report for <span class="entity">core/parsing_operators.js</span></h1>
+  <h2>
+
+    Statements: <span class="metric">72.12% <small>(150 / 208)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+
+
+    Branches: <span class="metric">65% <small>(52 / 80)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+
+
+    Functions: <span class="metric">70.45% <small>(31 / 44)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+
+
+    Lines: <span class="metric">72.12% <small>(150 / 208)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+
+    Ignored: <span class="metric"><span class="ignore-none">none</span></span> &nbsp;&nbsp;&nbsp;&nbsp;
+  </h2>
+  <div class="path"><a href="../index.html">All files</a> &#187; <a href="index.html">core/</a> &#187;
+    parsing_operators.js
+  </div>
 </div>
 <div class="body">
 <pre><table class="coverage">
@@ -1146,9 +1296,10 @@
 				}
 			};
 		},
-		token: <span class="fstat-no" title="function not covered" >function () {</span> // whitespace-eating token
-<span class="cstat-no" title="statement not covered" >			return <span class="fstat-no" title="function not covered" >function (s) {</span></span>
-<span class="cstat-no" title="statement not covered" >				return _.rtoken(new RegExp("^\\s*" + s + "\\s*"))(s);</span>
+		token: <span class="fstat-no" title="function not covered">function () {</span> // whitespace-eating token
+<span class="cstat-no" title="statement not covered">			return <span class="fstat-no" title="function not covered">function (s) {</span></span>
+<span class="cstat-no"
+      title="statement not covered">				return _.rtoken(new RegExp("^\\s*" + s + "\\s*"))(s);</span>
 			};
 		},
 		stoken: function (s) { // string token
@@ -1157,20 +1308,20 @@
 &nbsp;
 		// Atomic Operators
 &nbsp;
-		until: <span class="fstat-no" title="function not covered" >function (p) {</span>
-<span class="cstat-no" title="statement not covered" >			return <span class="fstat-no" title="function not covered" >function (s) {</span></span>
-<span class="cstat-no" title="statement not covered" >				var qx = [], rx = null;</span>
-<span class="cstat-no" title="statement not covered" >				while (s.length) {</span>
-<span class="cstat-no" title="statement not covered" >					try {</span>
-<span class="cstat-no" title="statement not covered" >						rx = p.call(this, s);</span>
+		until: <span class="fstat-no" title="function not covered">function (p) {</span>
+<span class="cstat-no" title="statement not covered">			return <span class="fstat-no" title="function not covered">function (s) {</span></span>
+<span class="cstat-no" title="statement not covered">				var qx = [], rx = null;</span>
+<span class="cstat-no" title="statement not covered">				while (s.length) {</span>
+<span class="cstat-no" title="statement not covered">					try {</span>
+<span class="cstat-no" title="statement not covered">						rx = p.call(this, s);</span>
 					} catch (e) {
-<span class="cstat-no" title="statement not covered" >						qx.push(rx[0]);</span>
-<span class="cstat-no" title="statement not covered" >						s = rx[1];</span>
-<span class="cstat-no" title="statement not covered" >						continue;</span>
+<span class="cstat-no" title="statement not covered">						qx.push(rx[0]);</span>
+<span class="cstat-no" title="statement not covered">						s = rx[1];</span>
+<span class="cstat-no" title="statement not covered">						continue;</span>
 					}
-<span class="cstat-no" title="statement not covered" >					break;</span>
+<span class="cstat-no" title="statement not covered">					break;</span>
 				}
-<span class="cstat-no" title="statement not covered" >				return [ qx, s ];</span>
+<span class="cstat-no" title="statement not covered">				return [ qx, s ];</span>
 			};
 		},
 		many: function (p) {
@@ -1180,7 +1331,7 @@
 					try {
 						r = p.call(this, s);
 					} catch (e) {
-<span class="cstat-no" title="statement not covered" >						return [ rx, s ];</span>
+<span class="cstat-no" title="statement not covered">						return [ rx, s ];</span>
 					}
 					rx.push(r[0]);
 					s = r[1];
@@ -1198,7 +1349,7 @@
 				} catch (e) {
 					return [ null, s ];
 				}
-<span class="cstat-no" title="statement not covered" >				return [ r[0], r[1] ];</span>
+<span class="cstat-no" title="statement not covered">				return [ r[0], r[1] ];</span>
 			};
 		},
 		not: function (p) {
@@ -1217,26 +1368,26 @@
 				var r = null;
 				r = p.call(this, s);
 				return [null, r[1]];
-			} : <span class="branch-1 cbranch-no" title="branch not covered" >null;</span>
+			} : <span class="branch-1 cbranch-no" title="branch not covered">null;</span>
 		},
-		product: <span class="fstat-no" title="function not covered" >function () {</span>
-<span class="cstat-no" title="statement not covered" >			var px = arguments[0],</span>
+		product: <span class="fstat-no" title="function not covered">function () {</span>
+<span class="cstat-no" title="statement not covered">			var px = arguments[0],</span>
 			qx = Array.prototype.slice.call(arguments, 1), rx = [];
-<span class="cstat-no" title="statement not covered" >			for (var i = 0 ; i &lt; px.length ; i++) {</span>
-<span class="cstat-no" title="statement not covered" >				rx.push(_.each(px[i], qx));</span>
+<span class="cstat-no" title="statement not covered">			for (var i = 0 ; i &lt; px.length ; i++) {</span>
+<span class="cstat-no" title="statement not covered">				rx.push(_.each(px[i], qx));</span>
 			}
-<span class="cstat-no" title="statement not covered" >			return rx;</span>
+<span class="cstat-no" title="statement not covered">			return rx;</span>
 		},
 		cache: function (rule) {
 			var cache = {}, cache_length = 0, cache_keys = [], CACHE_MAX = Date.Config.CACHE_MAX || 100000, r = null;
 			var cacheCheck = function () {
-				<span class="missing-if-branch" title="if path not taken" >I</span>if (cache_length === CACHE_MAX) {
+				<span class="missing-if-branch" title="if path not taken">I</span>if (cache_length === CACHE_MAX) {
 					// kill several keys, don't want to have to do this all the time...
-<span class="cstat-no" title="statement not covered" >					for (var i=0; i &lt; 10; i++) {</span>
-<span class="cstat-no" title="statement not covered" >						var key = cache_keys.shift();</span>
-<span class="cstat-no" title="statement not covered" >						if (key) {</span>
-<span class="cstat-no" title="statement not covered" >							delete cache[key];</span>
-<span class="cstat-no" title="statement not covered" >							cache_length--;</span>
+<span class="cstat-no" title="statement not covered">					for (var i=0; i &lt; 10; i++) {</span>
+<span class="cstat-no" title="statement not covered">						var key = cache_keys.shift();</span>
+<span class="cstat-no" title="statement not covered">						if (key) {</span>
+<span class="cstat-no" title="statement not covered">							delete cache[key];</span>
+<span class="cstat-no" title="statement not covered">							cache_length--;</span>
 						}
 					}
 				}
@@ -1264,8 +1415,8 @@
 			return function (s) {
 				var r = null;
 				for (var i = 0; i &lt; px.length; i++) {
-					<span class="missing-if-branch" title="if path not taken" >I</span>if (px[i] == null) {
-<span class="cstat-no" title="statement not covered" >						continue;</span>
+					<span class="missing-if-branch" title="if path not taken">I</span>if (px[i] == null) {
+<span class="cstat-no" title="statement not covered">						continue;</span>
 					}
 					try {
 						r = (px[i].call(this, s));
@@ -1284,8 +1435,8 @@
 			return function (s) {
 				var rx = [], r = null;
 				for (var i = 0; i &lt; px.length ; i++) {
-					<span class="missing-if-branch" title="if path not taken" >I</span>if (px[i] == null) {
-<span class="cstat-no" title="statement not covered" >						continue;</span>
+					<span class="missing-if-branch" title="if path not taken">I</span>if (px[i] == null) {
+<span class="cstat-no" title="statement not covered">						continue;</span>
 					}
 					try {
 						r = (px[i].call(this, s));
@@ -1298,18 +1449,18 @@
 				return [ rx, s];
 			};
 		},
-		all: <span class="fstat-no" title="function not covered" >function () {</span>
-<span class="cstat-no" title="statement not covered" >			var px = arguments, _ = _;</span>
-<span class="cstat-no" title="statement not covered" >			return _.each(_.optional(px));</span>
+		all: <span class="fstat-no" title="function not covered">function () {</span>
+<span class="cstat-no" title="statement not covered">			var px = arguments, _ = _;</span>
+<span class="cstat-no" title="statement not covered">			return _.each(_.optional(px));</span>
 		},
 &nbsp;
 		// delimited operators
 		sequence: function (px, d, c) {
-			d = d || <span class="branch-1 cbranch-no" title="branch not covered" >_.rtoken(/^\s*/);</span>
+			d = d || <span class="branch-1 cbranch-no" title="branch not covered">_.rtoken(/^\s*/);</span>
 			c = c || null;
 			
-			<span class="missing-if-branch" title="if path not taken" >I</span>if (px.length === 1) {
-<span class="cstat-no" title="statement not covered" >				return px[0];</span>
+			<span class="missing-if-branch" title="if path not taken">I</span>if (px.length === 1) {
+<span class="cstat-no" title="statement not covered">				return px[0];</span>
 			}
 			return function (s) {
 				var r = null, q = null;
@@ -1332,17 +1483,17 @@
 				if (!r) {
 					throw new $P.Exception(s);
 				}
-				<span class="missing-if-branch" title="if path not taken" >I</span>if (q) {
-<span class="cstat-no" title="statement not covered" >					throw new $P.Exception(q[1]);</span>
+				<span class="missing-if-branch" title="if path not taken">I</span>if (q) {
+<span class="cstat-no" title="statement not covered">					throw new $P.Exception(q[1]);</span>
 				}
-				<span class="missing-if-branch" title="if path not taken" >I</span>if (c) {
-<span class="cstat-no" title="statement not covered" >					try {</span>
-<span class="cstat-no" title="statement not covered" >						r = c.call(this, r[1]);</span>
+				<span class="missing-if-branch" title="if path not taken">I</span>if (c) {
+<span class="cstat-no" title="statement not covered">					try {</span>
+<span class="cstat-no" title="statement not covered">						r = c.call(this, r[1]);</span>
 					} catch (ey) {
-<span class="cstat-no" title="statement not covered" >						throw new $P.Exception(r[1]);</span>
+<span class="cstat-no" title="statement not covered">						throw new $P.Exception(r[1]);</span>
 					}
 				}
-				return [ rx, (r?r[1]:<span class="branch-1 cbranch-no" title="branch not covered" >s)</span> ];
+				return [ rx, (r?r[1]:<span class="branch-1 cbranch-no" title="branch not covered">s)</span> ];
 			};
 		},
 &nbsp;
@@ -1350,18 +1501,18 @@
 		// Composite Operators
 		//
 &nbsp;
-		between: <span class="fstat-no" title="function not covered" >function (d1, p, d2) {</span>
-<span class="cstat-no" title="statement not covered" >			d2 = d2 || d1;</span>
-<span class="cstat-no" title="statement not covered" >			var _fn = _.each(_.ignore(d1), p, _.ignore(d2));</span>
-<span class="cstat-no" title="statement not covered" >			return <span class="fstat-no" title="function not covered" >function (s) {</span></span>
-<span class="cstat-no" title="statement not covered" >				var rx = _fn.call(this, s);</span>
-<span class="cstat-no" title="statement not covered" >				return [[rx[0][0], r[0][2]], rx[1]];</span>
+		between: <span class="fstat-no" title="function not covered">function (d1, p, d2) {</span>
+<span class="cstat-no" title="statement not covered">			d2 = d2 || d1;</span>
+<span class="cstat-no" title="statement not covered">			var _fn = _.each(_.ignore(d1), p, _.ignore(d2));</span>
+<span class="cstat-no" title="statement not covered">			return <span class="fstat-no" title="function not covered">function (s) {</span></span>
+<span class="cstat-no" title="statement not covered">				var rx = _fn.call(this, s);</span>
+<span class="cstat-no" title="statement not covered">				return [[rx[0][0], r[0][2]], rx[1]];</span>
 			};
 		},
-		list: <span class="fstat-no" title="function not covered" >function (p, d, c) {</span>
-<span class="cstat-no" title="statement not covered" >			d = d || _.rtoken(/^\s*/);</span>
-<span class="cstat-no" title="statement not covered" >			c = c || null;</span>
-<span class="cstat-no" title="statement not covered" >			return (p instanceof Array ?</span>
+		list: <span class="fstat-no" title="function not covered">function (p, d, c) {</span>
+<span class="cstat-no" title="statement not covered">			d = d || _.rtoken(/^\s*/);</span>
+<span class="cstat-no" title="statement not covered">			c = c || null;</span>
+<span class="cstat-no" title="statement not covered">			return (p instanceof Array ?</span>
 				_.each(_.product(p.slice(0, -1), _.ignore(d)), p.slice(-1), _.ignore(c)) :
 				_.each(_.many(_.each(p, _.ignore(d))), px, _.ignore(c)));
 		},
@@ -1409,8 +1560,8 @@
 					// if we parsed the delimiter and now there's no more input,
 					// that means we shouldn't have parsed the delimiter at all
 					// so don't update r and mark this as the last element ...
-					<span class="missing-if-branch" title="if path not taken" >I</span>if (!last &amp;&amp; q[1].length === 0) {
-<span class="cstat-no" title="statement not covered" >						last = true;</span>
+					<span class="missing-if-branch" title="if path not taken">I</span>if (!last &amp;&amp; q[1].length === 0) {
+<span class="cstat-no" title="statement not covered">						last = true;</span>
 					}
 &nbsp;
 &nbsp;
@@ -1475,7 +1626,7 @@
 					try {
 						q = c.call(this, best[1]);
 					} catch (ey) {
-<span class="cstat-no" title="statement not covered" >						throw new $P.Exception(best[1]);</span>
+<span class="cstat-no" title="statement not covered">						throw new $P.Exception(best[1]);</span>
 					}
 &nbsp;
 					// it parsed ... be sure to update the best match remaining input
@@ -1486,9 +1637,9 @@
 				return best;
 			};
 		},
-		forward: <span class="fstat-no" title="function not covered" >function (gr, fname) {</span>
-<span class="cstat-no" title="statement not covered" >			return <span class="fstat-no" title="function not covered" >function (s) {</span></span>
-<span class="cstat-no" title="statement not covered" >				return gr[fname].call(this, s);</span>
+		forward: <span class="fstat-no" title="function not covered">function (gr, fname) {</span>
+<span class="cstat-no" title="statement not covered">			return <span class="fstat-no" title="function not covered">function (s) {</span></span>
+<span class="cstat-no" title="statement not covered">				return gr[fname].call(this, s);</span>
 			};
 		},
 &nbsp;
@@ -1507,13 +1658,13 @@
 				return [fn.call(this, r[0]), r[1]];
 			};
 		},
-		min: <span class="fstat-no" title="function not covered" >function (min, rule) {</span>
-<span class="cstat-no" title="statement not covered" >			return <span class="fstat-no" title="function not covered" >function (s) {</span></span>
-<span class="cstat-no" title="statement not covered" >				var rx = rule.call(this, s);</span>
-<span class="cstat-no" title="statement not covered" >				if (rx[0].length &lt; min) {</span>
-<span class="cstat-no" title="statement not covered" >					throw new $P.Exception(s);</span>
+		min: <span class="fstat-no" title="function not covered">function (min, rule) {</span>
+<span class="cstat-no" title="statement not covered">			return <span class="fstat-no" title="function not covered">function (s) {</span></span>
+<span class="cstat-no" title="statement not covered">				var rx = rule.call(this, s);</span>
+<span class="cstat-no" title="statement not covered">				if (rx[0].length &lt; min) {</span>
+<span class="cstat-no" title="statement not covered">					throw new $P.Exception(s);</span>
 				}
-<span class="cstat-no" title="statement not covered" >				return rx;</span>
+<span class="cstat-no" title="statement not covered">				return rx;</span>
 			};
 		}
 	};
@@ -1544,18 +1695,18 @@
 	var _generator = function (op) {
 		function gen() {
 			var args = null, rx = [], px, i;
-			<span class="missing-if-branch" title="if path not taken" >I</span>if (arguments.length &gt; 1) {
-<span class="cstat-no" title="statement not covered" >				args = Array.prototype.slice.call(arguments);</span>
-			} else <span class="missing-if-branch" title="if path not taken" >I</span>if (arguments[0] instanceof Array) {
-<span class="cstat-no" title="statement not covered" >				args = arguments[0];</span>
+			<span class="missing-if-branch" title="if path not taken">I</span>if (arguments.length &gt; 1) {
+<span class="cstat-no" title="statement not covered">				args = Array.prototype.slice.call(arguments);</span>
+			} else <span class="missing-if-branch" title="if path not taken">I</span>if (arguments[0] instanceof Array) {
+<span class="cstat-no" title="statement not covered">				args = arguments[0];</span>
 			}
-			<span class="missing-if-branch" title="if path not taken" >I</span>if (args) {
-<span class="cstat-no" title="statement not covered" >				px = args.shift();</span>
-<span class="cstat-no" title="statement not covered" >				if (px.length &gt; 0) {</span>
-<span class="cstat-no" title="statement not covered" >					args.unshift(px[i]);</span>
-<span class="cstat-no" title="statement not covered" >					rx.push(op.apply(null, args));</span>
-<span class="cstat-no" title="statement not covered" >					args.shift();</span>
-<span class="cstat-no" title="statement not covered" >					return rx;</span>
+			<span class="missing-if-branch" title="if path not taken">I</span>if (args) {
+<span class="cstat-no" title="statement not covered">				px = args.shift();</span>
+<span class="cstat-no" title="statement not covered">				if (px.length &gt; 0) {</span>
+<span class="cstat-no" title="statement not covered">					args.unshift(px[i]);</span>
+<span class="cstat-no" title="statement not covered">					rx.push(op.apply(null, args));</span>
+<span class="cstat-no" title="statement not covered">					args.shift();</span>
+<span class="cstat-no" title="statement not covered">					return rx;</span>
 				}
 			} else {
 				return op.apply(null, arguments);
@@ -1573,8 +1724,8 @@
 &nbsp;
 	var _vector = function (op) {
 		return function () {
-			<span class="missing-if-branch" title="if path not taken" >I</span>if (arguments[0] instanceof Array) {
-<span class="cstat-no" title="statement not covered" >				return op.apply(null, arguments[0]);</span>
+			<span class="missing-if-branch" title="if path not taken">I</span>if (arguments[0] instanceof Array) {
+<span class="cstat-no" title="statement not covered">				return op.apply(null, arguments[0]);</span>
 			} else {
 				return op.apply(null, arguments);
 			}
@@ -1592,7 +1743,9 @@
 
 </div>
 <div class="footer">
-    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sun Nov 16 2014 12:08:33 GMT-0800 (PST)</div>
+  <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sun Nov 16 2014
+    12:08:33 GMT-0800 (PST)
+  </div>
 </div>
 
 <script src="../prettify.js"></script>
@@ -1600,94 +1753,100 @@
 <script src="https://yui-s.yahooapis.com/3.6.0/build/yui/yui-min.js"></script>
 <script>
 
-    YUI().use('datatable', function (Y) {
+  YUI().use('datatable', function (Y) {
 
-        var formatters = {
-          pct: function (o) {
-              o.className += o.record.get('classes')[o.column.key];
-              try {
-                  return o.value.toFixed(2) + '%';
-              } catch (ex) { return o.value + '%'; }
-          },
-          html: function (o) {
-              o.className += o.record.get('classes')[o.column.key];
-              return o.record.get(o.column.key + '_html');
-          }
-        },
-          defaultFormatter = function (o) {
-              o.className += o.record.get('classes')[o.column.key];
-              return o.value;
-          };
-
-        function getColumns(theadNode) {
-            var colNodes = theadNode.all('tr th'),
-                cols = [],
-                col;
-            colNodes.each(function (colNode) {
-                col = {
-                    key: colNode.getAttribute('data-col'),
-                    label: colNode.get('innerHTML') || ' ',
-                    sortable: !colNode.getAttribute('data-nosort'),
-                    className: colNode.getAttribute('class'),
-                    type: colNode.getAttribute('data-type'),
-                    allowHTML: colNode.getAttribute('data-html') === 'true' || colNode.getAttribute('data-fmt') === 'html'
-                };
-                col.formatter = formatters[colNode.getAttribute('data-fmt')] || defaultFormatter;
-                cols.push(col);
-            });
-            return cols;
+    var formatters = {
+      pct: function (o) {
+        o.className += o.record.get('classes')[o.column.key];
+        try {
+          return o.value.toFixed(2) + '%';
+        } catch (ex) {
+          return o.value + '%';
         }
+      },
+      html: function (o) {
+        o.className += o.record.get('classes')[o.column.key];
+        return o.record.get(o.column.key + '_html');
+      }
+    },
+    defaultFormatter = function (o) {
+      o.className += o.record.get('classes')[o.column.key];
+      return o.value;
+    };
 
-        function getRowData(trNode, cols) {
-            var tdNodes = trNode.all('td'),
-                    i,
-                    row = { classes: {} },
-                    node,
-                    name;
-            for (i = 0; i < cols.length; i += 1) {
-                name = cols[i].key;
-                node = tdNodes.item(i);
-                row[name] = node.getAttribute('data-value') || node.get('innerHTML');
-                row[name + '_html'] = node.get('innerHTML');
-                row.classes[name] = node.getAttribute('class');
-                //Y.log('Name: ' + name + '; Value: ' + row[name]);
-                if (cols[i].type === 'number') { row[name] = row[name] * 1; }
-            }
-            //Y.log(row);
-            return row;
+    function getColumns(theadNode) {
+      var colNodes = theadNode.all('tr th'),
+      cols = [],
+      col;
+      colNodes.each(function (colNode) {
+        col = {
+          key: colNode.getAttribute('data-col'),
+          label: colNode.get('innerHTML') || ' ',
+          sortable: !colNode.getAttribute('data-nosort'),
+          className: colNode.getAttribute('class'),
+          type: colNode.getAttribute('data-type'),
+          allowHTML: colNode.getAttribute('data-html') === 'true' || colNode.getAttribute('data-fmt') === 'html'
+        };
+        col.formatter = formatters[colNode.getAttribute('data-fmt')] || defaultFormatter;
+        cols.push(col);
+      });
+      return cols;
+    }
+
+    function getRowData(trNode, cols) {
+      var tdNodes = trNode.all('td'),
+      i,
+      row = {classes: {}},
+      node,
+      name;
+      for (i = 0; i < cols.length; i += 1) {
+        name = cols[i].key;
+        node = tdNodes.item(i);
+        row[name] = node.getAttribute('data-value') || node.get('innerHTML');
+        row[name + '_html'] = node.get('innerHTML');
+        row.classes[name] = node.getAttribute('class');
+        //Y.log('Name: ' + name + '; Value: ' + row[name]);
+        if (cols[i].type === 'number') {
+          row[name] = row[name] * 1;
         }
+      }
+      //Y.log(row);
+      return row;
+    }
 
-        function getData(tbodyNode, cols) {
-            var data = [];
-            tbodyNode.all('tr').each(function (trNode) {
-                data.push(getRowData(trNode, cols));
-            });
-            return data;
-        }
+    function getData(tbodyNode, cols) {
+      var data = [];
+      tbodyNode.all('tr').each(function (trNode) {
+        data.push(getRowData(trNode, cols));
+      });
+      return data;
+    }
 
-        function replaceTable(node) {
-            if (!node) { return; }
-            var cols = getColumns(node.one('thead')),
-                data = getData(node.one('tbody'), cols),
-                table,
-                parent = node.get('parentNode');
+    function replaceTable(node) {
+      if (!node) {
+        return;
+      }
+      var cols = getColumns(node.one('thead')),
+      data = getData(node.one('tbody'), cols),
+      table,
+      parent = node.get('parentNode');
 
-            table = new Y.DataTable({
-                columns: cols,
-                data: data,
-                sortBy: 'file'
-            });
-            parent.set('innerHTML', '');
-            table.render(parent);
-        }
+      table = new Y.DataTable({
+        columns: cols,
+        data: data,
+        sortBy: 'file'
+      });
+      parent.set('innerHTML', '');
+      table.render(parent);
+    }
 
-        Y.on('domready', function () {
-            replaceTable(Y.one('div.coverage-summary table'));
-            if (typeof prettyPrint === 'function') {
-                prettyPrint();
-            }
-        });
+    Y.on('domready', function () {
+      replaceTable(Y.one('div.coverage-summary table'));
+      if (typeof prettyPrint === 'function') {
+        prettyPrint();
+      }
     });
+  });
 </script>
 </body>
 </html>

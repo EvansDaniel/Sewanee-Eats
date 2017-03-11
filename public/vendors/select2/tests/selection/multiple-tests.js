@@ -20,8 +20,8 @@ test('display uses templateSelection', function (assert) {
   });
 
   var selection = new MultipleSelection(
-    $('#qunit-fixture .multiple'),
-    templateOptions
+  $('#qunit-fixture .multiple'),
+  templateOptions
   );
 
   var out = selection.display({
@@ -45,8 +45,8 @@ test('templateSelection can addClass', function (assert) {
   });
 
   var selection = new MultipleSelection(
-    $('#qunit-fixture .multiple'),
-    templateOptions
+  $('#qunit-fixture .multiple'),
+  templateOptions
   );
 
   var $container = selection.selectionContainer();
@@ -64,8 +64,8 @@ test('templateSelection can addClass', function (assert) {
 
 test('empty update clears the selection', function (assert) {
   var selection = new MultipleSelection(
-    $('#qunit-fixture .multiple'),
-    options
+  $('#qunit-fixture .multiple'),
+  options
   );
 
   var $selection = selection.render();
@@ -80,8 +80,8 @@ test('empty update clears the selection', function (assert) {
 
 test('escapeMarkup is being used', function (assert) {
   var selection = new MultipleSelection(
-    $('#qunit-fixture .multiple'),
-    options
+  $('#qunit-fixture .multiple'),
+  options
   );
 
   var $selection = selection.render();
@@ -94,9 +94,9 @@ test('escapeMarkup is being used', function (assert) {
   }]);
 
   assert.equal(
-    $rendered.text().substr(1),
-    unescapedText,
-    'The text should be escaped by default to prevent injection'
+  $rendered.text().substr(1),
+  unescapedText,
+  'The text should be escaped by default to prevent injection'
   );
 });
 
@@ -111,8 +111,8 @@ test('clear button respects the disabled state', function (assert) {
   var $container = $('<div></div>');
 
   var selection = new MultipleSelection(
-    $select,
-    options
+  $select,
+  options
   );
 
   var $selection = selection.render();
@@ -134,9 +134,9 @@ test('clear button respects the disabled state', function (assert) {
   var $remove = $pill.find('.select2-selection__choice__remove');
 
   assert.equal(
-    $remove.length,
-    1,
-    'The remove icon is displayed for the selection'
+  $remove.length,
+  1,
+  'The remove icon is displayed for the selection'
   );
 
   // Set up the unselect handler

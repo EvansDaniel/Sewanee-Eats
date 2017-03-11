@@ -7,8 +7,8 @@
 // │ Licensed under the MIT (http://raphaeljs.com/license.html) license.│ \\
 // └────────────────────────────────────────────────────────────────────┘ \\
 
-define(["./raphael.core", "./raphael.svg", "./raphael.vml"], function(R) {
+define(["./raphael.core", "./raphael.svg", "./raphael.vml"], function (R) {
 
-    return R;
+  return R;
 
 });

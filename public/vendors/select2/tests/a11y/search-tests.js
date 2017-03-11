@@ -20,9 +20,9 @@ test('aria-autocomplete attribute is present', function (assert) {
   selection.update([]);
 
   assert.equal(
-    $selection.find('input').attr('aria-autocomplete'),
-    'list',
-    'The search box is marked as autocomplete'
+  $selection.find('input').attr('aria-autocomplete'),
+  'list',
+  'The search box is marked as autocomplete'
   );
 });
 
@@ -45,7 +45,7 @@ test('aria-activedescendant should be removed when closed', function (assert) {
   container.trigger('close');
 
   assert.ok(
-    !$search.attr('aria-activedescendant'),
-    'There is no active descendant when the dropdown is closed'
+  !$search.attr('aria-activedescendant'),
+  'There is no active descendant when the dropdown is closed'
   );
 });

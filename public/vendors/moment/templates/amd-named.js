@@ -3,5 +3,5 @@
 import moment from "./moment";
 
 define("moment", [], function () {
-    return moment;
+  return moment;
 });

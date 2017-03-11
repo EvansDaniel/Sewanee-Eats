@@ -38,7 +38,7 @@
  *
  */
 
-(function($) {
+(function ($) {
   'use strict'
 
   /**
@@ -53,8 +53,8 @@
   function getControlPoints(x0, y0, x1, y1, x2, y2, tension) {
 
     var pow = Math.pow,
-      sqrt = Math.sqrt,
-      d01, d12, fa, fb, p1x, p1y, p2x, p2y;
+    sqrt = Math.sqrt,
+    d01, d12, fa, fb, p1x, p1y, p2x, p2y;
 
     //  Scaling factors: distances from this knot to the previous and following knots.
     d01 = sqrt(pow(x1 - x0, 2) + pow(y1 - y0, 2));
@@ -97,7 +97,7 @@
     ctx.lineTo(points[0][0], height);
 
     ctx.closePath();
-    
+
     if (fill !== false) {
       ctx.fillStyle = c;
       ctx.fill();
@@ -142,13 +142,13 @@
     }
 
     var cp = [],
-      // array of control points
-      tension = series.splines.tension || 0.5,
-      idx, x, y, points = series.datapoints.points,
-      ps = series.datapoints.pointsize,
-      plotOffset = plot.getPlotOffset(),
-      len = points.length,
-      pts = [];
+    // array of control points
+    tension = series.splines.tension || 0.5,
+    idx, x, y, points = series.datapoints.points,
+    ps = series.datapoints.pointsize,
+    plotOffset = plot.getPlotOffset(),
+    len = points.length,
+    pts = [];
 
     line = [];
 
@@ -193,7 +193,7 @@
   }
 
   $.plot.plugins.push({
-    init: function(plot) {
+    init: function (plot) {
       plot.hooks.drawSeries.push(drawSpline);
     },
     options: {

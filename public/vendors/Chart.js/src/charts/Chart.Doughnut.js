@@ -1,11 +1,11 @@
 "use strict";
 
-module.exports = function(Chart) {
+module.exports = function (Chart) {
 
-	Chart.Doughnut = function(context, config) {
-		config.type = 'doughnut';
+  Chart.Doughnut = function (context, config) {
+    config.type = 'doughnut';
 
-		return new Chart(context, config);
-	};
+    return new Chart(context, config);
+  };
 
 };

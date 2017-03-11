@@ -31,29 +31,29 @@
  */
 (function (PR) {
   /*
-    PR_PLAIN: plain text
-    PR_STRING: string literals
-    PR_KEYWORD: keywords
-    PR_COMMENT: comments
-    PR_TYPE: types
-    PR_LITERAL: literal values (1, null, true, ..)
-    PR_PUNCTUATION: punctuation string
-    PR_SOURCE: embedded source
-    PR_DECLARATION: markup declaration such as a DOCTYPE
-    PR_TAG: sgml tag
-    PR_ATTRIB_NAME: sgml attribute name
-    PR_ATTRIB_VALUE: sgml attribute value
-  */
+   PR_PLAIN: plain text
+   PR_STRING: string literals
+   PR_KEYWORD: keywords
+   PR_COMMENT: comments
+   PR_TYPE: types
+   PR_LITERAL: literal values (1, null, true, ..)
+   PR_PUNCTUATION: punctuation string
+   PR_SOURCE: embedded source
+   PR_DECLARATION: markup declaration such as a DOCTYPE
+   PR_TAG: sgml tag
+   PR_ATTRIB_NAME: sgml attribute name
+   PR_ATTRIB_VALUE: sgml attribute value
+   */
   var PR_IDENTIFIER = "ident",
-    PR_CONSTANT = "const",
-    PR_FUNCTION = "fun",
-    PR_FUNCTION_TOOLBOX = "fun_tbx",
-    PR_SYSCMD = "syscmd",
-    PR_CODE_OUTPUT = "codeoutput",
-    PR_ERROR = "err",
-    PR_WARNING = "wrn",
-    PR_TRANSPOSE = "transpose",
-    PR_LINE_CONTINUATION = "linecont";
+  PR_CONSTANT = "const",
+  PR_FUNCTION = "fun",
+  PR_FUNCTION_TOOLBOX = "fun_tbx",
+  PR_SYSCMD = "syscmd",
+  PR_CODE_OUTPUT = "codeoutput",
+  PR_ERROR = "err",
+  PR_WARNING = "wrn",
+  PR_TRANSPOSE = "transpose",
+  PR_LINE_CONTINUATION = "linecont";
 
   // Refer to: http://www.mathworks.com/help/matlab/functionlist-alpha.html
   var coreFunctions = [
@@ -166,15 +166,15 @@
   ];
 
   PR.registerLangHandler(
-    PR.createSimpleLexer([], identifiersPatterns),
-    ["matlab-identifiers"]
+  PR.createSimpleLexer([], identifiersPatterns),
+  ["matlab-identifiers"]
   );
   PR.registerLangHandler(
-    PR.createSimpleLexer([], operatorsPatterns),
-    ["matlab-operators"]
+  PR.createSimpleLexer([], operatorsPatterns),
+  ["matlab-operators"]
   );
   PR.registerLangHandler(
-    PR.createSimpleLexer(shortcutStylePatterns, fallthroughStylePatterns),
-    ["matlab"]
+  PR.createSimpleLexer(shortcutStylePatterns, fallthroughStylePatterns),
+  ["matlab"]
   );
 })(window['PR']);

@@ -38,9 +38,9 @@
         throw new Error('You must define a widget url, an ajax handler and a template');
 
       this
-        ._initActions()
-        ._initFromDOM()
-        .fetch();
+      ._initActions()
+      ._initFromDOM()
+      .fetch();
     },
 
     _initActions: function () {
@@ -48,8 +48,8 @@
       this.$actions = $('<span class="uwidget-actions"></span>');
 
       if (this.options.sort.enabled) {
-        this.$sort = $('<select name="'+ this.options.sort.name +'"></select>')
-          .on('change', false, $.proxy(this._updateActions, this));
+        this.$sort = $('<select name="' + this.options.sort.name + '"></select>')
+        .on('change', false, $.proxy(this._updateActions, this));
 
         for (i = 0; i < this.options.sort.values.length; i++)
           this.$sort.append('<option value="' + this.options.sort.values[i] + '">' + this.options.sort.labels[i] + '</option>');
@@ -58,8 +58,8 @@
       }
 
       if (this.options.direction.enabled) {
-        this.$direction = $('<select name="'+ this.options.direction.name +'"></select>')
-          .on('change', false, $.proxy(this._updateActions, this));
+        this.$direction = $('<select name="' + this.options.direction.name + '"></select>')
+        .on('change', false, $.proxy(this._updateActions, this));
 
         for (i = 0; i < this.options.direction.values.length; i++)
           this.$direction.append('<option value="' + this.options.direction.values[i] + '">' + this.options.direction.labels[i] + '</option>');
@@ -69,7 +69,7 @@
 
       if (this.options.filters.enabled) {
         this.$filters = $('<span class="filters"></span>')
-          .on('change', false, $.proxy(this._updateActions, this));
+        .on('change', false, $.proxy(this._updateActions, this));
 
         for (i = 0; i < this.options.filters.values.length; i++) {
           checked = this.$element.data('filters') && new RegExp(this.options.filters.labels[i], 'i').test(this.$element.data('filters'));
@@ -83,9 +83,9 @@
       this.$info = $('<span class="uwidget-info"><a href="#" target="_blank">UWidget</a></span>');
 
       this.$element
-        .append(this.$actions)
-        .append(this.$container)
-        .append(this.$info);
+      .append(this.$actions)
+      .append(this.$container)
+      .append(this.$info);
 
       this._updateActions();
 
@@ -126,8 +126,8 @@
 
     getUrl: function () {
       var url = ('function' === typeof this.options.url ? this.options.url(this.options) : this.options.url),
-        options = ['sort', 'direction', 'filters'],
-        value = '';
+      options = ['sort', 'direction', 'filters'],
+      value = '';
 
       url += -1 !== url.indexOf('?') ? '&uwidget' : '?uwidget';
 
@@ -143,12 +143,12 @@
 
     fetch: function () {
       var that = this,
-        url = that.getUrl();
+      url = that.getUrl();
 
       this.$element
-        .removeClass('error')
-        .removeClass('fetched')
-        .addClass('fetching');
+      .removeClass('error')
+      .removeClass('fetched')
+      .addClass('fetching');
 
       if ('undefined' !== typeof this._xhrCache[url])
         return this._updateCollection.apply(this, this._xhrCache[url]);
@@ -156,16 +156,16 @@
       $.ajax($.extend(true, {}, {
         url: url
       }, that.$element.data('remoteOptions')))
-        .done(function () {
-          that._updateCollection.apply(that, arguments);
-          that._xhrCache[url] = arguments;
-        })
-        .fail(function () {
-          that.$container.addClass('error');
-        })
-        .always(function () {
-          that.$container.removeClass('fetching');
-        });
+      .done(function () {
+        that._updateCollection.apply(that, arguments);
+        that._xhrCache[url] = arguments;
+      })
+      .fail(function () {
+        that.$container.addClass('error');
+      })
+      .always(function () {
+        that.$container.removeClass('fetching');
+      });
     },
 
     _updateCollection: function (collection) {
@@ -183,34 +183,34 @@
 
   // Simple JavaScript Templating
   // John Resig - http://ejohn.org/ - MIT Licensed
-  (function(){
+  (function () {
     var cache = {};
 
-    this.tmpl = function tmpl(str, data){
+    this.tmpl = function tmpl(str, data) {
       // Figure out if we're getting a template, or if we need to
       // load the template - and be sure to cache the result.
       var fn = !/\W/.test(str) ?
-        cache[str] = cache[str] ||
-          tmpl(document.getElementById(str).innerHTML) :
+      cache[str] = cache[str] ||
+      tmpl(document.getElementById(str).innerHTML) :
 
-        // Generate a reusable function that will serve as a template
-        // generator (and which will be cached).
-        new Function("obj",
-          "var p=[],print=function(){p.push.apply(p,arguments);};" +
+      // Generate a reusable function that will serve as a template
+      // generator (and which will be cached).
+      new Function("obj",
+      "var p=[],print=function(){p.push.apply(p,arguments);};" +
 
-          // Introduce the data as local variables using with(){}
-          "with(obj){p.push('" +
+      // Introduce the data as local variables using with(){}
+      "with(obj){p.push('" +
 
-          // Convert the template into pure JavaScript
-          str
-            .replace(/[\r\t\n]/g, " ")
-            .split("<%").join("\t")
-            .replace(/((^|%>)[^\t]*)'/g, "$1\r")
-            .replace(/\t=(.*?)%>/g, "',$1,'")
-            .split("\t").join("');")
-            .split("%>").join("p.push('")
-            .split("\r").join("\\'")
-          + "');}return p.join('');");
+      // Convert the template into pure JavaScript
+      str
+      .replace(/[\r\t\n]/g, " ")
+      .split("<%").join("\t")
+      .replace(/((^|%>)[^\t]*)'/g, "$1\r")
+      .replace(/\t=(.*?)%>/g, "',$1,'")
+      .split("\t").join("');")
+      .split("%>").join("p.push('")
+      .split("\r").join("\\'")
+      + "');}return p.join('');");
 
       // Provide some basic currying to the user
       return data ? fn(data) : fn;

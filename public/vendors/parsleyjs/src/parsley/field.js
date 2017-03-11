@@ -41,9 +41,12 @@ ParsleyField.prototype = {
     if (!promise)  // If excluded with `group` option
       return true;
     switch (promise.state()) {
-      case 'pending': return null;
-      case 'resolved': return true;
-      case 'rejected': return this.validationResult;
+      case 'pending':
+        return null;
+      case 'resolved':
+        return true;
+      case 'rejected':
+        return this.validationResult;
     }
   },
 
@@ -62,11 +65,21 @@ ParsleyField.prototype = {
     this._trigger('validate');
 
     return this.whenValid({force, value: this.value, _refreshed: true})
-      .always(() => { this._reflowUI(); })
-      .done(() =>   { this._trigger('success'); })
-      .fail(() =>   { this._trigger('error'); })
-      .always(() => { this._trigger('validated'); })
-      .pipe(...this._pipeAccordingToValidationResult());
+    .always(() = > {this._reflowUI();
+  })
+    .
+    done(() = > {this._trigger('success');
+  })
+    .
+    fail(() = > {this._trigger('error');
+  })
+    .
+    always(() = > {this._trigger('validated');
+  })
+    .
+    pipe(...this._pipeAccordingToValidationResult()
+    )
+    ;
   },
 
   hasConstraints: function () {
@@ -136,34 +149,40 @@ ParsleyField.prototype = {
 
     var groupedConstraints = this._getGroupedConstraints();
     var promises = [];
-    $.each(groupedConstraints, (_, constraints) => {
+    $.each(groupedConstraints, (_, constraints) = > {
       // Process one group of constraints at a time, we validate the constraints
       // and combine the promises together.
       var promise = $.when(
-        ...$.map(constraints, constraint => this._validateConstraint(value, constraint))
-      );
-      promises.push(promise);
-      if (promise.state() === 'rejected')
-        return false; // Interrupt processing if a group has already failed
-    });
+      ...$.map(constraints, constraint = > this._validateConstraint(value, constraint)
+    )
+    )
+    ;
+    promises.push(promise);
+    if (promise.state() === 'rejected')
+      return false; // Interrupt processing if a group has already failed
+  })
+    ;
     return $.when.apply($, promises);
   },
 
   // @returns a promise
-  _validateConstraint: function(value, constraint) {
+  _validateConstraint: function (value, constraint) {
     var result = constraint.validate(value, this);
     // Map false to a failed promise
     if (false === result)
       result = $.Deferred().reject();
     // Make sure we return a promise and that we record failures
-    return $.when(result).fail(errorMessage => {
-      if (!(this.validationResult instanceof Array))
-        this.validationResult = [];
-      this.validationResult.push({
-        assert: constraint,
-        errorMessage: 'string' === typeof errorMessage && errorMessage
-      });
+    return $.when(result).fail(errorMessage = > {
+      if (
+    !(this.validationResult instanceof Array)
+    )
+    this.validationResult = [];
+    this.validationResult.push({
+      assert: constraint,
+      errorMessage: 'string' === typeof errorMessage && errorMessage
     });
+  })
+    ;
   },
 
   // @returns Parsley field computed value that could be overrided or configured in DOM
@@ -192,13 +211,13 @@ ParsleyField.prototype = {
   },
 
   /**
-  * Add a new constraint to a field
-  *
-  * @param {String}   name
-  * @param {Mixed}    requirements      optional
-  * @param {Number}   priority          optional
-  * @param {Boolean}  isDomConstraint   optional
-  */
+   * Add a new constraint to a field
+   *
+   * @param {String}   name
+   * @param {Mixed}    requirements      optional
+   * @param {Number}   priority          optional
+   * @param {Boolean}  isDomConstraint   optional
+   */
   addConstraint: function (name, requirements, priority, isDomConstraint) {
 
     if (window.Parsley._validatorRegistry.validators[name]) {
@@ -229,7 +248,7 @@ ParsleyField.prototype = {
   // Update a constraint (Remove + re-add)
   updateConstraint: function (name, parameters, priority) {
     return this.removeConstraint(name)
-      .addConstraint(name, parameters, priority);
+    .addConstraint(name, parameters, priority);
   },
 
   // # Internals
@@ -307,7 +326,7 @@ ParsleyField.prototype = {
         step: this.$element.attr('step'),
         base: this.$element.attr('min') || this.$element.attr('value')
       }], undefined, true);
-    // Regular other HTML5 supported types
+      // Regular other HTML5 supported types
     } else if (/^(email|url|range)$/i.test(type)) {
       return this.addConstraint('type', type, undefined, true);
     }
@@ -364,7 +383,9 @@ ParsleyField.prototype = {
       index[p].push(this.constraints[i]);
     }
     // Sort them by priority DESC
-    groupedConstraints.sort(function (a, b) { return b[0].priority - a[0].priority; });
+    groupedConstraints.sort(function (a, b) {
+      return b[0].priority - a[0].priority;
+    });
 
     return groupedConstraints;
   }

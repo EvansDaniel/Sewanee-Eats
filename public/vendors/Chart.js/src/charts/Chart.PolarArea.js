@@ -1,11 +1,11 @@
 "use strict";
 
-module.exports = function(Chart) {
+module.exports = function (Chart) {
 
-	Chart.PolarArea = function(context, config) {
-		config.type = 'polarArea';
+  Chart.PolarArea = function (context, config) {
+    config.type = 'polarArea';
 
-		return new Chart(context, config);
-	};
+    return new Chart(context, config);
+  };
 
 };

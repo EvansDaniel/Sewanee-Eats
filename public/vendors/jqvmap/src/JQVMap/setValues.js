@@ -1,7 +1,7 @@
 JQVMap.prototype.setValues = function (values) {
   var max = 0,
-    min = Number.MAX_VALUE,
-    val;
+  min = Number.MAX_VALUE,
+  val;
 
   for (var cc in values) {
     cc = cc.toLowerCase();

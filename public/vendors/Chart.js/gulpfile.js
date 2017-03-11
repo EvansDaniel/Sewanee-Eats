@@ -1,37 +1,37 @@
 var gulp = require('gulp'),
-  concat = require('gulp-concat'),
-  uglify = require('gulp-uglify'),
-  util = require('gulp-util'),
-  jshint = require('gulp-jshint'),
-  size = require('gulp-size'),
-  connect = require('gulp-connect'),
-  replace = require('gulp-replace'),
-  htmlv = require('gulp-html-validator'),
-  insert = require('gulp-insert'),
-  inquirer = require('inquirer'),
-  semver = require('semver'),
-  exec = require('child_process').exec,
-  fs = require('fs'),
-  package = require('./package.json'),
-  bower = require('./bower.json'),
-  karma = require('gulp-karma'),
-  browserify = require('browserify'),
-  streamify = require('gulp-streamify'),
-  source = require('vinyl-source-stream'),
-  merge = require('merge-stream');
+concat = require('gulp-concat'),
+uglify = require('gulp-uglify'),
+util = require('gulp-util'),
+jshint = require('gulp-jshint'),
+size = require('gulp-size'),
+connect = require('gulp-connect'),
+replace = require('gulp-replace'),
+htmlv = require('gulp-html-validator'),
+insert = require('gulp-insert'),
+inquirer = require('inquirer'),
+semver = require('semver'),
+exec = require('child_process').exec,
+fs = require('fs'),
+package = require('./package.json'),
+bower = require('./bower.json'),
+karma = require('gulp-karma'),
+browserify = require('browserify'),
+streamify = require('gulp-streamify'),
+source = require('vinyl-source-stream'),
+merge = require('merge-stream');
 
 var srcDir = './src/';
 var outDir = './dist/';
 
 var header = "/*!\n" +
-  " * Chart.js\n" +
-  " * http://chartjs.org/\n" +
-  " * Version: {{ version }}\n" +
-  " *\n" +
-  " * Copyright 2016 Nick Downie\n" +
-  " * Released under the MIT license\n" +
-  " * https://github.com/chartjs/Chart.js/blob/master/LICENSE.md\n" +
-  " */\n";
+" * Chart.js\n" +
+" * http://chartjs.org/\n" +
+" * Version: {{ version }}\n" +
+" *\n" +
+" * Copyright 2016 Nick Downie\n" +
+" * Released under the MIT license\n" +
+" * https://github.com/chartjs/Chart.js/blob/master/LICENSE.md\n" +
+" */\n";
 
 var preTestFiles = [
   './node_modules/moment/min/moment.min.js',
@@ -70,29 +70,29 @@ gulp.task('default', ['build', 'watch']);
 function buildTask() {
 
   var bundled = browserify('./src/chart.js')
-    .bundle()
-    .pipe(source('Chart.bundle.js'))
-    .pipe(insert.prepend(header))
-    .pipe(streamify(replace('{{ version }}', package.version)))
-    .pipe(gulp.dest(outDir))
-    .pipe(streamify(uglify()))
-    .pipe(insert.prepend(header))
-    .pipe(streamify(replace('{{ version }}', package.version)))
-    .pipe(streamify(concat('Chart.bundle.min.js')))
-    .pipe(gulp.dest(outDir));
+  .bundle()
+  .pipe(source('Chart.bundle.js'))
+  .pipe(insert.prepend(header))
+  .pipe(streamify(replace('{{ version }}', package.version)))
+  .pipe(gulp.dest(outDir))
+  .pipe(streamify(uglify()))
+  .pipe(insert.prepend(header))
+  .pipe(streamify(replace('{{ version }}', package.version)))
+  .pipe(streamify(concat('Chart.bundle.min.js')))
+  .pipe(gulp.dest(outDir));
 
   var nonBundled = browserify('./src/chart.js')
-    .ignore('moment')
-    .bundle()
-    .pipe(source('Chart.js'))
-    .pipe(insert.prepend(header))
-    .pipe(streamify(replace('{{ version }}', package.version)))
-    .pipe(gulp.dest(outDir))
-    .pipe(streamify(uglify()))
-    .pipe(insert.prepend(header))
-    .pipe(streamify(replace('{{ version }}', package.version)))
-    .pipe(streamify(concat('Chart.min.js')))
-    .pipe(gulp.dest(outDir));
+  .ignore('moment')
+  .bundle()
+  .pipe(source('Chart.js'))
+  .pipe(insert.prepend(header))
+  .pipe(streamify(replace('{{ version }}', package.version)))
+  .pipe(gulp.dest(outDir))
+  .pipe(streamify(uglify()))
+  .pipe(insert.prepend(header))
+  .pipe(streamify(replace('{{ version }}', package.version)))
+  .pipe(streamify(concat('Chart.min.js')))
+  .pipe(gulp.dest(outDir));
 
   return merge(bundled, nonBundled);
 
@@ -105,7 +105,7 @@ function buildTask() {
  */
 function bumpTask(complete) {
   util.log('Current version:', util.colors.cyan(package.version));
-  var choices = ['major', 'premajor', 'minor', 'preminor', 'patch', 'prepatch', 'prerelease'].map(function(versionType) {
+  var choices = ['major', 'premajor', 'minor', 'preminor', 'patch', 'prepatch', 'prerelease'].map(function (versionType) {
     return versionType + ' (v' + semver.inc(package.version, versionType) + ')';
   });
   inquirer.prompt({
@@ -113,10 +113,10 @@ function bumpTask(complete) {
     name: 'version',
     message: 'What version update would you like?',
     choices: choices
-  }, function(res) {
+  }, function (res) {
     var increment = res.version.split(' ')[0],
-      newVersion = semver.inc(package.version, increment),
-      oldVersion = package.version;
+    newVersion = semver.inc(package.version, increment),
+    oldVersion = package.version;
 
     // Set the new versions into the bower/package object
     package.version = newVersion;
@@ -125,13 +125,13 @@ function bumpTask(complete) {
     // Write these to their own files, then build the output
     fs.writeFileSync('package.json', JSON.stringify(package, null, 2));
     fs.writeFileSync('bower.json', JSON.stringify(bower, null, 2));
-    
-    var oldCDN = 'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/'+oldVersion+'/Chart.min.js',
-      newCDN = 'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/'+newVersion+'/Chart.min.js';
-    
+
+    var oldCDN = 'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/' + oldVersion + '/Chart.min.js',
+    newCDN = 'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/' + newVersion + '/Chart.min.js';
+
     gulp.src(['./README.md'])
-      .pipe(replace(oldCDN, newCDN))
-      .pipe(gulp.dest('./'));
+    .pipe(replace(oldCDN, newCDN))
+    .pipe(gulp.dest('./'));
 
     complete();
   });
@@ -145,15 +145,15 @@ function releaseTask() {
 
 function jshintTask() {
   return gulp.src(srcDir + '**/*.js')
-    .pipe(jshint('config.jshintrc'))
-    .pipe(jshint.reporter('jshint-stylish'))
-    .pipe(jshint.reporter('fail'));
+  .pipe(jshint('config.jshintrc'))
+  .pipe(jshint.reporter('jshint-stylish'))
+  .pipe(jshint.reporter('fail'));
 }
 
 
 function validHTMLTask() {
   return gulp.src('samples/*.html')
-    .pipe(htmlv());
+  .pipe(htmlv());
 }
 
 function startTest() {
@@ -165,44 +165,44 @@ function startTest() {
 
 function unittestTask() {
   return gulp.src(startTest())
-    .pipe(karma({
-      configFile: 'karma.conf.ci.js',
-      action: 'run'
-    }));
+  .pipe(karma({
+    configFile: 'karma.conf.ci.js',
+    action: 'run'
+  }));
 }
 
 function unittestWatchTask() {
   return gulp.src(startTest())
-    .pipe(karma({
-      configFile: 'karma.conf.js',
-      action: 'watch'
-    }));
+  .pipe(karma({
+    configFile: 'karma.conf.js',
+    action: 'watch'
+  }));
 }
 
 function coverageTask() {
   return gulp.src(startTest())
-    .pipe(karma({
-      configFile: 'karma.coverage.conf.js',
-      action: 'run'
-    }));
+  .pipe(karma({
+    configFile: 'karma.coverage.conf.js',
+    action: 'run'
+  }));
 }
 
 function librarySizeTask() {
   return gulp.src('dist/Chart.bundle.min.js')
-    .pipe(size({
-      gzip: true
-    }));
+  .pipe(size({
+    gzip: true
+  }));
 }
 
 function moduleSizesTask() {
   return gulp.src(srcDir + '**/*.js')
-    .pipe(uglify({
-      preserveComments: 'some'
-    }))
-    .pipe(size({
-      showFiles: true,
-      gzip: true
-    }));
+  .pipe(uglify({
+    preserveComments: 'some'
+  }))
+  .pipe(size({
+    showFiles: true,
+    gzip: true
+  }));
 }
 
 function watchTask() {

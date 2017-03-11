@@ -1,7 +1,7 @@
-define(function(require) {
-    'use strict';
+define(function (require) {
+  'use strict';
 
-    require('../coord/polar/polarCreator');
+  require('../coord/polar/polarCreator');
 
-    require('./axis/AngleAxisView');
+  require('./axis/AngleAxisView');
 });

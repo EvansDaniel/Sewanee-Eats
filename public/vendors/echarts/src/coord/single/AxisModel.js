@@ -1,78 +1,78 @@
 define(function (require) {
 
-    var ComponentModel = require('../../model/Component');
-    var axisModelCreator = require('../axisModelCreator');
-    var zrUtil =  require('zrender/core/util');
+  var ComponentModel = require('../../model/Component');
+  var axisModelCreator = require('../axisModelCreator');
+  var zrUtil = require('zrender/core/util');
 
-    var AxisModel = ComponentModel.extend({
+  var AxisModel = ComponentModel.extend({
 
-        type: 'singleAxis',
+    type: 'singleAxis',
 
-        layoutMode: 'box',
+    layoutMode: 'box',
 
-        /**
-         * @type {module:echarts/coord/single/SingleAxis}
-         */
-        axis: null,
+    /**
+     * @type {module:echarts/coord/single/SingleAxis}
+     */
+    axis: null,
 
-        /**
-         * @type {module:echarts/coord/single/Single}
-         */
-        coordinateSystem: null
+    /**
+     * @type {module:echarts/coord/single/Single}
+     */
+    coordinateSystem: null
 
-    });
+  });
 
-    var defaultOption = {
+  var defaultOption = {
 
-        left: '5%',
-        top: '5%',
-        right: '5%',
-        bottom: '5%',
+    left: '5%',
+    top: '5%',
+    right: '5%',
+    bottom: '5%',
 
-        type: 'value',
+    type: 'value',
 
-        position: 'bottom',
+    position: 'bottom',
 
-        orient: 'horizontal',
-        // singleIndex: 0,
+    orient: 'horizontal',
+    // singleIndex: 0,
 
-        axisLine: {
-            show: true,
-            lineStyle: {
-                width: 2,
-                type: 'solid'
-            }
-        },
+    axisLine: {
+      show: true,
+      lineStyle: {
+        width: 2,
+        type: 'solid'
+      }
+    },
 
-        axisTick: {
-            show: true,
-            length: 6,
-            lineStyle: {
-                width: 2
-            }
-        },
+    axisTick: {
+      show: true,
+      length: 6,
+      lineStyle: {
+        width: 2
+      }
+    },
 
-        axisLabel: {
-            show: true,
-            interval: 'auto'
-        },
+    axisLabel: {
+      show: true,
+      interval: 'auto'
+    },
 
-        splitLine: {
-            show: true,
-            lineStyle: {
-                type: 'dashed',
-                opacity: 0.2
-            }
-        }
-    };
-
-    function getAxisType(axisName, option) {
-        return option.type || (option.data ? 'category' : 'value');
+    splitLine: {
+      show: true,
+      lineStyle: {
+        type: 'dashed',
+        opacity: 0.2
+      }
     }
+  };
 
-    zrUtil.merge(AxisModel.prototype, require('../axisModelCommonMixin'));
+  function getAxisType(axisName, option) {
+    return option.type || (option.data ? 'category' : 'value');
+  }
 
-    axisModelCreator('single', AxisModel, getAxisType, defaultOption);
+  zrUtil.merge(AxisModel.prototype, require('../axisModelCommonMixin'));
 
-    return AxisModel;
+  axisModelCreator('single', AxisModel, getAxisType, defaultOption);
+
+  return AxisModel;
 });

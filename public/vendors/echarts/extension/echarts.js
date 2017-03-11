@@ -1,1 +1,3 @@
-define('echarts', [], function () {return echarts;});
+define('echarts', [], function () {
+  return echarts;
+});

@@ -31,7 +31,7 @@ define(function () {
     },
     maximumSelected: function (args) {
       var message = 'Vous pouvez seulement sélectionner ' +
-        args.maximum + ' élément';
+      args.maximum + ' élément';
 
       if (args.maximum !== 1) {
         message += 's';

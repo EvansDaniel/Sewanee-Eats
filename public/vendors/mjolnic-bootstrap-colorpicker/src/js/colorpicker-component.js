@@ -5,7 +5,7 @@
  * @param {Object} options
  * @constructor
  */
-var Colorpicker = function(element, options) {
+var Colorpicker = function (element, options) {
   this.element = $(element).addClass('colorpicker-element');
   this.options = $.extend(true, {}, defaults, this.element.data(), options);
   this.component = this.options.component;
@@ -18,7 +18,7 @@ var Colorpicker = function(element, options) {
 
   // Is the element an input? Should we search inside for any input?
   this.input = this.element.is('input') ? this.element : (this.options.input ?
-    this.element.find(this.options.input) : false);
+  this.element.find(this.options.input) : false);
   if (this.input && (this.input.length === 0)) {
     this.input = false;
   }
@@ -55,9 +55,9 @@ var Colorpicker = function(element, options) {
   }
   if (this.options.colorSelectors) {
     var colorpicker = this;
-    $.each(this.options.colorSelectors, function(name, color) {
+    $.each(this.options.colorSelectors, function (name, color) {
       var $btn = $('<i />').css('background-color', color).data('class', name);
-      $btn.click(function() {
+      $btn.click(function () {
         colorpicker.setValue($(this).css('background-color'));
       });
       colorpicker.picker.find('.colorpicker-selectors').append($btn);
@@ -109,7 +109,7 @@ var Colorpicker = function(element, options) {
   }
   this.update();
 
-  $($.proxy(function() {
+  $($.proxy(function () {
     this.element.trigger('create');
   }, this));
 };
@@ -118,7 +118,7 @@ Colorpicker.Color = Color;
 
 Colorpicker.prototype = {
   constructor: Colorpicker,
-  destroy: function() {
+  destroy: function () {
     this.picker.remove();
     this.element.removeData('colorpicker', 'color').off('.colorpicker');
     if (this.input !== false) {
@@ -132,7 +132,7 @@ Colorpicker.prototype = {
       type: 'destroy'
     });
   },
-  reposition: function() {
+  reposition: function () {
     if (this.options.inline !== false || this.options.container) {
       return false;
     }
@@ -147,7 +147,7 @@ Colorpicker.prototype = {
       left: offset.left
     });
   },
-  show: function(e) {
+  show: function (e) {
     if (this.isDisabled()) {
       return false;
     }
@@ -170,7 +170,7 @@ Colorpicker.prototype = {
       color: this.color
     });
   },
-  hide: function() {
+  hide: function () {
     this.picker.addClass('colorpicker-hidden').removeClass('colorpicker-visible');
     $(window).off('resize.colorpicker', this.reposition);
     $(document).off({
@@ -182,12 +182,12 @@ Colorpicker.prototype = {
       color: this.color
     });
   },
-  updateData: function(val) {
+  updateData: function (val) {
     val = val || this.color.toString(this.format);
     this.element.data('color', val);
     return val;
   },
-  updateInput: function(val) {
+  updateInput: function (val) {
     val = val || this.color.toString(this.format);
     if (this.input !== false) {
       if (this.options.colorSelectors) {
@@ -201,7 +201,7 @@ Colorpicker.prototype = {
     }
     return val;
   },
-  updatePicker: function(val) {
+  updatePicker: function (val) {
     if (val !== undefined) {
       this.color = new Color(val, this.options.colorSelectors);
     }
@@ -213,11 +213,11 @@ Colorpicker.prototype = {
     if (this.options.horizontal === false) {
       sl = this.options.sliders;
       icns.eq(1).css('top', sl.hue.maxTop * (1 - this.color.value.h)).end()
-        .eq(2).css('top', sl.alpha.maxTop * (1 - this.color.value.a));
+      .eq(2).css('top', sl.alpha.maxTop * (1 - this.color.value.a));
     } else {
       sl = this.options.slidersHorz;
       icns.eq(1).css('left', sl.hue.maxLeft * (1 - this.color.value.h)).end()
-        .eq(2).css('left', sl.alpha.maxLeft * (1 - this.color.value.a));
+      .eq(2).css('left', sl.alpha.maxLeft * (1 - this.color.value.a));
     }
     icns.eq(0).css({
       'top': sl.saturation.maxTop - this.color.value.b * sl.saturation.maxTop,
@@ -228,7 +228,7 @@ Colorpicker.prototype = {
     this.picker.find('.colorpicker-color, .colorpicker-color div').css('backgroundColor', this.color.toString(this.format));
     return val;
   },
-  updateComponent: function(val) {
+  updateComponent: function (val) {
     val = val || this.color.toString(this.format);
     if (this.component !== false) {
       var icn = this.component.find('i').eq(0);
@@ -244,7 +244,7 @@ Colorpicker.prototype = {
     }
     return val;
   },
-  update: function(force) {
+  update: function (force) {
     var val;
     if ((this.getValue(false) !== false) || (force === true)) {
       // Update input/data only if the current value is not empty
@@ -256,7 +256,7 @@ Colorpicker.prototype = {
     return val;
 
   },
-  setValue: function(val) { // set color manually
+  setValue: function (val) { // set color manually
     this.color = new Color(val, this.options.colorSelectors);
     this.update(true);
     this.element.trigger({
@@ -265,7 +265,7 @@ Colorpicker.prototype = {
       value: val
     });
   },
-  getValue: function(defaultValue) {
+  getValue: function (defaultValue) {
     defaultValue = (defaultValue === undefined) ? '#000000' : defaultValue;
     var val;
     if (this.hasInput()) {
@@ -279,16 +279,16 @@ Colorpicker.prototype = {
     }
     return val;
   },
-  hasInput: function() {
+  hasInput: function () {
     return (this.input !== false);
   },
-  isDisabled: function() {
+  isDisabled: function () {
     if (this.hasInput()) {
       return (this.input.prop('disabled') === true);
     }
     return false;
   },
-  disable: function() {
+  disable: function () {
     if (this.hasInput()) {
       this.input.prop('disabled', true);
       this.element.trigger({
@@ -300,7 +300,7 @@ Colorpicker.prototype = {
     }
     return false;
   },
-  enable: function() {
+  enable: function () {
     if (this.hasInput()) {
       this.input.prop('disabled', false);
       this.element.trigger({
@@ -317,7 +317,7 @@ Colorpicker.prototype = {
     left: 0,
     top: 0
   },
-  mousedown: function(e) {
+  mousedown: function (e) {
     if (!e.pageX && !e.pageY && e.originalEvent && e.originalEvent.touches) {
       e.pageX = e.originalEvent.touches[0].pageX;
       e.pageY = e.originalEvent.touches[0].pageY;
@@ -359,7 +359,7 @@ Colorpicker.prototype = {
     }
     return false;
   },
-  mousemove: function(e) {
+  mousemove: function (e) {
     if (!e.pageX && !e.pageY && e.originalEvent && e.originalEvent.touches) {
       e.pageX = e.originalEvent.touches[0].pageX;
       e.pageY = e.originalEvent.touches[0].pageY;
@@ -367,18 +367,18 @@ Colorpicker.prototype = {
     e.stopPropagation();
     e.preventDefault();
     var left = Math.max(
-      0,
-      Math.min(
-        this.currentSlider.maxLeft,
-        this.currentSlider.left + ((e.pageX || this.mousePointer.left) - this.mousePointer.left)
-      )
+    0,
+    Math.min(
+    this.currentSlider.maxLeft,
+    this.currentSlider.left + ((e.pageX || this.mousePointer.left) - this.mousePointer.left)
+    )
     );
     var top = Math.max(
-      0,
-      Math.min(
-        this.currentSlider.maxTop,
-        this.currentSlider.top + ((e.pageY || this.mousePointer.top) - this.mousePointer.top)
-      )
+    0,
+    Math.min(
+    this.currentSlider.maxTop,
+    this.currentSlider.top + ((e.pageY || this.mousePointer.top) - this.mousePointer.top)
+    )
     );
     this.currentSlider.guide.left = left + 'px';
     this.currentSlider.guide.top = top + 'px';
@@ -413,7 +413,7 @@ Colorpicker.prototype = {
     });
     return false;
   },
-  mouseup: function(e) {
+  mouseup: function (e) {
     e.stopPropagation();
     e.preventDefault();
     $(document).off({
@@ -424,10 +424,10 @@ Colorpicker.prototype = {
     });
     return false;
   },
-  change: function(e) {
+  change: function (e) {
     this.keyup(e);
   },
-  keyup: function(e) {
+  keyup: function (e) {
     if ((e.keyCode === 38)) {
       if (this.color.value.a < 1) {
         this.color.value.a = Math.round((this.color.value.a + 0.01) * 100) / 100;
@@ -462,14 +462,14 @@ Colorpicker.prototype = {
 
 $.colorpicker = Colorpicker;
 
-$.fn.colorpicker = function(option) {
+$.fn.colorpicker = function (option) {
   var pickerArgs = arguments,
-    rv = null;
+  rv = null;
 
-  var $returnValue = this.each(function() {
+  var $returnValue = this.each(function () {
     var $this = $(this),
-      inst = $this.data('colorpicker'),
-      options = ((typeof option === 'object') ? option : {});
+    inst = $this.data('colorpicker'),
+    options = ((typeof option === 'object') ? option : {});
     if ((!inst) && (typeof option !== 'string')) {
       $this.data('colorpicker', new Colorpicker(this, options));
     } else {

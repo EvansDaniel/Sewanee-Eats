@@ -5,14 +5,13 @@ namespace Tests\Feature\Feature;
 use App\Events\NewOrderReceived;
 use App\Models\Accessory;
 use App\Models\MenuItem;
-use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Tests\TestCase;
 
 class CheckoutTest extends TestCase
 {
     use DatabaseTransactions;
+
     /**
      * Checks that a user can checkout properly via venmo
      * @test
@@ -44,15 +43,15 @@ class CheckoutTest extends TestCase
 
         $this->withSession(['cart' => $cart])
             ->visit(route('checkout'))
-            ->type('Daniel Evans','name')
-            ->type('4242424242424242','card_number')
-            ->type('08','expire_month')
-            ->type('17','expire_year')
-            ->type('123','cvc')
-            ->type('evansdb0@sewanee.edu','email_address')
+            ->type('Daniel Evans', 'name')
+            ->type('4242424242424242', 'card_number')
+            ->type('08', 'expire_month')
+            ->type('17', 'expire_year')
+            ->type('123', 'cvc')
+            ->type('evansdb0@sewanee.edu', 'email_address')
             ->press('Pay Now');
-            //->seePageIs(route('thankYou'));
-            $this->seeInDatabase('orders',['c_name' => 'Daniel Evans'])
-            ->seeInDatabase('menu_items_orders',['menu_item_id' => $cart[0]['menu_item_model']->id]);
+        //->seePageIs(route('thankYou'));
+        $this->seeInDatabase('orders', ['c_name' => 'Daniel Evans'])
+            ->seeInDatabase('menu_items_orders', ['menu_item_id' => $cart[0]['menu_item_model']->id]);
     }
 }

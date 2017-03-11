@@ -3,7 +3,7 @@ define([
   '../utils',
   'jquery'
 ], function (ArrayAdapter, Utils, $) {
-  function AjaxAdapter ($element, options) {
+  function AjaxAdapter($element, options) {
     this.ajaxOptions = this._applyDefaults(options.get('ajax'));
 
     if (this.ajaxOptions.processResults != null) {
@@ -64,7 +64,7 @@ define([
       options.data = options.data.call(this.$element, params);
     }
 
-    function request () {
+    function request() {
       var $request = options.transport(options, function (data) {
         var results = self.processResults(data, params);
 
@@ -72,8 +72,8 @@ define([
           // Check to make sure that the response included a `results` key.
           if (!results || !results.results || !$.isArray(results.results)) {
             console.error(
-              'Select2: The AJAX results did not return an array in the ' +
-              '`results` key of the response.'
+            'Select2: The AJAX results did not return an array in the ' +
+            '`results` key of the response.'
             );
           }
         }

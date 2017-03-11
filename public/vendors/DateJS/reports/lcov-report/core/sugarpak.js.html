@@ -1,218 +1,366 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <title>Code coverage report for core/sugarpak.js</title>
-    <meta charset="utf-8">
+  <title>Code coverage report for core/sugarpak.js</title>
+  <meta charset="utf-8">
 
-    <link rel="stylesheet" href="../prettify.css">
+  <link rel="stylesheet" href="../prettify.css">
 
-    <style>
-        body, html {
-            margin:0; padding: 0;
-        }
-        body {
-            font-family: Helvetica Neue, Helvetica,Arial;
-            font-size: 10pt;
-        }
-        div.header, div.footer {
-            background: #eee;
-            padding: 1em;
-        }
-        div.header {
-            z-index: 100;
-            position: fixed;
-            top: 0;
-            border-bottom: 1px solid #666;
-            width: 100%;
-        }
-        div.footer {
-            border-top: 1px solid #666;
-        }
-        div.body {
-            margin-top: 10em;
-        }
-        div.meta {
-            font-size: 90%;
-            text-align: center;
-        }
-        h1, h2, h3 {
-            font-weight: normal;
-        }
-        h1 {
-            font-size: 12pt;
-        }
-        h2 {
-            font-size: 10pt;
-        }
-        pre {
-            font-family: Consolas, Menlo, Monaco, monospace;
-            margin: 0;
-            padding: 0;
-            line-height: 14px;
-            font-size: 14px;
-            -moz-tab-size: 2;
-            -o-tab-size:  2;
-            tab-size: 2;
-        }
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+    }
 
-        div.path { font-size: 110%; }
-        div.path a:link, div.path a:visited { color: #000; }
-        table.coverage { border-collapse: collapse; margin:0; padding: 0 }
+    body {
+      font-family: Helvetica Neue, Helvetica, Arial;
+      font-size: 10pt;
+    }
 
-        table.coverage td {
-            margin: 0;
-            padding: 0;
-            color: #111;
-            vertical-align: top;
-        }
-        table.coverage td.line-count {
-            width: 50px;
-            text-align: right;
-            padding-right: 5px;
-        }
-        table.coverage td.line-coverage {
-            color: #777 !important;
-            text-align: right;
-            border-left: 1px solid #666;
-            border-right: 1px solid #666;
-        }
+    div.header, div.footer {
+      background: #eee;
+      padding: 1em;
+    }
 
-        table.coverage td.text {
-        }
+    div.header {
+      z-index: 100;
+      position: fixed;
+      top: 0;
+      border-bottom: 1px solid #666;
+      width: 100%;
+    }
 
-        table.coverage td span.cline-any {
-            display: inline-block;
-            padding: 0 5px;
-            width: 40px;
-        }
-        table.coverage td span.cline-neutral {
-            background: #eee;
-        }
-        table.coverage td span.cline-yes {
-            background: #b5d592;
-            color: #999;
-        }
-        table.coverage td span.cline-no {
-            background: #fc8c84;
-        }
+    div.footer {
+      border-top: 1px solid #666;
+    }
 
-        .cstat-yes { color: #111; }
-        .cstat-no { background: #fc8c84; color: #111; }
-        .fstat-no { background: #ffc520; color: #111 !important; }
-        .cbranch-no { background:  yellow !important; color: #111; }
+    div.body {
+      margin-top: 10em;
+    }
 
-        .cstat-skip { background: #ddd; color: #111; }
-        .fstat-skip { background: #ddd; color: #111 !important; }
-        .cbranch-skip { background: #ddd !important; color: #111; }
+    div.meta {
+      font-size: 90%;
+      text-align: center;
+    }
 
-        .missing-if-branch {
-            display: inline-block;
-            margin-right: 10px;
-            position: relative;
-            padding: 0 4px;
-            background: black;
-            color: yellow;
-        }
+    h1, h2, h3 {
+      font-weight: normal;
+    }
 
-        .skip-if-branch {
-            display: none;
-            margin-right: 10px;
-            position: relative;
-            padding: 0 4px;
-            background: #ccc;
-            color: white;
-        }
+    h1 {
+      font-size: 12pt;
+    }
 
-        .missing-if-branch .typ, .skip-if-branch .typ {
-            color: inherit !important;
-        }
+    h2 {
+      font-size: 10pt;
+    }
 
-        .entity, .metric { font-weight: bold; }
-        .metric { display: inline-block; border: 1px solid #333; padding: 0.3em; background: white; }
-        .metric small { font-size: 80%; font-weight: normal; color: #666; }
+    pre {
+      font-family: Consolas, Menlo, Monaco, monospace;
+      margin: 0;
+      padding: 0;
+      line-height: 14px;
+      font-size: 14px;
+      -moz-tab-size: 2;
+      -o-tab-size: 2;
+      tab-size: 2;
+    }
 
-        div.coverage-summary table { border-collapse: collapse; margin: 3em; font-size: 110%; }
-        div.coverage-summary td, div.coverage-summary table  th { margin: 0; padding: 0.25em 1em; border-top: 1px solid #666; border-bottom: 1px solid #666; }
-        div.coverage-summary th { text-align: left; border: 1px solid #666; background: #eee; font-weight: normal; }
-        div.coverage-summary th.file { border-right: none !important; }
-        div.coverage-summary th.pic { border-left: none !important; text-align: right; }
-        div.coverage-summary th.pct { border-right: none !important; }
-        div.coverage-summary th.abs { border-left: none !important; text-align: right; }
-        div.coverage-summary td.pct { text-align: right; border-left: 1px solid #666; }
-        div.coverage-summary td.abs { text-align: right; font-size: 90%; color: #444; border-right: 1px solid #666; }
-        div.coverage-summary td.file { text-align: right; border-left: 1px solid #666; white-space: nowrap;  }
-        div.coverage-summary td.pic { min-width: 120px !important;  }
-        div.coverage-summary a:link { text-decoration: none; color: #000; }
-        div.coverage-summary a:visited { text-decoration: none; color: #333; }
-        div.coverage-summary a:hover { text-decoration: underline; }
-        div.coverage-summary tfoot td { border-top: 1px solid #666; }
+    div.path {
+      font-size: 110%;
+    }
 
-        div.coverage-summary .yui3-datatable-sort-indicator, div.coverage-summary .dummy-sort-indicator {
-            height: 10px;
-            width: 7px;
-            display: inline-block;
-            margin-left: 0.5em;
-        }
-        div.coverage-summary .yui3-datatable-sort-indicator {
-            background: url("https://yui-s.yahooapis.com/3.6.0/build/datatable-sort/assets/skins/sam/sort-arrow-sprite.png") no-repeat scroll 0 0 transparent;
-        }
-        div.coverage-summary .yui3-datatable-sorted .yui3-datatable-sort-indicator {
-            background-position: 0 -20px;
-        }
-        div.coverage-summary .yui3-datatable-sorted-desc .yui3-datatable-sort-indicator {
-            background-position: 0 -10px;
-        }
+    div.path a:link, div.path a:visited {
+      color: #000;
+    }
 
-        .high { background: #b5d592 !important; }
-        .medium { background: #ffe87c !important; }
-        .low { background: #fc8c84 !important; }
+    table.coverage {
+      border-collapse: collapse;
+      margin: 0;
+      padding: 0
+    }
 
-        span.cover-fill, span.cover-empty {
-            display:inline-block;
-            border:1px solid #444;
-            background: white;
-            height: 12px;
-        }
-        span.cover-fill {
-            background: #ccc;
-            border-right: 1px solid #444;
-        }
-        span.cover-empty {
-            background: white;
-            border-left: none;
-        }
-        span.cover-full {
-            border-right: none !important;
-        }
-        pre.prettyprint {
-            border: none !important;
-            padding: 0 !important;
-            margin: 0 !important;
-        }
-        .com { color: #999 !important; }
-        .ignore-none { color: #999; font-weight: normal; }
+    table.coverage td {
+      margin: 0;
+      padding: 0;
+      color: #111;
+      vertical-align: top;
+    }
 
-    </style>
+    table.coverage td.line-count {
+      width: 50px;
+      text-align: right;
+      padding-right: 5px;
+    }
+
+    table.coverage td.line-coverage {
+      color: #777 !important;
+      text-align: right;
+      border-left: 1px solid #666;
+      border-right: 1px solid #666;
+    }
+
+    table.coverage td.text {
+    }
+
+    table.coverage td span.cline-any {
+      display: inline-block;
+      padding: 0 5px;
+      width: 40px;
+    }
+
+    table.coverage td span.cline-neutral {
+      background: #eee;
+    }
+
+    table.coverage td span.cline-yes {
+      background: #b5d592;
+      color: #999;
+    }
+
+    table.coverage td span.cline-no {
+      background: #fc8c84;
+    }
+
+    .cstat-yes {
+      color: #111;
+    }
+
+    .cstat-no {
+      background: #fc8c84;
+      color: #111;
+    }
+
+    .fstat-no {
+      background: #ffc520;
+      color: #111 !important;
+    }
+
+    .cbranch-no {
+      background: yellow !important;
+      color: #111;
+    }
+
+    .cstat-skip {
+      background: #ddd;
+      color: #111;
+    }
+
+    .fstat-skip {
+      background: #ddd;
+      color: #111 !important;
+    }
+
+    .cbranch-skip {
+      background: #ddd !important;
+      color: #111;
+    }
+
+    .missing-if-branch {
+      display: inline-block;
+      margin-right: 10px;
+      position: relative;
+      padding: 0 4px;
+      background: black;
+      color: yellow;
+    }
+
+    .skip-if-branch {
+      display: none;
+      margin-right: 10px;
+      position: relative;
+      padding: 0 4px;
+      background: #ccc;
+      color: white;
+    }
+
+    .missing-if-branch .typ, .skip-if-branch .typ {
+      color: inherit !important;
+    }
+
+    .entity, .metric {
+      font-weight: bold;
+    }
+
+    .metric {
+      display: inline-block;
+      border: 1px solid #333;
+      padding: 0.3em;
+      background: white;
+    }
+
+    .metric small {
+      font-size: 80%;
+      font-weight: normal;
+      color: #666;
+    }
+
+    div.coverage-summary table {
+      border-collapse: collapse;
+      margin: 3em;
+      font-size: 110%;
+    }
+
+    div.coverage-summary td, div.coverage-summary table th {
+      margin: 0;
+      padding: 0.25em 1em;
+      border-top: 1px solid #666;
+      border-bottom: 1px solid #666;
+    }
+
+    div.coverage-summary th {
+      text-align: left;
+      border: 1px solid #666;
+      background: #eee;
+      font-weight: normal;
+    }
+
+    div.coverage-summary th.file {
+      border-right: none !important;
+    }
+
+    div.coverage-summary th.pic {
+      border-left: none !important;
+      text-align: right;
+    }
+
+    div.coverage-summary th.pct {
+      border-right: none !important;
+    }
+
+    div.coverage-summary th.abs {
+      border-left: none !important;
+      text-align: right;
+    }
+
+    div.coverage-summary td.pct {
+      text-align: right;
+      border-left: 1px solid #666;
+    }
+
+    div.coverage-summary td.abs {
+      text-align: right;
+      font-size: 90%;
+      color: #444;
+      border-right: 1px solid #666;
+    }
+
+    div.coverage-summary td.file {
+      text-align: right;
+      border-left: 1px solid #666;
+      white-space: nowrap;
+    }
+
+    div.coverage-summary td.pic {
+      min-width: 120px !important;
+    }
+
+    div.coverage-summary a:link {
+      text-decoration: none;
+      color: #000;
+    }
+
+    div.coverage-summary a:visited {
+      text-decoration: none;
+      color: #333;
+    }
+
+    div.coverage-summary a:hover {
+      text-decoration: underline;
+    }
+
+    div.coverage-summary tfoot td {
+      border-top: 1px solid #666;
+    }
+
+    div.coverage-summary .yui3-datatable-sort-indicator, div.coverage-summary .dummy-sort-indicator {
+      height: 10px;
+      width: 7px;
+      display: inline-block;
+      margin-left: 0.5em;
+    }
+
+    div.coverage-summary .yui3-datatable-sort-indicator {
+      background: url("https://yui-s.yahooapis.com/3.6.0/build/datatable-sort/assets/skins/sam/sort-arrow-sprite.png") no-repeat scroll 0 0 transparent;
+    }
+
+    div.coverage-summary .yui3-datatable-sorted .yui3-datatable-sort-indicator {
+      background-position: 0 -20px;
+    }
+
+    div.coverage-summary .yui3-datatable-sorted-desc .yui3-datatable-sort-indicator {
+      background-position: 0 -10px;
+    }
+
+    .high {
+      background: #b5d592 !important;
+    }
+
+    .medium {
+      background: #ffe87c !important;
+    }
+
+    .low {
+      background: #fc8c84 !important;
+    }
+
+    span.cover-fill, span.cover-empty {
+      display: inline-block;
+      border: 1px solid #444;
+      background: white;
+      height: 12px;
+    }
+
+    span.cover-fill {
+      background: #ccc;
+      border-right: 1px solid #444;
+    }
+
+    span.cover-empty {
+      background: white;
+      border-left: none;
+    }
+
+    span.cover-full {
+      border-right: none !important;
+    }
+
+    pre.prettyprint {
+      border: none !important;
+      padding: 0 !important;
+      margin: 0 !important;
+    }
+
+    .com {
+      color: #999 !important;
+    }
+
+    .ignore-none {
+      color: #999;
+      font-weight: normal;
+    }
+
+  </style>
 </head>
 <body>
 <div class="header high">
-    <h1>Code coverage report for <span class="entity">core/sugarpak.js</span></h1>
-    <h2>
-        
-        Statements: <span class="metric">96.62% <small>(143 / 148)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
-        
-        
-        Branches: <span class="metric">82.86% <small>(58 / 70)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
-        
-        
-        Functions: <span class="metric">100% <small>(30 / 30)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
-        
-        
-        Lines: <span class="metric">96.58% <small>(141 / 146)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
-        
-        Ignored: <span class="metric"><span class="ignore-none">none</span></span> &nbsp;&nbsp;&nbsp;&nbsp;
-    </h2>
-    <div class="path"><a href="../index.html">All files</a> &#187; <a href="index.html">core/</a> &#187; sugarpak.js</div>
+  <h1>Code coverage report for <span class="entity">core/sugarpak.js</span></h1>
+  <h2>
+
+    Statements: <span class="metric">96.62% <small>(143 / 148)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+
+
+    Branches: <span class="metric">82.86% <small>(58 / 70)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+
+
+    Functions: <span class="metric">100% <small>(30 / 30)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+
+
+    Lines: <span class="metric">96.58% <small>(141 / 146)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+
+    Ignored: <span class="metric"><span class="ignore-none">none</span></span> &nbsp;&nbsp;&nbsp;&nbsp;
+  </h2>
+  <div class="path"><a href="../index.html">All files</a> &#187; <a href="index.html">core/</a> &#187; sugarpak.js</div>
 </div>
 <div class="body">
 <pre><table class="coverage">
@@ -1426,7 +1574,8 @@
 	 * @return {Date}    date
 	 */
 	$P.at = function (time) {
-		return (typeof time === "string") ? $D.parse(this.toString("d") + " " + time) : <span class="branch-1 cbranch-no" title="branch not covered" >this.set(time);</span>
+		return (typeof time === "string") ? $D.parse(this.toString("d") + " " + time) : <span class="branch-1 cbranch-no"
+                                                                                          title="branch not covered">this.set(time);</span>
 	};
 		
 	/** 
@@ -1447,7 +1596,7 @@
 	$N.fromNow = $N.after = function (date) {
 		var c = {};
 		c[this._dateElement] = this;
-		return ((!date) ? new Date() : <span class="branch-1 cbranch-no" title="branch not covered" >date.clone())</span>.add(c);
+		return ((!date) ? new Date() : <span class="branch-1 cbranch-no" title="branch not covered">date.clone())</span>.add(c);
 	};
 &nbsp;
 	/** 
@@ -1467,9 +1616,10 @@
 	 */
 	$N.ago = $N.before = function (date) {
 		var c = {},
-		s = (this._dateElement[this._dateElement.length-1] !== "s") ? <span class="branch-0 cbranch-no" title="branch not covered" >this._dateElement + "s" </span>: this._dateElement;
+		s = (this._dateElement[this._dateElement.length-1] !== "s") ? <span class="branch-0 cbranch-no"
+                                                                        title="branch not covered">this._dateElement + "s" </span>: this._dateElement;
 		c[s] = this * -1;
-		return ((!date) ? new Date() : <span class="branch-1 cbranch-no" title="branch not covered" >date.clone())</span>.add(c);
+		return ((!date) ? new Date() : <span class="branch-1 cbranch-no" title="branch not covered">date.clone())</span>.add(c);
 	};
 &nbsp;
 	// Do NOT modify the following string tokens. These tokens are used to build dynamic functions.
@@ -1570,8 +1720,10 @@
 	var sdf = function (n) {
 		return function () {
 			var t = $D.today(), shift = n - t.getDay();
-			<span class="missing-if-branch" title="if path not taken" >I</span>if (n === 0 &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered" >Date.CultureInfo.firstDayOfWeek === 1 </span>&amp;&amp; <span class="branch-2 cbranch-no" title="branch not covered" >t.getDay() !== 0)</span> {
-<span class="cstat-no" title="statement not covered" >				shift = shift + 7;</span>
+			<span class="missing-if-branch" title="if path not taken">I</span>if (n === 0 &amp;&amp; <span
+  class="branch-1 cbranch-no" title="branch not covered">Date.CultureInfo.firstDayOfWeek === 1 </span>&amp;&amp; <span
+  class="branch-2 cbranch-no" title="branch not covered">t.getDay() !== 0)</span> {
+<span class="cstat-no" title="statement not covered">				shift = shift + 7;</span>
 			}
 			return t.addDays(shift);
 		};
@@ -1616,9 +1768,9 @@
 		return function () {
 			// if the .second() function was called earlier, the _orient 
 			// has alread been added. Just return this and reset _isSecond.
-			<span class="missing-if-branch" title="if path not taken" >I</span>if (this._isSecond) {
-<span class="cstat-no" title="statement not covered" >				this._isSecond = false;</span>
-<span class="cstat-no" title="statement not covered" >				return this;</span>
+			<span class="missing-if-branch" title="if path not taken">I</span>if (this._isSecond) {
+<span class="cstat-no" title="statement not covered">				this._isSecond = false;</span>
+<span class="cstat-no" title="statement not covered">				return this;</span>
 			}
 &nbsp;
 			if (this._same) {
@@ -1629,7 +1781,8 @@
 					k = j.toLowerCase();
 &nbsp;
 				// the substr trick with -1 doesn't work in IE8 or less
-				k = (k[k.length-1] === "s") ? k.substring(0,k.length-1) : <span class="branch-1 cbranch-no" title="branch not covered" >k;</span>
+				k = (k[k.length-1] === "s") ? k.substring(0,k.length-1) : <span class="branch-1 cbranch-no"
+                                                                        title="branch not covered">k;</span>
 					
 				for (var m = (px.length - 1); m &gt; -1; m--) {
 					v = px[m].toLowerCase();
@@ -1674,16 +1827,16 @@
 	
 	var nthfn = function (n) {
 		return function (dayOfWeek) {
-			<span class="missing-if-branch" title="if path not taken" >I</span>if (this._same) {
-<span class="cstat-no" title="statement not covered" >				return this._ss(arguments[0]);</span>
+			<span class="missing-if-branch" title="if path not taken">I</span>if (this._same) {
+<span class="cstat-no" title="statement not covered">				return this._ss(arguments[0]);</span>
 			}
-			<span class="missing-if-branch" title="if path not taken" >I</span>if (dayOfWeek || dayOfWeek === 0) {
-<span class="cstat-no" title="statement not covered" >				return this.moveToNthOccurrence(dayOfWeek, n);</span>
+			<span class="missing-if-branch" title="if path not taken">I</span>if (dayOfWeek || dayOfWeek === 0) {
+<span class="cstat-no" title="statement not covered">				return this.moveToNthOccurrence(dayOfWeek, n);</span>
 			}
 			this._nth = n;
 &nbsp;
 			// if the operator is 'second' add the _orient, then deal with it later...
-			if (n === 2 &amp;&amp; (dayOfWeek === undefined || <span class="branch-2 cbranch-no" title="branch not covered" >dayOfWeek === null)</span>) {
+			if (n === 2 &amp;&amp; (dayOfWeek === undefined || <span class="branch-2 cbranch-no" title="branch not covered">dayOfWeek === null)</span>) {
 				this._isSecond = true;
 				return this.addSeconds(this._orient);
 			}
@@ -1700,7 +1853,9 @@
 
 </div>
 <div class="footer">
-    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sun Nov 16 2014 12:08:33 GMT-0800 (PST)</div>
+  <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sun Nov 16 2014
+    12:08:33 GMT-0800 (PST)
+  </div>
 </div>
 
 <script src="../prettify.js"></script>
@@ -1708,94 +1863,100 @@
 <script src="https://yui-s.yahooapis.com/3.6.0/build/yui/yui-min.js"></script>
 <script>
 
-    YUI().use('datatable', function (Y) {
+  YUI().use('datatable', function (Y) {
 
-        var formatters = {
-          pct: function (o) {
-              o.className += o.record.get('classes')[o.column.key];
-              try {
-                  return o.value.toFixed(2) + '%';
-              } catch (ex) { return o.value + '%'; }
-          },
-          html: function (o) {
-              o.className += o.record.get('classes')[o.column.key];
-              return o.record.get(o.column.key + '_html');
-          }
-        },
-          defaultFormatter = function (o) {
-              o.className += o.record.get('classes')[o.column.key];
-              return o.value;
-          };
-
-        function getColumns(theadNode) {
-            var colNodes = theadNode.all('tr th'),
-                cols = [],
-                col;
-            colNodes.each(function (colNode) {
-                col = {
-                    key: colNode.getAttribute('data-col'),
-                    label: colNode.get('innerHTML') || ' ',
-                    sortable: !colNode.getAttribute('data-nosort'),
-                    className: colNode.getAttribute('class'),
-                    type: colNode.getAttribute('data-type'),
-                    allowHTML: colNode.getAttribute('data-html') === 'true' || colNode.getAttribute('data-fmt') === 'html'
-                };
-                col.formatter = formatters[colNode.getAttribute('data-fmt')] || defaultFormatter;
-                cols.push(col);
-            });
-            return cols;
+    var formatters = {
+      pct: function (o) {
+        o.className += o.record.get('classes')[o.column.key];
+        try {
+          return o.value.toFixed(2) + '%';
+        } catch (ex) {
+          return o.value + '%';
         }
+      },
+      html: function (o) {
+        o.className += o.record.get('classes')[o.column.key];
+        return o.record.get(o.column.key + '_html');
+      }
+    },
+    defaultFormatter = function (o) {
+      o.className += o.record.get('classes')[o.column.key];
+      return o.value;
+    };
 
-        function getRowData(trNode, cols) {
-            var tdNodes = trNode.all('td'),
-                    i,
-                    row = { classes: {} },
-                    node,
-                    name;
-            for (i = 0; i < cols.length; i += 1) {
-                name = cols[i].key;
-                node = tdNodes.item(i);
-                row[name] = node.getAttribute('data-value') || node.get('innerHTML');
-                row[name + '_html'] = node.get('innerHTML');
-                row.classes[name] = node.getAttribute('class');
-                //Y.log('Name: ' + name + '; Value: ' + row[name]);
-                if (cols[i].type === 'number') { row[name] = row[name] * 1; }
-            }
-            //Y.log(row);
-            return row;
+    function getColumns(theadNode) {
+      var colNodes = theadNode.all('tr th'),
+      cols = [],
+      col;
+      colNodes.each(function (colNode) {
+        col = {
+          key: colNode.getAttribute('data-col'),
+          label: colNode.get('innerHTML') || ' ',
+          sortable: !colNode.getAttribute('data-nosort'),
+          className: colNode.getAttribute('class'),
+          type: colNode.getAttribute('data-type'),
+          allowHTML: colNode.getAttribute('data-html') === 'true' || colNode.getAttribute('data-fmt') === 'html'
+        };
+        col.formatter = formatters[colNode.getAttribute('data-fmt')] || defaultFormatter;
+        cols.push(col);
+      });
+      return cols;
+    }
+
+    function getRowData(trNode, cols) {
+      var tdNodes = trNode.all('td'),
+      i,
+      row = {classes: {}},
+      node,
+      name;
+      for (i = 0; i < cols.length; i += 1) {
+        name = cols[i].key;
+        node = tdNodes.item(i);
+        row[name] = node.getAttribute('data-value') || node.get('innerHTML');
+        row[name + '_html'] = node.get('innerHTML');
+        row.classes[name] = node.getAttribute('class');
+        //Y.log('Name: ' + name + '; Value: ' + row[name]);
+        if (cols[i].type === 'number') {
+          row[name] = row[name] * 1;
         }
+      }
+      //Y.log(row);
+      return row;
+    }
 
-        function getData(tbodyNode, cols) {
-            var data = [];
-            tbodyNode.all('tr').each(function (trNode) {
-                data.push(getRowData(trNode, cols));
-            });
-            return data;
-        }
+    function getData(tbodyNode, cols) {
+      var data = [];
+      tbodyNode.all('tr').each(function (trNode) {
+        data.push(getRowData(trNode, cols));
+      });
+      return data;
+    }
 
-        function replaceTable(node) {
-            if (!node) { return; }
-            var cols = getColumns(node.one('thead')),
-                data = getData(node.one('tbody'), cols),
-                table,
-                parent = node.get('parentNode');
+    function replaceTable(node) {
+      if (!node) {
+        return;
+      }
+      var cols = getColumns(node.one('thead')),
+      data = getData(node.one('tbody'), cols),
+      table,
+      parent = node.get('parentNode');
 
-            table = new Y.DataTable({
-                columns: cols,
-                data: data,
-                sortBy: 'file'
-            });
-            parent.set('innerHTML', '');
-            table.render(parent);
-        }
+      table = new Y.DataTable({
+        columns: cols,
+        data: data,
+        sortBy: 'file'
+      });
+      parent.set('innerHTML', '');
+      table.render(parent);
+    }
 
-        Y.on('domready', function () {
-            replaceTable(Y.one('div.coverage-summary table'));
-            if (typeof prettyPrint === 'function') {
-                prettyPrint();
-            }
-        });
+    Y.on('domready', function () {
+      replaceTable(Y.one('div.coverage-summary table'));
+      if (typeof prettyPrint === 'function') {
+        prettyPrint();
+      }
     });
+  });
 </script>
 </body>
 </html>

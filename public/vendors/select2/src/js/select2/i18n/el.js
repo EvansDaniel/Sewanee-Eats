@@ -22,7 +22,7 @@ define(function () {
       var remainingChars = args.minimum - args.input.length;
 
       var message = 'Παρακαλώ συμπληρώστε ' + remainingChars +
-        ' ή περισσότερους χαρακτήρες';
+      ' ή περισσότερους χαρακτήρες';
 
       return message;
     },

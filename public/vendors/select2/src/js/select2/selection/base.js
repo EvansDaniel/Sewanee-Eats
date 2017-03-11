@@ -3,7 +3,7 @@ define([
   '../utils',
   '../keys'
 ], function ($, Utils, KEYS) {
-  function BaseSelection ($element, options) {
+  function BaseSelection($element, options) {
     this.$element = $element;
     this.options = options;
 
@@ -14,9 +14,9 @@ define([
 
   BaseSelection.prototype.render = function () {
     var $selection = $(
-      '<span class="select2-selection" role="combobox" ' +
-      ' aria-haspopup="true" aria-expanded="false">' +
-      '</span>'
+    '<span class="select2-selection" role="combobox" ' +
+    ' aria-haspopup="true" aria-expanded="false">' +
+    '</span>'
     );
 
     this._tabindex = 0;
@@ -103,8 +103,8 @@ define([
     window.setTimeout(function () {
       // Don't trigger `blur` if the focus is still in the selection
       if (
-        (document.activeElement == self.$selection[0]) ||
-        ($.contains(self.$selection[0], document.activeElement))
+      (document.activeElement == self.$selection[0]) ||
+      ($.contains(self.$selection[0], document.activeElement))
       ) {
         return;
       }

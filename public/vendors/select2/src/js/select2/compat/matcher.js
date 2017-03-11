@@ -1,8 +1,8 @@
 define([
   'jquery'
 ], function ($) {
-  function oldMatcher (matcher) {
-    function wrappedMatcher (params, data) {
+  function oldMatcher(matcher) {
+    function wrappedMatcher(params, data) {
       var match = $.extend(true, {}, data);
 
       if (params.term == null || $.trim(params.term) === '') {

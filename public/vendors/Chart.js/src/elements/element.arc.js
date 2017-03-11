@@ -1,9 +1,9 @@
 "use strict";
 
-module.exports = function(Chart, moment) {
+module.exports = function (Chart, moment) {
 
   var helpers = Chart.helpers,
-    globalOpts = Chart.defaults.global;
+  globalOpts = Chart.defaults.global;
 
   globalOpts.elements.arc = {
     backgroundColor: globalOpts.defaultColor,
@@ -12,7 +12,7 @@ module.exports = function(Chart, moment) {
   };
 
   Chart.elements.Arc = Chart.Element.extend({
-    inLabelRange: function(mouseX) {
+    inLabelRange: function (mouseX) {
       var vm = this._view;
 
       if (vm) {
@@ -21,16 +21,16 @@ module.exports = function(Chart, moment) {
         return false;
       }
     },
-    inRange: function(chartX, chartY) {
+    inRange: function (chartX, chartY) {
       var vm = this._view;
 
       if (vm) {
         var pointRelativePosition = helpers.getAngleFromPoint(vm, {
-            x: chartX,
-            y: chartY
-          }),
-          angle = pointRelativePosition.angle,
-          distance = pointRelativePosition.distance;
+          x: chartX,
+          y: chartY
+        }),
+        angle = pointRelativePosition.angle,
+        distance = pointRelativePosition.distance;
 
         //Sanitise angle range
         var startAngle = vm.startAngle;
@@ -47,29 +47,29 @@ module.exports = function(Chart, moment) {
 
         //Check if within the range of the open/close angle
         var betweenAngles = (angle >= startAngle && angle <= endAngle),
-          withinRadius = (distance >= vm.innerRadius && distance <= vm.outerRadius);
+        withinRadius = (distance >= vm.innerRadius && distance <= vm.outerRadius);
 
         return (betweenAngles && withinRadius);
       } else {
         return false;
       }
     },
-    tooltipPosition: function() {
+    tooltipPosition: function () {
       var vm = this._view;
 
       var centreAngle = vm.startAngle + ((vm.endAngle - vm.startAngle) / 2),
-        rangeFromCentre = (vm.outerRadius - vm.innerRadius) / 2 + vm.innerRadius;
+      rangeFromCentre = (vm.outerRadius - vm.innerRadius) / 2 + vm.innerRadius;
       return {
         x: vm.x + (Math.cos(centreAngle) * rangeFromCentre),
         y: vm.y + (Math.sin(centreAngle) * rangeFromCentre)
       };
     },
-    draw: function() {
+    draw: function () {
 
       var ctx = this._chart.ctx,
-        vm = this._view,
-        sA = vm.startAngle,
-        eA = vm.endAngle;
+      vm = this._view,
+      sA = vm.startAngle,
+      eA = vm.endAngle;
 
       ctx.beginPath();
 

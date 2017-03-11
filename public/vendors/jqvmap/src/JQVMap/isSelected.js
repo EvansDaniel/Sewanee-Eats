@@ -1,3 +1,3 @@
-JQVMap.prototype.isSelected = function(cc) {
+JQVMap.prototype.isSelected = function (cc) {
   return this.selectIndex(cc) >= 0;
 };

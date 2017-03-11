@@ -3,11 +3,12 @@ define([
   './utils'
 ], function ($, CompatUtils) {
   // No-op CSS adapter that discards all classes by default
-  function _dropdownAdapter (clazz) {
+  function _dropdownAdapter(clazz) {
     return null;
   }
 
-  function DropdownCSS () { }
+  function DropdownCSS() {
+  }
 
   DropdownCSS.prototype.render = function (decorated) {
     var $dropdown = decorated.call(this);

@@ -3,11 +3,12 @@ define([
   './utils'
 ], function ($, CompatUtils) {
   // No-op CSS adapter that discards all classes by default
-  function _containerAdapter (clazz) {
+  function _containerAdapter(clazz) {
     return null;
   }
 
-  function ContainerCSS () { }
+  function ContainerCSS() {
+  }
 
   ContainerCSS.prototype.render = function (decorated) {
     var $container = decorated.call(this);

@@ -89,7 +89,9 @@ $.emit = function (name, instance) {
   if (!instanceGiven) {
     instance = window.Parsley;
   }
-  instance.trigger(...args);
+  instance.trigger(...args
+  )
+  ;
 };
 
 export default {};

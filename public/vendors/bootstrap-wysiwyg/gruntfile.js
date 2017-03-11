@@ -30,14 +30,14 @@ module.exports = function (grunt) {
     },
     uglify: {
       options: {
-        banner: '/* @fileoverview \n' + 
-                ' * Provides full Bootstrap based, multi-instance WYSIWYG editor. \n' + 
-                ' * \n' + 
-                ' * Name     = ' + '<%= pkg.name %> \n' + 
-                ' * Author   = ' + 'Various, see LICENCE \n' + 
-                ' * Version  = ' + 'v<%= pkg.version %> \n' +
-                ' * About    = ' + 'A tiny Bootstrap and jQuery based WYSIWYG rich text editor based on the browser function execCommand. \n' + 
-                '*/ \n\n'
+        banner: '/* @fileoverview \n' +
+        ' * Provides full Bootstrap based, multi-instance WYSIWYG editor. \n' +
+        ' * \n' +
+        ' * Name     = ' + '<%= pkg.name %> \n' +
+        ' * Author   = ' + 'Various, see LICENCE \n' +
+        ' * Version  = ' + 'v<%= pkg.version %> \n' +
+        ' * About    = ' + 'A tiny Bootstrap and jQuery based WYSIWYG rich text editor based on the browser function execCommand. \n' +
+        '*/ \n\n'
       },
       dist: {
         files: {
@@ -54,7 +54,7 @@ module.exports = function (grunt) {
         push: false,
         pushTags: false,
         tag: false
-      } 
+      }
     },
     watch: {
       files: ['gruntfile.js', 'gulpfile.js', 'src/**/*.js', '*.html', 'examples/**/*.html'],

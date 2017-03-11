@@ -4,7 +4,7 @@ var JQVMap = function (params) {
   var mapData = JQVMap.maps[params.map];
   var mapPins;
 
-  if( !mapData){
+  if (!mapData) {
     throw new Error('Invalid "' + params.map + '" map parameter. Please make sure you have loaded this map file in your HTML.');
   }
 
@@ -32,7 +32,7 @@ var JQVMap = function (params) {
     var newWidth = params.container.width();
     var newHeight = params.container.height();
 
-    if(newWidth && newHeight){
+    if (newWidth && newHeight) {
       map.width = newWidth;
       map.height = newHeight;
       map.resize();
@@ -42,7 +42,7 @@ var JQVMap = function (params) {
       var resizeEvent = jQuery.Event('resize.jqvmap');
       jQuery(params.container).trigger(resizeEvent, [newWidth, newHeight]);
 
-      if(mapPins){
+      if (mapPins) {
         jQuery('.jqvmap-pin').remove();
         map.pinHandlers = false;
         map.placePins(mapPins.pins, mapPins.mode);
@@ -87,9 +87,9 @@ var JQVMap = function (params) {
 
   jQuery(params.container).delegate(this.canvas.mode === 'svg' ? 'path' : 'shape', 'mouseover mouseout', function (e) {
     var containerPath = e.target,
-      code = e.target.id.split('_').pop(),
-      labelShowEvent = jQuery.Event('labelShow.jqvmap'),
-      regionMouseOverEvent = jQuery.Event('regionMouseOver.jqvmap');
+    code = e.target.id.split('_').pop(),
+    labelShowEvent = jQuery.Event('labelShow.jqvmap'),
+    regionMouseOverEvent = jQuery.Event('regionMouseOver.jqvmap');
 
     code = code.toLowerCase();
 
@@ -126,14 +126,14 @@ var JQVMap = function (params) {
 
     jQuery(params.container).trigger(mapClickEvent, [code, mapData.paths[code].name]);
 
-    if ( !params.multiSelectRegion && !mapClickEvent.isDefaultPrevented()) {
+    if (!params.multiSelectRegion && !mapClickEvent.isDefaultPrevented()) {
       for (var keyPath in mapData.paths) {
         map.countries[keyPath].currentFillColor = map.countries[keyPath].getOriginalFill();
         map.countries[keyPath].setFill(map.countries[keyPath].getOriginalFill());
       }
     }
 
-    if ( !mapClickEvent.isDefaultPrevented()) {
+    if (!mapClickEvent.isDefaultPrevented()) {
       if (map.isSelected(code)) {
         map.deselect(code, targetPath);
       } else {
@@ -148,10 +148,10 @@ var JQVMap = function (params) {
         var left = e.pageX - 15 - map.labelWidth;
         var top = e.pageY - 15 - map.labelHeight;
 
-        if(left < 0) {
+        if (left < 0) {
           left = e.pageX + 15;
         }
-        if(top < 0) {
+        if (top < 0) {
           top = e.pageY + 15;
         }
 
@@ -178,7 +178,7 @@ var JQVMap = function (params) {
 
   if (params.selectedRegions) {
     if (params.selectedRegions instanceof Array) {
-      for(var k in params.selectedRegions) {
+      for (var k in params.selectedRegions) {
         this.select(params.selectedRegions[k].toLowerCase());
       }
     } else {
@@ -188,7 +188,7 @@ var JQVMap = function (params) {
 
   this.bindZoomButtons();
 
-  if(params.pins) {
+  if (params.pins) {
     mapPins = {
       pins: params.pins,
       mode: params.pinMode
@@ -198,13 +198,13 @@ var JQVMap = function (params) {
     this.placePins(params.pins, params.pinMode);
   }
 
-  if(params.showLabels){
+  if (params.showLabels) {
     this.pinHandlers = false;
 
     var pins = {};
-    for (key in map.countries){
+    for (key in map.countries) {
       if (typeof map.countries[key] !== 'function') {
-        if( !params.pins || !params.pins[key] ){
+        if (!params.pins || !params.pins[key]) {
           pins[key] = key.toUpperCase();
         }
       }

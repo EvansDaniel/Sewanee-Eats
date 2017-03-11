@@ -152,9 +152,9 @@ slug: announcements-4.0
           options that looked like…
         </p>
 
-{% highlight html linenos %}
-<input type="hidden" name="select-boxes" value="1,2,4,6" />
-{% endhighlight %}
+        {% highlight html linenos %}
+        <input type="hidden" name="select-boxes" value="1,2,4,6"/>
+        {% endhighlight %}
 
         <p>
           It will need to be recreated as a <code>&lt;select&gt;</code> element with
@@ -162,14 +162,14 @@ slug: announcements-4.0
           attributes that match the old value.
         </p>
 
-{% highlight html linenos %}
-<select name="select-boxes" multiple="multiple">
-  <option value="1" selected="selected">Select2</option>
-  <option value="2" selected="selected">Chosen</option>
-  <option value="4" selected="selected">selectize.js</option>
-  <option value="6" selected="selected">typeahead.js</option>
-</select>
-{% endhighlight %}
+        {% highlight html linenos %}
+        <select name="select-boxes" multiple="multiple">
+          <option value="1" selected="selected">Select2</option>
+          <option value="2" selected="selected">Chosen</option>
+          <option value="4" selected="selected">selectize.js</option>
+          <option value="6" selected="selected">typeahead.js</option>
+        </select>
+        {% endhighlight %}
 
         <p>
           The options that you create should have <code>selected="selected"</code>
@@ -210,19 +210,19 @@ slug: announcements-4.0
           started with the term that was entered, it would look something like…
         </p>
 
-{% highlight js linenos %}
-function matchStart (term, text) {
-  if (text.toUpperCase().indexOf(term.toUpperCase()) == 0) {
-    return true;
-  }
+        {% highlight js linenos %}
+        function matchStart (term, text) {
+        if (text.toUpperCase().indexOf(term.toUpperCase()) == 0) {
+        return true;
+        }
 
-  return false;
-}
+        return false;
+        }
 
-$("select").select2({
-  matcher: matchStart
-})
-{% endhighlight %}
+        $("select").select2({
+        matcher: matchStart
+        })
+        {% endhighlight %}
 
         <p>
           Then in Select2 4.0, you would need to wrap the <code>matchStart</code>
@@ -230,21 +230,21 @@ $("select").select2({
           <code>oldMatcher</code> method that we have created.
         </p>
 
-{% highlight js linenos %}
-function matchStart (term, text) {
-  if (text.toUpperCase().indexOf(term.toUpperCase()) == 0) {
-    return true;
-  }
+        {% highlight js linenos %}
+        function matchStart (term, text) {
+        if (text.toUpperCase().indexOf(term.toUpperCase()) == 0) {
+        return true;
+        }
 
-  return false;
-}
+        return false;
+        }
 
-$.fn.select2.amd.require(['select2/compat/matcher'], function (oldMatcher) {
-  $("select").select2({
-    matcher: oldMatcher(matchStart)
-  })
-});
-{% endhighlight %}
+        $.fn.select2.amd.require(['select2/compat/matcher'], function (oldMatcher) {
+        $("select").select2({
+        matcher: oldMatcher(matchStart)
+        })
+        });
+        {% endhighlight %}
 
         <p>
           This will work for any matchers that only took in the search term and the
@@ -280,12 +280,12 @@ $.fn.select2.amd.require(['select2/compat/matcher'], function (oldMatcher) {
           value of <code>-1</code>) is the placeholder option…
         </p>
 
-{% highlight html linenos %}
-<select>
-  <option value="-1" selected="selected">Select an option</option>
-  <option value="1">Something else</option>
-</select>
-{% endhighlight %}
+        {% highlight html linenos %}
+        <select>
+          <option value="-1" selected="selected">Select an option</option>
+          <option value="1">Something else</option>
+        </select>
+        {% endhighlight %}
 
         <p>
           You would have previously had to get the placeholder option through the
@@ -293,14 +293,14 @@ $.fn.select2.amd.require(['select2/compat/matcher'], function (oldMatcher) {
           <code>placeholder</code> option by setting an <code>id</code>.
         </p>
 
-{% highlight js linenos %}
-$("select").select2({
-  placeholder: {
-    id: "-1",
-    placeholder: "Select an option"
-  }
-})
-{% endhighlight %}
+        {% highlight js linenos %}
+        $("select").select2({
+        placeholder: {
+        id: "-1",
+        placeholder: "Select an option"
+        }
+        })
+        {% endhighlight %}
 
         <p>
           And Select2 will automatically display the placeholder when the value of
@@ -359,17 +359,17 @@ $("select").select2({
           the <code>id</code> and <code>text</code> matching the selected value.
         </p>
 
-{% highlight js linenos %}
-{
-  initSelection : function (element, callback) {
-    var data = [];
-    $(element.val()).each(function () {
-      data.push({id: this, text: this});
-    });
-    callback(data);
-  }
-}
-{% endhighlight %}
+        {% highlight js linenos %}
+        {
+        initSelection : function (element, callback) {
+        var data = [];
+        $(element.val()).each(function () {
+        data.push({id: this, text: this});
+        });
+        callback(data);
+        }
+        }
+        {% endhighlight %}
 
         <p>
           When using the new <code>current</code> method of the custom data adapter,
@@ -380,40 +380,40 @@ $("select").select2({
           remote data source).
         </p>
 
-{% highlight js linenos %}
-$.fn.select2.amd.require([
-  'select2/data/array',
-  'select2/utils'
-], function (ArrayData, Utils) {
-  function CustomData ($element, options) {
-    CustomData.__super__.constructor.call(this, $element, options);
-  }
+        {% highlight js linenos %}
+        $.fn.select2.amd.require([
+        'select2/data/array',
+        'select2/utils'
+        ], function (ArrayData, Utils) {
+        function CustomData ($element, options) {
+        CustomData.__super__.constructor.call(this, $element, options);
+        }
 
-  Utils.Extend(CustomData, ArrayData);
+        Utils.Extend(CustomData, ArrayData);
 
-  CustomData.prototype.current = function (callback) {
-    var data = [];
-    var currentVal = this.$element.val();
+        CustomData.prototype.current = function (callback) {
+        var data = [];
+        var currentVal = this.$element.val();
 
-    if (!this.$element.prop('multiple')) {
-      currentVal = [currentVal];
-    }
+        if (!this.$element.prop('multiple')) {
+        currentVal = [currentVal];
+        }
 
-    for (var v = 0; v < currentVal.length; v++) {
-      data.push({
+        for (var v = 0; v < currentVal.length; v++) {
+        data.push({
         id: currentVal[v],
         text: currentVal[v]
-      });
-    }
+        });
+        }
 
-    callback(data);
-  };
+        callback(data);
+        };
 
-  $("#select").select2({
-    dataAdapter: CustomData
-  });
-}
-{% endhighlight %}
+        $("#select").select2({
+        dataAdapter: CustomData
+        });
+        }
+        {% endhighlight %}
 
         <p>
           The new <code>current</code> method of the data adapter works in a similar
@@ -438,31 +438,31 @@ $.fn.select2.amd.require([
           the changes.
         </p>
 
-{% highlight js linenos %}
-var $element = $('select').select2(); // the select element you are working with
+        {% highlight js linenos %}
+        var $element = $('select').select2(); // the select element you are working with
 
-var $request = $.ajax({
-  url: '/my/remote/source' // wherever your data is actually coming from
-});
+        var $request = $.ajax({
+        url: '/my/remote/source' // wherever your data is actually coming from
+        });
 
-$request.then(function (data) {
-  // This assumes that the data comes back as an array of data objects
-  // The idea is that you are using the same callback as the old `initSelection`
+        $request.then(function (data) {
+        // This assumes that the data comes back as an array of data objects
+        // The idea is that you are using the same callback as the old `initSelection`
 
-  for (var d = 0; d < data.length; d++) {
-    var item = data[d];
+        for (var d = 0; d < data.length; d++) {
+        var item = data[d];
 
-    // Create the DOM option that is pre-selected by default
-    var option = new Option(item.text, item.id, true, true);
+        // Create the DOM option that is pre-selected by default
+        var option = new Option(item.text, item.id, true, true);
 
-    // Append it to the select
-    $element.append(option);
-  }
+        // Append it to the select
+        $element.append(option);
+        }
 
-  // Update the selected options that are displayed
-  $element.trigger('change');
-});
-{% endhighlight %}
+        // Update the selected options that are displayed
+        $element.trigger('change');
+        });
+        {% endhighlight %}
 
         <h3 id="query-to-data-adapter">
           Custom data adapters instead of <code>query</code>
@@ -489,19 +489,19 @@ $request.then(function (data) {
           number of times.
         </p>
 
-{% highlight js linenos %}
-{
-  query: function (query) {
-    var data = {results: []}, i, j, s;
-    for (i = 1; i < 5; i++) {
-      s = "";
-      for (j = 0; j < i; j++) {s = s + query.term;}
-      data.results.push({id: query.term + i, text: s});
-    }
-    query.callback(data);
-  }
-}
-{% endhighlight %}
+        {% highlight js linenos %}
+        {
+        query: function (query) {
+        var data = {results: []}, i, j, s;
+        for (i = 1; i < 5; i++) {
+        s = "";
+        for (j = 0; j < i; j++) {s = s + query.term;}
+        data.results.push({id: query.term + i, text: s});
+        }
+        query.callback(data);
+        }
+        }
+        {% endhighlight %}
 
         <p>
           This has been replaced by custom data adapters which define a similarly
@@ -509,43 +509,43 @@ $request.then(function (data) {
           below as an example.
         </p>
 
-{% highlight js linenos %}
-$.fn.select2.amd.require([
-  'select2/data/array',
-  'select2/utils'
-], function (ArrayData, Utils) {
-  function CustomData ($element, options) {
-    CustomData.__super__.constructor.call(this, $element, options);
-  }
+        {% highlight js linenos %}
+        $.fn.select2.amd.require([
+        'select2/data/array',
+        'select2/utils'
+        ], function (ArrayData, Utils) {
+        function CustomData ($element, options) {
+        CustomData.__super__.constructor.call(this, $element, options);
+        }
 
-  Utils.Extend(CustomData, ArrayData);
+        Utils.Extend(CustomData, ArrayData);
 
-  CustomData.prototype.query = function (params, callback) {
-    var data = {
-      results: []
-    };
+        CustomData.prototype.query = function (params, callback) {
+        var data = {
+        results: []
+        };
 
-    for (var i = 1; i < 5; i++) {
-      var s = "";
+        for (var i = 1; i < 5; i++) {
+        var s = "";
 
-      for (var j = 0; j < i; j++) {
+        for (var j = 0; j < i; j++) {
         s = s + params.term;
-      }
+        }
 
-      data.results.push({
+        data.results.push({
         id: params.term + i,
         text: s
-      });
-    }
+        });
+        }
 
-    callback(data);
-  };
+        callback(data);
+        };
 
-  $("#select").select2({
-    dataAdapter: CustomData
-  });
-}
-{% endhighlight %}
+        $("#select").select2({
+        dataAdapter: CustomData
+        });
+        }
+        {% endhighlight %}
 
         <p>
           The new <code>query</code> method of the data adapter is very similar to
@@ -606,23 +606,23 @@ $.fn.select2.amd.require([
           <code>text</code> and <code>id</code> properties to the new ones.
         </p>
 
-{% highlight js linenos %}
-var data = $.map([
-  {
-    pk: 1,
-    word: 'one'
-  },
-  {
-    pk: 2,
-    word: 'two'
-  }
-], function (obj) {
-  obj.id = obj.id || obj.pk;
-  obj.text = obj.text || obj.word;
+        {% highlight js linenos %}
+        var data = $.map([
+        {
+        pk: 1,
+        word: 'one'
+        },
+        {
+        pk: 2,
+        word: 'two'
+        }
+        ], function (obj) {
+        obj.id = obj.id || obj.pk;
+        obj.text = obj.text || obj.word;
 
-  return obj;
-});
-{% endhighlight %}
+        return obj;
+        });
+        {% endhighlight %}
 
         <p>
           This will result in an array of data objects that have the <code>id</code>
@@ -688,17 +688,17 @@ var data = $.map([
           If you previously declared the list of tags as…
         </p>
 
-{% highlight html linenos %}
-<select data-select2-tags='[{"id": "1", "text": "One"}, {"id": "2", "text": "Two"}]'></select>
-{% endhighlight %}
+        {% highlight html linenos %}
+        <select data-select2-tags='[{"id": "1", "text": "One"}, {"id": "2", "text": "Two"}]'></select>
+        {% endhighlight %}
 
         <p>
           …then you should now declare it as…
         </p>
 
-{% highlight html linenos %}
-<select data-data='[{"id": "1", "text": "One"}, {"id": "2", "text": "Two"}]' data-tags="true"></select>
-{% endhighlight %}
+        {% highlight html linenos %}
+        <select data-data='[{"id": "1", "text": "One"}, {"id": "2", "text": "Two"}]' data-tags="true"></select>
+        {% endhighlight %}
 
         <h2 id="removed-methods">Deprecated and removed methods</h2>
 
@@ -723,9 +723,9 @@ var data = $.map([
           <code>.trigger("change")</code> on the element.
         </p>
 
-{% highlight js linenos %}
-$("select").val("1").trigger("change"); // instead of $("select").select2("val", "1");
-{% endhighlight %}
+        {% highlight js linenos %}
+        $("select").val("1").trigger("change"); // instead of $("select").select2("val", "1");
+        {% endhighlight %}
 
         <h3>.select2("enable")</h3>
 
@@ -737,9 +737,9 @@ $("select").val("1").trigger("change"); // instead of $("select").select2("val",
           completely removed in Select2 4.1.
         </p>
 
-{% highlight js linenos %}
-$("select").prop("disabled", true); // instead of $("select").enable(false);
-{% endhighlight %}
+        {% highlight js linenos %}
+        $("select").prop("disabled", true); // instead of $("select").enable(false);
+        {% endhighlight %}
 
       </section>
     </div>

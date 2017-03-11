@@ -1,7 +1,7 @@
 define([
   '../utils'
 ], function (Utils) {
-  function Placeholder (decorated, $element, options) {
+  function Placeholder(decorated, $element, options) {
     this.placeholder = this.normalizePlaceholder(options.get('placeholder'));
 
     decorated.call(this, $element, options);
@@ -23,14 +23,14 @@ define([
 
     $placeholder.html(this.display(placeholder));
     $placeholder.addClass('select2-selection__placeholder')
-                .removeClass('select2-selection__choice');
+    .removeClass('select2-selection__choice');
 
     return $placeholder;
   };
 
   Placeholder.prototype.update = function (decorated, data) {
     var singlePlaceholder = (
-      data.length == 1 && data[0].id != this.placeholder.id
+    data.length == 1 && data[0].id != this.placeholder.id
     );
     var multipleSelections = data.length > 1;
 

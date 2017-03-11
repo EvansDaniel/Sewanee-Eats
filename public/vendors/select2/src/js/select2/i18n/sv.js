@@ -15,7 +15,7 @@ define(function () {
       var remainingChars = args.minimum - args.input.length;
 
       var message = 'Vänligen skriv in ' + remainingChars +
-                    ' eller fler tecken';
+      ' eller fler tecken';
 
       return message;
     },

@@ -1,7 +1,6 @@
-define([
-
-], function () {
-  function CloseOnSelect () { }
+define([], function () {
+  function CloseOnSelect() {
+  }
 
   CloseOnSelect.prototype.bind = function (decorated, container, $container) {
     var self = this;

@@ -56,7 +56,7 @@ JQVMap.prototype.makeDraggable = function () {
 
   }).mouseout(function () {
 
-    if(mouseDown && self.isMoving){
+    if (mouseDown && self.isMoving) {
 
       clearTimeout(self.isMovingTimeout);
       self.isMovingTimeout = setTimeout(function () {
@@ -79,7 +79,7 @@ JQVMap.prototype.makeDraggable = function () {
     if (touches.length === 1) {
       if (lastTouchCount === 1) {
 
-        if(touchX === touches[0].pageX && touchY === touches[0].pageY){
+        if (touchX === touches[0].pageX && touchY === touches[0].pageY) {
           return;
         }
 
@@ -108,14 +108,14 @@ JQVMap.prototype.makeDraggable = function () {
 
       if (lastTouchCount === 2) {
         scale = Math.sqrt(
-            Math.pow(touches[0].pageX - touches[1].pageX, 2) +
-            Math.pow(touches[0].pageY - touches[1].pageY, 2)
-          ) / touchStartDistance;
+        Math.pow(touches[0].pageX - touches[1].pageX, 2) +
+        Math.pow(touches[0].pageY - touches[1].pageY, 2)
+        ) / touchStartDistance;
 
         self.setScale(
-          touchStartScale * scale,
-          touchCenterX,
-          touchCenterY
+        touchStartScale * scale,
+        touchCenterX,
+        touchCenterY
         );
 
         e.preventDefault();
@@ -140,8 +140,8 @@ JQVMap.prototype.makeDraggable = function () {
         touchStartScale = self.scale;
 
         touchStartDistance = Math.sqrt(
-          Math.pow(touches[0].pageX - touches[1].pageX, 2) +
-          Math.pow(touches[0].pageY - touches[1].pageY, 2)
+        Math.pow(touches[0].pageX - touches[1].pageX, 2) +
+        Math.pow(touches[0].pageY - touches[1].pageY, 2)
         );
       }
     }

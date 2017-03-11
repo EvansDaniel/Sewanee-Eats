@@ -4,7 +4,7 @@ define([
   './defaults',
   './utils'
 ], function (require, $, Defaults, Utils) {
-  function Options (options, $element) {
+  function Options(options, $element) {
     this.options = options;
 
     if ($element != null) {
@@ -17,8 +17,8 @@ define([
       var InputCompat = require(this.get('amdBase') + 'compat/inputData');
 
       this.options.dataAdapter = Utils.Decorate(
-        this.options.dataAdapter,
-        InputCompat
+      this.options.dataAdapter,
+      InputCompat
       );
     }
   }
@@ -58,9 +58,9 @@ define([
     if ($e.data('select2Tags')) {
       if (this.options.debug && window.console && console.warn) {
         console.warn(
-          'Select2: The `data-select2-tags` attribute has been changed to ' +
-          'use the `data-data` and `data-tags="true"` attributes and will be ' +
-          'removed in future versions of Select2.'
+        'Select2: The `data-select2-tags` attribute has been changed to ' +
+        'use the `data-data` and `data-tags="true"` attributes and will be ' +
+        'removed in future versions of Select2.'
         );
       }
 
@@ -71,9 +71,9 @@ define([
     if ($e.data('ajaxUrl')) {
       if (this.options.debug && window.console && console.warn) {
         console.warn(
-          'Select2: The `data-ajax-url` attribute has been changed to ' +
-          '`data-ajax--url` and support for the old attribute will be removed' +
-          ' in future versions of Select2.'
+        'Select2: The `data-ajax-url` attribute has been changed to ' +
+        '`data-ajax--url` and support for the old attribute will be removed' +
+        ' in future versions of Select2.'
         );
       }
 

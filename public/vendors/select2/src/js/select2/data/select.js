@@ -3,7 +3,7 @@ define([
   '../utils',
   'jquery'
 ], function (BaseAdapter, Utils, $) {
-  function SelectAdapter ($element, options) {
+  function SelectAdapter($element, options) {
     this.$element = $element;
     this.options = options;
 

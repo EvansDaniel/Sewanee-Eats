@@ -47,24 +47,24 @@ var opts = {
 // Gulp task definitions
 // ----------------------------
 
-gulp.task('default', function() {
+gulp.task('default', function () {
   runSequence('createCSS', 'addHeader');
 });
 
-gulp.task('createCSS', function() {
+gulp.task('createCSS', function () {
   return gulp.src(activatedAnimations)
-    .pipe(concat(opts.concatName))
-    .pipe(autoprefixer(opts.autoprefixer))
-    .pipe(gulp.dest(opts.destPath))
-    .pipe(rename(opts.minRename))
-    .pipe(minify({reduceIdents: {keyframes: false}}))
-    .pipe(gulp.dest(opts.destPath));
+  .pipe(concat(opts.concatName))
+  .pipe(autoprefixer(opts.autoprefixer))
+  .pipe(gulp.dest(opts.destPath))
+  .pipe(rename(opts.minRename))
+  .pipe(minify({reduceIdents: {keyframes: false}}))
+  .pipe(gulp.dest(opts.destPath));
 });
 
-gulp.task('addHeader', function() {
+gulp.task('addHeader', function () {
   return gulp.src('*.css')
-    .pipe(header(opts.banner, pkg))
-    .pipe(gulp.dest(opts.destPath));
+  .pipe(header(opts.banner, pkg))
+  .pipe(gulp.dest(opts.destPath));
 });
 
 // ----------------------------
@@ -74,9 +74,9 @@ gulp.task('addHeader', function() {
 // Read the config file and return an array of the animations to be activated
 function activateAnimations() {
   var categories = JSON.parse(fs.readFileSync('animate-config.json')),
-    category, files, file,
-    target = [ 'source/_base.css' ],
-    count = 0;
+  category, files, file,
+  target = ['source/_base.css'],
+  count = 0;
 
   for (category in categories) {
     if (categories.hasOwnProperty(category)) {

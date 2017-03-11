@@ -2,7 +2,7 @@ define([
   'jquery',
   'require'
 ], function ($, require) {
-  function Translation (dict) {
+  function Translation(dict) {
     this.dict = dict || {};
   }
 

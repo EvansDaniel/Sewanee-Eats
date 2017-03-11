@@ -1,18 +1,18 @@
-define(function(require) {
+define(function (require) {
 
-    require('../coord/parallel/parallelCreator');
-    require('../coord/parallel/ParallelModel');
-    require('./parallelAxis');
+  require('../coord/parallel/parallelCreator');
+  require('../coord/parallel/ParallelModel');
+  require('./parallelAxis');
 
-    var echarts = require('../echarts');
+  var echarts = require('../echarts');
 
-    // Parallel view
-    echarts.extendComponentView({
-        type: 'parallel'
-    });
+  // Parallel view
+  echarts.extendComponentView({
+    type: 'parallel'
+  });
 
-    echarts.registerPreprocessor(
-        require('../coord/parallel/parallelPreprocessor')
-    );
+  echarts.registerPreprocessor(
+  require('../coord/parallel/parallelPreprocessor')
+  );
 
 });

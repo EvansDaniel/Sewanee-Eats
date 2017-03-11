@@ -62,7 +62,7 @@ Parsley.addValidator('remote', {
     }
 
     // Merge options passed in from the function with the ones in the attribute
-    var remoteOptions = $.extend(true, options.options || {} , Parsley.asyncValidators[validator].options);
+    var remoteOptions = $.extend(true, options.options || {}, Parsley.asyncValidators[validator].options);
 
     // All `$.ajax(options)` could be overridden or extended directly from DOM in `data-parsley-remote-options`
     ajaxOptions = $.extend(true, {}, {
@@ -102,5 +102,7 @@ Parsley.on('form:submit', function () {
 
 window.ParsleyExtend.addAsyncValidator = function () {
   ParsleyUtils.warnOnce('Accessing the method `addAsyncValidator` through an instance is deprecated. Simply call `Parsley.addAsyncValidator(...)`');
-  return Parsley.addAsyncValidator(...arguments);
+  return Parsley.addAsyncValidator(...arguments
+  )
+  ;
 };

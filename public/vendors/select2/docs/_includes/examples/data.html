@@ -4,9 +4,10 @@
     Data sources
   </h1>
 
-  <p>In addition to handling options from a standard <code>&lt;select&gt;</code>, Select2 can also retrieve the results from other data sources.</p>
+  <p>In addition to handling options from a standard <code>&lt;select&gt;</code>, Select2 can also retrieve the results
+    from other data sources.</p>
 
-  <h2 id="data-array" >Loading array data</h2>
+  <h2 id="data-array">Loading array data</h2>
 
   <p>
     Select2 provides a way to load the data from a local array.
@@ -26,27 +27,30 @@
     </p>
   </div>
 
-{% highlight html linenos %}
-<script type="text/javascript">
-var data = [{ id: 0, text: 'enhancement' }, { id: 1, text: 'bug' }, { id: 2, text: 'duplicate' }, { id: 3, text: 'invalid' }, { id: 4, text: 'wontfix' }];
+  {% highlight html linenos %}
+  <script type="text/javascript">
+    var data = [{id: 0, text: 'enhancement'}, {id: 1, text: 'bug'}, {id: 2, text: 'duplicate'}, {
+      id: 3,
+      text: 'invalid'
+    }, {id: 4, text: 'wontfix'}];
 
-$(".js-example-data-array").select2({
-  data: data
-})
+    $(".js-example-data-array").select2({
+      data: data
+    })
 
-$(".js-example-data-array-selected").select2({
-  data: data
-})
-</script>
+    $(".js-example-data-array-selected").select2({
+      data: data
+    })
+  </script>
 
-<select class="js-example-data-array"></select>
+  <select class="js-example-data-array"></select>
 
-<select class="js-example-data-array-selected">
-  <option value="2" selected="selected">duplicate</option>
-</select>
-{% endhighlight %}
+  <select class="js-example-data-array-selected">
+    <option value="2" selected="selected">duplicate</option>
+  </select>
+  {% endhighlight %}
 
-  <h2 id="data-ajax" >Loading remote data</h2>
+  <h2 id="data-ajax">Loading remote data</h2>
 
   <p>
     Select2 comes with AJAX support built in, using jQuery's AJAX methods.
@@ -67,11 +71,11 @@ $(".js-example-data-array-selected").select2({
     that should be displayed.
   </p>
 
-{% highlight html linenos %}
-<select class="js-data-example-ajax">
-  <option value="3620194" selected="selected">select2/select2</option>
-</select>
-{% endhighlight %}
+  {% highlight html linenos %}
+  <select class="js-data-example-ajax">
+    <option value="3620194" selected="selected">select2/select2</option>
+  </select>
+  {% endhighlight %}
 
   <p>
     You can configure how Select2 searches for remote data using the
@@ -80,40 +84,40 @@ $(".js-example-data-array-selected").select2({
     <a href="options.html#ajax">options documentation for <code>ajax</code></a>.
   </p>
 
-{% highlight js linenos %}
-$(".js-data-example-ajax").select2({
+  {% highlight js linenos %}
+  $(".js-data-example-ajax").select2({
   ajax: {
-    url: "https://api.github.com/search/repositories",
-    dataType: 'json',
-    delay: 250,
-    data: function (params) {
-      return {
-        q: params.term, // search term
-        page: params.page
-      };
-    },
-    processResults: function (data, params) {
-      // parse the results into the format expected by Select2
-      // since we are using custom formatting functions we do not need to
-      // alter the remote JSON data, except to indicate that infinite
-      // scrolling can be used
-      params.page = params.page || 1;
+  url: "https://api.github.com/search/repositories",
+  dataType: 'json',
+  delay: 250,
+  data: function (params) {
+  return {
+  q: params.term, // search term
+  page: params.page
+  };
+  },
+  processResults: function (data, params) {
+  // parse the results into the format expected by Select2
+  // since we are using custom formatting functions we do not need to
+  // alter the remote JSON data, except to indicate that infinite
+  // scrolling can be used
+  params.page = params.page || 1;
 
-      return {
-        results: data.items,
-        pagination: {
-          more: (params.page * 30) < data.total_count
-        }
-      };
-    },
-    cache: true
+  return {
+  results: data.items,
+  pagination: {
+  more: (params.page * 30) < data.total_count
+  }
+  };
+  },
+  cache: true
   },
   escapeMarkup: function (markup) { return markup; }, // let our custom formatter work
   minimumInputLength: 1,
   templateResult: formatRepo, // omitted for brevity, see the source of this page
   templateSelection: formatRepoSelection // omitted for brevity, see the source of this page
-});
-{% endhighlight %}
+  });
+  {% endhighlight %}
 
   <p>
     Select2 will pass any options in the <code>ajax</code> object to

@@ -1,34 +1,34 @@
 define(function (require) {
 
-    var echarts = require('../echarts');
+  var echarts = require('../echarts');
 
-    require('./map/MapSeries');
+  require('./map/MapSeries');
 
-    require('./map/MapView');
+  require('./map/MapView');
 
-    require('../action/geoRoam');
+  require('../action/geoRoam');
 
-    require('../coord/geo/geoCreator');
+  require('../coord/geo/geoCreator');
 
-    echarts.registerLayout(require('./map/mapSymbolLayout'));
+  echarts.registerLayout(require('./map/mapSymbolLayout'));
 
-    echarts.registerVisualCoding('chart', require('./map/mapVisual'));
+  echarts.registerVisualCoding('chart', require('./map/mapVisual'));
 
-    echarts.registerProcessor('statistic', require('./map/mapDataStatistic'));
+  echarts.registerProcessor('statistic', require('./map/mapDataStatistic'));
 
-    echarts.registerPreprocessor(require('./map/backwardCompat'));
+  echarts.registerPreprocessor(require('./map/backwardCompat'));
 
-    require('../action/createDataSelectAction')('map', [{
-        type: 'mapToggleSelect',
-        event: 'mapselectchanged',
-        method: 'toggleSelected'
-    }, {
-        type: 'mapSelect',
-        event: 'mapselected',
-        method: 'select'
-    }, {
-        type: 'mapUnSelect',
-        event: 'mapunselected',
-        method: 'unSelect'
-    }]);
+  require('../action/createDataSelectAction')('map', [{
+    type: 'mapToggleSelect',
+    event: 'mapselectchanged',
+    method: 'toggleSelected'
+  }, {
+    type: 'mapSelect',
+    event: 'mapselected',
+    method: 'select'
+  }, {
+    type: 'mapUnSelect',
+    event: 'mapunselected',
+    method: 'unSelect'
+  }]);
 });

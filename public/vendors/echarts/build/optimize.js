@@ -4,8 +4,8 @@ var etpl = require('etpl');
 var argv = require('optimist').argv;
 
 etpl.config({
-    commandOpen: '/**',
-    commandClose: '*/'
+  commandOpen: '/**',
+  commandClose: '*/'
 });
 
 var mode = argv.m || 'all';
@@ -19,7 +19,7 @@ var nutCode = fs.readFileSync('wrap/nut.js', 'utf-8');
 var endCode = fs.readFileSync('wrap/end.js', 'utf-8');
 
 endCode = etpl.compile(endCode)({
-    parts: config.include
+  parts: config.include
 });
 
 // FIXME
@@ -29,7 +29,7 @@ var ast = UglifyJS.parse(sourceCode);
 /* jshint camelcase: false */
 // compressor needs figure_out_scope too
 ast.figure_out_scope();
-ast = ast.transform(UglifyJS.Compressor( {} ));
+ast = ast.transform(UglifyJS.Compressor({}));
 
 // need to figure out scope again so mangler works optimally
 ast.figure_out_scope();

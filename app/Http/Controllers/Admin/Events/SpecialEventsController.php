@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Admin\Events;
 
 use App\CustomTraits\UploadFile;
+use App\Http\Controllers\Controller;
 use App\Models\SpecialEvent;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 
 class SpecialEventsController extends Controller
 {
@@ -28,7 +28,7 @@ class SpecialEventsController extends Controller
     public function showEvent($id)
     {
         $event = SpecialEvent::find($id);
-        return view('admin.events.show_event',compact('event'));
+        return view('admin.events.show_event', compact('event'));
     }
 
     public function showCreateEvent()
@@ -39,23 +39,12 @@ class SpecialEventsController extends Controller
     public function showUpdateEvent($event_id)
     {
         $event = SpecialEvent::find($event_id);
-        return view('admin.events.updateEvent',compact('event'));
+        return view('admin.events.updateEvent', compact('event'));
     }
 
     public function createEvent(Request $request)
     {
         $this->createUpdateHelper($request);
-    }
-
-    public function updateEvent(Request $request)
-    {
-        $special_event = $request->input('event_id');
-        $this->createUpdateHelper($request,$special_event);
-    }
-
-    public function deleteEvent(Request $request)
-    {
-        // what to do, what todo
     }
 
     public function createUpdateHelper(Request $request, $special_event = null)
@@ -66,13 +55,13 @@ class SpecialEventsController extends Controller
         $for_profit = $request->input('for_profit');
         $host_image = $request->file('host_image');
 
-        if(empty($special_event)) {
+        if (empty($special_event)) {
             $special_event = new SpecialEvent;
         }
 
 
         // save a new image on update only if it exists
-        if(!empty($host_image)) {
+        if (!empty($host_image)) {
             // Store the event image to file system
             $file_name = $this->getFileName($host_image, $this->eventImageDir);
             $this->storeFile($this->eventImageDir, $host_image, $file_name);
@@ -84,5 +73,16 @@ class SpecialEventsController extends Controller
         $special_event->for_profit = $for_profit;
         $special_event->event_description = $event_d;
         $special_event->save();
+    }
+
+    public function updateEvent(Request $request)
+    {
+        $special_event = $request->input('event_id');
+        $this->createUpdateHelper($request, $special_event);
+    }
+
+    public function deleteEvent(Request $request)
+    {
+        // what to do, what todo
     }
 }

@@ -18,7 +18,8 @@
  * ======================================================================== */
 
 
-+function ($) { "use strict";
++function ($) {
+  "use strict";
 
   // POPOVER PUBLIC CLASS DEFINITION
   // ===============================
@@ -29,11 +30,14 @@
 
   if (!$.fn.tooltip) throw new Error('Popover requires tooltip.js')
 
-  Popover.DEFAULTS = $.extend({} , $.fn.tooltip.Constructor.DEFAULTS, {
+  Popover.DEFAULTS = $.extend({}, $.fn.tooltip.Constructor.DEFAULTS, {
     placement: 'right'
-  , trigger: 'click'
-  , content: ''
-  , template: '<div class="popover"><div class="arrow"></div><h3 class="popover-title"></h3><div class="popover-content"></div></div>'
+    ,
+    trigger: 'click'
+    ,
+    content: ''
+    ,
+    template: '<div class="popover"><div class="arrow"></div><h3 class="popover-title"></h3><div class="popover-content"></div></div>'
   })
 
 
@@ -49,8 +53,8 @@
   }
 
   Popover.prototype.setContent = function () {
-    var $tip    = this.tip()
-    var title   = this.getTitle()
+    var $tip = this.tip()
+    var title = this.getTitle()
     var content = this.getContent()
 
     $tip.find('.popover-title')[this.options.html ? 'html' : 'text'](title)
@@ -69,12 +73,12 @@
 
   Popover.prototype.getContent = function () {
     var $e = this.$element
-    var o  = this.options
+    var o = this.options
 
     return $e.attr('data-content')
-      || (typeof o.content == 'function' ?
-            o.content.call($e[0]) :
-            o.content)
+    || (typeof o.content == 'function' ?
+    o.content.call($e[0]) :
+    o.content)
   }
 
   Popover.prototype.arrow = function () {
@@ -94,8 +98,8 @@
 
   $.fn.popover = function (option) {
     return this.each(function () {
-      var $this   = $(this)
-      var data    = $this.data('bs.popover')
+      var $this = $(this)
+      var data = $this.data('bs.popover')
       var options = typeof option == 'object' && option
 
       if (!data) $this.data('bs.popover', (data = new Popover(this, options)))

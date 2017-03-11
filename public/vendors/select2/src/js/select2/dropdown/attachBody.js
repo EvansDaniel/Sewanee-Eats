@@ -2,7 +2,7 @@ define([
   'jquery',
   '../utils'
 ], function ($, Utils) {
-  function AttachBody (decorated, $element, options) {
+  function AttachBody(decorated, $element, options) {
     this.$dropdownParent = options.get('dropdownParent') || $(document.body);
 
     decorated.call(this, $element, options);
@@ -81,7 +81,7 @@ define([
   };
 
   AttachBody.prototype._attachPositioningHandler =
-      function (decorated, container) {
+  function (decorated, container) {
     var self = this;
 
     var scrollEvent = 'scroll.select2.' + container.id;
@@ -102,14 +102,14 @@ define([
     });
 
     $(window).on(scrollEvent + ' ' + resizeEvent + ' ' + orientationEvent,
-      function (e) {
+    function (e) {
       self._positionDropdown();
       self._resizeDropdown();
     });
   };
 
   AttachBody.prototype._detachPositioningHandler =
-      function (decorated, container) {
+  function (decorated, container) {
     var scrollEvent = 'scroll.select2.' + container.id;
     var resizeEvent = 'resize.select2.' + container.id;
     var orientationEvent = 'orientationchange.select2.' + container.id;
@@ -181,17 +181,17 @@ define([
     }
 
     if (newDirection == 'above' ||
-      (isCurrentlyAbove && newDirection !== 'below')) {
+    (isCurrentlyAbove && newDirection !== 'below')) {
       css.top = container.top - parentOffset.top - dropdown.height;
     }
 
     if (newDirection != null) {
       this.$dropdown
-        .removeClass('select2-dropdown--below select2-dropdown--above')
-        .addClass('select2-dropdown--' + newDirection);
+      .removeClass('select2-dropdown--below select2-dropdown--above')
+      .addClass('select2-dropdown--' + newDirection);
       this.$container
-        .removeClass('select2-container--below select2-container--above')
-        .addClass('select2-container--' + newDirection);
+      .removeClass('select2-container--below select2-container--above')
+      .addClass('select2-container--' + newDirection);
     }
 
     this.$dropdownContainer.css(css);

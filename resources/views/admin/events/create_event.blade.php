@@ -21,7 +21,8 @@
             <label for="host-image">Host Image</label>
             <input type="text" name="host_image" id="host-image" class="form-control">
 
-            <label for="for-profit">Is this event for profit? If so, all items sold for this event will use the event pricing formula to calculate the final price.</label>
+            <label for="for-profit">Is this event for profit? If so, all items sold for this event will use the event
+                pricing formula to calculate the final price.</label>
             <input type="checkbox" name="for_profit" id="for-profit" class="form-control">
         </form>
 

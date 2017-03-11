@@ -26,7 +26,7 @@ var ParsleyUtils = {
       return obj;
 
     attributes = $element[0].attributes;
-    for (i = attributes.length; i--; ) {
+    for (i = attributes.length; i--;) {
       attribute = attributes[i];
 
       if (attribute && attribute.specified && regex.test(attribute.name)) {
@@ -56,14 +56,16 @@ var ParsleyUtils = {
 
     try {
       return value ?
-        value == "true" ||
-        (value == "false" ? false :
-        value == "null" ? null :
-        !isNaN(num = Number(value)) ? num :
-        /^[\[\{]/.test(value) ? $.parseJSON(value) :
-        value)
-        : value;
-    } catch (e) { return value; }
+      value == "true" ||
+      (value == "false" ? false :
+      value == "null" ? null :
+      !isNaN(num = Number(value)) ? num :
+      /^[\[\{]/.test(value) ? $.parseJSON(value) :
+      value)
+      : value;
+    } catch (e) {
+      return value;
+    }
   },
 
   // Zepto camelize function
@@ -76,21 +78,25 @@ var ParsleyUtils = {
   // Zepto dasherize function
   dasherize: function (str) {
     return str.replace(/::/g, '/')
-      .replace(/([A-Z]+)([A-Z][a-z])/g, '$1_$2')
-      .replace(/([a-z\d])([A-Z])/g, '$1_$2')
-      .replace(/_/g, '-')
-      .toLowerCase();
+    .replace(/([A-Z]+)([A-Z][a-z])/g, '$1_$2')
+    .replace(/([a-z\d])([A-Z])/g, '$1_$2')
+    .replace(/_/g, '-')
+    .toLowerCase();
   },
 
   warn: function () {
     if (window.console && 'function' === typeof window.console.warn)
-      window.console.warn(...arguments);
+      window.console.warn(...arguments
+    )
+    ;
   },
 
-  warnOnce: function(msg) {
+  warnOnce: function (msg) {
     if (!pastWarnings[msg]) {
       pastWarnings[msg] = true;
-      this.warn(...arguments);
+      this.warn(...arguments
+    )
+      ;
     }
   },
 
@@ -98,20 +104,23 @@ var ParsleyUtils = {
     pastWarnings = {};
   },
 
-  trimString: function(string) {
+  trimString: function (string) {
     return string.replace(/^\s+|\s+$/g, '');
   },
 
-  namespaceEvents: function(events, namespace) {
+  namespaceEvents: function (events, namespace) {
     events = this.trimString(events || '').split(/\s+/);
     if (!events[0])
       return '';
-    return $.map(events, evt => { return `${evt}.${namespace}`; }).join(' ');
+    return $.map(events, evt = > {return `${evt}.${namespace}`;
+  }).
+    join(' ');
   },
 
   // Object.create polyfill, see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/create#Polyfill
   objectCreate: Object.create || (function () {
-    var Object = function () {};
+    var Object = function () {
+    };
     return function (prototype) {
       if (arguments.length > 1) {
         throw Error('Second argument not supported');

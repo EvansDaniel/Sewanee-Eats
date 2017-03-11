@@ -1,68 +1,73 @@
 /*
-Copyright (c) 2008-2015 Pivotal Labs
+ Copyright (c) 2008-2015 Pivotal Labs
 
-Permission is hereby granted, free of charge, to any person obtaining
-a copy of this software and associated documentation files (the
-"Software"), to deal in the Software without restriction, including
-without limitation the rights to use, copy, modify, merge, publish,
-distribute, sublicense, and/or sell copies of the Software, and to
-permit persons to whom the Software is furnished to do so, subject to
-the following conditions:
+ Permission is hereby granted, free of charge, to any person obtaining
+ a copy of this software and associated documentation files (the
+ "Software"), to deal in the Software without restriction, including
+ without limitation the rights to use, copy, modify, merge, publish,
+ distribute, sublicense, and/or sell copies of the Software, and to
+ permit persons to whom the Software is furnished to do so, subject to
+ the following conditions:
 
-The above copyright notice and this permission notice shall be
-included in all copies or substantial portions of the Software.
+ The above copyright notice and this permission notice shall be
+ included in all copies or substantial portions of the Software.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
-LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
-OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
-WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-*/
-jasmineRequire.html = function(j$) {
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+ MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+ LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+ OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ */
+jasmineRequire.html = function (j$) {
   j$.ResultsNode = jasmineRequire.ResultsNode();
   j$.HtmlReporter = jasmineRequire.HtmlReporter(j$);
   j$.QueryString = jasmineRequire.QueryString();
   j$.HtmlSpecFilter = jasmineRequire.HtmlSpecFilter();
 };
 
-jasmineRequire.HtmlReporter = function(j$) {
+jasmineRequire.HtmlReporter = function (j$) {
 
   var noopTimer = {
-    start: function() {},
-    elapsed: function() { return 0; }
+    start: function () {
+    },
+    elapsed: function () {
+      return 0;
+    }
   };
 
   function HtmlReporter(options) {
     var env = options.env || {},
-      getContainer = options.getContainer,
-      createElement = options.createElement,
-      createTextNode = options.createTextNode,
-      onRaiseExceptionsClick = options.onRaiseExceptionsClick || function() {},
-      onThrowExpectationsClick = options.onThrowExpectationsClick || function() {},
-      addToExistingQueryString = options.addToExistingQueryString || defaultQueryString,
-      timer = options.timer || noopTimer,
-      results = [],
-      specsExecuted = 0,
-      failureCount = 0,
-      pendingSpecCount = 0,
-      htmlReporterMain,
-      symbols,
-      failedSuites = [];
+    getContainer = options.getContainer,
+    createElement = options.createElement,
+    createTextNode = options.createTextNode,
+    onRaiseExceptionsClick = options.onRaiseExceptionsClick || function () {
+    },
+    onThrowExpectationsClick = options.onThrowExpectationsClick || function () {
+    },
+    addToExistingQueryString = options.addToExistingQueryString || defaultQueryString,
+    timer = options.timer || noopTimer,
+    results = [],
+    specsExecuted = 0,
+    failureCount = 0,
+    pendingSpecCount = 0,
+    htmlReporterMain,
+    symbols,
+    failedSuites = [];
 
-    this.initialize = function() {
+    this.initialize = function () {
       clearPrior();
       htmlReporterMain = createDom('div', {className: 'jasmine_html-reporter'},
-        createDom('div', {className: 'banner'},
-          createDom('a', {className: 'title', href: 'http://jasmine.github.io/', target: '_blank'}),
-          createDom('span', {className: 'version'}, j$.version)
-        ),
-        createDom('ul', {className: 'symbol-summary'}),
-        createDom('div', {className: 'alert'}),
-        createDom('div', {className: 'results'},
-          createDom('div', {className: 'failures'})
-        )
+      createDom('div', {className: 'banner'},
+      createDom('a', {className: 'title', href: 'http://jasmine.github.io/', target: '_blank'}),
+      createDom('span', {className: 'version'}, j$.version)
+      ),
+      createDom('ul', {className: 'symbol-summary'}),
+      createDom('div', {className: 'alert'}),
+      createDom('div', {className: 'results'},
+      createDom('div', {className: 'failures'})
+      )
       );
       getContainer().appendChild(htmlReporterMain);
 
@@ -70,7 +75,7 @@ jasmineRequire.HtmlReporter = function(j$) {
     };
 
     var totalSpecsDefined;
-    this.jasmineStarted = function(options) {
+    this.jasmineStarted = function (options) {
       totalSpecsDefined = options.totalSpecsDefined || 0;
       timer.start();
     };
@@ -78,14 +83,14 @@ jasmineRequire.HtmlReporter = function(j$) {
     var summary = createDom('div', {className: 'summary'});
 
     var topResults = new j$.ResultsNode({}, '', null),
-      currentParent = topResults;
+    currentParent = topResults;
 
-    this.suiteStarted = function(result) {
+    this.suiteStarted = function (result) {
       currentParent.addChild(result, 'suite');
       currentParent = currentParent.last();
     };
 
-    this.suiteDone = function(result) {
+    this.suiteDone = function (result) {
       if (result.status == 'failed') {
         failedSuites.push(result);
       }
@@ -97,13 +102,13 @@ jasmineRequire.HtmlReporter = function(j$) {
       currentParent = currentParent.parent;
     };
 
-    this.specStarted = function(result) {
+    this.specStarted = function (result) {
       currentParent.addChild(result, 'spec');
     };
 
     var failures = [];
-    this.specDone = function(result) {
-      if(noExpectations(result) && typeof console !== 'undefined' && typeof console.error !== 'undefined') {
+    this.specDone = function (result) {
+      if (noExpectations(result) && typeof console !== 'undefined' && typeof console.error !== 'undefined') {
         console.error('Spec \'' + result.fullName + '\' has no expectations.');
       }
 
@@ -112,22 +117,22 @@ jasmineRequire.HtmlReporter = function(j$) {
       }
 
       symbols.appendChild(createDom('li', {
-          className: noExpectations(result) ? 'empty' : result.status,
-          id: 'spec_' + result.id,
-          title: result.fullName
-        }
+        className: noExpectations(result) ? 'empty' : result.status,
+        id: 'spec_' + result.id,
+        title: result.fullName
+      }
       ));
 
       if (result.status == 'failed') {
         failureCount++;
 
         var failure =
-          createDom('div', {className: 'spec-detail failed'},
-            createDom('div', {className: 'description'},
-              createDom('a', {title: result.fullName, href: specHref(result)}, result.fullName)
-            ),
-            createDom('div', {className: 'messages'})
-          );
+        createDom('div', {className: 'spec-detail failed'},
+        createDom('div', {className: 'description'},
+        createDom('a', {title: result.fullName, href: specHref(result)}, result.fullName)
+        ),
+        createDom('div', {className: 'messages'})
+        );
         var messages = failure.childNodes[1];
 
         for (var i = 0; i < result.failedExpectations.length; i++) {
@@ -144,31 +149,31 @@ jasmineRequire.HtmlReporter = function(j$) {
       }
     };
 
-    this.jasmineDone = function() {
+    this.jasmineDone = function () {
       var banner = find('.banner');
       var alert = find('.alert');
       alert.appendChild(createDom('span', {className: 'duration'}, 'finished in ' + timer.elapsed() / 1000 + 's'));
 
       banner.appendChild(
-        createDom('div', { className: 'run-options' },
-          createDom('span', { className: 'trigger' }, 'Options'),
-          createDom('div', { className: 'payload' },
-            createDom('div', { className: 'exceptions' },
-              createDom('input', {
-                className: 'raise',
-                id: 'raise-exceptions',
-                type: 'checkbox'
-              }),
-              createDom('label', { className: 'label', 'for': 'raise-exceptions' }, 'raise exceptions')),
-            createDom('div', { className: 'throw-failures' },
-              createDom('input', {
-                className: 'throw',
-                id: 'throw-failures',
-                type: 'checkbox'
-              }),
-              createDom('label', { className: 'label', 'for': 'throw-failures' }, 'stop spec on expectation failure'))
-          )
-        ));
+      createDom('div', {className: 'run-options'},
+      createDom('span', {className: 'trigger'}, 'Options'),
+      createDom('div', {className: 'payload'},
+      createDom('div', {className: 'exceptions'},
+      createDom('input', {
+        className: 'raise',
+        id: 'raise-exceptions',
+        type: 'checkbox'
+      }),
+      createDom('label', {className: 'label', 'for': 'raise-exceptions'}, 'raise exceptions')),
+      createDom('div', {className: 'throw-failures'},
+      createDom('input', {
+        className: 'throw',
+        id: 'throw-failures',
+        type: 'checkbox'
+      }),
+      createDom('label', {className: 'label', 'for': 'throw-failures'}, 'stop spec on expectation failure'))
+      )
+      ));
 
       var raiseCheckbox = find('#raise-exceptions');
 
@@ -180,11 +185,11 @@ jasmineRequire.HtmlReporter = function(j$) {
       throwCheckbox.onclick = onThrowExpectationsClick;
 
       var optionsMenu = find('.run-options'),
-          optionsTrigger = optionsMenu.querySelector('.trigger'),
-          optionsPayload = optionsMenu.querySelector('.payload'),
-          isOpen = /\bopen\b/;
+      optionsTrigger = optionsMenu.querySelector('.trigger'),
+      optionsPayload = optionsMenu.querySelector('.payload'),
+      isOpen = /\bopen\b/;
 
-      optionsTrigger.onclick = function() {
+      optionsTrigger.onclick = function () {
         if (isOpen.test(optionsPayload.className)) {
           optionsPayload.className = optionsPayload.className.replace(isOpen, '');
         } else {
@@ -195,9 +200,9 @@ jasmineRequire.HtmlReporter = function(j$) {
       if (specsExecuted < totalSpecsDefined) {
         var skippedMessage = 'Ran ' + specsExecuted + ' of ' + totalSpecsDefined + ' specs - run all';
         alert.appendChild(
-          createDom('span', {className: 'bar skipped'},
-            createDom('a', {href: '?', title: 'Run all specs'}, skippedMessage)
-          )
+        createDom('span', {className: 'bar skipped'},
+        createDom('a', {href: '?', title: 'Run all specs'}, skippedMessage)
+        )
         );
       }
       var statusBarMessage = '';
@@ -205,7 +210,9 @@ jasmineRequire.HtmlReporter = function(j$) {
 
       if (totalSpecsDefined > 0) {
         statusBarMessage += pluralize('spec', specsExecuted) + ', ' + pluralize('failure', failureCount);
-        if (pendingSpecCount) { statusBarMessage += ', ' + pluralize('pending spec', pendingSpecCount); }
+        if (pendingSpecCount) {
+          statusBarMessage += ', ' + pluralize('pending spec', pendingSpecCount);
+        }
         statusBarClassName += (failureCount > 0) ? 'failed' : 'passed';
       } else {
         statusBarClassName += 'skipped';
@@ -214,9 +221,9 @@ jasmineRequire.HtmlReporter = function(j$) {
 
       alert.appendChild(createDom('span', {className: statusBarClassName}, statusBarMessage));
 
-      for(i = 0; i < failedSuites.length; i++) {
+      for (i = 0; i < failedSuites.length; i++) {
         var failedSuite = failedSuites[i];
-        for(var j = 0; j < failedSuite.failedExpectations.length; j++) {
+        for (var j = 0; j < failedSuite.failedExpectations.length; j++) {
           var errorBarMessage = 'AfterAll ' + failedSuite.failedExpectations[j].message;
           var errorBarClassName = 'bar errored';
           alert.appendChild(createDom('span', {className: errorBarClassName}, errorBarMessage));
@@ -234,9 +241,9 @@ jasmineRequire.HtmlReporter = function(j$) {
           var resultNode = resultsTree.children[i];
           if (resultNode.type == 'suite') {
             var suiteListNode = createDom('ul', {className: 'suite', id: 'suite-' + resultNode.result.id},
-              createDom('li', {className: 'suite-detail'},
-                createDom('a', {href: specHref(resultNode.result)}, resultNode.result.description)
-              )
+            createDom('li', {className: 'suite-detail'},
+            createDom('a', {href: specHref(resultNode.result)}, resultNode.result.description)
+            )
             );
 
             summaryList(resultNode, suiteListNode);
@@ -248,19 +255,19 @@ jasmineRequire.HtmlReporter = function(j$) {
               domParent.appendChild(specListNode);
             }
             var specDescription = resultNode.result.description;
-            if(noExpectations(resultNode.result)) {
+            if (noExpectations(resultNode.result)) {
               specDescription = 'SPEC HAS NO EXPECTATIONS ' + specDescription;
             }
-            if(resultNode.result.status === 'pending' && resultNode.result.pendingReason !== '') {
+            if (resultNode.result.status === 'pending' && resultNode.result.pendingReason !== '') {
               specDescription = specDescription + ' PENDING WITH MESSAGE: ' + resultNode.result.pendingReason;
             }
             specListNode.appendChild(
-              createDom('li', {
-                  className: resultNode.result.status,
-                  id: 'spec-' + resultNode.result.id
-                },
-                createDom('a', {href: specHref(resultNode.result)}, specDescription)
-              )
+            createDom('li', {
+              className: resultNode.result.status,
+              id: 'spec-' + resultNode.result.id
+            },
+            createDom('a', {href: specHref(resultNode.result)}, specDescription)
+            )
             );
           }
         }
@@ -268,18 +275,18 @@ jasmineRequire.HtmlReporter = function(j$) {
 
       if (failures.length) {
         alert.appendChild(
-          createDom('span', {className: 'menu bar spec-list'},
-            createDom('span', {}, 'Spec List | '),
-            createDom('a', {className: 'failures-menu', href: '#'}, 'Failures')));
+        createDom('span', {className: 'menu bar spec-list'},
+        createDom('span', {}, 'Spec List | '),
+        createDom('a', {className: 'failures-menu', href: '#'}, 'Failures')));
         alert.appendChild(
-          createDom('span', {className: 'menu bar failure-list'},
-            createDom('a', {className: 'spec-list-menu', href: '#'}, 'Spec List'),
-            createDom('span', {}, ' | Failures ')));
+        createDom('span', {className: 'menu bar failure-list'},
+        createDom('a', {className: 'spec-list-menu', href: '#'}, 'Spec List'),
+        createDom('span', {}, ' | Failures ')));
 
-        find('.failures-menu').onclick = function() {
+        find('.failures-menu').onclick = function () {
           setMenuModeTo('failure-list');
         };
-        find('.spec-list-menu').onclick = function() {
+        find('.spec-list-menu').onclick = function () {
           setMenuModeTo('spec-list');
         };
 
@@ -302,7 +309,7 @@ jasmineRequire.HtmlReporter = function(j$) {
       // return the reporter
       var oldReporter = find('');
 
-      if(oldReporter) {
+      if (oldReporter) {
         getContainer().removeChild(oldReporter);
       }
     }
@@ -353,19 +360,19 @@ jasmineRequire.HtmlReporter = function(j$) {
 
     function noExpectations(result) {
       return (result.failedExpectations.length + result.passedExpectations.length) === 0 &&
-        result.status === 'passed';
+      result.status === 'passed';
     }
   }
 
   return HtmlReporter;
 };
 
-jasmineRequire.HtmlSpecFilter = function() {
+jasmineRequire.HtmlSpecFilter = function () {
   function HtmlSpecFilter(options) {
     var filterString = options && options.filterString() && options.filterString().replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
     var filterPattern = new RegExp(filterString);
 
-    this.matches = function(specName) {
+    this.matches = function (specName) {
       return filterPattern.test(specName);
     };
   }
@@ -373,7 +380,7 @@ jasmineRequire.HtmlSpecFilter = function() {
   return HtmlSpecFilter;
 };
 
-jasmineRequire.ResultsNode = function() {
+jasmineRequire.ResultsNode = function () {
   function ResultsNode(result, type, parent) {
     this.result = result;
     this.type = type;
@@ -381,11 +388,11 @@ jasmineRequire.ResultsNode = function() {
 
     this.children = [];
 
-    this.addChild = function(result, type) {
+    this.addChild = function (result, type) {
       this.children.push(new ResultsNode(result, type, this));
     };
 
-    this.last = function() {
+    this.last = function () {
       return this.children[this.children.length - 1];
     };
   }
@@ -393,20 +400,20 @@ jasmineRequire.ResultsNode = function() {
   return ResultsNode;
 };
 
-jasmineRequire.QueryString = function() {
+jasmineRequire.QueryString = function () {
   function QueryString(options) {
 
-    this.navigateWithNewParam = function(key, value) {
+    this.navigateWithNewParam = function (key, value) {
       options.getWindowLocation().search = this.fullStringWithNewParam(key, value);
     };
 
-    this.fullStringWithNewParam = function(key, value) {
+    this.fullStringWithNewParam = function (key, value) {
       var paramMap = queryStringToParamMap();
       paramMap[key] = value;
       return toQueryString(paramMap);
     };
 
-    this.getParam = function(key) {
+    this.getParam = function (key) {
       return queryStringToParamMap()[key];
     };
 
@@ -422,8 +429,8 @@ jasmineRequire.QueryString = function() {
 
     function queryStringToParamMap() {
       var paramStr = options.getWindowLocation().search.substring(1),
-        params = [],
-        paramMap = {};
+      params = [],
+      paramMap = {};
 
       if (paramStr.length > 0) {
         params = paramStr.split('&');

@@ -1,15 +1,16 @@
 var slice = [].slice;
 
-(function($, window) {
+(function ($, window) {
   var Starrr;
-  window.Starrr = Starrr = (function() {
+  window.Starrr = Starrr = (function () {
     Starrr.prototype.defaults = {
       rating: void 0,
       max: 5,
       readOnly: false,
       emptyClass: 'fa fa-star-o',
       fullClass: 'fa fa-star',
-      change: function(e, value) {}
+      change: function (e, value) {
+      }
     };
 
     function Starrr($el, options) {
@@ -20,18 +21,18 @@ var slice = [].slice;
       if (this.options.readOnly) {
         return;
       }
-      this.$el.on('mouseover.starrr', 'a', (function(_this) {
-        return function(e) {
+      this.$el.on('mouseover.starrr', 'a', (function (_this) {
+        return function (e) {
           return _this.syncRating(_this.getStars().index(e.currentTarget) + 1);
         };
       })(this));
-      this.$el.on('mouseout.starrr', (function(_this) {
-        return function() {
+      this.$el.on('mouseout.starrr', (function (_this) {
+        return function () {
           return _this.syncRating();
         };
       })(this));
-      this.$el.on('click.starrr', 'a', (function(_this) {
-        return function(e) {
+      this.$el.on('click.starrr', 'a', (function (_this) {
+        return function (e) {
           e.preventDefault();
           return _this.setRating(_this.getStars().index(e.currentTarget) + 1);
         };
@@ -39,11 +40,11 @@ var slice = [].slice;
       this.$el.on('starrr:change', this.options.change);
     }
 
-    Starrr.prototype.getStars = function() {
+    Starrr.prototype.getStars = function () {
       return this.$el.find('a');
     };
 
-    Starrr.prototype.createStars = function() {
+    Starrr.prototype.createStars = function () {
       var j, ref, results;
       results = [];
       for (j = 1, ref = this.options.max; 1 <= ref ? j <= ref : j >= ref; 1 <= ref ? j++ : j--) {
@@ -52,7 +53,7 @@ var slice = [].slice;
       return results;
     };
 
-    Starrr.prototype.setRating = function(rating) {
+    Starrr.prototype.setRating = function (rating) {
       if (this.options.rating === rating) {
         rating = void 0;
       }
@@ -61,11 +62,11 @@ var slice = [].slice;
       return this.$el.trigger('starrr:change', rating);
     };
 
-    Starrr.prototype.getRating = function() {
+    Starrr.prototype.getRating = function () {
       return this.options.rating;
     };
 
-    Starrr.prototype.syncRating = function(rating) {
+    Starrr.prototype.syncRating = function (rating) {
       var $stars, i, j, ref, results;
       rating || (rating = this.options.rating);
       $stars = this.getStars();
@@ -80,10 +81,10 @@ var slice = [].slice;
 
   })();
   return $.fn.extend({
-    starrr: function() {
+    starrr: function () {
       var args, option;
       option = arguments[0], args = 2 <= arguments.length ? slice.call(arguments, 1) : [];
-      return this.each(function() {
+      return this.each(function () {
         var data;
         data = $(this).data('starrr');
         if (!data) {

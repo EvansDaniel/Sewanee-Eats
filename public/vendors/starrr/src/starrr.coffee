@@ -1,5 +1,4 @@
 (($, window) ->
-
   window.Starrr = class Starrr
     defaults:
       rating: undefined
@@ -49,9 +48,9 @@
       $stars = @getStars()
       for i in [1..@options.max]
         $stars.
-          eq(i - 1).
-          removeClass(if rating >= i then @options.emptyClass else @options.fullClass).
-          addClass(if rating >= i then @options.fullClass else @options.emptyClass)
+        eq(i - 1).
+        removeClass(if rating >= i then @options.emptyClass else @options.fullClass).
+        addClass(if rating >= i then @options.fullClass else @options.emptyClass)
 
   # Define the plugin
   $.fn.extend starrr: (option, args...) ->
@@ -61,6 +60,4 @@
       if !data
         $(@).data 'starrr', (data = new Starrr($(@), option))
       if typeof option == 'string'
-        data[option].apply(data, args)
-
-) window.jQuery, window
+        data[option].apply(data, args)) window.jQuery, window

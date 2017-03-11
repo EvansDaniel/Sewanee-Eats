@@ -3,11 +3,11 @@
  */
 define(function (require) {
 
-    require('./legend/LegendModel');
-    require('./legend/legendAction');
-    require('./legend/LegendView');
+  require('./legend/LegendModel');
+  require('./legend/legendAction');
+  require('./legend/LegendView');
 
-    var echarts = require('../echarts');
-    // Series Filter
-    echarts.registerProcessor('filter', require('./legend/legendFilter'));
+  var echarts = require('../echarts');
+  // Series Filter
+  echarts.registerProcessor('filter', require('./legend/legendFilter'));
 });

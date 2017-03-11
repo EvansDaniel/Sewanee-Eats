@@ -6,7 +6,7 @@ Package.describe({
   documentation: 'README.md'
 });
 
-Package.onUse(function(api) {
+Package.onUse(function (api) {
   api.versionsFrom('METEOR@0.9.0.1');
 
   api.use('twbs:bootstrap@3.3.4', ["client"], {weak: true});

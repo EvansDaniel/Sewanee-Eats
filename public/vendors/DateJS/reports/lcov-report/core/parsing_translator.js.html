@@ -1,218 +1,368 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <title>Code coverage report for core/parsing_translator.js</title>
-    <meta charset="utf-8">
+  <title>Code coverage report for core/parsing_translator.js</title>
+  <meta charset="utf-8">
 
-    <link rel="stylesheet" href="../prettify.css">
+  <link rel="stylesheet" href="../prettify.css">
 
-    <style>
-        body, html {
-            margin:0; padding: 0;
-        }
-        body {
-            font-family: Helvetica Neue, Helvetica,Arial;
-            font-size: 10pt;
-        }
-        div.header, div.footer {
-            background: #eee;
-            padding: 1em;
-        }
-        div.header {
-            z-index: 100;
-            position: fixed;
-            top: 0;
-            border-bottom: 1px solid #666;
-            width: 100%;
-        }
-        div.footer {
-            border-top: 1px solid #666;
-        }
-        div.body {
-            margin-top: 10em;
-        }
-        div.meta {
-            font-size: 90%;
-            text-align: center;
-        }
-        h1, h2, h3 {
-            font-weight: normal;
-        }
-        h1 {
-            font-size: 12pt;
-        }
-        h2 {
-            font-size: 10pt;
-        }
-        pre {
-            font-family: Consolas, Menlo, Monaco, monospace;
-            margin: 0;
-            padding: 0;
-            line-height: 14px;
-            font-size: 14px;
-            -moz-tab-size: 2;
-            -o-tab-size:  2;
-            tab-size: 2;
-        }
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+    }
 
-        div.path { font-size: 110%; }
-        div.path a:link, div.path a:visited { color: #000; }
-        table.coverage { border-collapse: collapse; margin:0; padding: 0 }
+    body {
+      font-family: Helvetica Neue, Helvetica, Arial;
+      font-size: 10pt;
+    }
 
-        table.coverage td {
-            margin: 0;
-            padding: 0;
-            color: #111;
-            vertical-align: top;
-        }
-        table.coverage td.line-count {
-            width: 50px;
-            text-align: right;
-            padding-right: 5px;
-        }
-        table.coverage td.line-coverage {
-            color: #777 !important;
-            text-align: right;
-            border-left: 1px solid #666;
-            border-right: 1px solid #666;
-        }
+    div.header, div.footer {
+      background: #eee;
+      padding: 1em;
+    }
 
-        table.coverage td.text {
-        }
+    div.header {
+      z-index: 100;
+      position: fixed;
+      top: 0;
+      border-bottom: 1px solid #666;
+      width: 100%;
+    }
 
-        table.coverage td span.cline-any {
-            display: inline-block;
-            padding: 0 5px;
-            width: 40px;
-        }
-        table.coverage td span.cline-neutral {
-            background: #eee;
-        }
-        table.coverage td span.cline-yes {
-            background: #b5d592;
-            color: #999;
-        }
-        table.coverage td span.cline-no {
-            background: #fc8c84;
-        }
+    div.footer {
+      border-top: 1px solid #666;
+    }
 
-        .cstat-yes { color: #111; }
-        .cstat-no { background: #fc8c84; color: #111; }
-        .fstat-no { background: #ffc520; color: #111 !important; }
-        .cbranch-no { background:  yellow !important; color: #111; }
+    div.body {
+      margin-top: 10em;
+    }
 
-        .cstat-skip { background: #ddd; color: #111; }
-        .fstat-skip { background: #ddd; color: #111 !important; }
-        .cbranch-skip { background: #ddd !important; color: #111; }
+    div.meta {
+      font-size: 90%;
+      text-align: center;
+    }
 
-        .missing-if-branch {
-            display: inline-block;
-            margin-right: 10px;
-            position: relative;
-            padding: 0 4px;
-            background: black;
-            color: yellow;
-        }
+    h1, h2, h3 {
+      font-weight: normal;
+    }
 
-        .skip-if-branch {
-            display: none;
-            margin-right: 10px;
-            position: relative;
-            padding: 0 4px;
-            background: #ccc;
-            color: white;
-        }
+    h1 {
+      font-size: 12pt;
+    }
 
-        .missing-if-branch .typ, .skip-if-branch .typ {
-            color: inherit !important;
-        }
+    h2 {
+      font-size: 10pt;
+    }
 
-        .entity, .metric { font-weight: bold; }
-        .metric { display: inline-block; border: 1px solid #333; padding: 0.3em; background: white; }
-        .metric small { font-size: 80%; font-weight: normal; color: #666; }
+    pre {
+      font-family: Consolas, Menlo, Monaco, monospace;
+      margin: 0;
+      padding: 0;
+      line-height: 14px;
+      font-size: 14px;
+      -moz-tab-size: 2;
+      -o-tab-size: 2;
+      tab-size: 2;
+    }
 
-        div.coverage-summary table { border-collapse: collapse; margin: 3em; font-size: 110%; }
-        div.coverage-summary td, div.coverage-summary table  th { margin: 0; padding: 0.25em 1em; border-top: 1px solid #666; border-bottom: 1px solid #666; }
-        div.coverage-summary th { text-align: left; border: 1px solid #666; background: #eee; font-weight: normal; }
-        div.coverage-summary th.file { border-right: none !important; }
-        div.coverage-summary th.pic { border-left: none !important; text-align: right; }
-        div.coverage-summary th.pct { border-right: none !important; }
-        div.coverage-summary th.abs { border-left: none !important; text-align: right; }
-        div.coverage-summary td.pct { text-align: right; border-left: 1px solid #666; }
-        div.coverage-summary td.abs { text-align: right; font-size: 90%; color: #444; border-right: 1px solid #666; }
-        div.coverage-summary td.file { text-align: right; border-left: 1px solid #666; white-space: nowrap;  }
-        div.coverage-summary td.pic { min-width: 120px !important;  }
-        div.coverage-summary a:link { text-decoration: none; color: #000; }
-        div.coverage-summary a:visited { text-decoration: none; color: #333; }
-        div.coverage-summary a:hover { text-decoration: underline; }
-        div.coverage-summary tfoot td { border-top: 1px solid #666; }
+    div.path {
+      font-size: 110%;
+    }
 
-        div.coverage-summary .yui3-datatable-sort-indicator, div.coverage-summary .dummy-sort-indicator {
-            height: 10px;
-            width: 7px;
-            display: inline-block;
-            margin-left: 0.5em;
-        }
-        div.coverage-summary .yui3-datatable-sort-indicator {
-            background: url("https://yui-s.yahooapis.com/3.6.0/build/datatable-sort/assets/skins/sam/sort-arrow-sprite.png") no-repeat scroll 0 0 transparent;
-        }
-        div.coverage-summary .yui3-datatable-sorted .yui3-datatable-sort-indicator {
-            background-position: 0 -20px;
-        }
-        div.coverage-summary .yui3-datatable-sorted-desc .yui3-datatable-sort-indicator {
-            background-position: 0 -10px;
-        }
+    div.path a:link, div.path a:visited {
+      color: #000;
+    }
 
-        .high { background: #b5d592 !important; }
-        .medium { background: #ffe87c !important; }
-        .low { background: #fc8c84 !important; }
+    table.coverage {
+      border-collapse: collapse;
+      margin: 0;
+      padding: 0
+    }
 
-        span.cover-fill, span.cover-empty {
-            display:inline-block;
-            border:1px solid #444;
-            background: white;
-            height: 12px;
-        }
-        span.cover-fill {
-            background: #ccc;
-            border-right: 1px solid #444;
-        }
-        span.cover-empty {
-            background: white;
-            border-left: none;
-        }
-        span.cover-full {
-            border-right: none !important;
-        }
-        pre.prettyprint {
-            border: none !important;
-            padding: 0 !important;
-            margin: 0 !important;
-        }
-        .com { color: #999 !important; }
-        .ignore-none { color: #999; font-weight: normal; }
+    table.coverage td {
+      margin: 0;
+      padding: 0;
+      color: #111;
+      vertical-align: top;
+    }
 
-    </style>
+    table.coverage td.line-count {
+      width: 50px;
+      text-align: right;
+      padding-right: 5px;
+    }
+
+    table.coverage td.line-coverage {
+      color: #777 !important;
+      text-align: right;
+      border-left: 1px solid #666;
+      border-right: 1px solid #666;
+    }
+
+    table.coverage td.text {
+    }
+
+    table.coverage td span.cline-any {
+      display: inline-block;
+      padding: 0 5px;
+      width: 40px;
+    }
+
+    table.coverage td span.cline-neutral {
+      background: #eee;
+    }
+
+    table.coverage td span.cline-yes {
+      background: #b5d592;
+      color: #999;
+    }
+
+    table.coverage td span.cline-no {
+      background: #fc8c84;
+    }
+
+    .cstat-yes {
+      color: #111;
+    }
+
+    .cstat-no {
+      background: #fc8c84;
+      color: #111;
+    }
+
+    .fstat-no {
+      background: #ffc520;
+      color: #111 !important;
+    }
+
+    .cbranch-no {
+      background: yellow !important;
+      color: #111;
+    }
+
+    .cstat-skip {
+      background: #ddd;
+      color: #111;
+    }
+
+    .fstat-skip {
+      background: #ddd;
+      color: #111 !important;
+    }
+
+    .cbranch-skip {
+      background: #ddd !important;
+      color: #111;
+    }
+
+    .missing-if-branch {
+      display: inline-block;
+      margin-right: 10px;
+      position: relative;
+      padding: 0 4px;
+      background: black;
+      color: yellow;
+    }
+
+    .skip-if-branch {
+      display: none;
+      margin-right: 10px;
+      position: relative;
+      padding: 0 4px;
+      background: #ccc;
+      color: white;
+    }
+
+    .missing-if-branch .typ, .skip-if-branch .typ {
+      color: inherit !important;
+    }
+
+    .entity, .metric {
+      font-weight: bold;
+    }
+
+    .metric {
+      display: inline-block;
+      border: 1px solid #333;
+      padding: 0.3em;
+      background: white;
+    }
+
+    .metric small {
+      font-size: 80%;
+      font-weight: normal;
+      color: #666;
+    }
+
+    div.coverage-summary table {
+      border-collapse: collapse;
+      margin: 3em;
+      font-size: 110%;
+    }
+
+    div.coverage-summary td, div.coverage-summary table th {
+      margin: 0;
+      padding: 0.25em 1em;
+      border-top: 1px solid #666;
+      border-bottom: 1px solid #666;
+    }
+
+    div.coverage-summary th {
+      text-align: left;
+      border: 1px solid #666;
+      background: #eee;
+      font-weight: normal;
+    }
+
+    div.coverage-summary th.file {
+      border-right: none !important;
+    }
+
+    div.coverage-summary th.pic {
+      border-left: none !important;
+      text-align: right;
+    }
+
+    div.coverage-summary th.pct {
+      border-right: none !important;
+    }
+
+    div.coverage-summary th.abs {
+      border-left: none !important;
+      text-align: right;
+    }
+
+    div.coverage-summary td.pct {
+      text-align: right;
+      border-left: 1px solid #666;
+    }
+
+    div.coverage-summary td.abs {
+      text-align: right;
+      font-size: 90%;
+      color: #444;
+      border-right: 1px solid #666;
+    }
+
+    div.coverage-summary td.file {
+      text-align: right;
+      border-left: 1px solid #666;
+      white-space: nowrap;
+    }
+
+    div.coverage-summary td.pic {
+      min-width: 120px !important;
+    }
+
+    div.coverage-summary a:link {
+      text-decoration: none;
+      color: #000;
+    }
+
+    div.coverage-summary a:visited {
+      text-decoration: none;
+      color: #333;
+    }
+
+    div.coverage-summary a:hover {
+      text-decoration: underline;
+    }
+
+    div.coverage-summary tfoot td {
+      border-top: 1px solid #666;
+    }
+
+    div.coverage-summary .yui3-datatable-sort-indicator, div.coverage-summary .dummy-sort-indicator {
+      height: 10px;
+      width: 7px;
+      display: inline-block;
+      margin-left: 0.5em;
+    }
+
+    div.coverage-summary .yui3-datatable-sort-indicator {
+      background: url("https://yui-s.yahooapis.com/3.6.0/build/datatable-sort/assets/skins/sam/sort-arrow-sprite.png") no-repeat scroll 0 0 transparent;
+    }
+
+    div.coverage-summary .yui3-datatable-sorted .yui3-datatable-sort-indicator {
+      background-position: 0 -20px;
+    }
+
+    div.coverage-summary .yui3-datatable-sorted-desc .yui3-datatable-sort-indicator {
+      background-position: 0 -10px;
+    }
+
+    .high {
+      background: #b5d592 !important;
+    }
+
+    .medium {
+      background: #ffe87c !important;
+    }
+
+    .low {
+      background: #fc8c84 !important;
+    }
+
+    span.cover-fill, span.cover-empty {
+      display: inline-block;
+      border: 1px solid #444;
+      background: white;
+      height: 12px;
+    }
+
+    span.cover-fill {
+      background: #ccc;
+      border-right: 1px solid #444;
+    }
+
+    span.cover-empty {
+      background: white;
+      border-left: none;
+    }
+
+    span.cover-full {
+      border-right: none !important;
+    }
+
+    pre.prettyprint {
+      border: none !important;
+      padding: 0 !important;
+      margin: 0 !important;
+    }
+
+    .com {
+      color: #999 !important;
+    }
+
+    .ignore-none {
+      color: #999;
+      font-weight: normal;
+    }
+
+  </style>
 </head>
 <body>
 <div class="header medium">
-    <h1>Code coverage report for <span class="entity">core/parsing_translator.js</span></h1>
-    <h2>
-        
-        Statements: <span class="metric">79.7% <small>(161 / 202)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
-        
-        
-        Branches: <span class="metric">71.43% <small>(165 / 231)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
-        
-        
-        Functions: <span class="metric">87.5% <small>(28 / 32)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
-        
-        
-        Lines: <span class="metric">79.7% <small>(161 / 202)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
-        
-        Ignored: <span class="metric"><span class="ignore-none">none</span></span> &nbsp;&nbsp;&nbsp;&nbsp;
-    </h2>
-    <div class="path"><a href="../index.html">All files</a> &#187; <a href="index.html">core/</a> &#187; parsing_translator.js</div>
+  <h1>Code coverage report for <span class="entity">core/parsing_translator.js</span></h1>
+  <h2>
+
+    Statements: <span class="metric">79.7% <small>(161 / 202)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+
+
+    Branches: <span class="metric">71.43% <small>(165 / 231)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+
+
+    Functions: <span class="metric">87.5% <small>(28 / 32)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+
+
+    Lines: <span class="metric">79.7% <small>(161 / 202)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+
+    Ignored: <span class="metric"><span class="ignore-none">none</span></span> &nbsp;&nbsp;&nbsp;&nbsp;
+  </h2>
+  <div class="path"><a href="../index.html">All files</a> &#187; <a href="index.html">core/</a> &#187;
+    parsing_translator.js
+  </div>
 </div>
 <div class="body">
 <pre><table class="coverage">
@@ -956,30 +1106,34 @@
 	};
 &nbsp;
 	var parseMeridian = function () {
-		if (this.meridian &amp;&amp; (this.hour || <span class="branch-2 cbranch-no" title="branch not covered" >this.hour === 0)</span>) {
-			<span class="missing-if-branch" title="if path not taken" >I</span>if (this.meridian === "a" &amp;&amp; this.hour &gt; 11 &amp;&amp; <span class="branch-2 cbranch-no" title="branch not covered" >Date.Config.strict24hr)</span>{
-<span class="cstat-no" title="statement not covered" >				throw "Invalid hour and meridian combination";</span>
-			} else <span class="missing-if-branch" title="if path not taken" >I</span>if (this.meridian === "p" &amp;&amp; this.hour &lt; 12 &amp;&amp; Date.Config.strict24hr){
-<span class="cstat-no" title="statement not covered" >				throw "Invalid hour and meridian combination";</span>
+		if (this.meridian &amp;&amp; (this.hour || <span class="branch-2 cbranch-no" title="branch not covered">this.hour === 0)</span>) {
+			<span class="missing-if-branch" title="if path not taken">I</span>if (this.meridian === "a" &amp;&amp; this.hour &gt; 11 &amp;&amp; <span
+  class="branch-2 cbranch-no" title="branch not covered">Date.Config.strict24hr)</span>{
+<span class="cstat-no" title="statement not covered">				throw "Invalid hour and meridian combination";</span>
+			} else <span class="missing-if-branch" title="if path not taken">I</span>if (this.meridian === "p" &amp;&amp; this.hour &lt; 12 &amp;&amp; Date.Config.strict24hr){
+<span class="cstat-no" title="statement not covered">				throw "Invalid hour and meridian combination";</span>
 			} else if (this.meridian === "p" &amp;&amp; this.hour &lt; 12) {
 				this.hour = this.hour + 12;
-			} else <span class="missing-if-branch" title="if path not taken" >I</span>if (this.meridian === "a" &amp;&amp; this.hour === 12) {
-<span class="cstat-no" title="statement not covered" >				this.hour = 0;</span>
+			} else <span class="missing-if-branch" title="if path not taken">I</span>if (this.meridian === "a" &amp;&amp; this.hour === 12) {
+<span class="cstat-no" title="statement not covered">				this.hour = 0;</span>
 			}
 		}
 	};
 &nbsp;
 	var setDefaults = function () {
 		var now = new Date();
-		<span class="missing-if-branch" title="if path not taken" >I</span>if ((this.hour || this.minute) &amp;&amp; (<span class="branch-2 cbranch-no" title="branch not covered" >!this.month </span>&amp;&amp; <span class="branch-3 cbranch-no" title="branch not covered" >!this.year </span>&amp;&amp; <span class="branch-4 cbranch-no" title="branch not covered" >!this.day)</span>) {
-<span class="cstat-no" title="statement not covered" >			this.day = now.getDate();</span>
+		<span class="missing-if-branch" title="if path not taken">I</span>if ((this.hour || this.minute) &amp;&amp; (<span
+  class="branch-2 cbranch-no" title="branch not covered">!this.month </span>&amp;&amp; <span class="branch-3 cbranch-no"
+                                                                                             title="branch not covered">!this.year </span>&amp;&amp; <span
+  class="branch-4 cbranch-no" title="branch not covered">!this.day)</span>) {
+<span class="cstat-no" title="statement not covered">			this.day = now.getDate();</span>
 		}
 &nbsp;
 		if (!this.year) {
 			this.year = now.getFullYear();
 		}
 		
-		<span class="missing-if-branch" title="else path not taken" >E</span>if (!this.month &amp;&amp; this.month !== 0) {
+		<span class="missing-if-branch" title="else path not taken">E</span>if (!this.month &amp;&amp; this.month !== 0) {
 			this.month = now.getMonth();
 		}
 		
@@ -987,18 +1141,18 @@
 			this.day = 1;
 		}
 		
-		<span class="missing-if-branch" title="else path not taken" >E</span>if (!this.hour) {
+		<span class="missing-if-branch" title="else path not taken">E</span>if (!this.hour) {
 			this.hour = 0;
 		}
 		
-		<span class="missing-if-branch" title="else path not taken" >E</span>if (!this.minute) {
+		<span class="missing-if-branch" title="else path not taken">E</span>if (!this.minute) {
 			this.minute = 0;
 		}
 &nbsp;
-		<span class="missing-if-branch" title="else path not taken" >E</span>if (!this.second) {
+		<span class="missing-if-branch" title="else path not taken">E</span>if (!this.second) {
 			this.second = 0;
 		}
-		<span class="missing-if-branch" title="else path not taken" >E</span>if (!this.millisecond) {
+		<span class="missing-if-branch" title="else path not taken">E</span>if (!this.millisecond) {
 			this.millisecond = 0;
 		}
 	};
@@ -1013,33 +1167,34 @@
 		},
 		setDaysFromWeekday: function (today, orient){
 			var gap;
-			orient = orient || <span class="branch-1 cbranch-no" title="branch not covered" >1;</span>
+			orient = orient || <span class="branch-1 cbranch-no" title="branch not covered">1;</span>
 			this.unit = "day";
 			gap = ($D.getDayNumberFromName(this.weekday) - today.getDay());
-			this.days = gap ? ((gap + (orient * 7)) % 7) : (<span class="branch-1 cbranch-no" title="branch not covered" >orient * 7)</span>;
+			this.days = gap ? ((gap + (orient * 7)) % 7) : (<span class="branch-1 cbranch-no" title="branch not covered">orient * 7)</span>;
 			return this;
 		},
 		setMonthsFromMonth: function (today, orient) {
 			var gap;
-			orient = orient || <span class="branch-1 cbranch-no" title="branch not covered" >1;</span>
+			orient = orient || <span class="branch-1 cbranch-no" title="branch not covered">1;</span>
 			this.unit = "month";
 			gap = (this.month - today.getMonth());
-			this.months = gap ? ((gap + (orient * 12)) % 12) : (<span class="branch-1 cbranch-no" title="branch not covered" >orient * 12)</span>;
+			this.months = gap ? ((gap + (orient * 12)) % 12) : (<span class="branch-1 cbranch-no" title="branch not covered">orient * 12)</span>;
 			this.month = null;
 			return this;
 		},
 		setDMYFromWeekday: function () {
 			var d = Date[this.weekday]();
 			this.day = d.getDate();
-			<span class="missing-if-branch" title="else path not taken" >E</span>if (!this.month) {
+			<span class="missing-if-branch" title="else path not taken">E</span>if (!this.month) {
 				this.month = d.getMonth();
 			}
 			this.year = d.getFullYear();
 			return this;
 		},
 		setUnitValue: function (orient) {
-			<span class="missing-if-branch" title="if path not taken" >I</span>if (!this.value &amp;&amp; this.operator &amp;&amp; this.operator !== null &amp;&amp; this[this.unit + "s"] &amp;&amp; <span class="branch-4 cbranch-no" title="branch not covered" >this[this.unit + "s"] !== null)</span> {
-<span class="cstat-no" title="statement not covered" >				this[this.unit + "s"] = this[this.unit + "s"] + ((this.operator === "add") ? 1 : -1) + (this.value||0) * orient;</span>
+			<span class="missing-if-branch" title="if path not taken">I</span>if (!this.value &amp;&amp; this.operator &amp;&amp; this.operator !== null &amp;&amp; this[this.unit + "s"] &amp;&amp; <span
+  class="branch-4 cbranch-no" title="branch not covered">this[this.unit + "s"] !== null)</span> {
+<span class="cstat-no" title="statement not covered">				this[this.unit + "s"] = this[this.unit + "s"] + ((this.operator === "add") ? 1 : -1) + (this.value||0) * orient;</span>
 			} else if (this[this.unit + "s"] == null || this.operator != null) {
 				if (!this.value) {
 					this.value = 1;
@@ -1068,17 +1223,17 @@
 				this.minute = Number(s);
 			};
 		},
-		second: <span class="fstat-no" title="function not covered" >function (s) {</span>
-<span class="cstat-no" title="statement not covered" >			return <span class="fstat-no" title="function not covered" >function () {</span></span>
-<span class="cstat-no" title="statement not covered" >				this.second = Number(s);</span>
+		second: <span class="fstat-no" title="function not covered">function (s) {</span>
+<span class="cstat-no" title="statement not covered">			return <span class="fstat-no" title="function not covered">function () {</span></span>
+<span class="cstat-no" title="statement not covered">				this.second = Number(s);</span>
 			};
 		},
 		/* for ss.s format */
-		secondAndMillisecond: <span class="fstat-no" title="function not covered" >function (s) {</span>
-<span class="cstat-no" title="statement not covered" >			return <span class="fstat-no" title="function not covered" >function () {</span></span>
-<span class="cstat-no" title="statement not covered" >				var mx = s.match(/^([0-5][0-9])\.([0-9]{1,3})/);</span>
-<span class="cstat-no" title="statement not covered" >				this.second = Number(mx[1]);</span>
-<span class="cstat-no" title="statement not covered" >				this.millisecond = Number(mx[2]);</span>
+		secondAndMillisecond: <span class="fstat-no" title="function not covered">function (s) {</span>
+<span class="cstat-no" title="statement not covered">			return <span class="fstat-no" title="function not covered">function () {</span></span>
+<span class="cstat-no" title="statement not covered">				var mx = s.match(/^([0-5][0-9])\.([0-9]{1,3})/);</span>
+<span class="cstat-no" title="statement not covered">				this.second = Number(mx[1]);</span>
+<span class="cstat-no" title="statement not covered">				this.millisecond = Number(mx[2]);</span>
 			};
 		},
 		meridian: function (s) {
@@ -1089,8 +1244,8 @@
 		timezone: function (s) {
 			return function () {
 				var n = s.replace(/[^\d\+\-]/g, "");
-				<span class="missing-if-branch" title="if path not taken" >I</span>if (n.length) {
-<span class="cstat-no" title="statement not covered" >					this.timezoneOffset = Number(n);</span>
+				<span class="missing-if-branch" title="if path not taken">I</span>if (n.length) {
+<span class="cstat-no" title="statement not covered">					this.timezoneOffset = Number(n);</span>
 				} else {
 					this.timezone = s.toLowerCase();
 				}
@@ -1100,16 +1255,16 @@
 			var s = x[0];
 			return function () {
 				this.day = Number(s.match(/\d+/)[0]);
-				<span class="missing-if-branch" title="if path not taken" >I</span>if (this.day &lt; 1) {
-<span class="cstat-no" title="statement not covered" >					throw "invalid day";</span>
+				<span class="missing-if-branch" title="if path not taken">I</span>if (this.day &lt; 1) {
+<span class="cstat-no" title="statement not covered">					throw "invalid day";</span>
 				}
 			};
 		},
 		month: function (s) {
 			return function () {
 				this.month = (s.length === 3) ? "jan feb mar apr may jun jul aug sep oct nov dec".indexOf(s)/4 : Number(s) - 1;
-				<span class="missing-if-branch" title="if path not taken" >I</span>if (this.month &lt; 0) {
-<span class="cstat-no" title="statement not covered" >					throw "invalid month";</span>
+				<span class="missing-if-branch" title="if path not taken">I</span>if (this.month &lt; 0) {
+<span class="cstat-no" title="statement not covered">					throw "invalid month";</span>
 				}
 			};
 		},
@@ -1123,12 +1278,12 @@
 		rday: function (s) {
 			return function () {
 				switch (s) {
-<span class="branch-0 cbranch-no" title="branch not covered" >					case "yesterday":</span>
-<span class="cstat-no" title="statement not covered" >						this.days = -1;</span>
-<span class="cstat-no" title="statement not covered" >						break;</span>
-<span class="branch-1 cbranch-no" title="branch not covered" >					case "tomorrow":</span>
-<span class="cstat-no" title="statement not covered" >						this.days = 1;</span>
-<span class="cstat-no" title="statement not covered" >						break;</span>
+<span class="branch-0 cbranch-no" title="branch not covered">					case "yesterday":</span>
+<span class="cstat-no" title="statement not covered">						this.days = -1;</span>
+<span class="cstat-no" title="statement not covered">						break;</span>
+<span class="branch-1 cbranch-no" title="branch not covered">					case "tomorrow":</span>
+<span class="cstat-no" title="statement not covered">						this.days = 1;</span>
+<span class="cstat-no" title="statement not covered">						break;</span>
 					case "today":
 						this.days = 0;
 						break;
@@ -1141,10 +1296,10 @@
 		},
 		finishExact: function (x) {
 			var d;
-			x = (x instanceof Array) ? x : <span class="branch-1 cbranch-no" title="branch not covered" >[x];</span>
+			x = (x instanceof Array) ? x : <span class="branch-1 cbranch-no" title="branch not covered">[x];</span>
 &nbsp;
 			for (var i = 0 ; i &lt; x.length ; i++) {
-				<span class="missing-if-branch" title="else path not taken" >E</span>if (x[i]) {
+				<span class="missing-if-branch" title="else path not taken">E</span>if (x[i]) {
 					x[i].call(this);
 				}
 			}
@@ -1157,13 +1312,13 @@
 			}
 &nbsp;
 			d = new Date(this.year, this.month, this.day, this.hour, this.minute, this.second, this.millisecond);
-			<span class="missing-if-branch" title="if path not taken" >I</span>if (this.year &lt; 100) {
-<span class="cstat-no" title="statement not covered" >				d.setFullYear(this.year); </span>// means years less that 100 are process correctly. JS will parse it otherwise as 1900-1999.
+			<span class="missing-if-branch" title="if path not taken">I</span>if (this.year &lt; 100) {
+<span class="cstat-no" title="statement not covered">				d.setFullYear(this.year); </span>// means years less that 100 are process correctly. JS will parse it otherwise as 1900-1999.
 			}
-			<span class="missing-if-branch" title="if path not taken" >I</span>if (this.timezone) {
-<span class="cstat-no" title="statement not covered" >				d.set({ timezone: this.timezone });</span>
-			} else <span class="missing-if-branch" title="if path not taken" >I</span>if (this.timezoneOffset) {
-<span class="cstat-no" title="statement not covered" >				d.set({ timezoneOffset: this.timezoneOffset });</span>
+			<span class="missing-if-branch" title="if path not taken">I</span>if (this.timezone) {
+<span class="cstat-no" title="statement not covered">				d.set({ timezone: this.timezone });</span>
+			} else <span class="missing-if-branch" title="if path not taken">I</span>if (this.timezoneOffset) {
+<span class="cstat-no" title="statement not covered">				d.set({ timezoneOffset: this.timezoneOffset });</span>
 			}
 			
 			return d;
@@ -1171,24 +1326,26 @@
 		finish: function (x) {
 			var today, expression, orient, temp;
 &nbsp;
-			x = (x instanceof Array) ? flattenAndCompact(x) : <span class="branch-1 cbranch-no" title="branch not covered" >[ x ];</span>
+			x = (x instanceof Array) ? flattenAndCompact(x) : <span class="branch-1 cbranch-no" title="branch not covered">[ x ];</span>
 &nbsp;
 			if (x.length === 0) {
 				return null;
 			}
 &nbsp;
 			for (var i = 0 ; i &lt; x.length ; i++) {
-				<span class="missing-if-branch" title="else path not taken" >E</span>if (typeof x[i] === "function") {
+				<span class="missing-if-branch" title="else path not taken">E</span>if (typeof x[i] === "function") {
 					x[i].call(this);
 				}
 			}
-			<span class="missing-if-branch" title="if path not taken" >I</span>if (this.now &amp;&amp; !this.unit &amp;&amp; <span class="branch-2 cbranch-no" title="branch not covered" >!this.operator)</span> {
-<span class="cstat-no" title="statement not covered" >				return new Date();</span>
+			<span class="missing-if-branch"
+            title="if path not taken">I</span>if (this.now &amp;&amp; !this.unit &amp;&amp; <span
+  class="branch-2 cbranch-no" title="branch not covered">!this.operator)</span> {
+<span class="cstat-no" title="statement not covered">				return new Date();</span>
 			} else {
 				today = finishUtils.getToday.call(this);
 			}
 			
-			expression = !!(this.days &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered" >this.days !== null </span>|| this.orient || this.operator);
+			expression = !!(this.days &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered">this.days !== null </span>|| this.orient || this.operator);
 			orient = ((this.orient === "past" || this.operator === "subtract") ? -1 : 1);
 &nbsp;
 			if (this.month &amp;&amp; this.unit === "week") {
@@ -1197,12 +1354,12 @@
 				delete this.day;
 			}
 &nbsp;
-			<span class="missing-if-branch" title="if path not taken" >I</span>if ((this.month || this.month === 0) &amp;&amp; "year day hour minute second".indexOf(this.unit) !== -1) {
-<span class="cstat-no" title="statement not covered" >				if (!this.value) {</span>
-<span class="cstat-no" title="statement not covered" >					this.value = this.month + 1;</span>
+			<span class="missing-if-branch" title="if path not taken">I</span>if ((this.month || this.month === 0) &amp;&amp; "year day hour minute second".indexOf(this.unit) !== -1) {
+<span class="cstat-no" title="statement not covered">				if (!this.value) {</span>
+<span class="cstat-no" title="statement not covered">					this.value = this.month + 1;</span>
 				}
-<span class="cstat-no" title="statement not covered" >				this.month = null;</span>
-<span class="cstat-no" title="statement not covered" >				expression = true;</span>
+<span class="cstat-no" title="statement not covered">				this.month = null;</span>
+<span class="cstat-no" title="statement not covered">				expression = true;</span>
 			}
 &nbsp;
 			if (!expression &amp;&amp; this.weekday &amp;&amp; !this.day &amp;&amp; !this.days) {
@@ -1213,29 +1370,33 @@
 				finishUtils.setDaysFromWeekday.call(this, today, orient);
 			}
 &nbsp;
-			<span class="missing-if-branch" title="if path not taken" >I</span>if (this.weekday &amp;&amp; this.unit !== "week" &amp;&amp; !this.day &amp;&amp; !this.days) {
-<span class="cstat-no" title="statement not covered" >				temp = Date[this.weekday]();</span>
-<span class="cstat-no" title="statement not covered" >				this.day = temp.getDate();</span>
-<span class="cstat-no" title="statement not covered" >				if (temp.getMonth() !== today.getMonth()) {</span>
-<span class="cstat-no" title="statement not covered" >					this.month = temp.getMonth();</span>
+			<span class="missing-if-branch" title="if path not taken">I</span>if (this.weekday &amp;&amp; this.unit !== "week" &amp;&amp; !this.day &amp;&amp; !this.days) {
+<span class="cstat-no" title="statement not covered">				temp = Date[this.weekday]();</span>
+<span class="cstat-no" title="statement not covered">				this.day = temp.getDate();</span>
+<span class="cstat-no" title="statement not covered">				if (temp.getMonth() !== today.getMonth()) {</span>
+<span class="cstat-no" title="statement not covered">					this.month = temp.getMonth();</span>
 				}
 			}
 &nbsp;
-			<span class="missing-if-branch" title="if path not taken" >I</span>if (this.month &amp;&amp; this.unit === "day" &amp;&amp; <span class="branch-2 cbranch-no" title="branch not covered" >this.operator)</span> {
-<span class="cstat-no" title="statement not covered" >				if (!this.value) {</span>
-<span class="cstat-no" title="statement not covered" >					this.value = (this.month + 1);</span>
+			<span class="missing-if-branch" title="if path not taken">I</span>if (this.month &amp;&amp; this.unit === "day" &amp;&amp; <span
+  class="branch-2 cbranch-no" title="branch not covered">this.operator)</span> {
+<span class="cstat-no" title="statement not covered">				if (!this.value) {</span>
+<span class="cstat-no" title="statement not covered">					this.value = (this.month + 1);</span>
 				}
-<span class="cstat-no" title="statement not covered" >				this.month = null;</span>
+<span class="cstat-no" title="statement not covered">				this.month = null;</span>
 			}
 &nbsp;
-			<span class="missing-if-branch" title="if path not taken" >I</span>if (this.value != null &amp;&amp; this.month != null &amp;&amp; <span class="branch-2 cbranch-no" title="branch not covered" >this.year != null)</span> {
-<span class="cstat-no" title="statement not covered" >				this.day = this.value * 1;</span>
+			<span class="missing-if-branch" title="if path not taken">I</span>if (this.value != null &amp;&amp; this.month != null &amp;&amp; <span
+  class="branch-2 cbranch-no" title="branch not covered">this.year != null)</span> {
+<span class="cstat-no" title="statement not covered">				this.day = this.value * 1;</span>
 			}
 &nbsp;
-			<span class="missing-if-branch" title="if path not taken" >I</span>if (this.month &amp;&amp; !this.day &amp;&amp; <span class="branch-2 cbranch-no" title="branch not covered" >this.value)</span> {
-<span class="cstat-no" title="statement not covered" >				today.set({ day: this.value * 1 });</span>
-<span class="cstat-no" title="statement not covered" >				if (!expression) {</span>
-<span class="cstat-no" title="statement not covered" >					this.day = this.value * 1;</span>
+			<span class="missing-if-branch"
+            title="if path not taken">I</span>if (this.month &amp;&amp; !this.day &amp;&amp; <span
+  class="branch-2 cbranch-no" title="branch not covered">this.value)</span> {
+<span class="cstat-no" title="statement not covered">				today.set({ day: this.value * 1 });</span>
+<span class="cstat-no" title="statement not covered">				if (!expression) {</span>
+<span class="cstat-no" title="statement not covered">					this.day = this.value * 1;</span>
 				}
 			}
 &nbsp;
@@ -1255,20 +1416,25 @@
 			finishUtils.setUnitValue.call(this, orient);
 			parseMeridian.call(this);
 			
-			<span class="missing-if-branch" title="if path not taken" >I</span>if ((this.month || this.month === 0) &amp;&amp; !this.day) {
-<span class="cstat-no" title="statement not covered" >				this.day = 1;</span>
+			<span class="missing-if-branch" title="if path not taken">I</span>if ((this.month || this.month === 0) &amp;&amp; !this.day) {
+<span class="cstat-no" title="statement not covered">				this.day = 1;</span>
 			}
 &nbsp;
-			<span class="missing-if-branch" title="if path not taken" >I</span>if (!this.orient &amp;&amp; !this.operator &amp;&amp; this.unit === "week" &amp;&amp; <span class="branch-3 cbranch-no" title="branch not covered" >this.value </span>&amp;&amp; <span class="branch-4 cbranch-no" title="branch not covered" >!this.day </span>&amp;&amp; <span class="branch-5 cbranch-no" title="branch not covered" >!this.month)</span> {
-<span class="cstat-no" title="statement not covered" >				return Date.today().setWeek(this.value);</span>
+			<span class="missing-if-branch" title="if path not taken">I</span>if (!this.orient &amp;&amp; !this.operator &amp;&amp; this.unit === "week" &amp;&amp; <span
+  class="branch-3 cbranch-no" title="branch not covered">this.value </span>&amp;&amp; <span class="branch-4 cbranch-no"
+                                                                                            title="branch not covered">!this.day </span>&amp;&amp; <span
+  class="branch-5 cbranch-no" title="branch not covered">!this.month)</span> {
+<span class="cstat-no" title="statement not covered">				return Date.today().setWeek(this.value);</span>
 			}
 &nbsp;
 			if (this.unit === "week" &amp;&amp; this.weeks &amp;&amp; !this.day &amp;&amp; !this.month) {
 				return finishUtils.generateDateFromWeeks.call(this);
 			}
 &nbsp;
-			<span class="missing-if-branch" title="if path not taken" >I</span>if (expression &amp;&amp; this.timezone &amp;&amp; <span class="branch-2 cbranch-no" title="branch not covered" >this.day </span>&amp;&amp; <span class="branch-3 cbranch-no" title="branch not covered" >this.days)</span> {
-<span class="cstat-no" title="statement not covered" >				this.day = this.days;</span>
+			<span class="missing-if-branch" title="if path not taken">I</span>if (expression &amp;&amp; this.timezone &amp;&amp; <span
+  class="branch-2 cbranch-no" title="branch not covered">this.day </span>&amp;&amp; <span class="branch-3 cbranch-no"
+                                                                                          title="branch not covered">this.days)</span> {
+<span class="cstat-no" title="statement not covered">				this.day = this.days;</span>
 			}
 &nbsp;
 			if (expression){
@@ -1281,13 +1447,13 @@
 				this.timezone = this.timezone.toUpperCase();
 				var offset = $D.getTimezoneOffset(this.timezone);
 				var timezone;
-				<span class="missing-if-branch" title="else path not taken" >E</span>if (today.hasDaylightSavingTime()) {
+				<span class="missing-if-branch" title="else path not taken">E</span>if (today.hasDaylightSavingTime()) {
 					// lets check that we're being sane with timezone setting
 					timezone = $D.getTimezoneAbbreviation(offset, today.isDaylightSavingTime());
 					if (timezone !== this.timezone) {
 						// bugger, we're in a place where things like EST vs EDT matters.
-						<span class="missing-if-branch" title="if path not taken" >I</span>if (today.isDaylightSavingTime()) {
-<span class="cstat-no" title="statement not covered" >							today.addHours(-1);</span>
+						<span class="missing-if-branch" title="if path not taken">I</span>if (today.isDaylightSavingTime()) {
+<span class="cstat-no" title="statement not covered">							today.addHours(-1);</span>
 						} else {
 							today.addHours(1);
 						}
@@ -1304,7 +1470,9 @@
 
 </div>
 <div class="footer">
-    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sun Nov 16 2014 12:08:33 GMT-0800 (PST)</div>
+  <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sun Nov 16 2014
+    12:08:33 GMT-0800 (PST)
+  </div>
 </div>
 
 <script src="../prettify.js"></script>
@@ -1312,94 +1480,100 @@
 <script src="https://yui-s.yahooapis.com/3.6.0/build/yui/yui-min.js"></script>
 <script>
 
-    YUI().use('datatable', function (Y) {
+  YUI().use('datatable', function (Y) {
 
-        var formatters = {
-          pct: function (o) {
-              o.className += o.record.get('classes')[o.column.key];
-              try {
-                  return o.value.toFixed(2) + '%';
-              } catch (ex) { return o.value + '%'; }
-          },
-          html: function (o) {
-              o.className += o.record.get('classes')[o.column.key];
-              return o.record.get(o.column.key + '_html');
-          }
-        },
-          defaultFormatter = function (o) {
-              o.className += o.record.get('classes')[o.column.key];
-              return o.value;
-          };
-
-        function getColumns(theadNode) {
-            var colNodes = theadNode.all('tr th'),
-                cols = [],
-                col;
-            colNodes.each(function (colNode) {
-                col = {
-                    key: colNode.getAttribute('data-col'),
-                    label: colNode.get('innerHTML') || ' ',
-                    sortable: !colNode.getAttribute('data-nosort'),
-                    className: colNode.getAttribute('class'),
-                    type: colNode.getAttribute('data-type'),
-                    allowHTML: colNode.getAttribute('data-html') === 'true' || colNode.getAttribute('data-fmt') === 'html'
-                };
-                col.formatter = formatters[colNode.getAttribute('data-fmt')] || defaultFormatter;
-                cols.push(col);
-            });
-            return cols;
+    var formatters = {
+      pct: function (o) {
+        o.className += o.record.get('classes')[o.column.key];
+        try {
+          return o.value.toFixed(2) + '%';
+        } catch (ex) {
+          return o.value + '%';
         }
+      },
+      html: function (o) {
+        o.className += o.record.get('classes')[o.column.key];
+        return o.record.get(o.column.key + '_html');
+      }
+    },
+    defaultFormatter = function (o) {
+      o.className += o.record.get('classes')[o.column.key];
+      return o.value;
+    };
 
-        function getRowData(trNode, cols) {
-            var tdNodes = trNode.all('td'),
-                    i,
-                    row = { classes: {} },
-                    node,
-                    name;
-            for (i = 0; i < cols.length; i += 1) {
-                name = cols[i].key;
-                node = tdNodes.item(i);
-                row[name] = node.getAttribute('data-value') || node.get('innerHTML');
-                row[name + '_html'] = node.get('innerHTML');
-                row.classes[name] = node.getAttribute('class');
-                //Y.log('Name: ' + name + '; Value: ' + row[name]);
-                if (cols[i].type === 'number') { row[name] = row[name] * 1; }
-            }
-            //Y.log(row);
-            return row;
+    function getColumns(theadNode) {
+      var colNodes = theadNode.all('tr th'),
+      cols = [],
+      col;
+      colNodes.each(function (colNode) {
+        col = {
+          key: colNode.getAttribute('data-col'),
+          label: colNode.get('innerHTML') || ' ',
+          sortable: !colNode.getAttribute('data-nosort'),
+          className: colNode.getAttribute('class'),
+          type: colNode.getAttribute('data-type'),
+          allowHTML: colNode.getAttribute('data-html') === 'true' || colNode.getAttribute('data-fmt') === 'html'
+        };
+        col.formatter = formatters[colNode.getAttribute('data-fmt')] || defaultFormatter;
+        cols.push(col);
+      });
+      return cols;
+    }
+
+    function getRowData(trNode, cols) {
+      var tdNodes = trNode.all('td'),
+      i,
+      row = {classes: {}},
+      node,
+      name;
+      for (i = 0; i < cols.length; i += 1) {
+        name = cols[i].key;
+        node = tdNodes.item(i);
+        row[name] = node.getAttribute('data-value') || node.get('innerHTML');
+        row[name + '_html'] = node.get('innerHTML');
+        row.classes[name] = node.getAttribute('class');
+        //Y.log('Name: ' + name + '; Value: ' + row[name]);
+        if (cols[i].type === 'number') {
+          row[name] = row[name] * 1;
         }
+      }
+      //Y.log(row);
+      return row;
+    }
 
-        function getData(tbodyNode, cols) {
-            var data = [];
-            tbodyNode.all('tr').each(function (trNode) {
-                data.push(getRowData(trNode, cols));
-            });
-            return data;
-        }
+    function getData(tbodyNode, cols) {
+      var data = [];
+      tbodyNode.all('tr').each(function (trNode) {
+        data.push(getRowData(trNode, cols));
+      });
+      return data;
+    }
 
-        function replaceTable(node) {
-            if (!node) { return; }
-            var cols = getColumns(node.one('thead')),
-                data = getData(node.one('tbody'), cols),
-                table,
-                parent = node.get('parentNode');
+    function replaceTable(node) {
+      if (!node) {
+        return;
+      }
+      var cols = getColumns(node.one('thead')),
+      data = getData(node.one('tbody'), cols),
+      table,
+      parent = node.get('parentNode');
 
-            table = new Y.DataTable({
-                columns: cols,
-                data: data,
-                sortBy: 'file'
-            });
-            parent.set('innerHTML', '');
-            table.render(parent);
-        }
+      table = new Y.DataTable({
+        columns: cols,
+        data: data,
+        sortBy: 'file'
+      });
+      parent.set('innerHTML', '');
+      table.render(parent);
+    }
 
-        Y.on('domready', function () {
-            replaceTable(Y.one('div.coverage-summary table'));
-            if (typeof prettyPrint === 'function') {
-                prettyPrint();
-            }
-        });
+    Y.on('domready', function () {
+      replaceTable(Y.one('div.coverage-summary table'));
+      if (typeof prettyPrint === 'function') {
+        prettyPrint();
+      }
     });
+  });
 </script>
 </body>
 </html>

@@ -12,7 +12,6 @@
 */
 
 use App\Models\SpecialEvent;
-use Carbon\Carbon;
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 $factory->define(SpecialEvent::class, function (Faker\Generator $faker) {
@@ -21,8 +20,7 @@ $factory->define(SpecialEvent::class, function (Faker\Generator $faker) {
         'event_name' => 'Alpha Delta PI PI Day',
         'host_name' => 'Alpha Delta PI',
         'event_description' => 'Blah blah description',
-        'start_time' => Carbon::now(),
-        'end_time' => Carbon::now(),
+        'host_logo' => 'https://pbs.twimg.com/profile_images/614120821414428672/qUDRd9gk.jpg',
         'for_profit' => 0
     ];
 });

@@ -15,7 +15,7 @@ define(function () {
       var remainingChars = args.minimum - args.input.length;
 
       var message = 'Gelieve ' + remainingChars +
-        ' of meer karakters in te voeren';
+      ' of meer karakters in te voeren';
 
       return message;
     },

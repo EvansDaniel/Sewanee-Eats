@@ -3,7 +3,7 @@ define([
   '../utils',
   'jquery'
 ], function (SelectAdapter, Utils, $) {
-  function ArrayAdapter ($element, options) {
+  function ArrayAdapter($element, options) {
     var data = options.get('data') || [];
 
     ArrayAdapter.__super__.constructor.call(this, $element, options);
@@ -38,7 +38,7 @@ define([
     var $options = [];
 
     // Filter out all items except for the one passed in the argument
-    function onlyItem (item) {
+    function onlyItem(item) {
       return function () {
         return $(this).val() == item.id;
       };

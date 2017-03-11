@@ -234,17 +234,17 @@ test('createTag returns null for no tag', function (assert) {
 
 test('the createTag options customizes the function', function (assert) {
   var data = new SelectTags(
-    $('#qunit-fixture .single'),
-    new Options({
-      tags: true,
-      createTag: function (params) {
-        return {
-          id: params.term,
-          text: params.term,
-          tag: true
-        };
-      }
-    })
+  $('#qunit-fixture .single'),
+  new Options({
+    tags: true,
+    createTag: function (params) {
+      return {
+        id: params.term,
+        text: params.term,
+        tag: true
+      };
+    }
+  })
   );
 
   data.query({

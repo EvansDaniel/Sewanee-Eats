@@ -1,1 +1,4 @@
-}))}(document, Math));
+}))}
+(document, Math)
+)
+;

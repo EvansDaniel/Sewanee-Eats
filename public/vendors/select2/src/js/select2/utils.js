@@ -6,7 +6,7 @@ define([
   Utils.Extend = function (ChildClass, SuperClass) {
     var __hasProp = {}.hasOwnProperty;
 
-    function BaseConstructor () {
+    function BaseConstructor() {
       this.constructor = ChildClass;
     }
 
@@ -23,7 +23,7 @@ define([
     return ChildClass;
   };
 
-  function getMethods (theClass) {
+  function getMethods(theClass) {
     var proto = theClass.prototype;
 
     var methods = [];
@@ -49,7 +49,7 @@ define([
     var decoratedMethods = getMethods(DecoratorClass);
     var superMethods = getMethods(SuperClass);
 
-    function DecoratedClass () {
+    function DecoratedClass() {
       var unshift = Array.prototype.unshift;
 
       var argCount = DecoratorClass.prototype.constructor.length;
@@ -67,22 +67,23 @@ define([
 
     DecoratorClass.displayName = SuperClass.displayName;
 
-    function ctr () {
+    function ctr() {
       this.constructor = DecoratedClass;
     }
 
     DecoratedClass.prototype = new ctr();
 
     for (var m = 0; m < superMethods.length; m++) {
-        var superMethod = superMethods[m];
+      var superMethod = superMethods[m];
 
-        DecoratedClass.prototype[superMethod] =
-          SuperClass.prototype[superMethod];
+      DecoratedClass.prototype[superMethod] =
+      SuperClass.prototype[superMethod];
     }
 
     var calledMethod = function (methodName) {
       // Stub out the original method if it's not decorating an actual method
-      var originalMethod = function () {};
+      var originalMethod = function () {
+      };
 
       if (methodName in DecoratedClass.prototype) {
         originalMethod = DecoratedClass.prototype[methodName];
@@ -222,7 +223,7 @@ define([
 
     //Check both x and y declarations
     if (overflowX === overflowY &&
-        (overflowY === 'hidden' || overflowY === 'visible')) {
+    (overflowY === 'hidden' || overflowY === 'visible')) {
       return false;
     }
 
@@ -231,7 +232,7 @@ define([
     }
 
     return ($el.innerHeight() < el.scrollHeight ||
-      $el.innerWidth() < el.scrollWidth);
+    $el.innerWidth() < el.scrollWidth);
   };
 
   Utils.escapeMarkup = function (markup) {

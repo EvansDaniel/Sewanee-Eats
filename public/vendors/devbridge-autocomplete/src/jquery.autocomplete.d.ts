@@ -1,4 +1,3 @@
-
 interface JQueryAutocompleteOptions {
     serviceUrl?: string;
     lookup?: AutocompleteSuggestion[];

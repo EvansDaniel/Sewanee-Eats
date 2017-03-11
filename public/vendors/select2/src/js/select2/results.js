@@ -2,7 +2,7 @@ define([
   'jquery',
   './utils'
 ], function ($, Utils) {
-  function Results ($element, options, dataAdapter) {
+  function Results($element, options, dataAdapter) {
     this.$element = $element;
     this.data = dataAdapter;
     this.options = options;
@@ -14,7 +14,7 @@ define([
 
   Results.prototype.render = function () {
     var $results = $(
-      '<ul class="select2-results__options" role="tree"></ul>'
+    '<ul class="select2-results__options" role="tree"></ul>'
     );
 
     if (this.options.get('multiple')) {
@@ -37,16 +37,16 @@ define([
     this.hideLoading();
 
     var $message = $(
-      '<li role="treeitem" aria-live="assertive"' +
-      ' class="select2-results__option"></li>'
+    '<li role="treeitem" aria-live="assertive"' +
+    ' class="select2-results__option"></li>'
     );
 
     var message = this.options.get('translations').get(params.message);
 
     $message.append(
-      escapeMarkup(
-        message(params.args)
-      )
+    escapeMarkup(
+    message(params.args)
+    )
     );
 
     $message[0].className += ' select2-results__message';
@@ -99,7 +99,7 @@ define([
 
   Results.prototype.highlightFirstItem = function () {
     var $options = this.$results
-      .find('.select2-results__option[aria-selected]');
+    .find('.select2-results__option[aria-selected]');
 
     var $selected = $options.filter('[aria-selected=true]');
 
@@ -125,7 +125,7 @@ define([
       });
 
       var $options = self.$results
-        .find('.select2-results__option[aria-selected]');
+      .find('.select2-results__option[aria-selected]');
 
       $options.each(function () {
         var $option = $(this);
@@ -136,7 +136,7 @@ define([
         var id = '' + item.id;
 
         if ((item.element != null && item.element.selected) ||
-            (item.element == null && $.inArray(id, selectedIds) > -1)) {
+        (item.element == null && $.inArray(id, selectedIds) > -1)) {
           $option.attr('aria-selected', 'true');
         } else {
           $option.attr('aria-selected', 'false');
@@ -385,7 +385,7 @@ define([
       $next.trigger('mouseenter');
 
       var currentOffset = self.$results.offset().top +
-        self.$results.outerHeight(false);
+      self.$results.outerHeight(false);
       var nextBottom = $next.offset().top + $next.outerHeight(false);
       var nextOffset = self.$results.scrollTop() + nextBottom - currentOffset;
 
@@ -420,7 +420,7 @@ define([
           e.stopPropagation();
         } else if (isAtBottom) {
           self.$results.scrollTop(
-            self.$results.get(0).scrollHeight - self.$results.height()
+          self.$results.get(0).scrollHeight - self.$results.height()
           );
 
           e.preventDefault();
@@ -430,7 +430,7 @@ define([
     }
 
     this.$results.on('mouseup', '.select2-results__option[aria-selected]',
-      function (evt) {
+    function (evt) {
       var $this = $(this);
 
       var data = $this.data('data');
@@ -455,11 +455,11 @@ define([
     });
 
     this.$results.on('mouseenter', '.select2-results__option[aria-selected]',
-      function (evt) {
+    function (evt) {
       var data = $(this).data('data');
 
       self.getHighlightedResults()
-          .removeClass('select2-results__option--highlighted');
+      .removeClass('select2-results__option--highlighted');
 
       self.trigger('results:focus', {
         data: data,

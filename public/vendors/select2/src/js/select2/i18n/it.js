@@ -20,7 +20,7 @@ define(function () {
     inputTooShort: function (args) {
       var remainingChars = args.minimum - args.input.length;
 
-      var message = 'Per favore inserisci ' +remainingChars+ ' o più caratteri';
+      var message = 'Per favore inserisci ' + remainingChars + ' o più caratteri';
 
       return message;
     },

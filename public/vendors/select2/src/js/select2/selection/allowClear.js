@@ -2,7 +2,8 @@ define([
   'jquery',
   '../keys'
 ], function ($, KEYS) {
-  function AllowClear () { }
+  function AllowClear() {
+  }
 
   AllowClear.prototype.bind = function (decorated, container, $container) {
     var self = this;
@@ -12,15 +13,15 @@ define([
     if (this.placeholder == null) {
       if (this.options.get('debug') && window.console && console.error) {
         console.error(
-          'Select2: The `allowClear` option should be used in combination ' +
-          'with the `placeholder` option.'
+        'Select2: The `allowClear` option should be used in combination ' +
+        'with the `placeholder` option.'
         );
       }
     }
 
     this.$selection.on('mousedown', '.select2-selection__clear',
-      function (evt) {
-        self._handleClear(evt);
+    function (evt) {
+      self._handleClear(evt);
     });
 
     container.on('keypress', function (evt) {
@@ -79,14 +80,14 @@ define([
     decorated.call(this, data);
 
     if (this.$selection.find('.select2-selection__placeholder').length > 0 ||
-        data.length === 0) {
+    data.length === 0) {
       return;
     }
 
     var $remove = $(
-      '<span class="select2-selection__clear">' +
-        '&times;' +
-      '</span>'
+    '<span class="select2-selection__clear">' +
+    '&times;' +
+    '</span>'
     );
     $remove.data('data', data);
 

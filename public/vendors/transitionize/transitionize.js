@@ -1,4 +1,3 @@
-
 /**
  * Transitionize 0.0.3
  * https://github.com/abpetkov/transitionize
@@ -41,7 +40,7 @@ function Transitionize(element, props) {
  * @api private
  */
 
-Transitionize.prototype.isSafari = function() {
+Transitionize.prototype.isSafari = function () {
   return (/Safari/).test(navigator.userAgent) && (/Apple Computer/).test(navigator.vendor);
 };
 
@@ -52,7 +51,7 @@ Transitionize.prototype.isSafari = function() {
  * @api private
  */
 
-Transitionize.prototype.init = function() {
+Transitionize.prototype.init = function () {
   var transitions = [];
 
   for (var key in this.props) {

@@ -3,10 +3,8 @@
 namespace Tests\Unit\Admin;
 
 use App\Models\Role;
-use Tests\TestCase;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\User;
+use Tests\TestCase;
 
 class PagesExistTest extends TestCase
 {
@@ -19,7 +17,7 @@ class PagesExistTest extends TestCase
     {
         $user = factory(User::class)->make();
         $user->save();
-        $user->roles()->attach(Role::where('name','admin')->first());
+        $user->roles()->attach(Role::where('name', 'admin')->first());
         $this->actingAs($user)
             ->visit('/')
             ->see('DASHBOARD');

@@ -3,7 +3,7 @@
  */
 define(function (require) {
 
-    require('./visualMapContinuous');
-    require('./visualMapPiecewise');
+  require('./visualMapContinuous');
+  require('./visualMapPiecewise');
 
 });

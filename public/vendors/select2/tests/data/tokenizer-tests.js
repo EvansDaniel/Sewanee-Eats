@@ -13,8 +13,8 @@ test('triggers the select event', function (assert) {
   var $ = require('jquery');
 
   var TokenizedSelect = Utils.Decorate(
-    Utils.Decorate(SelectData, Tags),
-    Tokenizer
+  Utils.Decorate(SelectData, Tags),
+  Tokenizer
   );
   var $select = $('#qunit-fixture .single');
 
@@ -55,8 +55,8 @@ test('createTag can return null', function (assert) {
   var $ = require('jquery');
 
   var TokenizedSelect = Utils.Decorate(
-    Utils.Decorate(SelectData, Tags),
-    Tokenizer
+  Utils.Decorate(SelectData, Tags),
+  Tokenizer
   );
   var $select = $('#qunit-fixture .single');
 
@@ -104,8 +104,8 @@ test('createTag returning null does not cut the term', function (assert) {
   var $ = require('jquery');
 
   var TokenizedSelect = Utils.Decorate(
-    Utils.Decorate(SelectData, Tags),
-    Tokenizer
+  Utils.Decorate(SelectData, Tags),
+  Tokenizer
   );
   var $select = $('#qunit-fixture .single');
 
@@ -151,15 +151,15 @@ test('createTag returning null does not cut the term', function (assert) {
     assert.ok(params.data, 'Data should not be null');
 
     assert.equal(
-      params.data.id,
-      '"first, second"',
-      'The id should have the quotes'
+    params.data.id,
+    '"first, second"',
+    'The id should have the quotes'
     );
 
     assert.equal(
-      params.data.text,
-      'first, second',
-      'The text should not have the quotes'
+    params.data.text,
+    'first, second',
+    'The text should not have the quotes'
     );
   });
 
@@ -183,8 +183,8 @@ test('works with multiple tokens given', function (assert) {
   var $ = require('jquery');
 
   var TokenizedSelect = Utils.Decorate(
-    Utils.Decorate(SelectData, Tags),
-    Tokenizer
+  Utils.Decorate(SelectData, Tags),
+  Tokenizer
   );
   var $select = $('#qunit-fixture .multiple');
 
@@ -212,8 +212,8 @@ test('works with multiple tokens given', function (assert) {
   });
 
   assert.equal(
-    $select.children('option').length,
-    3,
-    'The two new tags should have been created'
+  $select.children('option').length,
+  3,
+  'The two new tags should have been created'
   );
 });

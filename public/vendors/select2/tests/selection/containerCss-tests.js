@@ -6,8 +6,8 @@ var Options = require('select2/options');
 
 var SingleSelection = require('select2/selection/single');
 var ContainerCSS = Utils.Decorate(
-  SingleSelection,
-  require('select2/compat/containerCss')
+SingleSelection,
+require('select2/compat/containerCss')
 );
 
 test('all classes will be copied if :all: is used', function (assert) {
@@ -53,7 +53,7 @@ test('classes can be passed in as a string', function (assert) {
   assert.ok($container.hasClass('other'));
 });
 
-test('a function can be used based on the element', function (assert){
+test('a function can be used based on the element', function (assert) {
   var $element = $('<select class="test"></select>');
   var options = new Options({
     containerCssClass: function ($element) {

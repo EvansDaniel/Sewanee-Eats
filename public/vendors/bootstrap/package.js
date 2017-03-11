@@ -23,7 +23,7 @@ Package.onUse(function (api) {
   if (api.addAssets) {
     api.addAssets(assets, 'client');
   } else {
-    api.addFiles(assets, 'client', { isAsset: true });
+    api.addFiles(assets, 'client', {isAsset: true});
   }
   api.addFiles([
     'dist/css/bootstrap.css',

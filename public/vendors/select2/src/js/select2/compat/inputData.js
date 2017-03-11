@@ -1,16 +1,16 @@
 define([
   'jquery'
 ], function ($) {
-  function InputData (decorated, $element, options) {
+  function InputData(decorated, $element, options) {
     this._currentData = [];
     this._valueSeparator = options.get('valueSeparator') || ',';
 
     if ($element.prop('type') === 'hidden') {
       if (options.get('debug') && console && console.warn) {
         console.warn(
-          'Select2: Using a hidden input with Select2 is no longer ' +
-          'supported and may stop working in the future. It is recommended ' +
-          'to use a `<select>` element instead.'
+        'Select2: Using a hidden input with Select2 is no longer ' +
+        'supported and may stop working in the future. It is recommended ' +
+        'to use a `<select>` element instead.'
         );
       }
     }
@@ -19,7 +19,7 @@ define([
   }
 
   InputData.prototype.current = function (_, callback) {
-    function getSelected (data, selectedIds) {
+    function getSelected(data, selectedIds) {
       var selected = [];
 
       if (data.selected || $.inArray(data.id, selectedIds) !== -1) {
@@ -42,13 +42,13 @@ define([
       var data = this._currentData[d];
 
       selected.push.apply(
-        selected,
-        getSelected(
-          data,
-          this.$element.val().split(
-            this._valueSeparator
-          )
-        )
+      selected,
+      getSelected(
+      data,
+      this.$element.val().split(
+      this._valueSeparator
+      )
+      )
       );
     }
 

@@ -18,12 +18,12 @@ if (!vernums.forEach) {
 }
 // Inherit `on`, `off` & `trigger` to Parsley:
 var Parsley = $.extend(new ParsleyAbstract(), {
-    $element: $(document),
-    actualizeOptions: null,
-    _resetOptions: null,
-    Factory: ParsleyFactory,
-    version: '@@version'
-  });
+  $element: $(document),
+  actualizeOptions: null,
+  _resetOptions: null,
+  Factory: ParsleyFactory,
+  version: '@@version'
+});
 
 // Supplement ParsleyField and Form with ParsleyAbstract
 // This way, the constructors will have access to those methods
@@ -76,7 +76,9 @@ $.each('setLocale addCatalog addMessage addMessages getErrorMessage formatMessag
   window.Parsley[method] = $.proxy(registry, method);
   window.ParsleyValidator[method] = function () {
     ParsleyUtils.warnOnce(`Accessing the method '${method}' through ParsleyValidator is deprecated. Simply call 'window.Parsley.${method}(...)'`);
-    return window.Parsley[method](...arguments);
+    return window.Parsley[method](...arguments
+    )
+    ;
   };
 });
 

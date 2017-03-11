@@ -1,5 +1,5 @@
 var webpage = require("webpage"),
-    fs = require("fs");
+fs = require("fs");
 
 var html_path = fs.absolute("test.html");
 var examples = [];
@@ -14,8 +14,8 @@ function run_example(example_index) {
   var snapshot_index = 0;
   var page = webpage.create();
 
-  page.viewportSize = { width: 500, height: 300 };
-  page.clipRect = { width: 500, height: 300 };
+  page.viewportSize = {width: 500, height: 300};
+  page.clipRect = {width: 500, height: 300};
   page.onAlert = function (msg) {
     var e = JSON.parse(msg);
     if (e.fn == "snapshot") {
@@ -39,7 +39,7 @@ function run_example(example_index) {
 }
 
 exports.def = function (name, runner) {
-  examples.push({ name: name, runner: runner });
+  examples.push({name: name, runner: runner});
 };
 
 exports.run = function () {

@@ -1,39 +1,39 @@
-  // Save the other cropper
-  Cropper.other = $.fn.cropper;
+// Save the other cropper
+Cropper.other = $.fn.cropper;
 
-  // Register as jQuery plugin
-  $.fn.cropper = function (option) {
-    var args = toArray(arguments, 1);
-    var result;
+// Register as jQuery plugin
+$.fn.cropper = function (option) {
+  var args = toArray(arguments, 1);
+  var result;
 
-    this.each(function () {
-      var $this = $(this);
-      var data = $this.data(NAMESPACE);
-      var options;
-      var fn;
+  this.each(function () {
+    var $this = $(this);
+    var data = $this.data(NAMESPACE);
+    var options;
+    var fn;
 
-      if (!data) {
-        if (/destroy/.test(option)) {
-          return;
-        }
-
-        options = $.extend({}, $this.data(), $.isPlainObject(option) && option);
-        $this.data(NAMESPACE, (data = new Cropper(this, options)));
+    if (!data) {
+      if (/destroy/.test(option)) {
+        return;
       }
 
-      if (typeof option === 'string' && $.isFunction(fn = data[option])) {
-        result = fn.apply(data, args);
-      }
-    });
+      options = $.extend({}, $this.data(), $.isPlainObject(option) && option);
+      $this.data(NAMESPACE, (data = new Cropper(this, options)));
+    }
 
-    return isUndefined(result) ? this : result;
-  };
+    if (typeof option === 'string' && $.isFunction(fn = data[option])) {
+      result = fn.apply(data, args);
+    }
+  });
 
-  $.fn.cropper.Constructor = Cropper;
-  $.fn.cropper.setDefaults = Cropper.setDefaults;
+  return isUndefined(result) ? this : result;
+};
 
-  // No conflict
-  $.fn.cropper.noConflict = function () {
-    $.fn.cropper = Cropper.other;
-    return this;
-  };
+$.fn.cropper.Constructor = Cropper;
+$.fn.cropper.setDefaults = Cropper.setDefaults;
+
+// No conflict
+$.fn.cropper.noConflict = function () {
+  $.fn.cropper = Cropper.other;
+  return this;
+};

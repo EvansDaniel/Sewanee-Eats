@@ -1,17 +1,17 @@
 /**
  * @file Data zoom model
  */
-define(function(require) {
+define(function (require) {
 
-    return require('./DataZoomModel').extend({
+  return require('./DataZoomModel').extend({
 
-        type: 'dataZoom.inside',
+    type: 'dataZoom.inside',
 
-        /**
-         * @protected
-         */
-        defaultOption: {
-            zoomLock: false // Whether disable zoom but only pan.
-        }
-    });
+    /**
+     * @protected
+     */
+    defaultOption: {
+      zoomLock: false // Whether disable zoom but only pan.
+    }
+  });
 });

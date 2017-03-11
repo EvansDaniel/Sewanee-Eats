@@ -15,14 +15,14 @@ test('partial dictionaries can be passed', function (assert) {
   var translations = options.get('translations');
 
   assert.equal(
-    translations.get('searching')(),
-    'Something',
-    'The partial dictionary still overrides translations'
+  translations.get('searching')(),
+  'Something',
+  'The partial dictionary still overrides translations'
   );
 
   assert.equal(
-    translations.get('noResults')(),
-    'No results found',
-    'You can still get English translations for keys not passed in'
+  translations.get('noResults')(),
+  'No results found',
+  'You can still get English translations for keys not passed in'
   );
 });

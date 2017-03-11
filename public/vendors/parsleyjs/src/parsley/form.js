@@ -39,11 +39,13 @@ ParsleyForm.prototype = {
       event.stopImmediatePropagation();
       event.preventDefault();
       if ('pending' === promise.state())
-        promise.done(() => { this._submit($submitSource); });
+        promise.done(() = > {this._submit($submitSource);
+    })
+      ;
     }
   },
 
-  onSubmitButton: function(event) {
+  onSubmitButton: function (event) {
     this._$submitSource = $(event.target);
   },
   // internal
@@ -77,16 +79,18 @@ ParsleyForm.prototype = {
       var [group, force, event] = arguments;
       options = {group, force, event};
     }
-    return statusMapping[ this.whenValidate(options).state() ];
+    return statusMapping[this.whenValidate(options).state()];
   },
 
   whenValidate: function ({group, force, event} = {}) {
     this.submitEvent = event;
     if (event) {
-      this.submitEvent = $.extend({}, event, {preventDefault: () => {
+      this.submitEvent = $.extend({}, event, {preventDefault: () = > {
         ParsleyUtils.warnOnce("Using `this.submitEvent.preventDefault()` is deprecated; instead, call `this.validationResult = false`");
-        this.validationResult = false;
-      }});
+      this.validationResult = false;
+    }
+    })
+      ;
     }
     this.validationResult = true;
 
@@ -96,21 +100,32 @@ ParsleyForm.prototype = {
     // Refresh form DOM options and form's fields that could have changed
     this._refreshFields();
 
-    var promises = this._withoutReactualizingFormOptions(() => {
-      return $.map(this.fields, field => {
+    var promises = this._withoutReactualizingFormOptions(() = > {
+      return $.map(this.fields, field = > {
         return field.whenValidate({force, group});
-      });
-    });
+  })
+    ;
+  })
+    ;
 
-    return $.when(...promises)
-      .done(  () => { this._trigger('success'); })
-      .fail(  () => {
-        this.validationResult = false;
-        this.focus();
-        this._trigger('error');
-      })
-      .always(() => { this._trigger('validated'); })
-      .pipe(...this._pipeAccordingToValidationResult());
+    return $.when(...promises
+    )
+    .
+    done(() = > {this._trigger('success');
+  })
+    .
+    fail(() = > {
+      this.validationResult = false;
+    this.focus();
+    this._trigger('error');
+  })
+    .
+    always(() = > {this._trigger('validated');
+  })
+    .
+    pipe(...this._pipeAccordingToValidationResult()
+    )
+    ;
   },
 
   // Iterate over refreshed fields, and stop on first failure.
@@ -123,7 +138,7 @@ ParsleyForm.prototype = {
       var [group, force] = arguments;
       options = {group, force};
     }
-    return statusMapping[ this.whenValid(options).state() ];
+    return statusMapping[this.whenValid(options).state()];
   },
 
   // Iterate over refreshed fields and validate them.
@@ -132,12 +147,16 @@ ParsleyForm.prototype = {
   whenValid: function ({group, force} = {}) {
     this._refreshFields();
 
-    var promises = this._withoutReactualizingFormOptions(() => {
-      return $.map(this.fields, field => {
+    var promises = this._withoutReactualizingFormOptions(() = > {
+      return $.map(this.fields, field = > {
         return field.whenValid({group, force});
-      });
-    });
-    return $.when(...promises);
+  })
+    ;
+  })
+    ;
+    return $.when(...promises
+    )
+    ;
   },
 
   _refreshFields: function () {
@@ -150,25 +169,28 @@ ParsleyForm.prototype = {
     this.fields = [];
     this.fieldsMappedById = {};
 
-    this._withoutReactualizingFormOptions(() => {
+    this._withoutReactualizingFormOptions(() = > {
       this.$element
-      .find(this.options.inputs)
-      .not(this.options.excluded)
-      .each((_, element) => {
-        var fieldInstance = new window.Parsley.Factory(element, {}, this);
+    .find(this.options.inputs)
+    .not(this.options.excluded)
+    .each((_, element) = > {
+      var fieldInstance = new window.Parsley.Factory(element, {}, this);
 
-        // Only add valid and not excluded `ParsleyField` and `ParsleyFieldMultiple` children
-        if (('ParsleyField' === fieldInstance.__class__ || 'ParsleyFieldMultiple' === fieldInstance.__class__) && (true !== fieldInstance.options.excluded))
-          if ('undefined' === typeof this.fieldsMappedById[fieldInstance.__class__ + '-' + fieldInstance.__id__]) {
-            this.fieldsMappedById[fieldInstance.__class__ + '-' + fieldInstance.__id__] = fieldInstance;
-            this.fields.push(fieldInstance);
-          }
-      });
+    // Only add valid and not excluded `ParsleyField` and `ParsleyFieldMultiple` children
+    if (('ParsleyField' === fieldInstance.__class__ || 'ParsleyFieldMultiple' === fieldInstance.__class__) && (true !== fieldInstance.options.excluded))
+      if ('undefined' === typeof this.fieldsMappedById[fieldInstance.__class__ + '-' + fieldInstance.__id__]) {
+        this.fieldsMappedById[fieldInstance.__class__ + '-' + fieldInstance.__id__] = fieldInstance;
+        this.fields.push(fieldInstance);
+      }
+  })
+    ;
 
-      $(oldFields).not(this.fields).each((_, field) => {
-        field._trigger('reset');
-      });
-    });
+    $(oldFields).not(this.fields).each((_, field) = > {
+      field._trigger('reset');
+  })
+    ;
+  })
+    ;
     return this;
   },
 
@@ -181,7 +203,9 @@ ParsleyForm.prototype = {
   // the method actualizeOptions on this form while `fn` is called.
   _withoutReactualizingFormOptions: function (fn) {
     var oldActualizeOptions = this.actualizeOptions;
-    this.actualizeOptions = function () { return this; };
+    this.actualizeOptions = function () {
+      return this;
+    };
     var result = fn();
     this.actualizeOptions = oldActualizeOptions;
     return result;

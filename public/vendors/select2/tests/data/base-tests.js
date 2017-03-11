@@ -10,10 +10,11 @@ test('current is required', function (assert) {
   var data = new BaseData($('#qunit-fixture select'), options);
 
   assert.throws(
-    function () {
-      data.current(function () {});
-    },
-    'current has no default implementation'
+  function () {
+    data.current(function () {
+    });
+  },
+  'current has no default implementation'
   );
 });
 
@@ -21,9 +22,10 @@ test('query is required', function (assert) {
   var data = new BaseData($('#qunit-fixture select'), options);
 
   assert.throws(
-    function () {
-      data.query({}, function () {});
-    },
-    'query has no default implementation'
+  function () {
+    data.query({}, function () {
+    });
+  },
+  'query has no default implementation'
   );
 });

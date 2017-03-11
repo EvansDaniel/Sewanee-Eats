@@ -9,12 +9,15 @@ ParsleyAbstract.prototype = {
   asyncSupport: true, // Deprecated
 
   _pipeAccordingToValidationResult: function () {
-    var pipe = () => {
+    var pipe = () =
+    >
+    {
       var r = $.Deferred();
       if (true !== this.validationResult)
         r.reject();
       return r.resolve().promise();
-    };
+    }
+    ;
     return [pipe, pipe];
   },
 
@@ -51,7 +54,7 @@ ParsleyAbstract.prototype = {
   },
 
   // Deprecated. Use `on` instead
-  subscribe: function(name, fn) {
+  subscribe: function (name, fn) {
     $.listenTo(this, name.toLowerCase(), fn);
   },
 
@@ -62,7 +65,7 @@ ParsleyAbstract.prototype = {
       if (!fn) {
         delete this._listeners[name];
       } else {
-        for (var i = queue.length; i--; )
+        for (var i = queue.length; i--;)
           if (queue[i] === fn)
             queue.splice(i, 1);
       }
@@ -71,7 +74,7 @@ ParsleyAbstract.prototype = {
   },
 
   // Deprecated. Use `off`
-  unsubscribe: function(name, fn) {
+  unsubscribe: function (name, fn) {
     $.unsubscribeTo(this, name.toLowerCase());
   },
 
@@ -84,7 +87,7 @@ ParsleyAbstract.prototype = {
     var result;
     var parentResult;
     if (queue) {
-      for (var i = queue.length; i--; ) {
+      for (var i = queue.length; i--;) {
         result = queue[i].call(target, target, extraArg);
         if (result === false) return result;
       }
@@ -137,7 +140,7 @@ ParsleyAbstract.prototype = {
 
   _findRelated: function () {
     return this.options.multiple ?
-      this.parent.$element.find(`[${this.options.namespace}multiple="${this.options.multiple}"]`)
+    this.parent.$element.find(`[${this.options.namespace}multiple="${this.options.multiple}"]`)
     : this.$element;
   }
 };

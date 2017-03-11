@@ -20,20 +20,23 @@ var ConstraintFactory = function (parsleyField, name, requirements, priority, is
   this._parseRequirements(parsleyField.options);
 };
 
-var capitalize = function(str) {
+var capitalize = function (str) {
   var cap = str[0].toUpperCase();
   return cap + str.slice(1);
 };
 
 ConstraintFactory.prototype = {
-  validate: function(value, instance) {
-    return this.validator.validate(value, ...this.requirementList, instance);
+  validate: function (value, instance) {
+    return this.validator.validate(value,...this.requirementList, instance
+    )
+    ;
   },
 
-  _parseRequirements: function(options) {
-    this.requirementList = this.validator.parseRequirements(this.requirements, key => {
+  _parseRequirements: function (options) {
+    this.requirementList = this.validator.parseRequirements(this.requirements, key = > {
       return options[this.name + capitalize(key)];
-    });
+  })
+    ;
   }
 };
 

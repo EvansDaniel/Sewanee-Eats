@@ -10,8 +10,8 @@ var Options = require('select2/options');
 var Utils = require('select2/utils');
 
 var AllowClearPlaceholder = Utils.Decorate(
-  Utils.Decorate(SingleSelection, Placeholder),
-  AllowClear
+Utils.Decorate(SingleSelection, Placeholder),
+AllowClear
 );
 
 var allowClearOptions = new Options({
@@ -24,8 +24,8 @@ var allowClearOptions = new Options({
 
 test('clear is not displayed for single placeholder', function (assert) {
   var selection = new AllowClearPlaceholder(
-    $('#qunit-fixture .single-with-placeholder'),
-    allowClearOptions
+  $('#qunit-fixture .single-with-placeholder'),
+  allowClearOptions
   );
 
   var $selection = selection.render();
@@ -35,16 +35,16 @@ test('clear is not displayed for single placeholder', function (assert) {
   }]);
 
   assert.equal(
-    $selection.find('.select2-selection__clear').length,
-    0,
-    'The clear icon should not be displayed'
+  $selection.find('.select2-selection__clear').length,
+  0,
+  'The clear icon should not be displayed'
   );
 });
 
 test('clear is not displayed for multiple placeholder', function (assert) {
   var selection = new AllowClearPlaceholder(
-    $('#qunit-fixture .single-with-placeholder'),
-    allowClearOptions
+  $('#qunit-fixture .single-with-placeholder'),
+  allowClearOptions
   );
 
   var $selection = selection.render();
@@ -52,17 +52,17 @@ test('clear is not displayed for multiple placeholder', function (assert) {
   selection.update([]);
 
   assert.equal(
-    $selection.find('.select2-selection__clear').length,
-    0,
-    'The clear icon should not be displayed'
+  $selection.find('.select2-selection__clear').length,
+  0,
+  'The clear icon should not be displayed'
   );
 });
 
 
 test('clear is displayed for placeholder', function (assert) {
   var selection = new AllowClearPlaceholder(
-    $('#qunit-fixture .single-with-placeholder'),
-    allowClearOptions
+  $('#qunit-fixture .single-with-placeholder'),
+  allowClearOptions
   );
 
   var $selection = selection.render();
@@ -73,9 +73,9 @@ test('clear is displayed for placeholder', function (assert) {
   }]);
 
   assert.equal(
-    $selection.find('.select2-selection__clear').length,
-    1,
-    'The clear icon should be displayed'
+  $selection.find('.select2-selection__clear').length,
+  1,
+  'The clear icon should be displayed'
   );
 });
 
@@ -83,8 +83,8 @@ test('clicking clear will set the placeholder value', function (assert) {
   var $element = $('#qunit-fixture .single-with-placeholder');
 
   var selection = new AllowClearPlaceholder(
-    $element,
-    allowClearOptions
+  $element,
+  allowClearOptions
   );
   var container = new MockContainer();
 
@@ -102,9 +102,9 @@ test('clicking clear will set the placeholder value', function (assert) {
   $remove.trigger('mousedown');
 
   assert.equal(
-    $element.val(),
-    'placeholder',
-    'The value should have been reset to the placeholder'
+  $element.val(),
+  'placeholder',
+  'The value should have been reset to the placeholder'
   );
 });
 
@@ -114,8 +114,8 @@ test('clicking clear will trigger the unselect event', function (assert) {
   var $element = $('#qunit-fixture .single-with-placeholder');
 
   var selection = new AllowClearPlaceholder(
-    $element,
-    allowClearOptions
+  $element,
+  allowClearOptions
   );
   var container = new MockContainer();
 
@@ -131,19 +131,19 @@ test('clicking clear will trigger the unselect event', function (assert) {
 
   selection.on('unselect', function (ev) {
     assert.ok(
-      'data' in ev && ev.data,
-      'The event should have been triggered with the data property'
+    'data' in ev && ev.data,
+    'The event should have been triggered with the data property'
     );
 
     assert.ok(
-      $.isPlainObject(ev.data),
-      'The data should be an object'
+    $.isPlainObject(ev.data),
+    'The data should be an object'
     );
 
     assert.equal(
-      ev.data.id,
-      'One',
-      'The previous object should be unselected'
+    ev.data.id,
+    'One',
+    'The previous object should be unselected'
     );
   });
 
@@ -152,13 +152,12 @@ test('clicking clear will trigger the unselect event', function (assert) {
 });
 
 
-
 test('preventing the unselect event cancels the clearing', function (assert) {
   var $element = $('#qunit-fixture .single-with-placeholder');
 
   var selection = new AllowClearPlaceholder(
-    $element,
-    allowClearOptions
+  $element,
+  allowClearOptions
   );
   var container = new MockContainer();
 
@@ -180,9 +179,9 @@ test('preventing the unselect event cancels the clearing', function (assert) {
   $remove.trigger('mousedown');
 
   assert.equal(
-    $element.val(),
-    'One',
-    'The placeholder should not have been set'
+  $element.val(),
+  'One',
+  'The placeholder should not have been set'
   );
 });
 
@@ -190,8 +189,8 @@ test('clear does not work when disabled', function (assert) {
   var $element = $('#qunit-fixture .single-with-placeholder');
 
   var selection = new AllowClearPlaceholder(
-    $element,
-    allowClearOptions
+  $element,
+  allowClearOptions
   );
   var container = new MockContainer();
 
@@ -211,8 +210,8 @@ test('clear does not work when disabled', function (assert) {
   $remove.trigger('mousedown');
 
   assert.equal(
-    $element.val(),
-    'One',
-    'The placeholder should not have been set'
+  $element.val(),
+  'One',
+  'The placeholder should not have been set'
   );
 });

@@ -3,7 +3,7 @@ define([
   './base',
   '../utils'
 ], function ($, BaseSelection, Utils) {
-  function MultipleSelection ($element, options) {
+  function MultipleSelection($element, options) {
     MultipleSelection.__super__.constructor.apply(this, arguments);
   }
 
@@ -15,7 +15,7 @@ define([
     $selection.addClass('select2-selection--multiple');
 
     $selection.html(
-      '<ul class="select2-selection__rendered"></ul>'
+    '<ul class="select2-selection__rendered"></ul>'
     );
 
     return $selection;
@@ -33,24 +33,24 @@ define([
     });
 
     this.$selection.on(
-      'click',
-      '.select2-selection__choice__remove',
-      function (evt) {
-        // Ignore the event if it is disabled
-        if (self.options.get('disabled')) {
-          return;
-        }
-
-        var $remove = $(this);
-        var $selection = $remove.parent();
-
-        var data = $selection.data('data');
-
-        self.trigger('unselect', {
-          originalEvent: evt,
-          data: data
-        });
+    'click',
+    '.select2-selection__choice__remove',
+    function (evt) {
+      // Ignore the event if it is disabled
+      if (self.options.get('disabled')) {
+        return;
       }
+
+      var $remove = $(this);
+      var $selection = $remove.parent();
+
+      var data = $selection.data('data');
+
+      self.trigger('unselect', {
+        originalEvent: evt,
+        data: data
+      });
+    }
     );
   };
 
@@ -67,11 +67,11 @@ define([
 
   MultipleSelection.prototype.selectionContainer = function () {
     var $container = $(
-      '<li class="select2-selection__choice">' +
-        '<span class="select2-selection__choice__remove" role="presentation">' +
-          '&times;' +
-        '</span>' +
-      '</li>'
+    '<li class="select2-selection__choice">' +
+    '<span class="select2-selection__choice__remove" role="presentation">' +
+    '&times;' +
+    '</span>' +
+    '</li>'
     );
 
     return $container;

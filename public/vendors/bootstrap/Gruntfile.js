@@ -22,13 +22,13 @@ module.exports = function (grunt) {
   var BsLessdocParser = require('./grunt/bs-lessdoc-parser.js');
   var getLessVarsData = function () {
     var filePath = path.join(__dirname, 'less/variables.less');
-    var fileContent = fs.readFileSync(filePath, { encoding: 'utf8' });
+    var fileContent = fs.readFileSync(filePath, {encoding: 'utf8'});
     var parser = new BsLessdocParser(fileContent);
-    return { sections: parser.parseFile() };
+    return {sections: parser.parseFile()};
   };
   var generateRawFiles = require('./grunt/bs-raw-files-generator.js');
   var generateCommonJSModule = require('./grunt/bs-commonjs-generator.js');
-  var configBridge = grunt.file.readJSON('./grunt/configBridge.json', { encoding: 'utf8' });
+  var configBridge = grunt.file.readJSON('./grunt/configBridge.json', {encoding: 'utf8'});
 
   Object.keys(configBridge.paths).forEach(function (key) {
     configBridge.paths[key].forEach(function (val, i, arr) {
@@ -42,10 +42,10 @@ module.exports = function (grunt) {
     // Metadata.
     pkg: grunt.file.readJSON('package.json'),
     banner: '/*!\n' +
-            ' * Bootstrap v<%= pkg.version %> (<%= pkg.homepage %>)\n' +
-            ' * Copyright 2011-<%= grunt.template.today("yyyy") %> <%= pkg.author %>\n' +
-            ' * Licensed under the <%= pkg.license %> license\n' +
-            ' */\n',
+    ' * Bootstrap v<%= pkg.version %> (<%= pkg.homepage %>)\n' +
+    ' * Copyright 2011-<%= grunt.template.today("yyyy") %> <%= pkg.author %>\n' +
+    ' * Licensed under the <%= pkg.license %> license\n' +
+    ' */\n',
     jqueryCheck: configBridge.config.jqueryCheck.join('\n'),
     jqueryVersionCheck: configBridge.config.jqueryVersionCheck.join('\n'),
 
@@ -433,7 +433,7 @@ module.exports = function (grunt) {
 
 
   // These plugins provide necessary tasks.
-  require('load-grunt-tasks')(grunt, { scope: 'devDependencies' });
+  require('load-grunt-tasks')(grunt, {scope: 'devDependencies'});
   require('time-grunt')(grunt);
 
   // Docs HTML validation task
@@ -450,22 +450,22 @@ module.exports = function (grunt) {
   var testSubtasks = [];
   // Skip core tests if running a different subset of the test suite
   if (runSubset('core') &&
-      // Skip core tests if this is a Savage build
-      process.env.TRAVIS_REPO_SLUG !== 'twbs-savage/bootstrap') {
+  // Skip core tests if this is a Savage build
+  process.env.TRAVIS_REPO_SLUG !== 'twbs-savage/bootstrap') {
     testSubtasks = testSubtasks.concat(['dist-css', 'dist-js', 'csslint:dist', 'test-js', 'docs']);
   }
   // Skip HTML validation if running a different subset of the test suite
   if (runSubset('validate-html') &&
-      // Skip HTML5 validator on Travis when [skip validator] is in the commit message
-      isUndefOrNonZero(process.env.TWBS_DO_VALIDATOR)) {
+  // Skip HTML5 validator on Travis when [skip validator] is in the commit message
+  isUndefOrNonZero(process.env.TWBS_DO_VALIDATOR)) {
     testSubtasks.push('validate-html');
   }
   // Only run Sauce Labs tests if there's a Sauce access key
   if (typeof process.env.SAUCE_ACCESS_KEY !== 'undefined' &&
-      // Skip Sauce if running a different subset of the test suite
-      runSubset('sauce-js-unit') &&
-      // Skip Sauce on Travis when [skip sauce] is in the commit message
-      isUndefOrNonZero(process.env.TWBS_DO_SAUCE)) {
+  // Skip Sauce if running a different subset of the test suite
+  runSubset('sauce-js-unit') &&
+  // Skip Sauce on Travis when [skip sauce] is in the commit message
+  isUndefOrNonZero(process.env.TWBS_DO_SAUCE)) {
     testSubtasks.push('connect');
     testSubtasks.push('saucelabs-qunit');
   }
@@ -490,7 +490,9 @@ module.exports = function (grunt) {
   // This can be overzealous, so its changes should always be manually reviewed!
   grunt.registerTask('change-version-number', 'sed');
 
-  grunt.registerTask('build-glyphicons-data', function () { generateGlyphiconsData.call(this, grunt); });
+  grunt.registerTask('build-glyphicons-data', function () {
+    generateGlyphiconsData.call(this, grunt);
+  });
 
   // task for building customizer
   grunt.registerTask('build-customizer', ['build-customizer-html', 'build-raw-files']);
@@ -520,7 +522,7 @@ module.exports = function (grunt) {
   grunt.registerTask('update-shrinkwrap', ['exec:npmUpdate', '_update-shrinkwrap']);
   grunt.registerTask('_update-shrinkwrap', function () {
     var done = this.async();
-    npmShrinkwrap({ dev: true, dirname: __dirname }, function (err) {
+    npmShrinkwrap({dev: true, dirname: __dirname}, function (err) {
       if (err) {
         grunt.fail.warn(err);
       }

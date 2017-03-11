@@ -23,10 +23,10 @@ test('adding a new unselected option changes nothing', function (assert) {
   var Select2 = require('select2/core');
 
   var $select = $(
-    '<select>' +
-      '<option>One</option>' +
-      '<option>Two</option>' +
-    '</select>'
+  '<select>' +
+  '<option>One</option>' +
+  '<option>Two</option>' +
+  '</select>'
   );
 
   $('#qunit-fixture').append($select);
@@ -35,15 +35,15 @@ test('adding a new unselected option changes nothing', function (assert) {
 
   select.on('selection:update', function (args) {
     assert.equal(
-      args.data.length,
-      1,
-      'There was more than one selection'
+    args.data.length,
+    1,
+    'There was more than one selection'
     );
 
     assert.equal(
-      args.data[0].id,
-      'One',
-      'The selection changed to something other than One'
+    args.data[0].id,
+    'One',
+    'The selection changed to something other than One'
     );
 
     if (expected != 2) {
@@ -52,8 +52,8 @@ test('adding a new unselected option changes nothing', function (assert) {
   });
 
   assert.equal(
-    $select.val(),
-    'One'
+  $select.val(),
+  'One'
   );
 
   var $option = $('<option>Three</option>');
@@ -61,8 +61,8 @@ test('adding a new unselected option changes nothing', function (assert) {
   $select.append($option);
 
   assert.equal(
-    $select.val(),
-    'One'
+  $select.val(),
+  'One'
   );
 
   syncDone();
@@ -89,10 +89,10 @@ test('adding a new selected option changes the value', function (assert) {
   var Select2 = require('select2/core');
 
   var $select = $(
-    '<select>' +
-      '<option>One</option>' +
-      '<option>Two</option>' +
-    '</select>'
+  '<select>' +
+  '<option>One</option>' +
+  '<option>Two</option>' +
+  '</select>'
   );
 
   $('#qunit-fixture').append($select);
@@ -101,15 +101,15 @@ test('adding a new selected option changes the value', function (assert) {
 
   select.on('selection:update', function (args) {
     assert.equal(
-      args.data.length,
-      1,
-      'There was more than one selection'
+    args.data.length,
+    1,
+    'There was more than one selection'
     );
 
     assert.equal(
-      args.data[0].id,
-      'Three',
-      'The selection did not change to Three'
+    args.data[0].id,
+    'Three',
+    'The selection did not change to Three'
     );
 
     if (expected != 2) {
@@ -118,8 +118,8 @@ test('adding a new selected option changes the value', function (assert) {
   });
 
   assert.equal(
-    $select.val(),
-    'One'
+  $select.val(),
+  'One'
   );
 
   var $option = $('<option selected>Three</option>');
@@ -127,8 +127,8 @@ test('adding a new selected option changes the value', function (assert) {
   $select.append($option);
 
   assert.equal(
-    $select.val(),
-    'Three'
+  $select.val(),
+  'Three'
   );
 
   syncDone();
@@ -155,10 +155,10 @@ test('removing an unselected option changes nothing', function (assert) {
   var Select2 = require('select2/core');
 
   var $select = $(
-    '<select>' +
-      '<option>One</option>' +
-      '<option>Two</option>' +
-    '</select>'
+  '<select>' +
+  '<option>One</option>' +
+  '<option>Two</option>' +
+  '</select>'
   );
 
   $('#qunit-fixture').append($select);
@@ -167,15 +167,15 @@ test('removing an unselected option changes nothing', function (assert) {
 
   select.on('selection:update', function (args) {
     assert.equal(
-      args.data.length,
-      1,
-      'There was more than one selection'
+    args.data.length,
+    1,
+    'There was more than one selection'
     );
 
     assert.equal(
-      args.data[0].id,
-      'One',
-      'The selection changed to something other than One'
+    args.data[0].id,
+    'One',
+    'The selection changed to something other than One'
     );
 
     if (expected != 2) {
@@ -184,15 +184,15 @@ test('removing an unselected option changes nothing', function (assert) {
   });
 
   assert.equal(
-    $select.val(),
-    'One'
+  $select.val(),
+  'One'
   );
 
   $select.children().eq(1).remove();
 
   assert.equal(
-    $select.val(),
-    'One'
+  $select.val(),
+  'One'
   );
 
   syncDone();
@@ -219,10 +219,10 @@ test('removing a selected option changes the value', function (assert) {
   var Select2 = require('select2/core');
 
   var $select = $(
-    '<select>' +
-      '<option>One</option>' +
-      '<option>Two</option>' +
-    '</select>'
+  '<select>' +
+  '<option>One</option>' +
+  '<option>Two</option>' +
+  '</select>'
   );
 
   $('#qunit-fixture').append($select);
@@ -231,9 +231,9 @@ test('removing a selected option changes the value', function (assert) {
 
   select.on('selection:update', function (args) {
     assert.equal(
-      args.data.length,
-      1,
-      'There was more than one selection'
+    args.data.length,
+    1,
+    'There was more than one selection'
     );
 
     if (expected != 2) {
@@ -242,15 +242,15 @@ test('removing a selected option changes the value', function (assert) {
   });
 
   assert.equal(
-    $select.val(),
-    'One'
+  $select.val(),
+  'One'
   );
 
   $select.children().eq(0).remove();
 
   assert.equal(
-    $select.val(),
-    'Two'
+  $select.val(),
+  'Two'
   );
 
   syncDone();

@@ -50,12 +50,12 @@ var defaults = {
     }
   },
   template: '<div class="colorpicker dropdown-menu">' +
-    '<div class="colorpicker-saturation"><i><b></b></i></div>' +
-    '<div class="colorpicker-hue"><i></i></div>' +
-    '<div class="colorpicker-alpha"><i></i></div>' +
-    '<div class="colorpicker-color"><div /></div>' +
-    '<div class="colorpicker-selectors"></div>' +
-    '</div>',
+  '<div class="colorpicker-saturation"><i><b></b></i></div>' +
+  '<div class="colorpicker-hue"><i></i></div>' +
+  '<div class="colorpicker-alpha"><i></i></div>' +
+  '<div class="colorpicker-color"><div /></div>' +
+  '<div class="colorpicker-selectors"></div>' +
+  '</div>',
   align: 'right',
   customClass: null,
   colorSelectors: null

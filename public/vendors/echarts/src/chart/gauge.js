@@ -1,4 +1,4 @@
 define(function (require) {
-    require('./gauge/GaugeSeries');
-    require('./gauge/GaugeView');
+  require('./gauge/GaugeSeries');
+  require('./gauge/GaugeView');
 });

@@ -4,11 +4,9 @@ namespace App\Http\Controllers;
 
 use App\CustomTraits\PriceInformation;
 use App\Events\NewOrderReceived;
-use App\Models\MenuItem;
 use App\Models\MenuItemOrder;
 use App\Models\Order;
 use App\Models\OrderPriceInfo;
-use App\User;
 use Event;
 use Illuminate\Http\Request;
 use Session;
@@ -22,7 +20,7 @@ class CheckoutController extends Controller
     public function showCheckoutPage()
     {
         $price_summary = $this->getPriceSummary();
-        return view('orderFlow.checkout', compact('items','price_summary'));
+        return view('orderFlow.checkout', compact('items', 'price_summary'));
     }
 
     public function handleCheckout(Request $request)
@@ -59,7 +57,7 @@ class CheckoutController extends Controller
 
             // Load default special order info
             $weekly_special_order =
-                $this->weeklySpecialOrderDefaults($request,$pay_with_venmo,$email,$v_username);
+                $this->weeklySpecialOrderDefaults($request, $pay_with_venmo, $email, $v_username);
             $weekly_special_order->save();
 
             $special_menu_item_orders = [];
@@ -164,7 +162,27 @@ class CheckoutController extends Controller
      * Loads a weekly special order model with info that is the default for
      * a weekly special order
      */
-    private function weeklySpecialOrderDefaults(Request $request,$pay_with_venmo,$email,$v_username)
+
+    private function handleCheckoutValidation(Request $request)
+    {
+        // TODO: handle validation for location if on demand order request
+        $rules = null;
+        if ($request->input('pay_with_venmo') == 1) {
+            $rules = array(
+                'name' => 'required',
+                'email_address' => 'email|required',
+                'venmo_username' => 'required',
+            );
+        } else {
+            $rules = array(
+                'name' => 'required',
+                'email_address' => 'email|required'
+            );
+        }
+        return Validator::make($request->all(), $rules);
+    }
+
+    private function weeklySpecialOrderDefaults(Request $request, $pay_with_venmo, $email, $v_username)
     {
         // submit a weekly special order
         $weekly_special_order = new Order;
@@ -185,25 +203,6 @@ class CheckoutController extends Controller
             $weekly_special_order->is_open_order = false;
         }
         return $weekly_special_order;
-    }
-
-    private function handleCheckoutValidation(Request $request)
-    {
-        // TODO: handle validation for location if on demand order request
-        $rules = null;
-        if ($request->input('pay_with_venmo') == 1) {
-            $rules = array(
-                'name' => 'required',
-                'email_address' => 'email|required',
-                'venmo_username' => 'required',
-            );
-        } else {
-            $rules = array(
-                'name' => 'required',
-                'email_address' => 'email|required'
-            );
-        }
-        return Validator::make($request->all(), $rules);
     }
 
     private function saveOrderPriceInfo($order)
