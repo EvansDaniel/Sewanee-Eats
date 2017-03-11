@@ -44,9 +44,10 @@
         <!-- Sidebar -->
     @include('admin.partials.admin_sidebar')
     <!-- /top tiles -->
-        @yield('body')
+        <div class="container" style="margin-left: 20%">
+            @yield('body')
 
-
+        </div>
     </div>
 </div>
 <!-- jQuery -->

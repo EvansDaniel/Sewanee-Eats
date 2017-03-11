@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\CustomTraits\CartInformation;
 use App\CustomTraits\IsAvailable;
 use App\Models\Restaurant;
+use App\Models\SpecialEvent;
 use Illuminate\Http\Request;
 
 class RestaurantController extends Controller
@@ -64,11 +65,12 @@ class RestaurantController extends Controller
                 //}
             }
         }
-        $name = "baisee";
+        $events = SpecialEvent::all();
         // boolean to use in the view show or not show a link
         // to a page with all the restaurants on it
         $showAllRestaurants = count($all_restaurants) > count($restaurants);
-        return view('orderFlow.list_restaurants', compact('restaurants', 's_restaurants', 'name'));
+        return view('orderFlow.list_restaurants',
+            compact('restaurants', 's_restaurants', 'events'));
     }
 
     public function store(Request $request)

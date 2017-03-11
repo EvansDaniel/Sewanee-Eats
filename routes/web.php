@@ -38,6 +38,9 @@ Route::get('how-it-works', 'HomeController@showHowItWorks')->name('howItWorks');
 Route::get('thank-you', 'HomeController@showThankYou')
     ->name('thankYou');//->middleware('redirect.thankyou');
 
+Route::get('eventsInfo', 'HomeController@eventsInfo')
+    ->name('eventsInfo');
+
 Route::get('find-my-order/', 'HomeController@findMyOrder')
     ->name('findMyOrder');
 Route::get('orderSummary/{order_id}', 'HomeController@orderSummary')
@@ -104,6 +107,16 @@ Route::get('checkout', 'CheckoutController@showCheckoutPage')
 
 Route::get('restaurants', 'RestaurantController@list_restaurants')
     ->name('list_restaurants');
+
+// Event Item Order Flow ---------------------------------------------------------
+
+Route::get('event-info', 'HomeController@showEventInfo')
+    ->name('showEventInfo');
+
+Route::get('event/{id}/items', 'EventItemController@showEventItems')
+    ->name('showEventItems');
+
+// -------------------------------------------------------------------------------
 
 Route::get('restaurants/{id}', 'RestaurantController@showMenu')
     ->name('showMenu');

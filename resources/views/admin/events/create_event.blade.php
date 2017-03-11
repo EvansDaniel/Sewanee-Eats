@@ -6,7 +6,6 @@
 
 @section('body')
     <div class="right_col form-group" role="main">
-
         <form action="{{ route('createEvent') }}" method="post">
             {{ csrf_field() }}
             <label for="event-name">Event Name</label>
@@ -23,8 +22,8 @@
 
             <label for="for-profit">Is this event for profit? If so, all items sold for this event will use the event
                 pricing formula to calculate the final price.</label>
-            <input type="checkbox" name="for_profit" id="for-profit" class="form-control">
+            <input type="checkbox" name="for_profit" id="for-profit" value="{{ $event->for_profit }}"
+                   class="form-control">
         </form>
-
     </div>
 @stop
