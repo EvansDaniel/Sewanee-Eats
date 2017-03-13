@@ -1,0 +1,97 @@
+
+.carousel-caption {
+    padding: 4% 3%;
+}
+.carousel-caption h3{
+    font-weight: bold;
+}
+.carousel-caption p{
+    font-size: 20px;
+}
+.carousel-caption h3 span, #carousel-restaurant{
+    font-size: 30px;
+    font-family: "Lato", sans-serif;
+    font-weight: bold;
+}
+
+#banner-more{
+    font-size: 30px;
+    font-family: "Lato", sans-serif;
+    font-weight: bold;
+}
+#btn, #btn2{
+    border-radius: 0;
+}
+#btn3{
+    background: linear-gradient(90deg, #240a54 10%, #7459a5 90%);
+    color: white;
+    vertical-align: middle;
+    letter-spacing: .12em;
+    font-size: 14px;
+    font-weight: bold;
+    font-family: 'Lato', sans-serif;
+    border: solid rebeccapurple 2px;
+}
+.dark-overlay{
+    background: rgba(0,0,0,.7);
+}
+.dark-overlay img{
+    opacity: .7;
+}
+#btn-div-smallscreen{
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 30px;
+    background: rgba(0,0,0,.1);
+}
+@media screen and (min-width: 991px){
+    .carousel-caption p{
+        font-size: 25px;
+    }
+    .carousel-caption h3{
+        font-size: 30px;
+    }
+}
+@media screen and (max-width: 768px) and (min-width: 500px){
+    #btn3{
+        margin-left: 37%;
+        width: 28%;
+    }
+    .carousel-caption p{
+        font-size: 25px;
+    }
+    .carousel-caption h3{
+        font-size: 30px;
+    }
+
+
+}
+@media screen and (max-width: 500px){
+    #btn3{
+        margin-left: 30%;
+        width: 40%;
+        font-size: 12px;
+    }
+    .carousel-caption p{
+        font-size: 12px;
+    }
+    .carousel-caption h3{
+        font-size: 16px;
+    }
+    .carousel-caption, ol li{
+        transform: translate(0,20px);
+    }
+    .carousel-caption h3 span, #carousel-restaurant{
+        font-size: 17px;
+        font-family: "Lato", sans-serif;
+        font-weight: bold;
+    }
+    #car-charity h3{
+        transform: translate(0, 10px);
+    }
+}
+#btn-div-smallscreen{
+    padding: 30px;
+}
+
+/*ratio for the yamato image:  3678/1510*/

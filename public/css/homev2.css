@@ -1,0 +1,276 @@
+/* Tari Kandemiri */
+body, html {
+    padding: 0;
+    margin: 0;
+}
+
+#main-container {
+    margin: 0;
+    padding: 0;
+}
+
+img {
+    width: 100%;
+    height: auto;
+}
+
+logo {
+    width: 100%;
+    height: auto;
+}
+
+p {
+    font-family: 'Lato', sans-serif;
+    /*font-size: 30px;*/
+}
+
+a {
+    text-decoration: none;
+}
+
+figure {
+    width: 100%;
+    position: relative;
+}
+
+.btn:hover, #promo-order-button:hover {
+    color: white;
+}
+
+div.ex1 {
+    width: 500px;
+    margin: auto;
+    border: 3px solid #240a54;
+}
+
+.anynames {
+/*/ / this css is for position an image to the left position: relative;*/
+    float: left;
+    width: 50px;
+}
+
+#promo-p1, #promo-p2 {
+    text-align: center;
+    margin-top: 1em;
+}
+
+#promo-places p {
+    font-size: 1.3em;
+    text-align: center;
+
+}
+#promo-section p{
+    font-family: "Lato", sans-serif;
+}
+/*for computer screens*/
+@media only screen and (min-width: 768px) {
+
+    #promo-order-button {
+        background: linear-gradient(90deg, #240a54 10%, #7459a5 90%);
+        font-size: 16px;
+        color: white;
+        border-radius: 10px;
+        text-align: center;
+        padding: 15px 30px;
+        text-decoration: none;
+        margin-bottom: 1em;
+        width: 22%;
+        font-weight: bold;
+        border: solid rebeccapurple 2px;
+        vertical-align: middle;
+    }
+
+    #btn , #btn2{
+        background: linear-gradient(90deg, #240a54 10%, #7459a5 90%);
+        color: white;
+        padding: 1% 4%;
+        border-radius: 10px;
+        letter-spacing: .12em;
+        font-size: 16px;
+        font-family: 'Lato', sans-serif;
+        font-weight: bold;
+        border: solid rebeccapurple 2px;
+        vertical-align: middle;
+    }
+
+    /*.itembtn {*/
+    /*transform: translate(-50%, -50%);*/
+    /*background: linear-gradient(90deg, #240a54 10%, #7459a5 90%);*/
+    /*color: white;*/
+    /*padding: 10px 10px;*/
+    /*border: none;*/
+    /*border-radius: 10px;*/
+    /*letter-spacing: .12em;*/
+    /*font-size: 20px;*/
+    /*font-family: 'Lato', sans-serif;*/
+
+    /*position: relative;*/
+    /*bottom: -50px;*/
+    /*right: -60px;*/
+    /*}*/
+
+    .divider {
+        width: 60px;
+        height: 70px;
+        display: inline-block;
+    }
+
+
+    #navV{
+        margin-right: 1%;
+    }
+
+    #promo-p1{
+        font-size: 1.5em;
+        font-weight: 600;
+    }
+    #promo-p2{
+        font-size: 1.4em;
+    }
+    #promo-places{
+        margin-left: -12%;
+    }
+
+
+}
+
+/*for small and extra small screens*/
+@media only screen and (max-width: 768px) {
+    /*#push-fig {*/
+    /*height: 6%;*/
+    /*}*/
+
+    #promo-places{
+        margin-left: 0;
+    }
+
+    #btn, #btn2 {
+        /*width: 4em;*/
+        /*height: 2em;*/
+        background: linear-gradient(90deg, #240a54 10%, #7459a5 90%);
+        color: white;
+        border-radius: 10px;
+        vertical-align: middle;
+        letter-spacing: .12em;
+        font-size: 14px;
+        font-weight: bold;
+        font-family: 'Lato', sans-serif;
+        border: solid rebeccapurple 2px;
+    }
+
+
+    #promo-order-button {
+        background: linear-gradient(90deg, #240a54 10%, #7459a5 90%);
+        color: white;
+        border-radius: 0;
+        text-align: center;
+        padding: 5px 10px;
+        text-decoration: none;
+        margin-bottom: 1em;
+        margin-left: 42%;
+        font-size: 14px;
+        font-weight: bold;
+        width: 38%;
+        margin-top: 10px;
+        border: solid rebeccapurple 2px;
+        vertical-align: middle;
+    }
+
+    #promo-places img{
+        width: 40%;
+        margin-left: 30%;
+        margin-right: 30%;
+    }
+
+}
+@media only screen and (max-width: 500px){
+    #btn{
+        font-size: 14px;
+    }
+    #promo-order-button{
+        font-size: 12px;
+        width: 40%;
+        margin-left: 33%;
+        border-radius: 0;
+    }
+    #promo-btn-div{
+        padding-left: 30px;
+    }
+
+}
+@media only screen and (max-width: 320px){
+    #promo-order-button{
+        padding-top: 7px;
+        font-size: 12px;
+        width: 40%;
+        margin-left: 30%;
+        text-align: center;
+        border-radius: 0;
+    }
+    #promo-btn-div{
+        padding-left: 30px;
+    }
+    #btn{
+        font-size: 14px;
+    }
+}
+.restaurant a {
+    width: 100%;
+}
+#promo-order-button{
+    font-family: "Lato", sans-serif;
+}
+
+figure, #promo-p1, #promo-p2, #promo-place1, #promo-place2, #promo-place3, #btn{
+    display: none;
+}
+
+#btn:hover, #promo-order-button:hover{
+    -webkit-box-shadow: 0 1px 5px 0 rgba(0,0,0,0.75);
+    -moz-box-shadow: 0 1px 5px 0 rgba(0,0,0,0.75);
+    box-shadow: 0 1px 5px 0 rgba(0,0,0,0.75);
+    background: linear-gradient(90deg, #7459a5 10%, #240a54 90%);
+}
+.img-thumbnail{
+    border: solid 2px rgb(160,160,160);
+}
+@media only screen and (min-width: 768px ) and (max-width: 991px) {
+    #promo-order-button {
+        background: linear-gradient(90deg, #240a54 10%, #7459a5 90%);
+        color: white;
+        border-radius: 0;
+        text-align: center;
+        padding: 5px 18px;
+        text-decoration: none;
+        margin-bottom: 1em;
+        margin-left: 41%;
+        font-size: 14px;
+        font-weight: bold;
+        width: 22%;
+        margin-top: 10px;
+        border: solid rebeccapurple 2px;
+        vertical-align: middle;
+    }
+    #promo-places{
+        margin-left: -15%;
+    }
+}
+@media only screen and  (min-width: 991px) {
+    #promo-order-button{
+        margin-left: 41%;
+    }
+}
+@media only screen and  (min-width: 1200px) {
+    #promo-order-button{
+        margin-left: 43%;
+    }
+    #promo-places{
+        margin-left: -10%;
+    }
+}
+#collapse-button{
+    font-weight: bold;
+
+}
+
+
