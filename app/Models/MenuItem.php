@@ -2,10 +2,11 @@
 
 namespace App\Models;
 
+use App\Contracts\ShoppingCart\Item;
 use App\CustomTraits\IsAvailable;
 use Illuminate\Database\Eloquent\Model;
 
-class MenuItem extends Model
+class MenuItem extends Model implements Item
 {
     use IsAvailable;
 
@@ -41,5 +42,25 @@ class MenuItem extends Model
     public function itemIsAvailable()
     {
         return $this->isAvailableNow($this);
+    }
+
+    public function getPrice()
+    {
+        return $this->price;
+    }
+
+    public function getDesc()
+    {
+        return $this->description;
+    }
+
+    public function getSellerEntity()
+    {
+        return $this->restaurant;
+    }
+
+    public function extras()
+    {
+        return $this->accessories;
     }
 }

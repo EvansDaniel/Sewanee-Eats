@@ -24,27 +24,21 @@ class SpecialEventsController extends Controller
         return view('admin.events.show_events', compact('events'));
     }
 
-    // User Function
-    public function showEvent($id)
-    {
-        $event = SpecialEvent::find($id);
-        return view('admin.events.show_event', compact('event'));
-    }
-
     public function showCreateEvent()
     {
-        return view('admin.events.createEvent');
+        return view('admin.events.create_event');
     }
 
     public function showUpdateEvent($event_id)
     {
         $event = SpecialEvent::find($event_id);
-        return view('admin.events.updateEvent', compact('event'));
+        return view('admin.events.update_event', compact('event'));
     }
 
     public function createEvent(Request $request)
     {
         $this->createUpdateHelper($request);
+        return redirect()->route('showEvents')->with('status_good', 'Event created');
     }
 
     public function createUpdateHelper(Request $request, $special_event = null)
@@ -58,8 +52,10 @@ class SpecialEventsController extends Controller
         if (empty($special_event)) {
             $special_event = new SpecialEvent;
         }
-
-
+        // make for profit non-null if it is false
+        if (empty($for_profit)) {
+            $for_profit = 0;
+        }
         // save a new image on update only if it exists
         if (!empty($host_image)) {
             // Store the event image to file system
@@ -77,8 +73,10 @@ class SpecialEventsController extends Controller
 
     public function updateEvent(Request $request)
     {
-        $special_event = $request->input('event_id');
+        $event_id = $request->input('event_id');
+        $special_event = SpecialEvent::find($event_id);
         $this->createUpdateHelper($request, $special_event);
+        return redirect()->route('showEvents')->with('status_good', 'Event updated');
     }
 
     public function deleteEvent(Request $request)

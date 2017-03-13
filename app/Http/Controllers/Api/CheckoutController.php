@@ -78,12 +78,13 @@ class CheckoutController extends Controller
 
     private function getPriceResponse()
     {
-        $subtotal = $this->getSubTotal();
+        /*$subtotal = $this->getSubTotal();
         $response = [
             'totalPrice' => $this->getTotalPrice($subtotal),
             'subtotal' => $subtotal
-        ];
-        return response($response, 200);
+        ];*/
+        $price_summary = $this->getPriceSummary();
+        return response($price_summary, 200);
     }
 
     public function getCheckoutItem($id)

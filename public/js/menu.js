@@ -2,6 +2,7 @@ var accessories = null;
 var itemPrice = -1;
 var ADDED_TO_CART = false;
 var CART_QUANTITY = 0;
+var ITEM_TYPE = $('#item-type').val();
 getCartQuantity();
 
 function saveAjaxResult(result) {
@@ -46,36 +47,39 @@ function showOptions(i) {
     }
 
     anm_div.show(ANIMATION_TIME);
-    // list out accessories
-    var pricy = accessories.accs.pricy;
-    var free = accessories.accs.free;
+    if (accessories != null) {
+      // list out accessories
+      var pricy = accessories.accs.pricy;
+      var free = accessories.accs.free;
 
-    // fill the pricy div
-    // only show the pricy toppings header if there are pricy toppings to show
-    if (pricy.length == 0) {
-      $('#n_free_toppings_d' + i).hide();
-    }
-    for (var j = 0; j < pricy.length; j++) {
-      pricyDiv.append
-      (
-      '<label class="col-lg-9 col-md-9 col-sm-8 col-xs-8">' +
-      '<input type="checkbox" id="p_ex-' + i + pricy[j].id + '" onclick="saveCheck(this,' + i + ',' + pricy[j].id + ',true)" value="' + pricy[j].id + '">' +
-      pricy[j].name + '</label><p id="check-price-' + i + '" class="f_price col-lg-3 col-md-3 col-sm-4 col-xs-4">' + pricy[j].price + '</p>'
-      );
-    }
+      // fill the pricy div
+      // only show the pricy toppings header if there are pricy toppings to show
+      if (pricy.length == 0) {
+        $('#n_free_toppings_d' + i).hide();
+      }
+      for (var j = 0; j < pricy.length; j++) {
+        pricyDiv.append
+        (
+        '<label class="col-lg-9 col-md-9 col-sm-8 col-xs-8">' +
+        '<input type="checkbox" id="p_ex-' + i + pricy[j].id + '" onclick="saveCheck(this,' + i + ',' + pricy[j].id + ',true)" value="' + pricy[j].id + '">' +
+        pricy[j].name + '</label><p id="check-price-' + i + '" class="f_price col-lg-3 col-md-3 col-sm-4 col-xs-4">' + pricy[j].price + '</p>'
+        );
+      }
 
-    // fill the free div
-    // only show the free toppings header if there are free toppings to show
-    if (free.length == 0) {
-      $('#free_toppings_d' + i).hide();
-    }
-    for (j = 0; j < free.length; j++) {
-      freeDiv.html
-      (
-      '<label class="col-lg-9 col-md-9 col-sm-8 col-xs-8">' +
-      '<input type="checkbox" id="f_ex-' + i + free[j].id + '" onclick="saveCheck(this,' + i + ',' + free[j].id + ',false)" name="extras' + i + '[]" value="' + free[j].id + '">' +
-      free[j].name + '</label>'
-      );
+
+      // fill the free div
+      // only show the free toppings header if there are free toppings to show
+      if (free.length == 0) {
+        $('#free_toppings_d' + i).hide();
+      }
+      for (j = 0; j < free.length; j++) {
+        freeDiv.html
+        (
+        '<label class="col-lg-9 col-md-9 col-sm-8 col-xs-8">' +
+        '<input type="checkbox" id="f_ex-' + i + free[j].id + '" onclick="saveCheck(this,' + i + ',' + free[j].id + ',false)" name="extras' + i + '[]" value="' + free[j].id + '">' +
+        free[j].name + '</label>'
+        );
+      }
     }
   }
 
@@ -155,6 +159,7 @@ function loadModal(div) {
   var price = $.trim($($(div).children().children()[2]).text());
   var description = $.trim($($(div).children()[2]).text());
   var item_id = $.trim($($(div).children()[3]).text());
+
   // p(name); p(price); p(description); p(item_id); // for debugging
 
   // Set the divs to show item details to user
@@ -173,11 +178,14 @@ function loadModal(div) {
 }
 
 function retreiveAccessories(item_id) {
+  p(item_id);
   $.ajax({
-    url: API_URL + "menuItems/" + item_id + "/freeAndPricyAccessories",
+    url: API_URL + "items/accessories",
+    data: {"item_type": ITEM_TYPE, "item_id": item_id},
     context: document.body,
     dataType: 'json'
   }).done(function (result) {
+
     // AJAX SUCCESS
     // save the current item's accessories
     saveAjaxResult(result);
@@ -262,9 +270,11 @@ $(function () {
     addAnotherOrderButton(i);
     // make the quantity input read only
     $('#quantity').prop('readonly', true);
-    /*if (DISABLE_ADD_BUTTON) { // this would be defined in showMenu.blade.php by a php script
+    /*
+     if (DISABLE_ADD_BUTTON) { // this would be defined in showMenu.blade.php by a php script
      $('#add-to-cart-button').prop('disabled', true);
-     }*/
+     }
+     */
   }
 
 
@@ -295,7 +305,7 @@ $(function () {
 
   function addAnotherOrderButton(i) {
     var content = westside.html();
-    var htmlArray = [
+    var itemArray = [
       '<div class="west_div" id="west_div' + i + ' ">',
       '<div onclick="showOptions(' + i + ')" id="item-extras-manipulation' + i + '" class="row item-extras-manipulation">',
       '<p class="add-extra" id="add-extra' + i + '"> Customize order number ' + i + '</p>',
@@ -323,7 +333,8 @@ $(function () {
       '</div>',
       '</div>'
     ];
-    westside.html(content + htmlArray.join(""));
+
+    westside.html(content + itemArray.join(""));
     // add the price of the item b/c they want another one
     updateTotalForItem('+');
   }

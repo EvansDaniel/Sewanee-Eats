@@ -64,6 +64,28 @@
 
                 </div>
                 <hr class="cart-line">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="orders">
+
+                    <!-- Loop through all menu items in the cart -->
+                    @if(!empty($items['event_items']))
+                        <h3>Your Event Items </h3>
+                        <hr class="hr-separator">
+                        @foreach($items['event_items'] as $order)
+                            @if(!$loop->last)
+                                @for($i = 0; $i < $order['quantity']; $i++)
+                                    @include('partials.checkout_items')
+                                @endfor
+                            @else
+                                @for($i = 0; $i < $order['quantity']; $i++)
+                                    @include('partials.checkout_items')
+                                @endfor
+                            @endif
+                        @endforeach
+                        <hr class="hr-separator">
+                    @endif
+
+                </div>
+                <hr class="cart-line">
             @endif
             @if(!empty(Session::get('cart')) && Session::get('cart') != null)
 
@@ -167,7 +189,9 @@
                             <div>Cost of Food: <span id="cost-of-food">{{ $price_summary['cost_of_food'] }}</span></div>
                             <div>Delivery Fee:
                                 @if($price_summary['delivery_fee_percentage_saved'] != 0)
-                                    (you saved {{ $price_summary['delivery_fee_percentage_saved']  }}%!)
+                                    (you saved <span
+                                            id="delivery-fee-percentage">{{ $price_summary['delivery_fee_percentage_saved']  }}</span>
+                                    %!)
                                 @endif
                                 <span id="delivery-fee">{{ $price_summary['delivery_fee']  }}</span></div>
                             <div>Subtotal: <span id="subtotal">{{ $price_summary['subtotal'] }}</span></div>

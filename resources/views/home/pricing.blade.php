@@ -76,6 +76,7 @@
         .rests {
             font-size: 18px;
         }
+
         #pricing-header{
             margin-left: -30px;
         }

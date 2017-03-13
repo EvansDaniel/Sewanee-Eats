@@ -19,7 +19,7 @@ class CreateRestaurantsTable extends Migration
             $table->string('name');
             $table->longText('available_times')->nullable();
             $table->string('location')->nullable();
-            $table->boolean('is_weekly_special');
+            $table->integer('seller_type');
             $table->string('image_url');
             $table->timestamps();
         });

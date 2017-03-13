@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\CustomClasses\ShoppingCart\ShoppingCart;
 use App\CustomTraits\PriceInformation;
 use App\Events\NewOrderReceived;
 use App\Models\MenuItemOrder;
@@ -20,6 +21,7 @@ class CheckoutController extends Controller
     public function showCheckoutPage()
     {
         $price_summary = $this->getPriceSummary();
+        $cart = ShoppingCart::
         return view('orderFlow.checkout', compact('items', 'price_summary'));
     }
 
