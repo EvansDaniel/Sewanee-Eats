@@ -1,4 +1,4 @@
-@extends('main_layout')
+@extends('main.main_layout')
 
 @section('head')
     <title>Sewanee Eats | Restaurants</title>
@@ -15,11 +15,33 @@
         <ul class="list-group container" id="restaurant-group">
             @if(!empty($s_restaurants))
                 @foreach($s_restaurants as $s_restaurant)
+                    <h2>{{ $s_restaurant->name }}</h2>
                     <li style="display: none"
                         class="restaurant list-group-item col-lg-3 col-md-3 col-xs-8 col-xs-offset-2 col-sm-8 col-sm-offset-2">
                         <a href="{{ route('showMenu',['id' => $s_restaurant->id]) }}">
                             <!-- These urls must be https -->
                             <img src="{{ $s_restaurant->image_url }}"
+                                 id="rest-images" class="img-responsive">
+                        </a>
+                    </li>
+                @endforeach
+            @endif
+        </ul>
+    </header>
+    <header class="container header">
+        <h5 id="events"></h5>
+        <h3 id="" class="events-header"><a
+                    href="{{ route('eventsInfo') }}">Click to learn more about this weeks events</a></h3>
+        <hr>
+        <ul class="list-group container" id="restaurant-group">
+            <!-- Make this special Events -->
+            @if(!empty($events))
+                @foreach($events as $event)
+                    <li style="display: none"
+                        class="restaurant list-group-item col-lg-3 col-md-3 col-xs-8 col-xs-offset-2 col-sm-8 col-sm-offset-2">
+                        <a href="{{ route('showEventItems',['id' => $event->id]) }}">
+                            <!-- These urls must be https -->
+                            <img src="{{ $event->host_logo }}"
                                  id="rest-images" class="img-responsive">
                         </a>
                     </li>

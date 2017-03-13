@@ -16,7 +16,7 @@ class CourierController extends Controller
     // TODO: abstract this to IsAvailable with method name "filterAvailableObjects($objects,$day,$time)"
     public function getOnlineCouriersForDayTime($day, $time)
     {
-        $courier_role = Role::where('name', 'courier')->first();
+        $courier_role = Role::where('name', 'employee')->first();
         $all_couriers = $courier_role->users;
         $available_couriers = [];
         $timezone = 'America/Chicago';

@@ -74,7 +74,7 @@ function showOptions(i) {
       (
       '<label class="col-lg-9 col-md-9 col-sm-8 col-xs-8">' +
       '<input type="checkbox" id="f_ex-' + i + free[j].id + '" onclick="saveCheck(this,' + i + ',' + free[j].id + ',false)" name="extras' + i + '[]" value="' + free[j].id + '">' +
-      'free[j].name </label>'
+      free[j].name + '</label>'
       );
     }
   }

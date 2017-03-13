@@ -24,7 +24,7 @@ class RoleTableSeeder extends Seeder
         ]);
         // id = 3
         Role::create([
-            'name' => 'courier',
+            'name' => 'employee',
             'description' => 'Can deliver food and view order requests, receives a paycheck'
         ]);
     }

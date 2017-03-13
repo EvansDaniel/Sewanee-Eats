@@ -54,10 +54,11 @@ class UserTableSeeder extends Seeder
                 '18:00-20:00'
             ]
         ]);
+
         User::create([
             'name' => 'Daniel Evans',
             'email' => 'evansdb0@sewanee.edu',
-            'password' => bcrypt('dsmith'),
+            'password' => bcrypt('daniel'),
             'available_times' => $available_times
         ]);
 

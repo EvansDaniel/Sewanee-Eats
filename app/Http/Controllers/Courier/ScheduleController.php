@@ -91,13 +91,13 @@ class ScheduleController extends Controller
 
     public function removeCourierFromTimeSlot(Request $request)
     {
-        // TODO: courier cannot remove him/herself if his/her shift is within
+        // TODO: employee cannot remove him/herself if his/her shift is within
         // TODO: 24 hours
         $user = User::find(Auth::id());
         $day = $request->input('day');
         $hour = $request->input('hour');
 
-        // check if courier is available for this time slot
+        // check if employee is available for this time slot
         if (!$this->isAvailableOnDayAtTime($user, $day,
             Carbon::createFromTime($hour, 0, 0, $this->tz()))
         ) {
@@ -157,16 +157,16 @@ class ScheduleController extends Controller
     }
 
     /**
-     * Remove the time slots for today for each courier
+     * Remove the time slots for today for each employee
      * @return \Illuminate\Http\RedirectResponse
      */
     public function updateScheduleForNextDay()
     {
         // get all couriers
-        $couriers = Role::where('name', 'courier')->first()->users;
+        $couriers = Role::where('name', 'employee')->first()->users;
         foreach ($couriers as $courier) {
             $avail_time = json_decode($courier->available_times);
-            // pop of all of today's time slots for each courier
+            // pop of all of today's time slots for each employee
             $avail_time[Carbon::now($this->tz())->dayOfWeek] = [''];
             $courier->available_times = json_encode($avail_time);
             $courier->save();

@@ -12,14 +12,63 @@
 */
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
+/*
+ * User::create([
+            'name' => 'Daniel Evans',
+            'email' => 'evansdb0@sewanee.edu',
+            'password' => bcrypt('dsmith'),
+            'available_times' => $available_times
+        ]);
+ */
 
 $factory->define(App\User::class, function (Faker\Generator $faker) {
     static $password;
+    $available_times = json_encode([
+        [
+            '10:00-12:00',
+            '20:00-22:00',
+            ''
+        ],
+        [
+            '08:00-10:00',
+            '22:00-00:00',
+            ''
+        ],
+        [
+            '16:00-18:00',
+            '',
+            ''
+        ],
+        [
+            '18:00-20:00',
+            '16:00-18:00',
+            ''
+        ],
+        [
+            '12:00-14:00',
+            '00:00-02:00',
+            ''
+        ],
+        [
+            '18:00-20:00',
+            '20:00-22:00',
+            '22:00-00:00'
+        ],
+        [
+            '14:00-16:00',
+            '16:00-18:00',
+            '18:00-20:00'
+        ]
+    ]);
 
     return [
         'name' => $faker->name,
         'email' => $faker->unique()->safeEmail,
-        'password' => $password ?: $password = bcrypt('secret'),
+        'password' => $password ?: bcrypt('secret'),
+        'available_times' => $available_times,
         'remember_token' => str_random(10),
     ];
 });
+
+
+

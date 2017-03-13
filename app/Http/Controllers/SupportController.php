@@ -160,7 +160,7 @@ class SupportController extends Controller
     public function listSuggestions()
     {
         $suggestions = Suggestion::all();
-        return view('admin.support.suggestions', compact('suggestions'));
+        return view('admin.support.list_suggestions', compact('suggestions'));
     }
 
     public function viewSuggestion($suggestion_id)
@@ -188,7 +188,7 @@ class SupportController extends Controller
 
     private function sendIssueConfirmationEmail()
     {
-        // must be implemented
+
     }
 
 

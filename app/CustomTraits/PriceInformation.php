@@ -9,10 +9,26 @@ trait PriceInformation
 {
     use CartInformation;
 
-    public function getTotalPrice($subtotal = null)
+    public function getPriceSummary()
     {
-        if ($subtotal == null) $subtotal = $this->getSubTotal();
-        return round($subtotal * $this->getStateTax(), 2);
+        $subtotal = $this->getSubTotal();
+        // TODO: dynamically fill in location that gets passed to getTotalPrice
+        $total_price = $this->getTotalPrice($subtotal);
+        $items = $this->categorizedItems();
+        $num_items = count($items['special_items']) + count($items['non_special_items']);
+        // get the base fee for weekly specials
+        $delivery_fee = $this->weeklySpecialBaseFee($num_items);
+        // get the total cost of all the food in the cart
+        $cost_of_food = $this->foodCostOfNonSpecialItems() + $this->foodCostOfSpecialItems();
+        // get the percentage saved on the delivery fee
+        $delivery_fee_percentage_saved = $this->deliveryFeePercentageSaved($num_items);
+        return [
+            'total_price' => $total_price,
+            'subtotal' => $subtotal,
+            'delivery_fee' => $delivery_fee,
+            'cost_of_food' => $cost_of_food,
+            'delivery_fee_percentage_saved' => $delivery_fee_percentage_saved
+        ];
     }
 
     /**
@@ -25,9 +41,9 @@ trait PriceInformation
             return 0;
         }
         $price_before_fees = $this->foodCostOfNonSpecialItems() + $this->foodCostOfSpecialItems();
-        $fees = $this->fees();
-        $price_of_fees = $fees['special'] + $fees['n_special'];
-        return round(($price_of_fees + $price_before_fees), 2);
+        $c_items = $this->categorizedItems(false);
+        $delivery_fee = $this->weeklySpecialBaseFee(count($c_items['special_items']) + count($c_items['non_special_items']));
+        return round(($delivery_fee + $price_before_fees), 2);
     }
 
     public function foodCostOfNonSpecialItems()
@@ -69,6 +85,38 @@ trait PriceInformation
         return $this->getItemsCost($items['special_items']);
     }
 
+    private function weeklySpecialBaseFee($num_items)
+    {
+        // getBaseFee() dollars delivery fee for first item
+        // for every item after that, save 60 cents on the delivery fee
+        return ($this->getBaseFee() - ($num_items - 1) * .60);
+    }
+
+    private function getBaseFee()
+    {
+        return 3;
+    }
+
+    public function getTotalPrice($subtotal = null)
+    {
+        if ($subtotal == null) $subtotal = $this->getSubTotal();
+        return round($subtotal * $this->getStateTax(), 2);
+    }
+
+    private function getStateTax()
+    {
+        return 1.0925;
+    }
+
+    public function deliveryFeePercentageSaved($num_items)
+    {
+        return (20 * ($num_items - 1));
+    }
+
+    /**
+     * @return array an array containing the cost of fees for the weekly special items in the cart
+     * and the cost of deliveriy for the OnDemand delivery items in the cart
+     */
     public function fees()
     {
         $special_items_fees = 0;
@@ -88,25 +136,21 @@ trait PriceInformation
         ];
     }
 
+    /**
+     * @param $s_items array the number of items in an order
+     * @return float returns the gross profit made from this order
+     */
     public function getSpecialItemsFees($s_items)
     {
         // + 1 dollar markup for each item and 3 dollar delivery fee
         $num_items = count($s_items);
-        return $num_items + 
-            max(
-                $this->percentOfNumWeeklySpecialItems() * $num_items,
-                $this->weeklySpecialBaseFee()
-            );
+        return ($this->moneyPerItem() * $num_items)
+            + $this->weeklySpecialBaseFee($num_items);
     }
 
-    private function percentOfNumWeeklySpecialItems()
+    private function moneyPerItem()
     {
         return .75;
-    }
-
-    private function weeklySpecialBaseFee()
-    {
-        return 3;
     }
 
     public function restaurantLocationCostFromCart($n_s_items)
@@ -159,16 +203,6 @@ trait PriceInformation
     public function quantityCost($num_items)
     {
         return $num_items >= 5 ? 3 : 1;
-    }
-
-    private function getBaseFee()
-    {
-        return 3;
-    }
-
-    private function getStateTax()
-    {
-        return 1.0925;
     }
 
     public function getNonSpecialItemFees()

@@ -16,9 +16,19 @@ class OrdersController extends Controller
         return back()->with('status_good', 'Order payment confirmed');
     }
 
-    public function undoCloseVenmoOrder(Request $request)
+    public function inputExtraOrder()
     {
 
+    }
+
+    public function undoCloseVenmoOrder(Request $request)
+    {
+        $order_id = $request->input('order_id');
+        $order = Order::find($order_id);
+        $order->is_open_order = false;
+        // is this needed???
+        $order->is_delivered = false;
+        $order->save();
     }
 
     public function cancelOrder(Request $request)

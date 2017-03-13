@@ -22,6 +22,7 @@ class CreateOrdersTable extends Migration
             $table->string('email_of_customer');
             $table->string('c_name');
             $table->boolean('is_cancelled');
+            $table->boolean('is_delivered');
             // was this order refunded?
             $table->boolean('was_refunded');
             // did they opt to pay with venmo

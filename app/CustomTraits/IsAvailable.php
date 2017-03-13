@@ -53,7 +53,7 @@ trait IsAvailable
     /**
      * Checks if the $time is in the time range given by $available_time
      * @param $available_time string in the form "hh:mm-hh:mm", which denotes
-     * a range of time an object (restaurant, menu item, courier, etc) is available
+     * a range of time an object (restaurant, menu item, employee, etc) is available
      * @param $time Carbon/Carbon the time that you would like to check
      * is in the range given by $available_time
      * @param $cushion_period integer The number of minutes that must be
@@ -114,14 +114,14 @@ trait IsAvailable
     }
 
     /**
-     * @return int the amount of time needed for a courier to
+     * @return int the amount of time needed for a employee to
      * reach the restaurant or for a menu item to be available
      * if the restaurant is close to closing or the menu item
      * is close to not be sold at this time
      */
     private function getCushionPeriod()
     {
-        // courier needs at least 15 minutes to get to restaurant to order
+        // employee needs at least 15 minutes to get to restaurant to order
         // this item before the closing period
         return 15;
     }

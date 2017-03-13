@@ -1,4 +1,4 @@
-@extends('main_layout')
+@extends('main.main_layout')
 
 @section('head')
     <title>Order Summary</title>

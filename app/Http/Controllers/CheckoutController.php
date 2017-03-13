@@ -4,11 +4,9 @@ namespace App\Http\Controllers;
 
 use App\CustomTraits\PriceInformation;
 use App\Events\NewOrderReceived;
-use App\Models\MenuItem;
 use App\Models\MenuItemOrder;
 use App\Models\Order;
 use App\Models\OrderPriceInfo;
-use App\User;
 use Event;
 use Illuminate\Http\Request;
 use Session;
@@ -21,24 +19,8 @@ class CheckoutController extends Controller
 
     public function showCheckoutPage()
     {
-        // nothing in cart so redirect to the home page
-        $subtotal = $this->getSubTotal();
-        // TODO: dynamically fill in location that gets passed to getTotalPrice
-        $total_price = $this->getTotalPrice($subtotal);
-
-        $items = $this->categorizedItems();
-        return view('orderFlow.checkout', compact('total_price', 'subtotal', 'items'));
-    }
-
-
-    public function testEmail()
-    {
-        $user = User::findOrFail(\Auth::id());
-        $items = MenuItem::all()->take(5);
-        \Mail::send('emails.new_order', compact('items'), function ($message) use ($user) {
-            $message->from('sewaneeeats@gmail.com');
-            $message->to($user->email, $user->name)->subject('New Order Request!');
-        });
+        $price_summary = $this->getPriceSummary();
+        return view('orderFlow.checkout', compact('items', 'price_summary'));
     }
 
     public function handleCheckout(Request $request)
@@ -72,26 +54,13 @@ class CheckoutController extends Controller
         $totalPrice = 0;
         // TODO: need this same thing for $on_demand_order
         if (!empty($items['special_items'])) {
-            // submit a weekly special order
-            $weekly_special_order = new Order;
-            $weekly_special_order->is_cancelled = false;
-            $weekly_special_order->c_name = $request->input('name');
-            $special_menu_item_orders = [];
-            // set up order stuff
-            $weekly_special_order->is_open_order = true;
-            $weekly_special_order->delivery_location = null;
-            $weekly_special_order->email_of_customer = $email;
-            $weekly_special_order->is_weekly_special = true;
-            $weekly_special_order->was_refunded = false;
-            $weekly_special_order->paid_with_venmo = $pay_with_venmo;
-            if ($pay_with_venmo) {
-                $weekly_special_order->venmo_username = $v_username;
-                $weekly_special_order->is_open_order = true;
-            } else {
-                $weekly_special_order->is_open_order = false;
-            }
+
+            // Load default special order info
+            $weekly_special_order =
+                $this->weeklySpecialOrderDefaults($request, $pay_with_venmo, $email, $v_username);
             $weekly_special_order->save();
 
+            $special_menu_item_orders = [];
             foreach ($items['special_items'] as $special_cart_item) {
                 for ($q = 0; $q < $special_cart_item['quantity']; $q++) {
 
@@ -122,9 +91,8 @@ class CheckoutController extends Controller
 
         }
 
+        // User is paying with Stripe
         if ($pay_with_venmo != 1) {
-            // TODO: uncomment stuff
-            // Stripe stuff
 
             // Set your secret key: remember to change this to your live secret key in production
             // See your keys here: https://dashboard.stripe.com/account/apikeys
@@ -138,11 +106,11 @@ class CheckoutController extends Controller
             // Get the payment token submitted by the form:
             $token = $request->input('stripeToken');
 
-            $problem_with_stripe = 'There was a problem processing your paymen. Please try again';
+            $problem_with_stripe = 'There was a problem processing your payment. Please try again';
             try {
                 // Use Stripe's library to make requests...
                 // Charge the user's card:
-                // TODO: email the user a receipt of purchase w/ order info, could be basically the same as the courier email view
+                // TODO: email the user a receipt of purchase w/ order info, could be basically the same as the employee email view
                 $charge = \Stripe\Charge::create(array(
                     "amount" => $totalPrice,
                     "currency" => "usd",
@@ -183,12 +151,17 @@ class CheckoutController extends Controller
             }
         }
         Event::fire(new NewOrderReceived($weekly_special_order));
-        Session::flush();
+        Session::forget('cart');
         // TODO: delete this from session after leave thank you
         Session::put('weekly_special_order', $weekly_special_order);
         Session::put('on_demand_order', $on_demand_order);
         return redirect()->route('thankYou');
     }
+
+    /*
+     * Loads a weekly special order model with info that is the default for
+     * a weekly special order
+     */
 
     private function handleCheckoutValidation(Request $request)
     {
@@ -207,6 +180,29 @@ class CheckoutController extends Controller
             );
         }
         return Validator::make($request->all(), $rules);
+    }
+
+    private function weeklySpecialOrderDefaults(Request $request, $pay_with_venmo, $email, $v_username)
+    {
+        // submit a weekly special order
+        $weekly_special_order = new Order;
+        $weekly_special_order->is_cancelled = false;
+        $weekly_special_order->c_name = $request->input('name');
+        $weekly_special_order->is_delivered = false;
+        // set up order stuff
+        $weekly_special_order->is_open_order = true;
+        $weekly_special_order->delivery_location = null;
+        $weekly_special_order->email_of_customer = $email;
+        $weekly_special_order->is_weekly_special = true;
+        $weekly_special_order->was_refunded = false;
+        $weekly_special_order->paid_with_venmo = $pay_with_venmo;
+        if ($pay_with_venmo) {
+            $weekly_special_order->venmo_username = $v_username;
+            $weekly_special_order->is_open_order = true;
+        } else {
+            $weekly_special_order->is_open_order = false;
+        }
+        return $weekly_special_order;
     }
 
     private function saveOrderPriceInfo($order)

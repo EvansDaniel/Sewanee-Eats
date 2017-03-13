@@ -52,6 +52,10 @@
     color: rebeccapurple;
 }
 
+.accs {
+    color: black;
+}
+
 #menu-item-line {
 
     border: 1px solid black;
@@ -134,7 +138,6 @@ textarea {
     padding: 6px 6px 6px 10px;
 }
 
-
 .item-extras-manipulation:hover{
     cursor: pointer;
 }
@@ -144,7 +147,7 @@ textarea {
     font-weight: bold;
 }
 
-.special_instr_p{
+.special_instr_p {
     margin-left: 5%;
     width: 90%;
 }
@@ -160,7 +163,7 @@ textarea {
     width: 180px;
 }
 .topings label{
-    color: white;
+    color: black;
     font-family: "Lato", sans-serif;
 }
 
