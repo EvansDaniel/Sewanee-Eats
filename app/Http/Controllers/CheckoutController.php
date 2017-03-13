@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\CustomClasses\ShoppingCart\CartBilling;
 use App\CustomClasses\ShoppingCart\ShoppingCart;
-use App\CustomTraits\PriceInformation;
 use App\Events\NewOrderReceived;
 use App\Models\MenuItemOrder;
 use App\Models\Order;
@@ -17,16 +16,14 @@ use Validator;
 
 class CheckoutController extends Controller
 {
-    use PriceInformation;
 
     public function showCheckoutPage()
     {
 
-        $price_summary = $this->getPriceSummary();
         $cart = new ShoppingCart();
         $bill = new CartBilling($cart);
         return view('orderFlow.checkout', compact('items', 'bill'));
-    }gi
+    }
 
     public function handleCheckout(Request $request)
     {

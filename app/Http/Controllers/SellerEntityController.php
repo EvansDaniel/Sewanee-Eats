@@ -12,8 +12,6 @@ use App\Models\SpecialEvent;
 class SellerEntityController extends Controller
 {
     use IsAvailable;
-    use CartInformation;
-
     /*
      * General Idea:
      * for the given restaurant,
