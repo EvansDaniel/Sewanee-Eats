@@ -128,7 +128,7 @@
 
                                     <div class="form-group col-lg-3 col-md-3 col-sm-10  col-xs-10" id="c-date">
                                         <label>
-                                            <span class="row">Expiration (MM/YY)</span>
+                                            <span class="row">Expiration (MM/YY)</span><br>
                                             <input class="pay-input" type="text" size="2" id="exp-month" maxlength="2"
                                                    data-stripe="exp_month" name="expire_month">
                                         </label>
@@ -139,7 +139,7 @@
 
                                     <div class="form-group col-lg-3 col-md-3 col-sm-10  col-xs-10" id="c-cvc">
                                         <label>
-                                            <span class="row">CVC</span>
+                                            <span class="row">CVC</span><br>
                                             <input class="pay-input" type="text" size="4" maxlength="4" id="cvc"
                                                    data-stripe="cvc" name="cvc">
                                         </label>
@@ -238,6 +238,7 @@
             event.preventDefault();
             return false;
           }
+
         });
       });
 
@@ -288,4 +289,5 @@
         }
       })
     </script>
+
 @stop

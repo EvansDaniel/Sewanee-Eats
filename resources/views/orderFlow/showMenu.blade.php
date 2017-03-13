@@ -23,6 +23,7 @@
 </style>
 
 @section('body')
+    <link rel="stylesheet" href={{ asset('css/customPlaces/yamato.css',env('APP_ENV') !== 'local')  }}>
     <!-- TODO: get rid of this; it is for debugging, add a restaurant image logo as the head of evrypage -->
     <br><br><br>
     <!-- DON'T DELETE THIS YET -->
@@ -54,7 +55,9 @@
         <div class="row" id="restaurant-logo">
             <div class="col-lg-offset-5 col-lg-2 col-md-2 col-md-offset-5 col-sm-4 col-sm-offset-4 col-xs-offset-4 col-xs-4">
 
-                <img class="img-circle img-thumbnail" src="{{ $restaurant->image_url }}">
+                {{--<img class="img-circle img-thumbnail" src="{{ $restaurant->image_url }}">--}}
+                <img class="img-circle img-thumbnail"  id="restaurant-logo" src="{{ asset('images/yamato.png',env('APP_ENV') === 'production') }}">
+                <hr id="custom-line">
             </div>
         </div>
         <div class="panel panel-default">

@@ -15,8 +15,8 @@
     }
 </style>
 <div id="main-container" class="container-fluid main-main-container">
-@include('countdown')
-@include('partials.main_nav_bar')
+@include('main.countdown')
+@include('main.main_nav_bar')
 <!-- TODO: Blaise -> temporary fix for messages not showing and tops of pages not showing -->
     @if(url()->current() != route("home") and url()->current() != route("homev2"))
         <div style="margin-top: 100px"></div>
@@ -37,7 +37,7 @@
     <br>
     <p>COPYRIGHT © SEWANEE EATS - ALL PAYMENTS ARE PROCESSED SECURELY THROUGH VENMO AND <a
                 href="https://www.stripe.com">STRIPE</a>.</p>
-    <h3><a style="float: right" href="{{ route('login') }}">Login</a></h3>
+    {{--<h3><a style="float: right" href="{{ route('login') }}">Login</a></h3>--}}
     {{--<a href="{{ route('findMyOrder') }}">Find My Order</a>--}}
     <br>
 </footer>

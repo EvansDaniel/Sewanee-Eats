@@ -1,0 +1,12 @@
+body{
+    background: url("../../images/bambou.jpg");
+}
+#custom-line{
+    border: double indianred 2px;
+}
+#restaurant-logo{
+    border: 2px indianred;
+}
+#mountain-menu ul li:hover {
+    background: #fdf7f7;
+}
