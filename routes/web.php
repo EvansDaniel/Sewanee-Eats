@@ -17,6 +17,10 @@ use Carbon\Carbon;
     return view('home.temp');
 });*/
 
+Route::get('homev2', function () { // redirect route to home
+    return view('home.homev2');
+})->name('homev2');
+
 Route::get('time', function () {
     // if this is an ajax request
     if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {

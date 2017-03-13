@@ -15,12 +15,13 @@
     }
 </style>
 <div id="main-container" class="container-fluid main-main-container">
-@include('countdown')
+{{--@include('countdown')--}}
 @include('partials.main_nav_bar')
 <!-- TODO: Blaise -> temporary fix for messages not showing and tops of pages not showing -->
-    @if(url()->current() != route("home"))
-        <script src={{ asset('js/resize.js',env('APP_ENV') !== 'local') }}></script>
+    @if(url()->current() != route("home") and url()->current() != route("homev2"))
         <div style="margin-top: 100px"></div>
+        <script src={{ asset('js/resize.js',env('APP_ENV') !== 'local') }}></script>
+
     @endif
 
 <!-- Status messages to user about what they are doing -->
