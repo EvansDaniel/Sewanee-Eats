@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\CustomClasses\ShoppingCart\CartBilling;
 use App\CustomClasses\ShoppingCart\ShoppingCart;
 use App\CustomTraits\PriceInformation;
 use App\Events\NewOrderReceived;
@@ -20,10 +21,12 @@ class CheckoutController extends Controller
 
     public function showCheckoutPage()
     {
+
         $price_summary = $this->getPriceSummary();
-        $cart = ShoppingCart::
-        return view('orderFlow.checkout', compact('items', 'price_summary'));
-    }
+        $cart = new ShoppingCart();
+        $bill = new CartBilling($cart);
+        return view('orderFlow.checkout', compact('items', 'bill'));
+    }gi
 
     public function handleCheckout(Request $request)
     {
