@@ -7,7 +7,6 @@ use Session;
 
 trait PriceInformation
 {
-    use CartInformation;
 
     public function getPriceSummary()
     {
