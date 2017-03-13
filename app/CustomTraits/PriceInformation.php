@@ -14,7 +14,7 @@ trait PriceInformation
         $subtotal = $this->getSubTotal();
         // TODO: dynamically fill in location that gets passed to getTotalPrice
         $total_price = $this->getTotalPrice($subtotal);
-        $items = $this->categorizedItems();
+        $items = $this->categorizedItems(true);
         $num_items = count($items['special_items']) + count($items['non_special_items']);
         // get the base fee for weekly specials
         $delivery_fee = $this->weeklySpecialBaseFee($num_items);
@@ -89,6 +89,9 @@ trait PriceInformation
     {
         // getBaseFee() dollars delivery fee for first item
         // for every item after that, save 60 cents on the delivery fee
+        if ($num_items > 4) {
+            return ($this->getBaseFee() - (3 * .6));
+        }
         return ($this->getBaseFee() - ($num_items - 1) * .60);
     }
 
@@ -110,6 +113,9 @@ trait PriceInformation
 
     public function deliveryFeePercentageSaved($num_items)
     {
+        if ($num_items > 4) {
+            return 60;
+        }
         return (20 * ($num_items - 1));
     }
 

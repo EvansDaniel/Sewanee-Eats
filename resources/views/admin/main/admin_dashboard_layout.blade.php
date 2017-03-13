@@ -31,6 +31,24 @@
 
     <!-- Custom Theme Style -->
     <link href="{{ asset('css/admin/gentella_custom.min.css',env('APP_ENV') !== 'local')  }}" rel="stylesheet">
+    <!-- jQuery -->
+    <script src="{{ asset('vendors/jquery/dist/jquery.min.js',env('APP_ENV') !== 'local')  }}"></script>
+    <!-- Bootstrap -->
+    <script src="{{ asset('vendors/bootstrap/dist/js/bootstrap.min.js',env('APP_ENV') !== 'local')  }}"></script>
+    <script>
+      function getBaseUrl() {
+
+        var pathArray = location.href.split('/');
+        var protocol = pathArray[0];
+        var host = pathArray[2];
+        return protocol + '//' + host;
+      }
+      API_URL = getBaseUrl() + "/api/v1/";
+      // debugging helper function
+      function p($obj) {
+        console.log($obj);
+      }
+    </script>
 </head>
 
 <body class="nav-md">
@@ -44,16 +62,14 @@
         <!-- Sidebar -->
     @include('admin.partials.admin_sidebar')
     <!-- /top tiles -->
-        <div class="container" style="margin-left: 20%">
+        <div class="container" style="margin-left: 16%">
             @yield('body')
 
         </div>
     </div>
 </div>
-<!-- jQuery -->
-<script src="{{ asset('vendors/jquery/dist/jquery.min.js',env('APP_ENV') !== 'local')  }}"></script>
-<!-- Bootstrap -->
-<script src="{{ asset('vendors/bootstrap/dist/js/bootstrap.min.js',env('APP_ENV') !== 'local')  }}"></script>
+
+
 <!-- FastClick -->
 <script src="{{ asset('vendors/fastclick/lib/fastclick.js',env('APP_ENV') !== 'local')  }}"></script>
 <!-- NProgress -->

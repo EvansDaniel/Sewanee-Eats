@@ -38,6 +38,12 @@ Route::get('how-it-works', 'HomeController@showHowItWorks')->name('howItWorks');
 Route::get('thank-you', 'HomeController@showThankYou')
     ->name('thankYou');//->middleware('redirect.thankyou');
 
+Route::get('clear', function () {
+    Session::forget('cart');
+    Session::forget('next_cart_item_id');
+    return back();
+})->name('clearCart');
+
 Route::get('eventsInfo', 'HomeController@eventsInfo')
     ->name('eventsInfo');
 
@@ -105,7 +111,7 @@ Route::post('handleCheckout', 'CheckoutController@handleCheckout')
 Route::get('checkout', 'CheckoutController@showCheckoutPage')
     ->name('checkout');
 
-Route::get('restaurants', 'RestaurantController@list_restaurants')
+Route::get('restaurants', 'SellerEntityController@list_restaurants')
     ->name('list_restaurants');
 
 // Event Item Order Flow ---------------------------------------------------------
@@ -113,12 +119,12 @@ Route::get('restaurants', 'RestaurantController@list_restaurants')
 Route::get('event-info', 'HomeController@showEventInfo')
     ->name('showEventInfo');
 
-Route::get('event/{id}/items', 'EventItemController@showEventItems')
-    ->name('showEventItems');
+Route::get('event/{event_id}/items', 'SellerEntityController@showEventItems')
+    ->name('uShowEventItems');
 
 // -------------------------------------------------------------------------------
 
-Route::get('restaurants/{id}', 'RestaurantController@showMenu')
+Route::get('restaurants/{id}', 'SellerEntityController@showMenu')
     ->name('showMenu');
 
 Route::post('cart/store', 'ShoppingCartController@loadItemIntoShoppingCart')
@@ -153,7 +159,7 @@ Route::group(['prefix' => 'admin',
     Route::group(['namespace' => 'Events','prefix' => 'events'],function() {
         // shows
         Route::get('','SpecialEventsController@showEvents')->name('showEvents');
-        Route::get('{event_id}','SpecialEventsController@showEvent')->name('showEvent');
+        //Route::get('{event_id}','SpecialEventsController@showEvent')->name('showEvent');
         Route::get('createEvent','SpecialEventsController@showCreateEvent')->name('showCreateEvent');
         Route::get('updateEvent/{event_id}','SpecialEventsController@showUpdateEvent')->name('showUpdateEvent');
         // backends
@@ -161,6 +167,19 @@ Route::group(['prefix' => 'admin',
         Route::post('update','SpecialEventsController@updateEvent')->name('updateEvent');
         Route::post('delete','SpecialEventsController@deleteEvent')->name('deleteEvent');
 
+        // Event Items Routes
+        Route::get('{event_id}/items', 'EventItemController@showEventItems')
+            ->name('showEventItems');
+
+        Route::post('items/create', 'EventItemController@createItem')
+            ->name('createItem');
+        Route::post('items/update', 'EventItemController@updateItem')
+            ->name('updateItem');
+        Route::post('items/delete', 'EventItemController@deleteItem')
+            ->name('deleteItem');
+
+        Route::get('{event_id}/createItem', 'EventItemController@showCreateEventItem')->name('showCreateEventItem');
+        Route::get('{event_id}/updateItem/{item_id}', 'EventItemController@showUpdateEventItem')->name('showUpdateEventItem');
 
     });
 
@@ -282,31 +301,6 @@ Route::group(['prefix' => 'courier',
         ->name('removeFromSchedule');
 });
 
-
-/*// Email Routes
-Route::get('email', function () {
-    $items = MenuItem::all()->take(5);
-
-    return view('emails.new_order',
-        compact('items'));
-});*/
-/*
-Route::get('testEmail', 'CheckoutController@testEmail')
-    ->name('testEmail');*/
-
-/*Route::get('test', function () {
-    $orders = Order::all();
-    return view('test', compact('orders'));
-});*/
-/*
-// Event routes
-Route::get('testEvent', function () {
-    $order = new Order;
-    // TODO: add event logic to listener
-    Event::fire(new NewOrderReceived($order));
-});*/
-
-
 // Api Routes for Ajax
 // TODO: add relevant query parameters that tell server how the user would like to receive response for each api endpoint
 Route::group(['prefix' => 'api/v1/',
@@ -320,12 +314,12 @@ Route::group(['prefix' => 'api/v1/',
             'CourierController@userIsAvailable')
             ->name('userIsAvailable');
     });
-    Route::group(['prefix' => 'menuItems'], function () {
-        Route::get('{id}/freeAndPricyAccessories', 'MenuItemInfoController@ajaxGetMenuItemAccessories');
+    Route::group(['prefix' => 'items'], function () {
+        Route::get('accessories', 'ItemController@accessories');
     });
 
     Route::group(['prefix' => 'cart'], function () {
-        Route::get('totalQuantity', 'CartInfoController@cartQuantity');
+        Route::get('quantity', 'ShoppingCartController@quantity');
     });
 
     Route::group(['prefix' => 'checkout'], function () {

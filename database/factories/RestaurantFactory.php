@@ -70,7 +70,7 @@ $factory->define(Restaurant::class, function (Faker\Generator $faker) {
         'name' => $faker->company,
         'available_times' => json_encode($available_times),
         'location' => $locations[RAND(0,2)],
-        'is_weekly_special' => 1,
+        'seller_type' => mt_rand(0, 1),
         'image_url' => $images[mt_rand(0, count($images) - 1)]
     ];
 });

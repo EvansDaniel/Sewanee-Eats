@@ -9,7 +9,7 @@ class CartInfoController extends Controller
 {
     use CartInformation;
 
-    public function cartQuantity()
+    public function quantity()
     {
         return json_encode(['num_items' => $this->getCartQuantity()]);
     }

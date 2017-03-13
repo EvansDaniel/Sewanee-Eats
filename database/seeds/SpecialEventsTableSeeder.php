@@ -12,6 +12,6 @@ class SpecialEventsTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(SpecialEvent::class, 10)->create();
+        factory(SpecialEvent::class, 1)->create();
     }
 }

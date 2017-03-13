@@ -11,17 +11,16 @@
 |
 */
 
+use App\Models\EventItem;
 use App\Models\SpecialEvent;
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
-$factory->define(SpecialEvent::class, function (Faker\Generator $faker) {
-
+$factory->define(EventItem::class, function (Faker\Generator $faker) {
+    $event = SpecialEvent::all();
     return [
-        'event_name' => 'Alpha Delta PI PI Day',
-        'host_name' => 'Alpha Delta PI',
-        'event_description' => 'Blah blah description',
-        'host_logo' => 'https://pbs.twimg.com/profile_images/614120821414428672/qUDRd9gk.jpg',
-        'seller_type' => mt_rand(0, 2),
-        'for_profit' => 0
+        'name' => 'Apple Pie',
+        'price' => '1',
+        'description' => 'description',
+        'event_id' => $event[0]->id
     ];
 });

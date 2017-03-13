@@ -19,6 +19,7 @@ class CreateSpecialEventsTable extends Migration
             $table->string('host_name');
             $table->string('host_logo');
             $table->string('event_description');
+            $table->integer('seller_type');
             $table->boolean('for_profit');
             $table->timestamps();
         });

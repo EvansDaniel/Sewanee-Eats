@@ -138,6 +138,19 @@ textarea {
     padding: 6px 6px 6px 10px;
 }
 
+.clickable {
+    cursor: pointer;
+}
+
+.modal-dialog {
+    overflow-y: initial !important
+}
+
+.modal-body {
+    /*max-height: calc(100vh - 200px);*/
+    overflow-y: auto;
+}
+
 .item-extras-manipulation:hover{
     cursor: pointer;
 }

@@ -29,7 +29,7 @@
         </div>
     </div>
 
-
+    @if($order['menu_item_model'] instanceof EventItem)
     <div class="col-lg-2 col-md-2">
         @if(empty($order['extras'][$i]) && !(empty($order['menu_item_model']->accessories[0])))
             <button type="button"
@@ -69,6 +69,7 @@
         </div>
 
     </div>
+    @endif
     <div class="col-lg-1 col-md-1">
         <button class="ckbtn btn btn-primary"
                 id="dfc-{{ $order['menu_item_model']->id }}-{{ $i }}"

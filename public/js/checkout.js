@@ -104,12 +104,20 @@ function doneEditingForm(url, data) {
             }
         }
     }).done(function (res) {
+
         // update price shown to user
-        if (res != null && res.subtotal && res.totalPrice) {
-            $('#subtotal').text(res.subtotal);
-            $('#total-price').text(res.totalPrice);
-        }
+      if (res != null && res.subtotal && res.total_price) {
+        updatePrices(res);
+      }
     });
+}
+
+function updatePrices(res) {
+  $('#subtotal').text(res.subtotal);
+  $('#total-price').text(res.total_price);
+  $('#delivery-fee').text(res.delivery_fee);
+  $('#cost-of-food').text(res.cost_of_food);
+  $('#delivery-fee-percentage').text(res.delivery_fee_percentage_saved);
 }
 
 
@@ -166,8 +174,12 @@ function updateUIAfterDeleteItem(delButton, res) {
     } else { // cart isn't empty
         // update the cost
         if (res != null) { // server error otherwise
+          updatePrices(res);
             $('#subtotal').text(res.subtotal);
-            $('#total-price').text(res.totalPrice);
+          $('#total-price').text(res.total_price);
+          $('#delivery-fee').text(res.delivery_fee);
+          $('#cost-of-food').text(res.cost_of_food);
+          $('#delivery-fee-percentage').text(res.delivery_fee_percentage_saved);
         }
     }
 }

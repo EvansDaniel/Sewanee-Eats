@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\CustomClasses\ShoppingCart\ItemType;
+use App\CustomClasses\ShoppingCart\SellerType;
 use App\CustomTraits\CartInformation;
 use App\CustomTraits\IsAvailable;
 use App\Models\Restaurant;
 use App\Models\SpecialEvent;
-use Illuminate\Http\Request;
 
-class RestaurantController extends Controller
+class SellerEntityController extends Controller
 {
     use IsAvailable;
     use CartInformation;
@@ -47,7 +48,8 @@ class RestaurantController extends Controller
                 $remove_items = $categorized_items['special_items'];
             }
         }*/
-        return view('orderFlow.showMenu', compact('restaurant', 'menu_items', 'remove_items', 'message'));
+        $item_type = ItemType::RESTAURANT_ITEM;
+        return view('orderFlow.showMenu', compact('restaurant', 'menu_items', 'remove_items', 'message', 'item_type'));
     }
 
     public function list_restaurants()
@@ -56,7 +58,7 @@ class RestaurantController extends Controller
         $s_restaurants = [];
         $restaurants = [];
         foreach ($all_restaurants as $restaurant) {
-            if ($restaurant->is_weekly_special) {
+            if ($restaurant->seller_type == SellerType::WEEKLY_SPECIAL) {
                 $s_restaurants[] = $restaurant;
             } else {
                 // TODO: NEED TO UNCOMMENT THIS IF STATEMENT AFTER DEVELOPMENT
@@ -73,18 +75,10 @@ class RestaurantController extends Controller
             compact('restaurants', 's_restaurants', 'events'));
     }
 
-    public function store(Request $request)
+    public function showEventItems($event_id)
     {
-        // Store the details of a new restaurant
-    }
-
-    public function update(Request $request)
-    {
-        // Update details of existing restaurant
-    }
-
-    public function delete($id)
-    {
-        // delete restaurant whose id == $id
+        $event = SpecialEvent::find($event_id);
+        $item_type = ItemType::EVENT_ITEM;
+        return view('orderFlow.show_event_items', compact('event', 'item_type'));
     }
 }

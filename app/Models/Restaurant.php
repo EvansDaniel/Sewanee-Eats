@@ -2,9 +2,10 @@
 
 namespace App\Models;
 
+use App\Contracts\ShoppingCart\SellerEntity;
 use Illuminate\Database\Eloquent\Model;
 
-class Restaurant extends Model
+class Restaurant extends Model implements SellerEntity
 {
 
     protected $table = "restaurants";
@@ -29,5 +30,25 @@ class Restaurant extends Model
     {
         return $this->hasMany('App\Models\MenuItem',
             'restaurant_id', 'id');
+    }
+
+    public function getName()
+    {
+        // TODO: Implement getName() method.
+    }
+
+    public function getDesc()
+    {
+        // TODO: Implement getDesc() method.
+    }
+
+    public function getLocation()
+    {
+        // TODO: Implement getLocation() method.
+    }
+
+    public function getSellerType()
+    {
+
     }
 }

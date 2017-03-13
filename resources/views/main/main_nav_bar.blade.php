@@ -27,11 +27,11 @@
                       // load number of items in the cart
                       $(function () {
                         $.ajax({
-                          url: API_URL + 'cart/totalQuantity',
+                          url: API_URL + 'cart/quantity',
                           context: document.body,
                           dataType: 'json'
                         }).done(function (result) {
-                          $('#num-items-in-cart').text(result.num_items);
+                          $('#num-items-in-cart').text(result);
                         });
                       });
                     </script>
