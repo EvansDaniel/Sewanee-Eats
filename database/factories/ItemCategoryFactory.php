@@ -21,7 +21,7 @@ $factory->define(ItemCategory::class, function (Faker\Generator $faker) {
         'Sandwiches',
         'Coffee'
     ];
-
+    // This randomness is okay
     return [
         'name' => $categories[mt_rand(0,2)]
     ];

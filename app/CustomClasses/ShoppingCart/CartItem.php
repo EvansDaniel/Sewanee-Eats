@@ -33,6 +33,14 @@ class CartItem
     /**
      * @return mixed
      */
+    public function getItemType()
+    {
+        return $this->item_type;
+    }
+
+    /**
+     * @return mixed
+     */
     public function getExtras()
     {
         return $this->extras;

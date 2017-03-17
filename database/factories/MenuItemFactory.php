@@ -17,8 +17,8 @@ use App\Models\Restaurant;
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 $factory->define(MenuItem::class, function (Faker\Generator $faker) {
-    $restaurant = Restaurant::orderByRaw("RAND()")->first();
-    $item_category = ItemCategory::orderByRaw("RAND()")->first();
+    $restaurant = Restaurant::inRandomOrder()->first();
+    $item_category = ItemCategory::inRandomOrder()->first();
     $decimals = [
         '.99',
         '.49',
@@ -66,6 +66,7 @@ $factory->define(MenuItem::class, function (Faker\Generator $faker) {
             ''
         ]
     ];
+    // this randomness is okay to
     return [
         'name' => 'My menu item name',
         'description' => 'My menu item description',

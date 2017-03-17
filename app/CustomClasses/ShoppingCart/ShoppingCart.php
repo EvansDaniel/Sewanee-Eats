@@ -91,7 +91,7 @@ class ShoppingCart
                 }
             }
         }
-        $this->event_items = $items['on_demand'];
+        $this->on_demand_items = $items['on_demand'];
         $this->weekly_special_items = $items["weekly_special"];
         $this->event_items = $items['event'];
     }
@@ -107,32 +107,11 @@ class ShoppingCart
     }
 
     /**
-     * @return int
-     */
-    public function getMaxItemsInCart()
-    {
-        return $this->max_items_in_cart;
-    }
-
-    public function getQuantity()
-    {
-        return $this->quantity;
-    }
-
-    /**
-     * @return int
-     */
-    public function getMaxOnDemandItems()
-    {
-        return $this->max_on_demand_items;
-    }
-
-    /**
      * @return mixed
      */
-    public function getNumOnDemandItems()
+    public function getNextCartItemId()
     {
-        return $this->num_on_demand_items;
+        return $this->next_cart_item_id;
     }
 
     public function getOnDemandItems()
@@ -177,14 +156,60 @@ class ShoppingCart
      * @param $cart_items array CartItem to add
      * Saves $cart_items into the Session, setting up
      * a unique cart item id for each item added
+     * @return integer returns 0 if all items were added without issue
+     * returns -1 if too many On Demand items were attempted to be added
+     * returns -2 if the cart reached the max number of items during the additions
      */
     public function putItems($cart_items)
     {
         foreach ($cart_items as $cart_item) {
+            if ($this->getNumOnDemandItems() == $this->getMaxOnDemandItems()) {
+                return -1;
+            }
+            if ($this->getQuantity() == $this->getMaxItemsInCart()) {
+                return -2;
+            }
+            // check if we are adding an On Demand item
+            if ($cart_item->getSellerEntity()->getSellerType() == SellerType::ON_DEMAND) {
+                $this->num_on_demand_items++;
+            }
             $cart_item->setCartItemId($this->nextCartId());
             $this->cart[] = $cart_item;
+            $this->quantity++;
+            // recategorize the items
+            $this->categorizedItems();
         }
         $this->save();
+        return 0;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getNumOnDemandItems()
+    {
+        return $this->num_on_demand_items;
+    }
+
+    /**
+     * @return int
+     */
+    public function getMaxOnDemandItems()
+    {
+        return $this->max_on_demand_items;
+    }
+
+    public function getQuantity()
+    {
+        return $this->quantity;
+    }
+
+    /**
+     * @return int
+     */
+    public function getMaxItemsInCart()
+    {
+        return $this->max_items_in_cart;
     }
 
     /**
@@ -196,7 +221,7 @@ class ShoppingCart
      * be used and stored in $this->next_cart_item_id
      * @return int|mixed
      */
-    private function nextCartId()
+    public function nextCartId()
     {
         if (empty($this->next_cart_item_id)) {
             $this->next_cart_item_id = 1;
@@ -367,14 +392,21 @@ class ShoppingCart
      */
     public function deleteItem($cart_item_id)
     {
+        $did_delete = false;
         for ($i = 0; $i < $this->quantity(); $i++) {
             if ($this->cart[$i]->getCartItemId() == $cart_item_id) {
                 unset($this->cart[$i]);
                 $this->cart = array_values($this->cart);
                 $this->save();
+                $did_delete = true;
+                // recategorize the items
+                $this->categorizedItems();
                 break;
             }
         }
+        // delete only if it was deleted in the loop
+        if ($did_delete)
+            $this->quantity--;
     }
 
     /**

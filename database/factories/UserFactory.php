@@ -12,14 +12,6 @@
 */
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
-/*
- * User::create([
-            'name' => 'Daniel Evans',
-            'email' => 'evansdb0@sewanee.edu',
-            'password' => bcrypt('dsmith'),
-            'available_times' => $available_times
-        ]);
- */
 
 $factory->define(App\User::class, function (Faker\Generator $faker) {
     static $password;
