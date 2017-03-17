@@ -22,7 +22,7 @@ class CheckoutController extends Controller
 
         $cart = new ShoppingCart();
         $bill = new CartBilling($cart);
-        return view('orderFlow.checkout', compact('items', 'bill'));
+        return view('orderFlow.checkout', compact('cart', 'bill'));
     }
 
     public function handleCheckout(Request $request)
@@ -66,7 +66,6 @@ class CheckoutController extends Controller
             foreach ($items['special_items'] as $special_cart_item) {
                 for ($q = 0; $q < $special_cart_item['quantity']; $q++) {
 
-                    //\Log::info($special_cart_item['special_instructions'][$q]);
                     $menu_item_order = new MenuItemOrder;
                     $menu_item_order->special_instructions = $special_cart_item['special_instructions'][$q];
                     $menu_item_order->order_id = $weekly_special_order->id;

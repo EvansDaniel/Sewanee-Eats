@@ -18,6 +18,7 @@ class CreateEventItemsTable extends Migration
             $table->string('name');
             $table->float('price');
             $table->string('description')->nullable();
+            $table->boolean('for_profit');
 
             $table->integer('event_id')->unsigned();
             $table->foreign('event_id')

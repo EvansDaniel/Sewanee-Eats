@@ -3,5 +3,5 @@ var shell = require('gulp-shell');
 
 // define tasks here
 gulp.task('default', function () {
-  console.log('Hello world');
+
 });

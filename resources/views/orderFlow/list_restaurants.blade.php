@@ -12,6 +12,7 @@
         <h5 id="mountain" class="restaurant-cat-header">This week's Weekly Special is Chick-fil-a! <a
                     href="{{ route('howItWorks') }}#specials">Learn more about weekly specials</a></h5>
         <hr>
+        <a href="{{ route('clearCart') }}">Clear Session</a>
         <ul class="list-group container" id="restaurant-group">
             @if(!empty($s_restaurants))
                 @foreach($s_restaurants as $s_restaurant)

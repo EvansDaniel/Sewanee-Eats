@@ -1,11 +1,13 @@
 <link rel="stylesheet" href={{ asset('css/nav_bar.css',env('APP_ENV') !== 'local')  }}>
 
-<nav class="navbar navbar-default navbar-custom navbar-fixed-top row" id="eats-navbar">
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top row" id="eats-navbar" style="height: 8%;">
     <div class="container-fluid nav-container">
         <div class="navbar-header">
             <a class="navbar-brand col-lg-12 col-md-12 col-sm-6 col-xs-6" href="{{ route('home') }}">
-                <img src="{{ asset('images/branding/eats_new_look_cropped.jpg',env('APP_ENV') !== 'local')  }}"
-                     id="brand_img" class="img-responsive" alt="">
+                <div style="height: 100%">
+                    <img src="{{ asset('images/branding/eats_new_look_cropped.jpg',env('APP_ENV') !== 'local')  }}"
+                         id="brand_img" class="img-responsive" alt="">
+                </div>
             </a>
             <button type="button" id="collapse-button" class="navbar-toggle"
                     data-toggle="collapse"

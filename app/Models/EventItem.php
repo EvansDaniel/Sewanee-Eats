@@ -18,9 +18,19 @@ class EventItem extends Model implements Item
         return $this->price;
     }
 
+    public function isProfitable()
+    {
+        return $this->for_profit;
+    }
+
     public function getDesc()
     {
         return $this->description;
+    }
+
+    public function getName()
+    {
+        return $this->name;
     }
 
     public function getSellerEntity()

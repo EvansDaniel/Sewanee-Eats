@@ -1,85 +1,83 @@
-<div class="menu-item row" id="mid-{{$order['menu_item_model']->id}}">
+<div class="menu-item row" id="mid-{{ $order->getCartItemId() }}">
 
-    <div class="col-lg-2 col-md-2 order-name"><p>{{ $order['menu_item_model']->name }}</p>
+    <div class="col-lg-2 col-md-2 order-name"><p>{{ $order->getName() }}</p>
     </div>
     <div class="col-lg-2 col-md-2 order-price">
-        $ {{ $order['menu_item_model']->price }}</div>
-    <div class="col-lg-2 col-md-2 order-descr">{{ $order['menu_item_model']->description }}</div>
+        $ {{ $order->getPrice() }}</div>
+    <div class="col-lg-2 col-md-2 order-descr">{{ $order->getDesc() }}</div>
 
-    <input type="hidden" name="cart_item_id" value="{{ $order['menu_item_model']->id }}">
+    <input type="hidden" name="cart_item_id" value="{{ $order->getCartItemId() }}">
     <div class="col-lg-3 col-md-3 order-special">
-        @if(empty($order['special_instructions'][$i]))
+        @if(empty($order->getSi()))
             <button type="button" class="checkout-btn"
                     onclick="showInstruction(this)">
                 Add Special Instructions
             </button>
     @endif <!-- Make the div hidden or not -->
-        <div style="display: {{ empty($order['special_instructions'][$i]) ? "none" : "block"}};">
+        <div style="display: {{ empty($order->getSi()) ? "none" : "block"}};">
             <label for="si-id" id="special-btn">Special
                 instructions</label>
             <div class="container row">
-                                               <textarea id="si-id-{{$order['menu_item_model']->id}}-{{$i}}"
+                                               <textarea id="si-id-{{$order->getCartItemId()}}"
                                                          class="si"
-                                                         data-model-id="{{$order['menu_item_model']->id}}"
-                                                         data-index="{{$i}}"
-                                                         name="special_instructions">{{ $order['special_instructions'][$i] }}</textarea>
+                                                         data-cart-item-id="{{$order->getCartItemId() }}"
+                                                         name="special_instructions">{{ $order->getSi() }}</textarea>
             </div>
             <input name="special_instructions" type="hidden"
-                   value="{{ $order['special_instructions'][$i] }}">
+                   value="{{ $order->getSi() }}">
         </div>
     </div>
 
-    @if($order['menu_item_model'] instanceof EventItem)
-    <div class="col-lg-2 col-md-2">
-        @if(empty($order['extras'][$i]) && !(empty($order['menu_item_model']->accessories[0])))
-            <button type="button"
-                    onclick="showExtras(this)"
-                    class="btn btn-primary show-extra">
-                Add extras
-            </button>
-        @endif
-        <div class="row"
-             style="display: {{ empty($order['extras'][$i]) ? "none" : "block"}};">
-            <label for="extras">Select items accessories</label>
-            @foreach($order['menu_item_model']->accessories as $acc)
-                <div class="checkbox">
-                    <label for="acc">
-                        @if(!(empty($order['extras'][$i])) && in_array($acc->id,$order['extras'][$i]))
-                            <input id="acc-{{$i}}-{{$acc->id}}"
-                                   name="extras{{$i}}[]"
+    @if(!empty($order->itemExtras()))
+        <div class="col-lg-2 col-md-2">
+            @if(empty($order->getExtras()) && !empty($order->itemExtras()))
+                <button type="button"
+                        onclick="showExtras(this)"
+                        class="btn btn-primary show-extra">
+                    Add extras
+                </button>
+            @endif
+            <div class="row"
+                 style="display: {{ empty($order->getExtras()) ? "none" : "block"}};">
+                <label for="extras">Select items accessories</label>
+            @foreach($order->itemExtras() as $acc)
+                <!-- if the order has some extras and this acc has already been checked -->
+                    @if(!empty($order->getExtras()) && in_array($acc->id,$order->getExtras()))
+                        <div class="checkbox">
+                            <label for="acc">
+                                <input id="acc-{{$order->getCartItemId()}}-{{$acc->id}}"
+                                       name="extras{{$order->getCartItemId()}}[]"
+                                       type="checkbox"
+                                       data-cart-item-id="{{$order->getCartItemId()}}"
+                                       checked class="acc-check"
+                                       value="{{ $acc->id }}">
+                                {{ $acc->name . "  $" . $acc->price }}
+                            </label>
+                        </div>
+                    @else <!-- acc has not been checked yet -->
+                    <div class="checkbox">
+                        <label for="acc">
+                            <input id="acc-{{$order->getCartItemId()}}-{{$acc->id}}"
+                                   name="extras{{$order->getCartItemId()}}[]"
                                    type="checkbox"
-                                   data-model-id="{{$order['menu_item_model']->id}}"
-                                   data-index="{{$i}}"
-                                   checked class="acc-check"
-                                   value="{{ $acc->id }}">
-                            {{ $acc->name . "  $" . $acc->price }}
-                        @else
-                            <input id="acc-{{$i}}-{{$acc->id}}"
-                                   name="extras{{$i}}[]"
-                                   type="checkbox"
+                                   data-cart-item-id="{{$order->getCartItemId()}}"
                                    class="acc-check"
-                                   data-model-id="{{$order['menu_item_model']->id}}"
-                                   data-index="{{$i}}"
                                    value="{{ $acc->id }}">
                             {{ $acc->name . "  $" . $acc->price }}
-                        @endif
-                    </label>
-                </div>
-            @endforeach
-        </div>
+                        </label>
+                    </div>
+                    @endif
+                @endforeach
+            </div>
 
-    </div>
+        </div>
     @endif
     <div class="col-lg-1 col-md-1">
         <button class="ckbtn btn btn-primary"
-                id="dfc-{{ $order['menu_item_model']->id }}-{{ $i }}"
-                data-model-id="{{ $order['menu_item_model']->id }}"
-                data-item-index="{{ $i }}"
+                id="dfc-{{ $order->getCartItemId() }}"
+                data-cart-item-id="{{ $order->getCartItemId() }}"
                 onclick="deleteItemFromCart(this)"
                 type="button">X
         </button>
     </div>
-    @if($i != $order['quantity']-1)
-        <hr class="cart-line">
-    @endif
 </div>

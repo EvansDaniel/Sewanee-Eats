@@ -113,7 +113,7 @@ Route::post('handleCheckout', 'CheckoutController@handleCheckout')
     ->name('handleCheckout');
 
 Route::get('checkout', 'CheckoutController@showCheckoutPage')
-    ->name('checkout');
+    ->name('checkout')->middleware('role:admin');
 
 Route::get('restaurants', 'SellerEntityController@list_restaurants')
     ->name('list_restaurants');
@@ -152,7 +152,6 @@ Route::group([
 });
 
 
-
 // Admin Routes
 Route::group(['prefix' => 'admin',
     'namespace' => 'Admin',
@@ -160,16 +159,16 @@ Route::group(['prefix' => 'admin',
 
     // Special Events Routes ---------------------------------------------
 
-    Route::group(['namespace' => 'Events','prefix' => 'events'],function() {
+    Route::group(['namespace' => 'Events', 'prefix' => 'events'], function () {
         // shows
-        Route::get('','SpecialEventsController@showEvents')->name('showEvents');
+        Route::get('', 'SpecialEventsController@showEvents')->name('showEvents');
         //Route::get('{event_id}','SpecialEventsController@showEvent')->name('showEvent');
-        Route::get('createEvent','SpecialEventsController@showCreateEvent')->name('showCreateEvent');
-        Route::get('updateEvent/{event_id}','SpecialEventsController@showUpdateEvent')->name('showUpdateEvent');
+        Route::get('createEvent', 'SpecialEventsController@showCreateEvent')->name('showCreateEvent');
+        Route::get('updateEvent/{event_id}', 'SpecialEventsController@showUpdateEvent')->name('showUpdateEvent');
         // backends
-        Route::post('create','SpecialEventsController@createEvent')->name('createEvent');
-        Route::post('update','SpecialEventsController@updateEvent')->name('updateEvent');
-        Route::post('delete','SpecialEventsController@deleteEvent')->name('deleteEvent');
+        Route::post('create', 'SpecialEventsController@createEvent')->name('createEvent');
+        Route::post('update', 'SpecialEventsController@updateEvent')->name('updateEvent');
+        Route::post('delete', 'SpecialEventsController@deleteEvent')->name('deleteEvent');
 
         // Event Items Routes
         Route::get('{event_id}/items', 'EventItemController@showEventItems')
@@ -305,6 +304,7 @@ Route::group(['prefix' => 'courier',
         ->name('removeFromSchedule');
 });
 
+
 // Api Routes for Ajax
 // TODO: add relevant query parameters that tell server how the user would like to receive response for each api endpoint
 Route::group(['prefix' => 'api/v1/',
@@ -324,13 +324,14 @@ Route::group(['prefix' => 'api/v1/',
 
     Route::group(['prefix' => 'cart'], function () {
         Route::get('quantity', 'ShoppingCartController@quantity');
+        Route::post('updateInstructions/{cart_item_id}', 'ShoppingCartController@updateInstructions');
+        Route::post('updateExtras/{cart_item_id}', 'ShoppingCartController@toggleExtras');
+        Route::post('deleteFromCart/{cart_item_id}', 'ShoppingCartController@deleteFromCart');
     });
 
-    Route::group(['prefix' => 'checkout'], function () {
-        Route::post('updateInstructions/{model_id}/{si_index}', 'CheckoutController@updateSpecialInstructionForItem');
-        Route::post('updateExtras/{model_id}/{extras_index}', 'CheckoutController@updateAccessoryForItem');
-        Route::post('getItem/{id}', 'CheckoutController@getCheckoutItem');
-        Route::post('deleteItem/{model_id}/{item_index}', 'CheckoutController@deleteFromCart');
+
+    Route::group(['prefix' => 'billing'], function () {
+        Route::get('priceSummary', 'CartBillingController@getPriceSummary');
     });
 });
 
@@ -354,6 +355,10 @@ $this->get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm
 $this->post('password/reset', 'Auth\ResetPasswordController@reset');
 
 // ---------------404------------
-Route::any('{catchall}', function () {
-    return view('main.404');
-})->where('catchall', '(.*)');
+if (env('APP_ENV') == "production") {
+
+    Route::any('{catchall}', function () {
+        return view('main.404');
+    })->where('catchall', '(.*)');
+
+}

@@ -12,7 +12,10 @@ interface Item
 {
     public function getPrice();
 
+    public function getName();
     public function getDesc();
+
+    public function isProfitable();
 
     public function getSellerEntity();
 

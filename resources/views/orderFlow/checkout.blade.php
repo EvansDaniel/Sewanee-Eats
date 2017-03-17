@@ -44,42 +44,24 @@
 
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="orders">
 
-                    <!-- Loop through all menu items in the cart -->
-                    @if(!empty($items['special_items']))
+                    @if(!empty($cart->getWeeklySpecialItems()))
                         <h3>Your Weekly Special Items</h3>
                         <hr class="hr-separator">
-                        @foreach($items['special_items'] as $order)
-                            @if(!$loop->last)
-                                @for($i = 0; $i < $order['quantity']; $i++)
-                                    @include('partials.checkout_items')
-                                @endfor
-                            @else
-                                @for($i = 0; $i < $order['quantity']; $i++)
-                                    @include('partials.checkout_items')
-                                @endfor
-                            @endif
+                        @foreach($cart->getWeeklySpecialItems() as $order)
+                            @include('partials.checkout_items')
                         @endforeach
                         <hr class="hr-separator">
                     @endif
 
-                </div>
                 <hr class="cart-line">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="orders">
-
                     <!-- Loop through all menu items in the cart -->
-                    @if(!empty($items['event_items']))
+                    @if(!empty($cart->getEventItems()))
+                        <h3>Your Event Items</h3>
                         <h3>Your Event Items </h3>
                         <hr class="hr-separator">
-                        @foreach($items['event_items'] as $order)
-                            @if(!$loop->last)
-                                @for($i = 0; $i < $order['quantity']; $i++)
-                                    @include('partials.checkout_items')
-                                @endfor
-                            @else
-                                @for($i = 0; $i < $order['quantity']; $i++)
-                                    @include('partials.checkout_items')
-                                @endfor
-                            @endif
+                        @foreach($cart->getEventItems() as $order)
+                            @include('partials.checkout_items')
                         @endforeach
                         <hr class="hr-separator">
                     @endif
@@ -87,12 +69,13 @@
                 </div>
                 <hr class="cart-line">
             @endif
-            @if(!empty(Session::get('cart')) && Session::get('cart') != null)
+
+                <!-- Show payment stuff if cart is not empty -->
+                    @if($cart->quantity() != 0)
 
                 <div class="cart " id="main-payment-form" style="">
+
                     <!-- Payment information -->
-
-
                     <div class="row">
                         <h3 class="col-lg-12 col-md-12 col-sm-12 col-xs-12 cart-review">
                             2. Enter your information to pay:
@@ -170,11 +153,12 @@
 
                             </div>
                             <div class="form-group" id="loc-phone">
-                                @if(!empty($items['non_special_items']))
+                                {{-- TODO: change this to use the $cart variable--}}
+                                {{--@if(!empty($items['non_special_items']))
                                     <label for="location">Where should we deliver your On Demand items?</label>
                                     <input class="form-control pay-input" type="text" maxlength="100" name="location"
                                            id="location">
-                                @endif
+                                @endif--}}
 
                                 <label for="email-address">Email Address</label>
                                 <input class="form-control pay-input" maxlength="100"
@@ -186,17 +170,17 @@
                                       type="tel"
                                       name="phone_number" id="phone-number">--}}
                             </div>
-                            <div>Cost of Food: <span id="cost-of-food">{{ $price_summary['cost_of_food'] }}</span></div>
+                            <div>Cost of Food: <span id="cost-of-food">{{ $bill->getCostOfFood() }}</span></div>
                             <div>Delivery Fee:
-                                @if($price_summary['delivery_fee_percentage_saved'] != 0)
+                                @if($bill->getDiscount() != 0)
                                     (you saved <span
-                                            id="delivery-fee-percentage">{{ $price_summary['delivery_fee_percentage_saved']  }}</span>
+                                            id="delivery-fee-percentage">{{ $bill->getDiscount()  }}</span>
                                     %!)
                                 @endif
-                                <span id="delivery-fee">{{ $price_summary['delivery_fee']  }}</span></div>
-                            <div>Subtotal: <span id="subtotal">{{ $price_summary['subtotal'] }}</span></div>
+                                <span id="delivery-fee">{{ $bill->getDiscount()  }}</span></div>
+                            <div>Subtotal: <span id="subtotal">{{ $bill->getSubtotal() }}</span></div>
                             <div>Order Total (subtotal + tax): <span
-                                        id="total-price">{{ $price_summary['total_price'] }}</span></div>
+                                        id="total-price">{{ $bill->getTotal() }}</span></div>
                             <button type="submit" id="pay-now-button" onclick="checkPayNow(event)"
                                     class="checkout-btn">Pay Now
                             </button>

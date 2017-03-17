@@ -19,6 +19,7 @@ $factory->define(EventItem::class, function (Faker\Generator $faker) {
     $event = SpecialEvent::all();
     return [
         'name' => 'Apple Pie',
+        'for_profit' => true,
         'price' => '1',
         'description' => 'description',
         'event_id' => $event[0]->id

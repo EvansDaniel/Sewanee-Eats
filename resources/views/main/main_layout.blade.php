@@ -3,7 +3,6 @@
 <html>
 <head>
     @include('main.global_config')
-    <link rel="stylesheet" href={{ asset('images/branding/mtneats.png',env('APP_ENV') !== 'local') }}>
     <link rel="stylesheet" href={{ asset('css/footer.css',env('APP_ENV') !== 'local') }}>
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet">
     @yield('head')
@@ -17,7 +16,6 @@
 <div id="main-container" class="container-fluid main-main-container">
 @include('main.countdown')
 @include('main.main_nav_bar')
-<!-- TODO: Blaise -> temporary fix for messages not showing and tops of pages not showing -->
     @if(url()->current() != route("home") and url()->current() != route("homev2"))
         <div style="margin-top: 100px"></div>
         <script src={{ asset('js/resize.js',env('APP_ENV') !== 'local') }}></script>

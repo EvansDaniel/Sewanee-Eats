@@ -34,21 +34,21 @@ class Restaurant extends Model implements SellerEntity
 
     public function getName()
     {
-        // TODO: Implement getName() method.
+        return $this->name;
     }
 
     public function getDesc()
     {
-        // TODO: Implement getDesc() method.
+        return "";
     }
 
     public function getLocation()
     {
-        // TODO: Implement getLocation() method.
+        return $this->location;
     }
 
     public function getSellerType()
     {
-
+        return $this->seller_type;
     }
 }

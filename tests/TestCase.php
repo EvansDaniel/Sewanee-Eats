@@ -6,6 +6,8 @@ use Laravel\BrowserKitTesting\TestCase as BaseTestCase;
 
 abstract class TestCase extends BaseTestCase
 {
-    public $baseUrl = 'http://localhost';
     use CreatesApplication;
+
+    public $baseUrl = 'http://localhost';
+
 }

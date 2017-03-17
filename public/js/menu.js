@@ -178,7 +178,6 @@ function loadModal(div) {
 }
 
 function retreiveAccessories(item_id) {
-  p(item_id);
   $.ajax({
     url: API_URL + "items/accessories",
     data: {"item_type": ITEM_TYPE, "item_id": item_id},
@@ -282,7 +281,6 @@ $(function () {
     var i = getVal(qty);
     i = parseInt(i);
     if (i >= MIN_ITEMS && (CART_QUANTITY + i) < MAX_ITEMS) {
-      p(CART_QUANTITY);
       ++i;
       setVal(qty, i); // set value of the new quantity
       $('#max-items-exceeded-error').hide();

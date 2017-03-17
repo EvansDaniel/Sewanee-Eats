@@ -26,6 +26,39 @@ class CartItem
         } else if ($item_type == ItemType::RESTAURANT_ITEM) {
             $this->item = MenuItem::find($item_id);
         }
+        $this->si = "";
+        $this->extras = [];
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getExtras()
+    {
+        return $this->extras;
+    }
+
+    public function setExtras($extras)
+    {
+        $this->extras = $extras;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSi()
+    {
+        return $this->si;
+    }
+
+    public function setInstructions($si)
+    {
+        $this->si = $si;
+    }
+
+    public function itemExtras()
+    {
+        return $this->item->extras();
     }
 
     public function getCartItemId()
@@ -43,6 +76,16 @@ class CartItem
         return $this->item_type;
     }
 
+    public function getName()
+    {
+        return $this->item->getName();
+    }
+
+    public function getDesc()
+    {
+        return $this->item->getDesc();
+    }
+
     public function getPrice()
     {
         return $this->item->getPrice();
@@ -52,31 +95,4 @@ class CartItem
     {
         return $this->item->getSellerEntity();
     }
-
-    public function setInstructions($si)
-    {
-        $this->si = $si;
-    }
-
-    public function setExtras($extras)
-    {
-        $this->extras = $extras;
-    }
-
-    public function itemExtras()
-    {
-        return $this->item->extras();
-    }
-
-    public function orderExtras()
-    {
-        return $this->extras;
-    }
-
-    public function special_instructions()
-    {
-        return $this->si;
-    }
-
-
 }

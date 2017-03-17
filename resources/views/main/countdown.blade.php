@@ -1,10 +1,7 @@
 <!-- Built by Daniel Evans (evansdb0@sewanee.edu), Tariro Kandemiri, and Blaise Iradukunda -->
 
-<head>
-    <link rel="stylesheet" href="{{ asset('images/mtneats.png',env('APP_ENV') !== 'local') }}">
-    <link rel="stylesheet" href="{{ asset('css/timer.css',env('APP_ENV') !== 'local') }}">
-    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,900,900i" rel="stylesheet">
-</head>
+<link rel="stylesheet" href="{{ asset('css/timer.css',env('APP_ENV') !== 'local') }}">
+<link href="https://fonts.googleapis.com/css?family=Lato:300,400,900,900i" rel="stylesheet">
 
 <div id="main-container" class="container-fluid timer-div">
     <!-- Status messages to user about what they are doing -->
@@ -36,7 +33,6 @@
 
       getTime(); // set the start time
       // cool animations
-      p("ref = " + document.referrer);
       loadCountdownView(wasReferred());
       // Set the date we're counting down to
       var countDownDate = new Date("Mar 6, 2017 18:30:00").getTime();
@@ -67,7 +63,6 @@
       }
 
       function loadCountdownView(fadeIn) {
-        p("fade in " + fadeIn);
         if (fadeIn) {
           $('#header').fadeIn(1000);
           setTimeout(function () {

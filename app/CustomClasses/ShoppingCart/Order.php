@@ -22,4 +22,14 @@ class Order
         $this->cart = $cart;
         $this->billing = $billing;
     }
+
+    public function handleVenmoOrder()
+    {
+
+    }
+
+    public function handleStripeOrder()
+    {
+
+    }
 }
