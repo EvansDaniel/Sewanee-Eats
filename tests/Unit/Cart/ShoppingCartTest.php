@@ -34,11 +34,16 @@ class ShoppingCartTest extends TestCase
         factory(MenuItem::class, $num_each)->create();
         factory(MenuItem::class, $num_each)->create();
         factory(EventItem::class, $num_each)->create();
+        $cart = new ShoppingCart();
         $special_rest = Restaurant::where('seller_type', SellerType::WEEKLY_SPECIAL)->first();
         $demand_rest = Restaurant::where('seller_type', SellerType::ON_DEMAND)->first();
         $event_items = EventItem::all();
         $special_items = $special_rest->menuItems;
-        $demand_items = $demand_rest->menuItems;
+        // make sure that the number of on demand items is less than or equal to the max
+        $demand_items = [];
+        for ($i = 0; $i < min(count($demand_rest->menuItems), $cart->getMaxItemsInCart()); $i++) {
+            $demand_items[] = $demand_rest->menuItems[$i];
+        }
         $cart_items = [];
         for ($i = 0; $i < count($special_items); $i++) {
             $cart_items[] = new CartItem($special_items[$i]->id, ItemType::RESTAURANT_ITEM);
@@ -49,7 +54,6 @@ class ShoppingCartTest extends TestCase
         for ($i = 0; $i < count($event_items); $i++) {
             $cart_items[] = new CartItem($event_items[$i]->id, ItemType::EVENT_ITEM);
         }
-        $cart = new ShoppingCart();
         $cart->putItems($cart_items);
         self::assertEquals(count($demand_items), count($cart->getOnDemandItems()));
         self::assertEquals(count($special_items), count($cart->getWeeklySpecialItems()));
@@ -125,7 +129,6 @@ class ShoppingCartTest extends TestCase
         // divide by two b/c the function returns twice that many CartItems
         $cart_items = $this->putMenuItemsInDB($cart->getMaxItemsInCart() / 2);
         $temp = $cart->putItems($cart_items);
-        \Log::info($temp);
         $cart_item_ids = [];
         foreach ($cart->items() as $cart_item) {
             $cart_item_ids[] = $cart_item->getCartItemId();
@@ -180,6 +183,8 @@ class ShoppingCartTest extends TestCase
     }
 
     /**
+     * Checks that the cart will reject the addition of
+     * a set of items if that addition will cause and On Demand overflow
      * @test
      */
     public function itCapsMaxOnDemandItems()
@@ -194,10 +199,17 @@ class ShoppingCartTest extends TestCase
         }
         $cart = new ShoppingCart();
         $cart->putItems($cart_items);
-        self::assertEquals($cart->getMaxOnDemandItems(), $cart->getQuantity());
+        // cart will not add any items if it causes and on demand overflow
+        self::assertEquals(0, $cart->getQuantity());
+        $slice_of_menu_items = array_slice($cart_items, 0, $cart->getMaxOnDemandItems());
+        // adds all items b/c it is <= the max number of on demand items in the cart
+        $cart->putItems($slice_of_menu_items);
+        self::assertEquals($cart->getMaxOnDemandItems(), $cart->getNumOnDemandItems());
     }
 
     /**
+     * Checks that the cart will reject the addition of a
+     * set of items if and only if the addition would cart a Cart Max Item Overflow
      * @test
      */
     public function itCapsMaxNumberOfItems()
@@ -213,6 +225,11 @@ class ShoppingCartTest extends TestCase
             $cart_items[] = new CartItem($menu_item->id, ItemType::RESTAURANT_ITEM);
         }
         $cart->putItems($cart_items);
+        // rejects all additions b/c the set is one more than the max
+        self::assertEquals(0, $cart->getQuantity());
+        $cart_items_slice = array_slice($cart_items, 0, $cart->getMaxItemsInCart());
+        $cart->putItems($cart_items_slice);
+        // adds all items to the cart b/c the set contains less than or equal to the max number of allowable items
         self::assertEquals($cart->getMaxItemsInCart(), $cart->getQuantity());
     }
 

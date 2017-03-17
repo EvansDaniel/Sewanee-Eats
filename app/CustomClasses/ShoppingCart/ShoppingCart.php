@@ -159,26 +159,45 @@ class ShoppingCart
      * @return integer returns 0 if all items were added without issue
      * returns -1 if too many On Demand items were attempted to be added
      * returns -2 if the cart reached the max number of items during the additions
+     * NOTE: if a return value other than zero is returned, no items were added to the cart
      */
     public function putItems($cart_items)
     {
+        $num_on_demand_items = $this->getNumOnDemandItems();
+        $curr_quantity = $this->getQuantity();
+        // TODO: check prior to adding items if adding the items will overflow cart and/or overflow the max on demand items
+        // iterate through the items to add checking if adding them will cause a max item cart overflow or max on demand item cart overflow
         foreach ($cart_items as $cart_item) {
-            if ($this->getNumOnDemandItems() == $this->getMaxOnDemandItems()) {
+            if ($num_on_demand_items == $this->getMaxOnDemandItems()
+                && $cart_item->isSellerType(SellerType::ON_DEMAND)
+            ) {
                 return -1;
             }
-            if ($this->getQuantity() == $this->getMaxItemsInCart()) {
+            if ($curr_quantity == $this->getMaxItemsInCart()) {
                 return -2;
             }
+            // update current quantity
+            ++$curr_quantity;
+            // if on demand item, update the current number of on demand items
+            if ($cart_item->isSellerType(SellerType::ON_DEMAND)) {
+                ++$num_on_demand_items;
+            }
+        }
+        // all is good i.e. no cart overflow, so add all the items
+        foreach ($cart_items as $cart_item) {
             // check if we are adding an On Demand item
             if ($cart_item->getSellerEntity()->getSellerType() == SellerType::ON_DEMAND) {
                 $this->num_on_demand_items++;
             }
             $cart_item->setCartItemId($this->nextCartId());
             $this->cart[] = $cart_item;
-            $this->quantity++;
-            // recategorize the items
-            $this->categorizedItems();
+            // set cart quantity to quantity after adding the items
         }
+        // set the current quantity and number of on demand items
+        $this->num_on_demand_items = $num_on_demand_items;
+        $this->quantity = $curr_quantity;
+        // recategorize the items
+        $this->categorizedItems();
         $this->save();
         return 0;
     }
@@ -191,17 +210,17 @@ class ShoppingCart
         return $this->num_on_demand_items;
     }
 
+    public function getQuantity()
+    {
+        return $this->quantity;
+    }
+
     /**
      * @return int
      */
     public function getMaxOnDemandItems()
     {
         return $this->max_on_demand_items;
-    }
-
-    public function getQuantity()
-    {
-        return $this->quantity;
     }
 
     /**

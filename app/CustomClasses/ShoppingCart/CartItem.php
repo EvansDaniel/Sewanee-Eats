@@ -30,6 +30,16 @@ class CartItem
         $this->extras = [];
     }
 
+    public function isSellerType($seller_type)
+    {
+        return $this->getSellerEntity()->getSellerType() == $seller_type;
+    }
+
+    public function getSellerEntity()
+    {
+        return $this->item->getSellerEntity();
+    }
+
     /**
      * @return mixed
      */
@@ -97,10 +107,5 @@ class CartItem
     public function getPrice()
     {
         return $this->item->getPrice();
-    }
-
-    public function getSellerEntity()
-    {
-        return $this->item->getSellerEntity();
     }
 }
