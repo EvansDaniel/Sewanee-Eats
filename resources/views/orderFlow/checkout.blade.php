@@ -71,7 +71,7 @@
             @endif
 
                 <!-- Show payment stuff if cart is not empty -->
-                    @if($cart->quantity() != 0)
+                        @if($cart->getQuantity() != 0)
 
                 <div class="cart " id="main-payment-form" style="">
 

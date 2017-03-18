@@ -113,7 +113,7 @@ Route::post('handleCheckout', 'CheckoutController@handleCheckout')
     ->name('handleCheckout');
 
 Route::get('checkout', 'CheckoutController@showCheckoutPage')
-    ->name('checkout')->middleware('role:admin');
+    ->name('checkout');
 
 Route::get('restaurants', 'SellerEntityController@list_restaurants')
     ->name('list_restaurants');

@@ -13,7 +13,6 @@ class ShoppingCartController extends Controller
     {
         $item_id = $request->input('item_id');
         $item_type = $request->query('item_type');
-        \Log::info($item_id);
         $cart = new ShoppingCart();
         $cart_items = [];
         for ($i = 1; $i <= $request->input('quantity'); $i++) {

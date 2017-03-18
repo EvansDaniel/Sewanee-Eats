@@ -140,7 +140,7 @@ class ShoppingCartTest extends TestCase
     {
         $cart = new ShoppingCart();
         // divide by two b/c the function returns twice that many CartItems
-        $cart_items = $this->putMenuAndEventItemsInDB($cart->getMaxItemsInCart() / 2);
+        $cart_items = $this->putMenuAndEventItemsInDB(2);
         $cart->putItems($cart_items);
         $cart_item_ids = [];
         foreach ($cart->items() as $cart_item) {
@@ -161,6 +161,17 @@ class ShoppingCartTest extends TestCase
         }
         // make sure that the unique version is same as the current version
         self::assertEquals($cart_item_ids, array_unique($cart_item_ids));
+
+        // adding identical CartItem still yields unique ids
+        $cart->putItems([$cart_items[0]]);
+        // get the items ids
+        $cart_item_ids = [];
+        foreach ($cart->items() as $cart_item) {
+            $cart_item_ids[] = $cart_item->getCartItemId();
+        }
+        // make sure that the unique version is same as the current version
+        self::assertEquals($cart_item_ids, array_unique($cart_item_ids));
+
     }
 
     /**
@@ -199,7 +210,7 @@ class ShoppingCartTest extends TestCase
      * exist in the item's
      * @test
      */
-    public function itTogglesExtras()
+    public function itTogglesExtra()
     {
         // SET UP DB
         factory(Restaurant::class)->create();
@@ -223,24 +234,24 @@ class ShoppingCartTest extends TestCase
         $second_acc = $accessories[1];
 
         // item only has the first_acc
-        $cart->toggleExtras($first_item->getCartItemId(), $first_acc->id);
+        $cart->toggleExtra($first_item->getCartItemId(), $first_acc->id);
         self::assertEquals([$first_acc->id], $first_item->getExtras());
 
         // item only has the first_acc and second_acc
-        $cart->toggleExtras($first_item->getCartItemId(), $second_acc->id);
+        $cart->toggleExtra($first_item->getCartItemId(), $second_acc->id);
         self::assertEquals([$first_acc->id, $second_acc->id], $first_item->getExtras());
 
         // item removes second_acc, leaving only first_acc
-        $cart->toggleExtras($first_item->getCartItemId(), $second_acc->id);
+        $cart->toggleExtra($first_item->getCartItemId(), $second_acc->id);
         self::assertEquals([$first_acc->id], $first_item->getExtras());
 
         // item adds back the second_acc, making it have second_acc and first_acc
-        $cart->toggleExtras($first_item->getCartItemId(), $second_acc->id);
+        $cart->toggleExtra($first_item->getCartItemId(), $second_acc->id);
         self::assertEquals([$first_acc->id, $second_acc->id], $first_item->getExtras());
 
         // item removes first_acc and second_acc, leaving an empty extras array
-        $cart->toggleExtras($first_item->getCartItemId(), $second_acc->id);
-        $cart->toggleExtras($first_item->getCartItemId(), $first_acc->id);
+        $cart->toggleExtra($first_item->getCartItemId(), $second_acc->id);
+        $cart->toggleExtra($first_item->getCartItemId(), $first_acc->id);
         self::assertEquals([], $first_item->getExtras());
     }
 

@@ -148,7 +148,12 @@ class ShoppingCart
      */
     public function hasMaxItems()
     {
-        return $this->quantity() == $this->max_items_in_cart;
+        return $this->getQuantity() == $this->max_items_in_cart;
+    }
+
+    public function getQuantity()
+    {
+        return $this->quantity;
     }
 
     /**
@@ -185,6 +190,7 @@ class ShoppingCart
         }
         // all is good i.e. no cart overflow, so add all the items
         foreach ($cart_items as $cart_item) {
+            $cart_item = clone $cart_item;
             // check if we are adding an On Demand item
             if ($cart_item->getSellerEntity()->getSellerType() == SellerType::ON_DEMAND) {
                 $this->num_on_demand_items++;
@@ -208,11 +214,6 @@ class ShoppingCart
     public function getNumOnDemandItems()
     {
         return $this->num_on_demand_items;
-    }
-
-    public function getQuantity()
-    {
-        return $this->quantity;
     }
 
     /**
@@ -360,7 +361,7 @@ class ShoppingCart
      */
     public function updateInstructions($cart_item_id, $si)
     {
-        for ($i = 0; $i < $this->quantity(); $i++) {
+        for ($i = 0; $i < $this->getQuantity(); $i++) {
             if ($this->cart[$i]->getCartItemId() == $cart_item_id) {
                 $this->cart[$i]->setInstructions($si);
                 $this->save();
@@ -382,9 +383,9 @@ class ShoppingCart
      * If the given $cart_item_id doesn't exist, nothing will happen
      * If the given $extra_id doesn't exist, nothing will happen
      */
-    public function toggleExtras($cart_item_id, $extra_id)
+    public function toggleExtra($cart_item_id, $extra_id)
     {
-        for ($i = 0; $i < $this->quantity(); $i++) {
+        for ($i = 0; $i < $this->getQuantity(); $i++) {
             if ($this->cart[$i]->getCartItemId() == $cart_item_id) {
                 $extra_exists = false;
                 for ($j = 0; $j < count($this->cart[$i]->getExtras()); $j++) {
@@ -413,7 +414,7 @@ class ShoppingCart
     public function deleteItem($cart_item_id)
     {
         $did_delete = false;
-        for ($i = 0; $i < $this->quantity(); $i++) {
+        for ($i = 0; $i < $this->getQuantity(); $i++) {
             if ($this->cart[$i]->getCartItemId() == $cart_item_id) {
                 unset($this->cart[$i]);
                 $this->cart = array_values($this->cart);

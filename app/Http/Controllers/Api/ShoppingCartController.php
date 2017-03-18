@@ -11,7 +11,7 @@ class ShoppingCartController extends Controller
     public function quantity()
     {
         $cart = new ShoppingCart();
-        return json_encode($cart->quantity());
+        return json_encode($cart->getQuantity());
     }
 
     public function updateInstructions($cart_item_id, Request $request)

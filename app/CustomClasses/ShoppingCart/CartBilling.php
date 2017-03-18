@@ -43,12 +43,17 @@ class CartBilling
 
     private function deliveryFee()
     {
-        $num_items = count($this->cart->items());
+        $num_items = $this->cart->getQuantity();
         if ($num_items >= 4) {
             return ($this->getBaseDeliveryFee() - ($this->getDeliveryFeeReduction() * 3));
         }
+        /*
+         * If the $num_items = 0, then when we subtract 1 it will become negative
+         * The absolute value of that will be greater than the original $num_items
+         * (which is zero)
+         */
         return $this->getBaseDeliveryFee() -
-            ($this->getDeliveryFeeReduction() * ($num_items - 1));
+            ($this->getDeliveryFeeReduction() * (min(abs($num_items - 1), $num_items)));
     }
 
     /**
@@ -66,9 +71,9 @@ class CartBilling
 
     private function discount()
     {
-        $num_items = count($this->cart->items());
-        if ($num_items >= 4) {
-            return 80;
+        $num_items = $this->cart->getQuantity();
+        if ($num_items >= 3) {
+            return 60;
         }
         return $num_items * 20;
     }
@@ -76,15 +81,17 @@ class CartBilling
     public function costOfFood()
     {
         $cost_of_food = 0;
-        foreach ($this->cart->items() as $cart_item) {
-            $cost_of_food += $cart_item->getPrice();
-        }
         $cost_of_accessories = 0;
-        foreach ($this->cart->items() as $cart_item) {
-            \Log::info($cart_item->getExtras());
-            if (!empty($cart_item->getExtras())) {
-                foreach ($cart_item->getExtras() as $extra_id) {
-                    $cost_of_accessories += Accessory::find($extra_id)->price;
+        if (!empty($this->cart->items())) {
+            foreach ($this->cart->items() as $cart_item) {
+                $cost_of_food += $cart_item->getPrice();
+            }
+            foreach ($this->cart->items() as $cart_item) {
+                \Log::info($cart_item->getExtras());
+                if (!empty($cart_item->getExtras())) {
+                    foreach ($cart_item->getExtras() as $extra_id) {
+                        $cost_of_accessories += Accessory::find($extra_id)->price;
+                    }
                 }
             }
         }
