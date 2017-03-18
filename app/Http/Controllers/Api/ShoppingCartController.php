@@ -20,10 +20,10 @@ class ShoppingCartController extends Controller
         $cart->updateInstructions($cart_item_id, $request->input('special_instructions'));
     }
 
-    public function toggleExtras($cart_item_id, Request $request)
+    public function toggleExtra($cart_item_id, Request $request)
     {
         $cart = new ShoppingCart();
-        $cart->toggleExtras($cart_item_id, $request->input('accessory'));
+        $cart->toggleExtra($cart_item_id, $request->input('accessory'));
     }
 
     public function deleteFromCart($cart_item_id)

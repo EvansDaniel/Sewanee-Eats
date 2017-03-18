@@ -6,6 +6,7 @@ use App\CustomClasses\ShoppingCart\CartItem;
 use App\CustomClasses\ShoppingCart\ItemType;
 use App\CustomClasses\ShoppingCart\SellerType;
 use App\CustomClasses\ShoppingCart\ShoppingCart;
+use App\Models\Accessory;
 use App\Models\EventItem;
 use App\Models\ItemCategory;
 use App\Models\MenuItem;
@@ -48,14 +49,16 @@ class ShoppingCartTest extends TestCase
         for ($i = 0; $i < count($special_items); $i++) {
             $cart_items[] = new CartItem($special_items[$i]->id, ItemType::RESTAURANT_ITEM);
         }
-        for ($i = 0; $i < count($demand_items); $i++) {
+        // make sure we don't go above the max items so that we don't get a on demand overflow (which would be expected behavior)
+        $num_on_demand_items = min(count($demand_items), $cart->getMaxOnDemandItems());
+        for ($i = 0; $i < $num_on_demand_items; $i++) {
             $cart_items[] = new CartItem($demand_items[$i]->id, ItemType::RESTAURANT_ITEM);
         }
         for ($i = 0; $i < count($event_items); $i++) {
             $cart_items[] = new CartItem($event_items[$i]->id, ItemType::EVENT_ITEM);
         }
         $cart->putItems($cart_items);
-        self::assertEquals(count($demand_items), count($cart->getOnDemandItems()));
+        self::assertEquals($num_on_demand_items, count($cart->getOnDemandItems()));
         self::assertEquals(count($special_items), count($cart->getWeeklySpecialItems()));
         self::assertEquals(count($event_items), count($cart->getEventItems()));
     }
@@ -68,7 +71,7 @@ class ShoppingCartTest extends TestCase
     {
         $cart = new ShoppingCart();
         // returns 6 cart items
-        $cart_items = $this->putMenuItemsInDB(3);
+        $cart_items = $this->putMenuAndEventItemsInDB(3);
         $cart->putItems($cart_items);
         self::assertEquals(6, $cart->getQuantity());
         $cart->deleteItem($cart_items[0]->getCartItemId());
@@ -85,7 +88,7 @@ class ShoppingCartTest extends TestCase
      * @return array CartItems that have $num_event_and_menu_items EventItems
      * and $num_event_and_menu_items MenuItems
      */
-    private function putMenuItemsInDB($num_event_and_menu_items)
+    private function putMenuAndEventItemsInDB($num_event_and_menu_items)
     {
         factory(Restaurant::class, 1)->create();
         factory(SpecialEvent::class, 1)->create();
@@ -107,16 +110,26 @@ class ShoppingCartTest extends TestCase
      */
     public function checkMultipleSetsOfAdditions()
     {
-        $cart_items1 = $this->putMenuItemsInDB(1);
-        $cart_items2 = $this->putMenuItemsInDB(1);
-        $cart_items3 = $this->putMenuItemsInDB(1);
-        $cart_items4 = $this->putMenuItemsInDB(1);
+        $cart_items1 = $this->putMenuAndEventItemsInDB(1);
+        $cart_items2 = $this->putMenuAndEventItemsInDB(1);
+        $cart_items3 = $this->putMenuAndEventItemsInDB(1);
+        $cart_items4 = $this->putMenuAndEventItemsInDB(1);
         $cart = new ShoppingCart();
         $cart->putItems($cart_items1);
         self::assertEquals(2, $cart->getQuantity());
         self::assertEquals($cart_items1, $cart->items());
         $cart->putItems($cart_items2);
+        $merge = array_merge($cart_items1, $cart_items2);
         self::assertEquals(4, $cart->getQuantity());
+        self::assertEquals($merge, $cart->items());
+        $cart->putItems($cart_items3);
+        $merge = array_merge($merge, $cart_items3);
+        self::assertEquals(6, $cart->getQuantity());
+        self::assertEquals($merge, $cart->items());
+        $merge = array_merge($merge, $cart_items4);
+        $cart->putItems($cart_items4);
+        self::assertEquals(8, $cart->getQuantity());
+        self::assertEquals($merge, $cart->items());
 
     }
 
@@ -127,18 +140,27 @@ class ShoppingCartTest extends TestCase
     {
         $cart = new ShoppingCart();
         // divide by two b/c the function returns twice that many CartItems
-        $cart_items = $this->putMenuItemsInDB($cart->getMaxItemsInCart() / 2);
-        $temp = $cart->putItems($cart_items);
+        $cart_items = $this->putMenuAndEventItemsInDB($cart->getMaxItemsInCart() / 2);
+        $cart->putItems($cart_items);
         $cart_item_ids = [];
         foreach ($cart->items() as $cart_item) {
             $cart_item_ids[] = $cart_item->getCartItemId();
         }
-        self::assertTrue(count($cart_item_ids) == count(array_unique($cart_item_ids)));
-    }
-
-    public function itStoresTheNextCartItemIdInSession()
-    {
-
+        self::assertEquals($cart_item_ids, array_unique($cart_item_ids));
+        $cart_items_slice = array_slice($cart_items, 0, count($cart_items) / 2);
+        // make sure that removing items then adding items doesn't mess up the uniqueness
+        foreach ($cart_items_slice as $cart_item) {
+            $cart->deleteItem($cart_item->getCartItemId());
+        }
+        // add same items back
+        $cart->putItems($cart_items_slice);
+        // get the items ids
+        $cart_item_ids = [];
+        foreach ($cart->items() as $cart_item) {
+            $cart_item_ids[] = $cart_item->getCartItemId();
+        }
+        // make sure that the unique version is same as the current version
+        self::assertEquals($cart_item_ids, array_unique($cart_item_ids));
     }
 
     /**
@@ -146,9 +168,9 @@ class ShoppingCartTest extends TestCase
      * Asserts that it updates the instructions
      * @test
      */
-    public function itSetsInstructions()
+    public function itUpdatesInstructions()
     {
-        $cart_items = $this->putMenuItemsInDB(2);
+        $cart_items = $this->putMenuAndEventItemsInDB(2);
         $cart = new ShoppingCart();
         $cart->putItems($cart_items);
         self::assertEquals(null, $cart_items[0]->getSi());
@@ -159,27 +181,67 @@ class ShoppingCartTest extends TestCase
     }
 
     /**
-     * @test
-     */
-    public function itSavesTheCartToTheSession()
-    {
-        /* $cart_items = $this->putMenuItemsInDB(2);
-         $cart = new ShoppingCart();
-         self::assertEquals(null,$cart->items());
-         $cart->putItems($cart_items);*/
-    }
-
-    /**
+     * Checks that the cart saves a 'next_cart_item_id' to the session after
+     * adding items to the cart
      * @test
      */
     public function itStoresNextCartItemIdInSession()
     {
-
+        $cart_items = $this->putMenuAndEventItemsInDB(3);
+        $cart = new ShoppingCart();
+        $cart->putItems($cart_items);
+        $this->seeInSession('next_cart_item_id');
     }
 
-    public function itSetsExtras()
+    /**
+     * Test that the cart removes an accessory id when the accessory already exists
+     * in the item's getExtras() array and adds the accessory id when the item doesn't
+     * exist in the item's
+     * @test
+     */
+    public function itTogglesExtras()
     {
+        // SET UP DB
+        factory(Restaurant::class)->create();
+        factory(ItemCategory::class)->create();
+        factory(MenuItem::class, 1)->create();
+        factory(Accessory::class, 2)->create();
+        $menu_item = MenuItem::all()->first();
+        $accessories = Accessory::all();
+        // attach the two accessories
+        foreach ($accessories as $acc) {
+            $menu_item->accessories()->attach($acc->id);
+        }
+        // set up shopping cart
+        $cart_item = new CartItem($menu_item->id, ItemType::RESTAURANT_ITEM);
+        $cart = new ShoppingCart();
+        $cart->putItems([$cart_item]);
+        $first_item = $cart->getItem($cart_item->getCartItemId());
+        // assert that the CartItem has no extras set at the start
+        self::assertEmpty($first_item->getExtras());
+        $first_acc = $accessories[0];
+        $second_acc = $accessories[1];
 
+        // item only has the first_acc
+        $cart->toggleExtras($first_item->getCartItemId(), $first_acc->id);
+        self::assertEquals([$first_acc->id], $first_item->getExtras());
+
+        // item only has the first_acc and second_acc
+        $cart->toggleExtras($first_item->getCartItemId(), $second_acc->id);
+        self::assertEquals([$first_acc->id, $second_acc->id], $first_item->getExtras());
+
+        // item removes second_acc, leaving only first_acc
+        $cart->toggleExtras($first_item->getCartItemId(), $second_acc->id);
+        self::assertEquals([$first_acc->id], $first_item->getExtras());
+
+        // item adds back the second_acc, making it have second_acc and first_acc
+        $cart->toggleExtras($first_item->getCartItemId(), $second_acc->id);
+        self::assertEquals([$first_acc->id, $second_acc->id], $first_item->getExtras());
+
+        // item removes first_acc and second_acc, leaving an empty extras array
+        $cart->toggleExtras($first_item->getCartItemId(), $second_acc->id);
+        $cart->toggleExtras($first_item->getCartItemId(), $first_acc->id);
+        self::assertEquals([], $first_item->getExtras());
     }
 
     /**
@@ -238,7 +300,7 @@ class ShoppingCartTest extends TestCase
      */
     public function itGetsTheRightItem()
     {
-        $cart_items = $this->putMenuItemsInDB(3);
+        $cart_items = $this->putMenuAndEventItemsInDB(3);
         $cart = new ShoppingCart();
         $cart->putItems($cart_items);
         self::assertEquals($cart->getItem($cart->items()[0]->getCartItemId()), $cart_items[0]);
@@ -249,7 +311,7 @@ class ShoppingCartTest extends TestCase
      */
     public function itInsertsItems()
     {
-        $cart_items = $this->putMenuItemsInDB(3);
+        $cart_items = $this->putMenuAndEventItemsInDB(3);
         $cart = new ShoppingCart();
         $cart->putItems($cart_items);
         self::assertEquals($cart_items[0], $cart->items()[0]);
@@ -257,18 +319,22 @@ class ShoppingCartTest extends TestCase
         self::assertEquals($cart_items[5], $cart->items()[5]);
     }
 
-    public function itUpdatesInstructions()
-    {
-
-    }
-
+    /**
+     * @test
+     */
     public function itDeletesItems()
     {
-
-    }
-
-    public function itTogglesExtras()
-    {
-
+        $cart_items = $this->putMenuAndEventItemsInDB(2);
+        $cart = new ShoppingCart();
+        $cart->putItems($cart_items);
+        self::assertEquals($cart_items, $cart->items());
+        $cart->deleteItem($cart_items[0]->getCartItemId());
+        $cart_items_slice = array_slice($cart_items, 1);
+        self::assertEquals($cart_items_slice, $cart->items());
+        self::assertEmpty($cart->getItem($cart_items[0]->getCartItemId()));
+        foreach ($cart_items_slice as $cart_item) {
+            $cart->deleteItem($cart_item->getCartItemId());
+        }
+        self::assertEquals([], $cart->items());
     }
 }

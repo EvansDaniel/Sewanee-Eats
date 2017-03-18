@@ -325,7 +325,7 @@ Route::group(['prefix' => 'api/v1/',
     Route::group(['prefix' => 'cart'], function () {
         Route::get('quantity', 'ShoppingCartController@quantity');
         Route::post('updateInstructions/{cart_item_id}', 'ShoppingCartController@updateInstructions');
-        Route::post('updateExtras/{cart_item_id}', 'ShoppingCartController@toggleExtras');
+        Route::post('updateExtras/{cart_item_id}', 'ShoppingCartController@toggleExtra');
         Route::post('deleteFromCart/{cart_item_id}', 'ShoppingCartController@deleteFromCart');
     });
 

@@ -272,7 +272,7 @@ class ShoppingCart
     }
 
     /**
-     * worker for the JS endpoint
+     * worker for the JS endpoint that will add extras to the cart
      * @param $cart_item_id integer the unique cart id given by the shopping cart
      * @param $extras array of Accessory ids that are the ids of the accessories to add
      */
@@ -370,6 +370,7 @@ class ShoppingCart
     }
 
     /**
+     * @JSAPI
      * @param $cart_item_id integer the id of the item in the cart
      * whose extra you wish to toggle
      * @param $extra_id integer the id of the Accessory whose is
