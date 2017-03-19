@@ -24,7 +24,7 @@ class CartBillingTest extends TestCase
      */
     public function itCalcsTotalPrice()
     {
-
+        // does this need a test?
     }
 
     /**
@@ -146,9 +146,6 @@ class CartBillingTest extends TestCase
         $bill = new CartBilling($cart);
         self::assertEquals($bill->getBaseDeliveryFee() - 1.8 + $cart_items[0]->getPrice() * 4, $bill->getSubtotal());
 
-        for ($i = 0; $i < count($cart->items()); $i++) {
-            \Log::info(' id = ' . $i . " " . $cart->items()[$i]->getCartItemId());
-        }
     }
 
     /**

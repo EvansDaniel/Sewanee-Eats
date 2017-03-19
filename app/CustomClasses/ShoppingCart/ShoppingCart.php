@@ -165,6 +165,8 @@ class ShoppingCart
      * returns -1 if too many On Demand items were attempted to be added
      * returns -2 if the cart reached the max number of items during the additions
      * NOTE: if a return value other than zero is returned, no items were added to the cart
+     * NOTE: the cart stores references to the CartItem(s), so if you add the same exact instance
+     * to the cart twice, it will not get a unique id
      */
     public function putItems($cart_items)
     {
@@ -190,7 +192,6 @@ class ShoppingCart
         }
         // all is good i.e. no cart overflow, so add all the items
         foreach ($cart_items as $cart_item) {
-            $cart_item = clone $cart_item;
             // check if we are adding an On Demand item
             if ($cart_item->getSellerEntity()->getSellerType() == SellerType::ON_DEMAND) {
                 $this->num_on_demand_items++;

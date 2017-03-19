@@ -162,16 +162,6 @@ class ShoppingCartTest extends TestCase
         // make sure that the unique version is same as the current version
         self::assertEquals($cart_item_ids, array_unique($cart_item_ids));
 
-        // adding identical CartItem still yields unique ids
-        $cart->putItems([$cart_items[0]]);
-        // get the items ids
-        $cart_item_ids = [];
-        foreach ($cart->items() as $cart_item) {
-            $cart_item_ids[] = $cart_item->getCartItemId();
-        }
-        // make sure that the unique version is same as the current version
-        self::assertEquals($cart_item_ids, array_unique($cart_item_ids));
-
     }
 
     /**
