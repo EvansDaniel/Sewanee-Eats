@@ -1,0 +1,73 @@
+.nav-upper {
+    height: 50px;
+}
+.nav-upper ul {
+    float: right;
+    display: table;
+}
+.nav-upper .navbar-upper > li {
+    display: table-cell;
+    font-size: 14px;
+}
+.nav-upper .navbar-upper > li > a {
+    color: #777;
+}
+@media (min-width: 768px) {
+    .navbar.navbar-lower .navbar-nav {
+        margin-left: 200px;
+    }
+}
+
+.navbar-logo {
+    background: url('../images/branding/brand_tall_logo.png') no-repeat center center;
+    width: 180px;
+    height: 90px;
+    background-size: cover;
+    position: absolute;
+    top: 5px;
+    left: 15px;
+    z-index: 1051;
+    border-right: 1px solid grey;
+}
+@media (max-width: 768px) and (min-width: 400px) {
+    #navbar ul li{
+        border-bottom: solid 1px rgba(191, 87, 0, .08);
+    }
+}
+@media only screen and (max-width: 810px) and (min-width: 769px){
+    #navbar ul li a{
+        font-size: 15px;
+    }
+}
+@media (min-width: 811px) {
+    #navbar ul li a{
+        font-size: 16px;
+    }
+}
+.navbar-toggle {
+
+}
+#navbar ul li a{
+    color: rebeccapurple;
+    font-weight: bold;
+}
+/*#navbar ul li:hover, */
+#navbar ul li:hover > a{
+    background: rebeccapurple;
+    color: white;
+}
+.navbar-header button{
+    color: rebeccapurple;
+    border: solid 2px rebeccapurple ;
+}
+span.icon-bar{
+    background-color: rebeccapurple;
+
+}
+.navbar{
+    margin-bottom: 0;
+}
+.bottom-hr{
+    border: solid rebeccapurple 1px;
+    margin: 0 -15px;
+}
