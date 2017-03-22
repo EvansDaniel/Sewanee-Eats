@@ -170,7 +170,8 @@ Route::group(['prefix' => 'admin',
         Route::post('update', 'SpecialEventsController@updateEvent')->name('updateEvent');
         Route::post('delete', 'SpecialEventsController@deleteEvent')->name('deleteEvent');
 
-        // Event Items Routes
+        /*// Event Items Routes
+        // deprecated at the moment
         Route::get('{event_id}/items', 'EventItemController@showEventItems')
             ->name('showEventItems');
 
@@ -182,7 +183,7 @@ Route::group(['prefix' => 'admin',
             ->name('deleteItem');
 
         Route::get('{event_id}/createItem', 'EventItemController@showCreateEventItem')->name('showCreateEventItem');
-        Route::get('{event_id}/updateItem/{item_id}', 'EventItemController@showUpdateEventItem')->name('showUpdateEventItem');
+        Route::get('{event_id}/updateItem/{item_id}', 'EventItemController@showUpdateEventItem')->name('showUpdateEventItem');*/
 
     });
 

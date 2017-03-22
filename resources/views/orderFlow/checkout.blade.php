@@ -124,7 +124,8 @@
                                     <div class="form-group  col-lg-3 col-md-3 col-sm-10   col-xs-10" id="c-number">
                                         <label>
                                             <span class="row">Card Number</span>
-                                            <input class="pay-input form-control" type="text" id="card-number" size="20"
+                                            <input class="pay-input form-control" style="margin-top: 12%" type="text"
+                                                   id="card-number" size="20"
                                                    data-stripe="number"
                                                    name="card_number"
                                                    value="@if(env('APP_ENV') != "production") {{ 4242424242424242 }} @endif">
@@ -161,7 +162,8 @@
                                 @endif--}}
 
                                 <label for="email-address">Email Address</label>
-                                <input class="form-control pay-input" maxlength="100"
+                                <input class="pay-input" style="display: block; padding: 6px 12px; width: 50%"
+                                       maxlength="100"
                                        placeholder="Please enter your email address"
                                        type="email"
                                        name="email_address" id="email-address">

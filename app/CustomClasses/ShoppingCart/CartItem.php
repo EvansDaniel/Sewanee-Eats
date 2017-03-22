@@ -21,9 +21,9 @@ class CartItem
     public function __construct($item_id, $item_type)
     {
         $this->item_type = $item_type;
-        /*if ($item_type == ItemType::EVENT_ITEM) {
+        if ($item_type == ItemType::EVENT_ITEM) {
             $this->item = EventItem::find($item_id);
-        } else */
+        } else
         if ($item_type == ItemType::RESTAURANT_ITEM) {
             $this->item = MenuItem::find($item_id);
         }
