@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
-use App\CustomTraits\PriceInformation;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Order extends Model
 {
-    use PriceInformation;
+
+    use SoftDeletes;
 
     protected $table = "orders";
 
@@ -54,5 +55,4 @@ class Order extends Model
     {
         return $this->profit($this->total_price, $this->menuItems);
     }
-
 }

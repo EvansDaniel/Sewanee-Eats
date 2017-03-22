@@ -3,8 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\CustomClasses\ShoppingCart\ItemType;
-use App\CustomClasses\ShoppingCart\SellerType;
-use App\CustomTraits\CartInformation;
+use App\CustomClasses\ShoppingCart\RestaurantOrderCategory;
 use App\CustomTraits\IsAvailable;
 use App\Models\Restaurant;
 use App\Models\SpecialEvent;
@@ -56,7 +55,7 @@ class SellerEntityController extends Controller
         $s_restaurants = [];
         $restaurants = [];
         foreach ($all_restaurants as $restaurant) {
-            if ($restaurant->seller_type == SellerType::WEEKLY_SPECIAL) {
+            if ($restaurant->seller_type == RestaurantOrderCategory::WEEKLY_SPECIAL) {
                 $s_restaurants[] = $restaurant;
             } else {
                 // TODO: NEED TO UNCOMMENT THIS IF STATEMENT AFTER DEVELOPMENT

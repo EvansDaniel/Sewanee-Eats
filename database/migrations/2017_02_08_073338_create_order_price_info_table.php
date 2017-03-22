@@ -22,7 +22,9 @@ class CreateOrderPriceInfoTable extends Migration
             $table->float('cost_of_food');
             $table->float('stripe_fees');
             $table->float('delivery_fee');
-            $table->float('state_tax_charged')->unsigned();
+            // used to be state_tax_charged
+            $table->float('tax_charged')->unsigned();
+            $table->integer('tax_percentage'); // +
             $table->foreign('order_id')
                 ->references('id')->on('orders')->onDelete('cascade');
             $table->timestamps();

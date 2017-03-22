@@ -14,11 +14,13 @@ class CreateMenuItemsOrdersTable extends Migration
     public function up()
     {
         // Relates menu items to orders
+        // was menu_items_orders changed to orders_items
         Schema::create('menu_items_orders', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('order_id')->unsigned();
             $table->integer('menu_item_id')->unsigned();
             $table->string('special_instructions')->nullable();
+            $table->boolean('was_refunded'); // individual menu items can be refunded
 
             // either add create json array of accessories for this menu_item_order
             // or create a table joining a menu_item_order with

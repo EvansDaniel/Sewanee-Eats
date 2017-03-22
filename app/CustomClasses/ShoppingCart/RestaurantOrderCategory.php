@@ -1,15 +1,9 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: daniel
- * Date: 3/12/17
- * Time: 9:53 PM
- */
 
 namespace App\CustomClasses\ShoppingCart;
 
 
-abstract class SellerType
+abstract class RestaurantOrderCategory
 {
     const ON_DEMAND = 0;
     const WEEKLY_SPECIAL = 1;

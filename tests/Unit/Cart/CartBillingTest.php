@@ -61,17 +61,17 @@ class CartBillingTest extends TestCase
         factory(SpecialEvent::class, 1)->create();
         factory(ItemCategory::class, 3)->create();
         factory(MenuItem::class, $num_menu_items)->create(['price' => $menu_item_price]);
-        factory(EventItem::class, $num_event_items)->create(['price' => $event_item_price]);
+        //factory(EventItem::class, $num_event_items)->create(['price' => $event_item_price]);
         $cart_items = [];
         $menu_items = MenuItem::all();
-        $event_items = EventItem::all();
+        //$event_items = EventItem::all();
         // total price of menu_items = 20
         foreach ($menu_items as $menu_item) {
             $cart_items[] = new CartItem($menu_item->id, ItemType::RESTAURANT_ITEM);
         }
-        foreach ($event_items as $event_item) {
+        /*foreach ($event_items as $event_item) {
             $cart_items[] = new CartItem($event_item->id, ItemType::EVENT_ITEM);
-        }
+        }*/
         return $cart_items;
     }
 

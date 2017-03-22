@@ -11,7 +11,7 @@
 |
 */
 
-use App\CustomClasses\ShoppingCart\SellerType;
+use App\CustomClasses\ShoppingCart\RestaurantOrderCategory;
 use App\Models\Restaurant;
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
@@ -70,8 +70,10 @@ $factory->define(Restaurant::class, function (Faker\Generator $faker) {
     return [
         'name' => $faker->company,
         'available_times' => json_encode($available_times),
-        'location' => $locations[mt_rand(0, 2)],
-        'seller_type' => SellerType::WEEKLY_SPECIAL,
+        'address' => $locations[mt_rand(0, 2)],
+        'seller_type' => RestaurantOrderCategory::WEEKLY_SPECIAL,
+        'callable' => true,
+        'phone_number' => '5555555555',
         'image_url' => $images[0]
     ];
 });

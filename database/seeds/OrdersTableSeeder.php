@@ -16,6 +16,7 @@ class OrdersTableSeeder extends Seeder
      */
     public function run()
     {
+        // TODO: update this
         // factory(Order::class,10)->create(); This isn't working!!! why not?
         $locations = $location = ['Smith Hall', 'Tuckaway', 'Library', 'Quintard'];
         for ($i = 0; $i < 30; $i++) {

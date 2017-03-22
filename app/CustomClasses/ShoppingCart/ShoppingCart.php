@@ -2,7 +2,7 @@
 
 namespace App\CustomClasses\ShoppingCart;
 
-use App\CustomTraits\PriceInformation;
+use App\CustomTraits\CategorizeItems;
 use Session;
 
 /**
@@ -11,8 +11,7 @@ use Session;
  */
 class ShoppingCart
 {
-    use PriceInformation;
-
+    use CategorizeItems;
     /**
      * @var int the max number of items allowed in the cart
      */
@@ -57,6 +56,9 @@ class ShoppingCart
 
     public function __construct()
     {
+        // Lucky's barf: I cleaned it up and I said let's clean it up, you said let's tell lisa and bill
+        // Can't see, Making a Murderer: Why did you say that I couldn't understand what they say in Making a Murderer
+        // I can understand what they say, but I couldn't read the words on the evidence when it is really small
         $this->max_items_in_cart = 10;
         $this->max_on_demand_items = 3;
         $this->next_cart_item_id = Session::get('next_cart_item_id');
@@ -64,36 +66,6 @@ class ShoppingCart
         $this->categorizedItems();
         $this->quantity = $this->quantity();
         $this->num_on_demand_items = $this->countOnDemandItems();
-    }
-
-    /**
-     * Categorizes the items in the cart to three different
-     * categories:
-     * On Demand, Weekly Special, and Event
-     * It will then set the corresponding instance variables
-     * possibly to null, so make sure to check for it
-     */
-    private function categorizedItems()
-    {
-        $items = [
-            'on_demand' => null,
-            'weekly_special' => null,
-            'event' => null
-        ];
-        if (!empty($this->cart)) {
-            foreach ($this->cart as $cart_item) {
-                if ($cart_item->getSellerEntity()->getSellerType() == SellerType::ON_DEMAND) {
-                    $items["on_demand"][] = $cart_item;
-                } else if ($cart_item->getSellerEntity()->getSellerType() == SellerType::WEEKLY_SPECIAL) {
-                    $items["weekly_special"][] = $cart_item;
-                } else if ($cart_item->getSellerEntity()->getSellerType() == SellerType::EVENT) {
-                    $items["event"][] = $cart_item;
-                }
-            }
-        }
-        $this->on_demand_items = $items['on_demand'];
-        $this->weekly_special_items = $items["weekly_special"];
-        $this->event_items = $items['event'];
     }
 
     private function quantity()
@@ -104,6 +76,54 @@ class ShoppingCart
     public function countOnDemandItems()
     {
         return count($this->on_demand_items);
+    }
+
+    public function getOrderTypes()
+    {
+        $order_types = [];
+        if ($this->hasOnDemandItems()) {
+            $order_types['on_demand'] = RestaurantOrderCategory::ON_DEMAND;
+        }
+        if ($this->hasEventItems()) {
+            $order_types['event'] = RestaurantOrderCategory::EVENT;
+        }
+        if ($this->hasWeeklySpecialItems()) {
+            $order_types['weekly_special'] = RestaurantOrderCategory::WEEKLY_SPECIAL;
+        }
+        return $order_types;
+    }
+
+    public function hasOnDemandItems()
+    {
+        return $this->getNumOnDemandItems() != 0;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getNumOnDemandItems()
+    {
+        return $this->num_on_demand_items;
+    }
+
+    public function hasEventItems()
+    {
+        return !empty($this->getEventItems());
+    }
+
+    public function getEventItems()
+    {
+        return $this->event_items;
+    }
+
+    public function hasWeeklySpecialItems()
+    {
+        return !empty($this->getWeeklySpecialItems());
+    }
+
+    public function getWeeklySpecialItems()
+    {
+        return $this->weekly_special_items;
     }
 
     /**
@@ -117,16 +137,6 @@ class ShoppingCart
     public function getOnDemandItems()
     {
         return $this->on_demand_items;
-    }
-
-    public function getWeeklySpecialItems()
-    {
-        return $this->weekly_special_items;
-    }
-
-    public function getEventItems()
-    {
-        return $this->event_items;
     }
 
     /**
@@ -176,7 +186,7 @@ class ShoppingCart
         // iterate through the items to add checking if adding them will cause a max item cart overflow or max on demand item cart overflow
         foreach ($cart_items as $cart_item) {
             if ($num_on_demand_items == $this->getMaxOnDemandItems()
-                && $cart_item->isSellerType(SellerType::ON_DEMAND)
+                && $cart_item->isSellerType(RestaurantOrderCategory::ON_DEMAND)
             ) {
                 return -1;
             }
@@ -186,14 +196,14 @@ class ShoppingCart
             // update current quantity
             ++$curr_quantity;
             // if on demand item, update the current number of on demand items
-            if ($cart_item->isSellerType(SellerType::ON_DEMAND)) {
+            if ($cart_item->isSellerType(RestaurantOrderCategory::ON_DEMAND)) {
                 ++$num_on_demand_items;
             }
         }
         // all is good i.e. no cart overflow, so add all the items
         foreach ($cart_items as $cart_item) {
             // check if we are adding an On Demand item
-            if ($cart_item->getSellerEntity()->getSellerType() == SellerType::ON_DEMAND) {
+            if ($cart_item->getSellerEntity()->getSellerType() == RestaurantOrderCategory::ON_DEMAND) {
                 $this->num_on_demand_items++;
             }
             $cart_item->setCartItemId($this->nextCartId());
@@ -207,14 +217,6 @@ class ShoppingCart
         $this->categorizedItems();
         $this->save();
         return 0;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getNumOnDemandItems()
-    {
-        return $this->num_on_demand_items;
     }
 
     /**

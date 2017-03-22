@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\CustomClasses\ScheduleFiller;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
-use App\Models\Role;
 use App\User;
 use Auth;
 
@@ -19,7 +18,7 @@ class AdminDashboardController extends Controller
     public function showDashboard()
     {
         // by DESC to show most recent first
-        $open_venmo_orders = Order::where(['is_open_order' => 1, 'paid_with_venmo' => 1, 'is_cancelled' => 0])->orderBy('created_at', 'DESC')
+        /*$open_venmo_orders = Order::where(['is_open_order' => 1, 'paid_with_venmo' => 1, 'is_cancelled' => 0])->orderBy('created_at', 'DESC')
             ->paginate(8);
         if (count($open_venmo_orders)) {
             //$open
@@ -34,7 +33,7 @@ class AdminDashboardController extends Controller
         $admins = $admin_role->users;
         $courier_role = Role::where('name', 'courier')->first();
         $couriers = null;/*$courier_role->users;*/
-        return view('admin.main.dashboard2', compact('closed_orders', 'open_n_venmo_orders', 'open_venmo_orders',
+        return view('admin.main.dashboard2', compact(/*'closed_orders', 'open_n_venmo_orders', 'open_venmo_orders',*/
             'admins', 'couriers'));
     }
 

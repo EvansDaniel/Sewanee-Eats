@@ -2,10 +2,7 @@
 
 namespace App\Models;
 
-use App\Contracts\ShoppingCart\Item;
-use Illuminate\Database\Eloquent\Model;
-
-class EventItem extends Model implements Item
+/*class EventItem extends Model implements Item
 {
     public function event()
     {
@@ -42,4 +39,4 @@ class EventItem extends Model implements Item
     {
         return null;
     }
-}
+}*/

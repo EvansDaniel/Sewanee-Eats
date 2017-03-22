@@ -20,13 +20,10 @@ class ItemController extends Controller
     public function accessories(Request $request)
     {
         $item_id = $request->query("item_id");
-        \Log::info("here i am");
-        \Log::info($item_id);
         $item_type = $request->query("item_type");
-        \Log::info($item_type);
-        if ($item_type == ItemType::EVENT_ITEM) {
+        /*if ($item_type == ItemType::EVENT_ITEM) {
             return null;
-        }
+        }*/
         if ($item_type == ItemType::RESTAURANT_ITEM) {
             $menu_item = MenuItem::find($item_id);
             $pricy = [];
