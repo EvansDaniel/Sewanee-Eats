@@ -202,10 +202,10 @@ class ShoppingCart
         }
         // all is good i.e. no cart overflow, so add all the items
         foreach ($cart_items as $cart_item) {
-            // check if we are adding an On Demand item
+            /*// check if we are adding an On Demand item
             if ($cart_item->getSellerEntity()->getSellerType() == RestaurantOrderCategory::ON_DEMAND) {
                 $this->num_on_demand_items++;
-            }
+            }*/
             $cart_item->setCartItemId($this->nextCartId());
             $this->cart[] = $cart_item;
             // set cart quantity to quantity after adding the items
@@ -313,7 +313,7 @@ class ShoppingCart
         $num_on_demand_items = 0;
         foreach ($cart_items as $cart_item) {
             // check each item in the cart, if it is an on demand item, increment on demand orders
-            if ($cart_item->getSellerEntity()->getSellerType() == SellerType::ON_DEMAND) {
+            if ($cart_item->getSellerEntity()->getSellerType() == RestaurantOrderCategory::ON_DEMAND) {
                 $num_on_demand_items++;
                 if ($num_on_demand_items == $this->max_on_demand_items)
                     return true;

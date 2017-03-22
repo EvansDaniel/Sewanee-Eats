@@ -87,7 +87,6 @@ class CartBilling
                 $cost_of_food += $cart_item->getPrice();
             }
             foreach ($this->cart->items() as $cart_item) {
-                \Log::info($cart_item->getExtras());
                 if (!empty($cart_item->getExtras())) {
                     foreach ($cart_item->getExtras() as $extra_id) {
                         $cost_of_accessories += Accessory::find($extra_id)->price;

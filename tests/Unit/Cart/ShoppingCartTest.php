@@ -94,14 +94,14 @@ class ShoppingCartTest extends TestCase
         factory(SpecialEvent::class, 1)->create();
         factory(ItemCategory::class, 3)->create();
         factory(MenuItem::class, $num_event_and_menu_items)->create();
-        //factory(EventItem::class, $num_event_and_menu_items)->create();
+        factory(EventItem::class, $num_event_and_menu_items)->create();
         $menu_items = MenuItem::all();
-        //$event_items = EventItem::all();
+        $event_items = EventItem::all();
         $cart_items = [];
-        /*for ($i = 0; $i < $num_event_and_menu_items; $i++) {
+        for ($i = 0; $i < $num_event_and_menu_items; $i++) {
             $cart_items[] = new CartItem($menu_items[$i]->id, ItemType::RESTAURANT_ITEM);
             $cart_items[] = new CartItem($event_items[$i]->id, ItemType::EVENT_ITEM);
-        }*/
+        }
         return $cart_items;
     }
 
