@@ -1,0 +1,499 @@
+/*How it works section*/
+/*try to read code to know what every class, id, and html node does*/
+#hw-it-wrks h4, #hw-it-wrks h6 {
+    text-align: center;
+}
+#hw-it-wrks h6, #hw-it-wrks p{
+    color: black;
+}
+/*How it works section: large and medium screens*/
+@media only screen and (min-width: 992px) {
+    #hw-it-wrks h4 {
+        font-size: 22px;
+        text-transform: uppercase;
+        color: rebeccapurple;
+        font-weight: bolder;
+        margin-bottom: 30px;
+    }
+
+    #pick, #pay {
+        margin-left: 0;
+        margin-right: 12.5%;
+    }
+
+    #delivery {
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+    #hw-it-wrks h6 {
+        font-weight: bold;
+        font-size: 19px;
+        font-family: "Lato", sans-serif;
+        margin-bottom: 15px;
+    }
+
+    #pick-logo, #pay-logo, #delivery-logo {
+        height: 70px;
+        width: auto;
+        margin-bottom: 15px;
+    }
+
+    #hw-it-wrks {
+        background: rgb(250, 250, 250);
+        padding-bottom: 30px;
+        padding-top: 15px;
+        margin-left: -15px;
+        margin-right: -15px;
+    }
+
+}
+/*How it works section: small screens*/
+@media only screen and (max-width: 992px) and  (min-width: 769px){
+    #hw-it-wrks h4 {
+        font-size: 20px;
+        text-transform: uppercase;
+        color: rebeccapurple;
+        font-weight: bolder;
+        margin-bottom: 30px;
+        padding-left: 15px;
+    }
+
+    #pick {
+        margin-left: 0;
+        margin-right: 16.666%;
+    }
+
+    #delivery {
+        margin-left: 0;
+    }
+
+    #hw-it-wrks h6 {
+        font-weight: bold;
+        font-size: 19px;
+        font-family: "Lato", sans-serif;
+        margin-bottom: 15px;
+        text-align: left;
+    }
+
+    #pick-logo, #pay-logo, #delivery-logo {
+        height: 55px;
+        width: auto;
+        margin-bottom: 15px;
+        padding-left: 30px;
+    }
+
+    #hw-it-wrks {
+        background: rgb(250, 250, 250);
+        padding-bottom: 30px;
+        padding-top: 15px;
+        margin-left: -15px;
+        margin-right: -15px;
+    }
+}
+/*How it works section: x small screens*/
+@media only screen and (max-width: 768px) {
+    #hw-it-wrks h4 {
+        font-size: 18px;
+        text-transform: uppercase;
+        color: rebeccapurple;
+        font-weight: bolder;
+        margin-bottom: 30px;
+        padding-left: 15px;
+    }
+    #pay, #pick, #delivery{
+        width: 66.666%;
+        margin-left: 16.6666%;
+    }
+
+    #hw-it-wrks h6 {
+        font-weight: bold;
+        font-size: 16px;
+        font-family: "Lato", sans-serif;
+        margin-bottom: 15px;
+        text-align: center;
+    }
+
+    #pick-logo, #pay-logo, #delivery-logo {
+        height: 50px;
+        width: auto;
+        display: block;
+        margin: auto;
+        padding-bottom: 15px;
+    }
+
+    #hw-it-wrks {
+        background: rgb(250, 250, 250);
+        padding-bottom: 30px;
+        padding-top: 15px;
+        margin-left: -15px;
+        margin-right: -15px;
+    }
+}
+#learn-more{
+    color:rebeccapurple;
+}
+/*--------------------------------------------------------------------------------------------------------------------*/
+/*--------------------------------------------------------------------------------------------------------------------*/
+/*delivery locations aka promo place section*/
+/*delivery locations section: large and medium screens*/
+#promo-order-button{
+    background: linear-gradient(90deg, #240a54 10%, #7459a5 90%);
+    color: white;
+    text-align: center;
+    padding: 7px 10px;
+    text-decoration: none;
+    font-weight: bolder;
+    border: solid rebeccapurple 2px;
+    vertical-align: middle;
+}
+#promo-order-button:hover {
+    background: linear-gradient(90deg, #7459a5 10%, #240a54 90%);
+}
+@media only screen and (min-width: 768px) {
+
+    #promo-p1{
+        font-weight: bold;
+        text-transform: capitalize;
+        text-align: center;
+        color: white;
+        font-family: 'Vollkorn', serif;
+        font-size: 24px;
+    }
+    #promo-p2{
+        font-size: 20px;
+        text-transform: capitalize;
+        text-align: center;
+        color: darkorange;
+        font-weight: bold;
+    }
+    #promo-places p{
+        color: white;
+        text-transform: uppercase;
+        padding: 0;
+        font-size: 16px;
+        font-weight: bolder;
+        height: 34px;
+        text-align: center;
+        margin-bottom: 30px;
+    }
+    #promo-places p span{
+        text-transform: lowercase;
+    }
+    #promo-places img{
+        width: 70%;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+
+    }
+    #promo-order-button{
+        width:  16.666%;
+        display: block;
+        font-size: 18px;
+        margin: 15px auto 30px auto;
+    }
+    #promo-btn-div{
+        margin-left: 15px;
+    }
+    #promo-section{
+        padding:0;
+        margin-left: -15px ;
+        margin-right: -15px;
+        margin-bottom: 0;
+
+    }
+    .promo-wrap-1{
+        background: url("../images/sushi.jpg") no-repeat center;
+        background-size: cover;
+        padding: 0;
+        margin: 0;
+    }
+    .promo-wrap-2{
+        background: rgba(0,0,0,.7);
+    }
+    .promo-wrap-3{
+        padding-top: 30px;
+    }
+    #promo-places{
+        margin-left: -75px;
+    }
+
+}
+@media only screen and (min-width: 768px) and (max-width: 991px){
+    #promo-order-button{
+        width:  25%;
+        display: block;
+        font-size: 18px;
+        margin: 15px auto 30px auto;
+    }
+    #promo-btn-div{
+        margin-left: -15px;
+    }
+    #promo-places p{
+        margin-bottom: 45px;
+    }
+    #place-1, #place-2, #place-3{
+        padding: 2px;
+        width: 80%;
+    }
+}
+@media only screen and (max-width: 767px) {
+    #promo-p1{
+        font-weight: bold;
+        text-transform: capitalize;
+        text-align: center;
+        color: white;
+        font-family: 'Vollkorn', serif;
+        font-size: 20px;
+    }
+    #promo-p2{
+        font-size: 16px;
+        text-transform: capitalize;
+        text-align: center;
+        color: darkorange;
+        font-weight: bold;
+    }
+    #promo-section{
+        margin-left: -15px ;
+        margin-right: -15px;
+        padding: 0;
+    }
+    .promo-wrap-3{
+        padding-top: 30px;
+        padding-bottom: 0;
+    }
+    .promo-wrap-1{
+        background: url("../images/sushi.jpg") no-repeat center;
+        background-size: cover;
+        padding: 0;
+        margin: 0;
+    }
+    .promo-wrap-2{
+        background: rgba(0,0,0,.7);
+    }
+    #promo-places p{
+        color: white;
+        text-transform: uppercase;
+        padding: 0;
+        font-size: 14px;
+        font-weight: bolder;
+        height: 34px;
+        text-align: center;
+        margin-bottom: 30px;
+        margin-top: 30px;
+    }
+    #promo-places p span{
+        text-transform: lowercase;
+    }
+    #promo-places img {
+        width: 50%;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    #promo-place1 p{
+        margin-top: 0;
+    }
+    #promo-order-button{
+        width:  50%;
+        display: block;
+        font-size: 14px;
+        margin: 15px auto 30px auto;
+    }
+    #place-1, #place-2, #place-3{
+        padding: 1px;
+    }
+}
+/*--------------------------------------------------------------------------------------------------------------------*/
+/*--------------------------------------------------------------------------------------------------------------------*/
+/*services*/
+/*delivery locations section: large and medium screens*/
+@media only screen and (min-width: 768px) {
+    #demand-logo, #special-logo{
+        height: 60px;
+        width: auto;
+    }
+    .ondemand {
+        margin-right: 0;
+    }
+    #demand-wrap, #specials-wrap{
+        -webkit-box-shadow: 0 1px 5px 0 rgba(0,0,0,0.75);
+        -moz-box-shadow: 0px 5px 0 rgba(0,0,0,0.75);
+        box-shadow: 0 1px 5px 0 rgba(0,0,0,0.75);
+        padding-top: 15px;
+        padding-bottom: 15px;
+        margin-bottom: 15px;
+    }
+    #demand-description, #specials-description{
+        width: 100%;
+        margin: 0 0 0 15px;
+        padding: 15px 0 0 0;
+        text-align: center;
+        font-family: "Lato", sans-serif;
+        font-weight: bold;
+        font-size: 18px;
+        color: black;
+    }
+    #services-title{
+        text-align: center;
+        font-size: 20px;
+        color: rebeccapurple;
+        font-family: "Lato", sans-serif;
+        font-weight: bold;
+        margin-left: 30px;
+    }
+    #specials-long-description, #demand-long-description{
+        color: black;
+        font-family: "Lato", sans-serif;
+        font-size:16px;
+        border-right: 1px solid rebeccapurple ;
+        border-left: 1px solid rebeccapurple ;
+        border-bottom: 1px solid rebeccapurple;
+        padding: 0 10px 10px 10px;
+        height: 220px;
+    }
+    #demand-long-description a{
+        color: rebeccapurple;
+        cursor: hand;
+    }
+    .services-wrapper{
+        margin-left: -60px;
+    }
+    #services-title span{
+        font-size: 22px;
+        text-decoration: solid;
+        font-family: 'Vollkorn', serif;
+    }
+
+}
+@media only screen and (max-width: 1199px) and (min-width: 991px){
+    #specials-long-description, #demand-long-description{
+        height: 260px;
+    }
+}
+@media only screen and (min-width: 768px) and (max-width: 991px){
+    .ondemand{
+        margin-right: 0;
+    }
+    #specials-long-description, #demand-long-description{
+        height: 380px;
+    }
+    .ondemand, .weekly-specials{
+        width: 42%;
+    }
+    .ondemand{
+        margin-left: 3%;
+        margin-right: 5%;
+    }
+    .weekly-specials{
+        margin-left: 5%;
+        margin-right: 2%;
+    }
+    .services-wrapper{
+        margin-left: 30px;
+    }
+}
+@media only screen and (max-width: 768px){
+    #demand-logo, #special-logo{
+        height: 60px;
+        width: auto;
+    }
+
+    #demand-wrap, #specials-wrap{
+        -webkit-box-shadow: 0 1px 5px 0 rgba(0,0,0,0.75);
+        -moz-box-shadow: 0 1px 5px 0 rgba(0,0,0,0.75);
+        box-shadow: 0 1px 5px 0 rgba(0,0,0,0.75);
+        padding-top: 15px;
+        padding-bottom: 15px;
+        margin-bottom: 15px;
+    }
+    #demand-description, #specials-description{
+        width: 100%;
+        margin: 0 0 0 15px;
+        padding: 15px 0 0 0;
+        text-align: center;
+        font-family: "Lato", sans-serif;
+        font-weight: bold;
+        font-size: 18px;
+        color: black;
+    }
+    #services-title{
+        text-align: center;
+        font-size: 20px;
+        color: rebeccapurple;
+        font-family: "Lato", sans-serif;
+        font-weight: bold;
+    }
+    #specials-long-description, #demand-long-description{
+        color: black;
+        font-family: "Lato", sans-serif;
+        font-size:16px;
+        /*border-right: 1px solid rebeccapurple ;*/
+        /*border-left: 1px solid rebeccapurple ;*/
+        border-bottom: 1px solid rebeccapurple;
+        padding: 0 10px 10px 10px;
+    }
+    #demand-long-description a{
+        color: rebeccapurple;
+        cursor: hand;
+    }
+    .services-wrapper{
+    }
+    #services-title span{
+        font-size: 22px;
+        text-decoration: solid;
+        font-family: 'Vollkorn', serif;
+    }
+}
+@media only screen and (max-width: 604px){
+
+}
+/* pre-loader css
+ * the loader is on the main layout
+ * if we get to need it uncomment this
+ */
+
+/*
+.prld{
+    width: 100%;
+    height: 500px;
+    position: fixed;
+}
+.crl-1 {
+    position: absolute;
+    top: 200px;
+    left: 45%;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border-left: 7px solid rebeccapurple;
+}
+.crl-2 {
+    position: absolute;
+    top: 200px;
+    left: 46%;
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    border-top: 5px solid darkorange;
+}
+.crl-3 {
+    position: absolute;
+    top: 210px;
+    left: 46.3%;
+    width: 75px;
+    height: 75px;
+    border-radius: 50%;
+    border-right: 5px solid limegreen;
+}
+.crl-4 {
+    position: absolute;
+    top: 222px;
+    left: 46.7%;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border-bottom: 5px solid crimson;
+}
+*/

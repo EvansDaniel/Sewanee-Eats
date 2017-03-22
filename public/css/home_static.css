@@ -1,0 +1,112 @@
+@media only screen and (min-width: 769px) {
+    .home-header .row {
+        background: url("../images/pizza_top.jpg") no-repeat center;
+        height: 600px;
+        background-size: cover;
+    }
+    .my-wrap {
+        height: 600px;
+        background: rgba(250,250,250,0.04);
+        background: -moz-linear-gradient(top, rgba(0,0,0,0) 0%, rgba(0,0,0,0.01) 50%, rgba(0,0,0,0.25) 62%, rgba(0,0,0,0.5) 100%);
+        background: -webkit-linear-gradient(top, rgba(0,0,0,0) 0%, rgba(0,0,0,0.01) 50%, rgba(0,0,0,0.25) 62%, rgba(0,0,0,0.5) 100%);
+        background: -o-linear-gradient(top, rgba(0,0,0,0) 0%, rgba(0,0,0,0.01) 50%, rgba(0,0,0,0.25) 62%, rgba(0,0,0,0.5)100%);
+        background: -ms-linear-gradient(top, rgba(0,0,0,0) 0%, rgba(0,0,0,0.01) 50%, rgba(0,0,0,0.25) 62%, rgba(0,0,0,0.5) 100%);
+        background: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.01) 50%, rgba(0,0,0,0.25) 62%, rgba(0,0,0,0.5)100%);
+    }
+    .subheading{
+        text-align: center;
+        text-transform: capitalize;
+        font-family: 'Vollkorn', serif;
+        font-size: 40px;
+        font-weight: 900;
+        color: white;
+    }
+    .subheading span{
+        font-size: 45px;
+        /*text-transform: capitalize;*/
+    }
+    .site-heading{
+        padding-top: 400px;
+    }
+    #more{
+        color: white;
+        border: solid 2px orangered;
+        padding: 7px 10px;
+        font-size: 18px;
+        font-weight: bold;
+        text-transform: uppercase;
+        text-align: center;
+        margin-left: 10px;
+        background: darkorange;
+    }
+    #btn{
+        background: linear-gradient(90deg, #240a54 10%, #7459a5 90%);
+        color: white;
+        text-align: center;
+        padding: 7px 10px;
+        text-decoration: none;
+        font-size: 18px;
+        font-weight: bolder;
+        border: solid rebeccapurple 2px;
+        vertical-align: middle;
+    }
+}
+@media only screen and (max-width: 1199px) and (min-width: 769px){
+    #btn-wrap{
+        padding-left: 75px;
+    }
+}
+@media only screen and (max-width: 768px) {
+    .home-header .row {
+        background: url("../images/pizza_top.jpg") no-repeat center;
+        height: 300px;
+        background-size: cover;
+    }
+    .my-wrap {
+        height: 300px;
+        background: rgba(250,250,250,0.04);
+        background: -moz-linear-gradient(top, rgba(0,0,0,0) 0%, rgba(0,0,0,0.01) 50%, rgba(0,0,0,0.4) 62%, rgba(0,0,0,0.6) 100%);
+        background: -webkit-linear-gradient(top, rgba(0,0,0,0) 0%, rgba(0,0,0,0.01) 50%, rgba(0,0,0,0.4) 62%, rgba(0,0,0,0.6) 100%);
+        background: -o-linear-gradient(top, rgba(0,0,0,0) 0%, rgba(0,0,0,0.01) 50%, rgba(0,0,0,0.4) 62%, rgba(0,0,0,0.6) 100%);
+        background: -ms-linear-gradient(top, rgba(0,0,0,0) 0%, rgba(0,0,0,0.01) 50%, rgba(0,0,0,0.4) 62%, rgba(0,0,0,0.6) 100%);
+        background: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.01) 50%, rgba(0,0,0,0.4) 62%, rgba(0,0,0,0.6) 100%);
+    }
+    .site-heading{
+        padding-top: 180px;
+        width: 100%;
+    }
+    .subheading span{
+        font-size: 22px;
+        /*text-transform: capitalize;*/
+    }
+    #btn{
+        background: linear-gradient(90deg, #240a54 10%, #7459a5 90%);
+        color: white;
+        text-align: center;
+        padding: 7px 10px;
+        text-decoration: none;
+        font-size: 11px;
+        font-weight: bolder;
+        border: solid rebeccapurple 2px;
+        vertical-align: middle;
+    }
+    .subheading{
+        text-align: center;
+        text-transform: capitalize;
+        font-family: 'Vollkorn', serif;
+        font-size: 20px;
+        font-weight: 900;
+        color: white;
+    }
+}
+@media only screen and (max-width: 330px) {
+    .subheading{
+        font-size: 18px;
+    }
+    #btn{
+        font-size: 10px;
+    }
+}
+#btn:hover{
+    background: linear-gradient(90deg, #7459a5 10%, #240a54 90%);
+}
