@@ -22,7 +22,14 @@
                             </a>
                         </li>
                         <li><a href="javascript:;">Help</a></li>
-                        <li><a href="login.html"><i class="fa fa-sign-out pull-right"></i> Log Out</a></li>
+                        <li>
+                            <form action="{{ route('logout') }}" method="post">
+                                {{ csrf_field() }}
+                                <a>
+                                    <button type="submit"><i class="fa fa-sign-out pull-right"></i> Log Out</button>
+                                </a>
+                            </form>
+                        </li>
                     </ul>
                 </li>
 

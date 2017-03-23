@@ -61,11 +61,12 @@
                             <li><a href="other_charts.html">Other Charts</a></li>
                         </ul>
                     </li>
-                    <li><a><i class="fa fa-clone"></i>Layouts <span class="fa fa-chevron-down"></span></a>
-                        <ul class="nav child_menu">
+                    <li><a href="{{ route('register') }}"><i class="fa fa-clone"></i>Create New Account <span
+                                    class="fa fa-chevron-down"></span></a>
+                        {{--<ul class="nav child_menu">
                             <li><a href="fixed_sidebar.html">Fixed Sidebar</a></li>
                             <li><a href="fixed_footer.html">Fixed Footer</a></li>
-                        </ul>
+                        </ul>--}}
                     </li>
                 </ul>
             </div>

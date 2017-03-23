@@ -45,6 +45,7 @@ Route::get('thank-you', 'HomeController@showThankYou')
 Route::get('clear', function () {
     Session::forget('cart');
     Session::forget('next_cart_item_id');
+    Session::flush();
     return back();
 })->name('clearCart');
 
@@ -344,10 +345,10 @@ $this->post('logout', 'Auth\LoginController@logout')->name('logout');
 
 // Registration Routes...
 // Protect the register route with CheckRole admin
-//Route::group(['middleware' => 'role:admin'], function () {
-$this->get('register', 'Auth\RegisterController@showRegistrationForm')->name('register');
-$this->post('register', 'Auth\RegisterController@register')->name('postRegister');
-//});
+Route::group(['middleware' => 'role:admin'], function () {
+    $this->get('register', 'Auth\RegisterController@showRegistrationForm')->name('register');
+    $this->post('register', 'Auth\RegisterController@register')->name('postRegister');
+});
 
 // Password Reset Routes...
 $this->get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');

@@ -64,6 +64,26 @@
                                 </div>
                             </div>
 
+                            <!-- Only ask the user the type of user to create when this user is an admin -->
+                            @if(Auth::check() && Auth::user()->hasRole('admin'))
+                                <div class="form-group">
+                                    <label for="role-type" class="col-md-4 control-label">
+                                        What role does the new user play?
+                                    </label>
+
+                                    <div class="col-md-6">
+                                        <select id="role-type" type="password" class="form-control"
+                                                name="role_type[]" required multiple>
+                                            @foreach($roles as $role)
+                                                <option value="{{ $role->id }}">{{ $role->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                            @else
+                                <input name="role_type" type="hidden" value="{{ $role_user }}">
+                            @endif
+
                             <div class="form-group">
                                 <div class="col-md-6 col-md-offset-4">
                                     <button type="submit" class="btn btn-primary">

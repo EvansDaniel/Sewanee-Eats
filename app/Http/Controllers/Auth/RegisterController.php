@@ -63,6 +63,7 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        // create these roles if they don't exist
         if (count(Role::where('name', 'admin')->first()) == 0) {
             // id = 1
             \Eloquent::unguard();
@@ -89,7 +90,7 @@ class RegisterController extends Controller
         $user->password = bcrypt($data['password']);
         $user->available_times = json_encode([null]);
         $user->save();
-        $user->roles()->attach(Role::where('name', 'admin')->first()->id);
+        $user->roles()->attach($data['role_type']);
         return $user;
     }
 }

@@ -46,11 +46,11 @@
 
                     @if(!empty($cart->getOnDemandItems()))
                         <h3>Your On Demand Items</h3>
+                        <h4><i>Estimated Delivery Time: <span id="on-demand-delivery-time"></span> mins</i></h4>
                         <hr class="hr-separator">
                         @foreach($cart->getOnDemandItems() as $order)
                             @include('partials.checkout_items')
                         @endforeach
-                        <h4><i>Estimated Delivery Time: <span id="on-demand-delivery-time"></span></i></h4>
                         <hr class="hr-separator">
                     @endif
 
@@ -100,6 +100,7 @@
                                             <label for="full-name">Name</label>
                                             <input class="form-control pay-input" maxlength="100"
                                                    type="text"
+                                                   value="@if(env('APP_ENV') !== 'production') {{ 'Daniel Evans' }} @endif"
                                                    name="name" id="full-name">
                                             <br>
                                             <label for="payment-type" id="pay-with-what">Check the box if you would
@@ -171,17 +172,20 @@
 
                                     </div>
                                     <div class="form-group" id="loc-phone">
-                                        {{-- TODO: change this to use the $cart variable--}}
-                                        {{--@if(!empty($items['non_special_items']))
+                                        @if(!empty($cart->getOnDemandItems()))
+                                            {{-- TODO: change this to use the $cart variable--}}
                                             <label for="location">Where should we deliver your On Demand items?</label>
-                                            <input class="form-control pay-input" type="text" maxlength="100" name="location"
+                                            <input class="form-control pay-input controls" type="text" maxlength="100"
+                                                   name="location"
+                                                   value="@if(env('APP_ENV') !== 'production') {{ '12595 Sollace M Freeman Hwy, Sewanee, TN 37375' }} @endif"
                                                    id="location">
-                                        @endif--}}
+                                        @endif
 
                                         <label for="email-address">Email Address</label>
                                         <input class="pay-input" style="display: block; padding: 6px 12px; width: 50%"
                                                maxlength="100"
                                                placeholder="Please enter your email address"
+                                               value="@if(env('APP_ENV') !== 'production') {{ 'evansdb0@sewanee.edu' }} @endif"
                                                type="email"
                                                name="email_address" id="email-address">
                                         @if($cart->hasOnDemandItems())
@@ -189,7 +193,9 @@
                                                 contact you when necessary)</label>
                                             <input class="form-control pay-input" maxlength="10"
                                                    placeholder="10 digits, only numbers"
+                                                   value="@if(env('APP_ENV') !== 'production') {{ '5555555555' }} @endif"
                                                    type="tel"
+                                                   style="display: block"
                                                    name="phone_number" id="phone-number">
                                         @endif
                                     </div>
@@ -221,6 +227,7 @@
 
                         <!-- Show checkout info only if we are on the checkout page -->
                         </div>
+                </div>
         </form>
     </div>
 
@@ -301,7 +308,10 @@
       }
 
     </script>
-    <script src="{{ asset('js/checkout.js',env('APP_ENV') === 'production') }}"></script>
+    <script type="text/javascript"
+            src="http://maps.googleapis.com/maps/api/js?key=AIzaSyCRzYmXWGvA4FPHffiFUMyTCWLVSlYL04s&libraries=geometry,places"></script>
+    <script src="{{ asset('js/Checkout/delivery_time_estimation.js',env('APP_ENV') === 'production') }}"></script>
+    <script src="{{ asset('js/Checkout/checkout.js',env('APP_ENV') === 'production') }}"></script>
     <script>
       $('#venmo-payment-div').hide();
       $('#pay-with-venmo').on('change', function () {

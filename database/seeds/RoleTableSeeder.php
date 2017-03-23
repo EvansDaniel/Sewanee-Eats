@@ -17,6 +17,10 @@ class RoleTableSeeder extends Seeder
             'name' => 'admin',
             'description' => 'Can create all website data, manage users, and provide any business services'
         ]);
+        Role::create([
+            'name' => 'manager',
+            'description' => 'Acts on behalf of the company during on demand order shifts'
+        ]);
         // id = 2
         Role::create([
             'name' => 'user',
@@ -24,7 +28,7 @@ class RoleTableSeeder extends Seeder
         ]);
         // id = 3
         Role::create([
-            'name' => 'employee',
+            'name' => 'courier',
             'description' => 'Can deliver food and view order requests, receives a paycheck'
         ]);
     }

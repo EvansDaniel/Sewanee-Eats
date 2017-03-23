@@ -27,6 +27,14 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
+    public function courierInfo()
+    {
+        if ($this->hasRole('courier')) {
+            return $this->hasOne('App\Models\CourierInfo', 'user_id', 'id');
+        }
+        return null;
+    }
+
     public function hasRole($which_role)
     {
         foreach ($this->roles as $role) {
