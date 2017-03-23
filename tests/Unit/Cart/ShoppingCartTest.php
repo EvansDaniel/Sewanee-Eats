@@ -90,7 +90,8 @@ class ShoppingCartTest extends TestCase
      */
     private function putMenuAndEventItemsInDB($num_event_and_menu_items)
     {
-        factory(Restaurant::class, 1)->create();
+        // use weekly special b/c on demand is capped
+        factory(Restaurant::class, 1)->create(['seller_type' => RestaurantOrderCategory::WEEKLY_SPECIAL]);
         factory(SpecialEvent::class, 1)->create();
         factory(ItemCategory::class, 3)->create();
         factory(MenuItem::class, $num_event_and_menu_items)->create();

@@ -73,4 +73,9 @@ class MenuItem extends Model implements Item
     {
         return $this->accessories;
     }
+
+    public function getId()
+    {
+        return $this->id;
+    }
 }

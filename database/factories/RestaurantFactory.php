@@ -67,11 +67,12 @@ $factory->define(Restaurant::class, function (Faker\Generator $faker) {
     // note that hours_open is a 24 hour clock
     // so this one is open from 1 to 5 and 8pm to 12am on Mondays
     $images = ['http://static.asiawebdirect.com/m/bangkok/portals/pattaya-bangkok-com/homepage/best-restaurants/allParagraphs/0/top10Set/02/image/radius-restaurant-1200.jpg'];
+
     return [
         'name' => $faker->company,
         'available_times' => json_encode($available_times),
         'address' => $locations[mt_rand(0, 2)],
-        'seller_type' => RestaurantOrderCategory::WEEKLY_SPECIAL,
+        'seller_type' => RestaurantOrderCategory::ON_DEMAND,
         'callable' => true,
         'phone_number' => '5555555555',
         'image_url' => $images[0]

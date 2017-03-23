@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Contracts\ShoppingCart\SellerEntity;
 use Illuminate\Database\Eloquent\Model;
 
+// needs to implement seller entity b/c we need to categorize the CartItem based on the seller
 class SpecialEvent extends Model implements SellerEntity
 {
     // has many menu items
@@ -16,17 +17,17 @@ class SpecialEvent extends Model implements SellerEntity
 
     public function getName()
     {
-        // TODO: Implement getName() method.
+        return $this->event_name;
     }
 
     public function getDesc()
     {
-        // TODO: Implement getDesc() method.
+        return $this->event_description;
     }
 
     public function getLocation()
     {
-        // TODO: Implement getLocation() method.
+        return $this->location;
     }
 
     public function getSellerType()

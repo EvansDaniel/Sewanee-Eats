@@ -31,7 +31,6 @@ class DatabaseSeeder extends Seeder
             // Must go after restaurants, users, menu_items
             //$this->call(MenuItemsOrdersTableSeeder::class);
             // Not necessarily needed b/c we can access the restaurant through the menu item
-            //$this->call(RestaurantsOrdersTableSeeder::class);
             //$this->call(CouriersOrdersTableSeeder::class);
             $this->call(ArticleTableSeeder::class);
             $this->call(SpecialEventsTableSeeder::class);

@@ -12,6 +12,7 @@ interface Item
 {
     public function getPrice();
 
+    public function getId();
     public function getName();
     public function getDesc();
 

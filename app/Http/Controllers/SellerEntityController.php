@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\CustomClasses\Restaurants\Sellers;
 use App\CustomClasses\ShoppingCart\ItemType;
-use App\CustomClasses\ShoppingCart\RestaurantOrderCategory;
 use App\CustomTraits\IsAvailable;
 use App\Models\Restaurant;
 use App\Models\SpecialEvent;
@@ -11,6 +11,7 @@ use App\Models\SpecialEvent;
 class SellerEntityController extends Controller
 {
     use IsAvailable;
+
     /*
      * General Idea:
      * for the given restaurant,
@@ -51,25 +52,25 @@ class SellerEntityController extends Controller
 
     public function list_restaurants()
     {
-        $all_restaurants = Restaurant::all();
+        /*$all_restaurants = Restaurant::all();
         $s_restaurants = [];
         $restaurants = [];
         foreach ($all_restaurants as $restaurant) {
-            if ($restaurant->seller_type == RestaurantOrderCategory::WEEKLY_SPECIAL) {
+            if ($restaurant->getSellerType() == RestaurantOrderCategory::WEEKLY_SPECIAL) {
                 $s_restaurants[] = $restaurant;
-            } else {
+            } else if($restaurant->getSellerType() == RestaurantOrderCategory::ON_DEMAND) {
                 // TODO: NEED TO UNCOMMENT THIS IF STATEMENT AFTER DEVELOPMENT
                 //if ($this->isAvailableNow($restaurant)) {
-                $restaurants[] = $restaurant;
+                $on_demand_rests[] = $restaurant;
                 //}
             }
         }
-        $events = SpecialEvent::all();
+        $events = SpecialEvent::all();*/
         // boolean to use in the view show or not show a link
         // to a page with all the restaurants on it
-        $showAllRestaurants = count($all_restaurants) > count($restaurants);
+        $sellers = new Sellers();
         return view('orderFlow.list_restaurants',
-            compact('restaurants', 's_restaurants', 'events'));
+            compact('sellers'));
     }
 
     public function showEventItems($event_id)

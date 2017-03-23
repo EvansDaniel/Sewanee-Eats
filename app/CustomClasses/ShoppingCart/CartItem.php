@@ -41,6 +41,11 @@ class CartItem
         return $this->item->getSellerEntity();
     }
 
+    public function getId()
+    {
+        $this->item->getId();
+    }
+
     /**
      * @return mixed
      */

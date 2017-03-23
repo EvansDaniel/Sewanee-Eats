@@ -42,4 +42,9 @@ class EventItem extends Model implements Item
     {
         return null;
     }
+
+    public function getId()
+    {
+        return $this->id;
+    }
 }

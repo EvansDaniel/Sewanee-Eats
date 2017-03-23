@@ -18,6 +18,8 @@ class CartBilling
     protected $base_delivery_fee;
     protected $cost_of_food;
     protected $mark_up_per_item;
+    protected $stripe_fees;
+    protected $profit;
 
     /**
      * CartBilling constructor.
@@ -38,7 +40,10 @@ class CartBilling
         $this->discount = $this->discount();
         $this->cost_of_food = $this->costOfFood();
         $this->subtotal = $this->subtotal();
-        $this->total = $this->subtotal + $this->tax;
+        $this->tax = $this->tax();
+        $this->total = round($this->totalPrice(), 2);
+        $this->stripe_fees = $this->stripeFees();
+        $this->profit = $this->profit();
     }
 
     private function deliveryFee()
@@ -115,38 +120,6 @@ class CartBilling
         return $this->cost_of_food;
     }
 
-    /**
-     * @return float
-     */
-    public function getMarkUpPerItem()
-    {
-        return $this->mark_up_per_item;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getDiscount()
-    {
-        return $this->discount;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getTotal()
-    {
-        return $this->total;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getTax()
-    {
-        return $this->tax;
-    }
-
     private function tax()
     {
         return 0;
@@ -171,6 +144,64 @@ class CartBilling
     public function getTaxPercent()
     {
         return $this->tax_percent;
+    }
+
+    public function stripeFees()
+    {
+        // stripe charges 30 cents + 2.9% -> .029
+        return .3 + $this->getTotal() * .029;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTotal()
+    {
+        return $this->total;
+    }
+
+    public function profit()
+    {
+        // profit per order is the calculated delivery fee
+        // plus the mark up on each item * num items
+        // minus expenses i.e. stripe fees
+        return $this->getDeliveryFee() +
+            ($this->cart->getQuantity() * $this->getMarkUpPerItem())
+            - $this->getStripeFees();
+    }
+
+    /**
+     * @return float
+     */
+    public function getMarkUpPerItem()
+    {
+        return $this->mark_up_per_item;
+    }
+
+    public function getStripeFees()
+    {
+        return $this->stripe_fees;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDiscount()
+    {
+        return $this->discount;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTax()
+    {
+        return $this->tax;
+    }
+
+    public function getProfit()
+    {
+        return $this->profit;
     }
 
 

@@ -5,6 +5,7 @@ namespace Tests\Unit\Cart;
 use App\CustomClasses\ShoppingCart\CartBilling;
 use App\CustomClasses\ShoppingCart\CartItem;
 use App\CustomClasses\ShoppingCart\ItemType;
+use App\CustomClasses\ShoppingCart\RestaurantOrderCategory;
 use App\CustomClasses\ShoppingCart\ShoppingCart;
 use App\Models\Accessory;
 use App\Models\EventItem;
@@ -57,7 +58,10 @@ class CartBillingTest extends TestCase
 
     public function putItemsInDB($menu_item_price, $event_item_price, $num_event_items, $num_menu_items)
     {
-        factory(Restaurant::class, 1)->create();
+        // use weekly special b/c on demand is capped
+        factory(Restaurant::class, 1)->create(['seller_type' => RestaurantOrderCategory::WEEKLY_SPECIAL]);
+        \Log::info('count ' . count(Restaurant::all()));
+        \Log::info('cat' . Restaurant::all()->first()->getSellerType());
         factory(SpecialEvent::class, 1)->create();
         factory(ItemCategory::class, 3)->create();
         factory(MenuItem::class, $num_menu_items)->create(['price' => $menu_item_price]);
@@ -65,7 +69,7 @@ class CartBillingTest extends TestCase
         $cart_items = [];
         $menu_items = MenuItem::all();
         $event_items = EventItem::all();
-        // total price of m enu_items = 20
+        // total price of menu_items = 20
         foreach ($menu_items as $menu_item) {
             $cart_items[] = new CartItem($menu_item->id, ItemType::RESTAURANT_ITEM);
         }

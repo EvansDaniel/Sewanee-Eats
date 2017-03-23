@@ -18,7 +18,8 @@ class CreateMenuItemsOrdersTable extends Migration
         Schema::create('menu_items_orders', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('order_id')->unsigned();
-            $table->integer('menu_item_id')->unsigned();
+            $table->integer('menu_item_id')->unsigned()->nullable();
+            $table->integer('event_item_id')->unsigned()->nullable();
             $table->string('special_instructions')->nullable();
             $table->boolean('was_refunded'); // individual menu items can be refunded
 
@@ -31,6 +32,9 @@ class CreateMenuItemsOrdersTable extends Migration
                 ->onDelete('cascade');
             $table->foreign('menu_item_id')
                 ->references('id')->on('menu_items');
+            $table->foreign('event_item_id')
+                ->references('id')->on('event_items');
+
             $table->timestamps();
         });
     }

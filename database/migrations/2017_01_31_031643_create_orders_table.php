@@ -21,7 +21,7 @@ class CreateOrdersTable extends Migration
             // will we provide locations via select or will it be via text box?
             $table->string('delivery_location', 150)->nullable();
             // used to be boolean type -> is_weekly_special
-            $table->tinyInteger('order_types'); // this might be multiple order types, stored as json
+            $table->string('order_types'); // this might be multiple order types, stored as json
             //$table->bigInteger('customer_phone_number');
             $table->string('email_of_customer');
             $table->string('c_name');

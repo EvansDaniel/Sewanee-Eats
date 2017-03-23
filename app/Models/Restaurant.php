@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Contracts\ShoppingCart\SellerEntity;
+use App\CustomClasses\ShoppingCart\RestaurantOrderCategory;
 use Illuminate\Database\Eloquent\Model;
 
 class Restaurant extends Model implements SellerEntity
@@ -45,6 +46,16 @@ class Restaurant extends Model implements SellerEntity
     public function getLocation()
     {
         return $this->location;
+    }
+
+    public function scopeWeeklySpecials($query)
+    {
+        return $query->where('seller_type', RestaurantOrderCategory::WEEKLY_SPECIAL);
+    }
+
+    public function scopeOnDemand($query)
+    {
+        return $query->where('seller_type', RestaurantOrderCategory::ON_DEMAND);
     }
 
     public function getSellerType()

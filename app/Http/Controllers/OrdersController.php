@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Order;
 use Illuminate\Http\Request;
 
+// TODO: add order change logic to this controller
 class OrdersController extends Controller
 {
     public function closeVenmoOrder(Request $request)
