@@ -16,14 +16,14 @@ class MenuItemOrder extends Model
     }
 
     // the relation to use depends on the Entity type i.e. restaurant or special event
-    public function menuItem()
+    public function item()
     {
-        return $this->hasOne('\App\Models\MenuItem', 'id', 'menu_item_id');
-    }
-
-    public function eventItem()
-    {
-        return $this->hasOne('\App\Models\EventItem', 'id', 'event_item_id');
+        if (!empty($this->menu_item_id)) {
+            return $this->hasOne('\App\Models\MenuItem', 'id', 'menu_item_id');
+        } else if (!empty($this->event_item_id)) {
+            return $this->hasOne('\App\Models\EventItem', 'id', 'event_item_id');
+        }
+        return null;
     }
 
 }

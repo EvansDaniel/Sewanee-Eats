@@ -2,11 +2,12 @@
 
 namespace App\Models;
 
+use App\Contracts\Availability;
 use App\Contracts\ShoppingCart\SellerEntity;
 use App\CustomClasses\ShoppingCart\RestaurantOrderCategory;
 use Illuminate\Database\Eloquent\Model;
 
-class Restaurant extends Model implements SellerEntity
+class Restaurant extends Model implements SellerEntity, Availability
 {
 
     protected $table = "restaurants";
@@ -45,7 +46,7 @@ class Restaurant extends Model implements SellerEntity
 
     public function getLocation()
     {
-        return $this->location;
+        return $this->address;
     }
 
     public function scopeWeeklySpecials($query)
@@ -58,8 +59,27 @@ class Restaurant extends Model implements SellerEntity
         return $query->where('seller_type', RestaurantOrderCategory::ON_DEMAND);
     }
 
+    public function timeRanges()
+    {
+        return $this->hasMany('App\Models\TimeRange', 'restaurant_id', 'id');
+    }
+
+    /**
+     * @return array|TimeRange
+     */
+    public function getAvailability()
+    {
+        return $this->timeRanges;
+    }
+
+    public function isForProfit()
+    {
+        return true;
+    }
+
     public function getSellerType()
     {
         return $this->seller_type;
     }
+
 }

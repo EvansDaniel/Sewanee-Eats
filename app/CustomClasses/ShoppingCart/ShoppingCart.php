@@ -2,6 +2,7 @@
 
 namespace App\CustomClasses\ShoppingCart;
 
+use App\Contracts\HasItems;
 use App\CustomTraits\CategorizeItems;
 use Session;
 
@@ -9,7 +10,7 @@ use Session;
  * Class ShoppingCart abstraction between the controller logic and the cart business logic as well as the cart data that lives in the session
  * @package App\CustomClasses
  */
-class ShoppingCart
+class ShoppingCart implements HasItems
 {
     use CategorizeItems;
     /**
@@ -60,7 +61,7 @@ class ShoppingCart
         // Can't see, Making a Murderer: Why did you say that I couldn't understand what they say in Making a Murderer
         // I can understand what they say, but I couldn't read the words on the evidence when it is really small
         $this->max_items_in_cart = 10;
-        $this->max_on_demand_items = 3;
+        $this->max_on_demand_items = 10; // temporarily increasing this
         $this->next_cart_item_id = Session::get('next_cart_item_id');
         $this->cart = Session::get('cart');
         $this->categorizedItems();

@@ -2,13 +2,12 @@
 
 namespace App\Models;
 
+use App\Contracts\Availability;
 use App\Contracts\ShoppingCart\Item;
-use App\CustomTraits\IsAvailable;
 use Illuminate\Database\Eloquent\Model;
 
-class MenuItem extends Model implements Item
+class MenuItem extends Model implements Item, Availability
 {
-    use IsAvailable;
 
     protected $table = "menu_items";
 
@@ -77,5 +76,15 @@ class MenuItem extends Model implements Item
     public function getId()
     {
         return $this->id;
+    }
+
+    public function timeRanges()
+    {
+        return $this->hasMany('App\Models\TimeRange', 'menu_item_id', 'id');
+    }
+
+    public function getAvailability()
+    {
+        return $this->timeRanges;
     }
 }

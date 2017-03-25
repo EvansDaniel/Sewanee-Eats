@@ -21,9 +21,6 @@ class ItemController extends Controller
     {
         $item_id = $request->query("item_id");
         $item_type = $request->query("item_type");
-        /*if ($item_type == ItemType::EVENT_ITEM) {
-            return null;
-        }*/
         if ($item_type == ItemType::RESTAURANT_ITEM) {
             $menu_item = MenuItem::find($item_id);
             $pricy = [];

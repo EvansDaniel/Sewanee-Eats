@@ -1,18 +1,90 @@
 <?php
 
-namespace App\Http\Controllers\Courier;
+namespace App\Http\Controllers\Admin;
 
-use App\CustomTraits\IsAvailable;
 use App\Http\Controllers\Controller;
-use App\Models\Role;
-use App\User;
-use Auth;
-use Carbon\Carbon;
+use App\Models\TimeRange;
 use Illuminate\Http\Request;
 
 class ScheduleController extends Controller
 {
-    use IsAvailable;
+    protected $day_of_week_values;
+
+    public function __construct()
+    {
+        $this->day_of_week_values = [
+            'Sunday',
+            'Monday',
+            'Tuesday',
+            'Wednesday',
+            'Thursday',
+            'Friday',
+            'Saturday'
+        ];
+    }
+
+    public function showSchedule()
+    {
+        //depending on the logged in user's roles (courier vs admin)
+        // we show a read only or read and write schedule
+        return view('admin.schedule.schedulev2');
+    }
+
+    public function showCreateShift()
+    {
+        $days_of_week = $this->day_of_week_values;
+        return view('admin.schedule.create_shift',
+            compact('days_of_week'));
+    }
+
+    public function showUpdateShift()
+    {
+
+    }
+
+    public function createShift(Request $request)
+    {
+        $shift = new TimeRange;
+        $shift->start_dow = $request->input('start_dow');
+        $shift->start_hour = $request->input('start_hour');
+        $shift->start_min = $request->input('start_min');
+        $shift->end_dow = $request->input('end_dow');
+        $shift->end_hour = $request->input('end_hour');
+        $shift->end_min = $request->input('end_min');
+        $shift->save();
+        return back()->with('status_good', 'New shift created!');
+    }
+
+    public function updateShift(Request $request)
+    {
+
+    }
+
+    public function deleteShift()
+    {
+
+    }
+
+    private function validShiftCreation($start_dow, $end_dow)
+    {
+        $start_index = $this->findDayOfWeek($start_dow);
+        $end_index = $this->findDayOfWeek($end_dow);
+        return abs($start_index - $end_index) == 1 &&
+            $start_index < $end_index;
+    }
+
+    private function findDayOfWeek($day_of_week)
+    {
+        for ($i = 0; $i < count($this->day_of_week_values); $i++) {
+            if ($day_of_week == $this->day_of_week_values[$i])
+                return $i;
+        }
+        return -1;
+    }
+
+
+
+    /*use IsAvailable;
 
     protected $start_hour_of_first_shift;
 
@@ -43,7 +115,7 @@ class ScheduleController extends Controller
         $user->available_times = json_encode($times);
         $user->save();
         return back()->with('status_good', 'Your schedule has been updated');
-    }
+    }*/
 
     /**
      * Precondition: $hour MUST represent the hour directly in between
@@ -53,7 +125,7 @@ class ScheduleController extends Controller
      * start and end
      * @return string
      */
-    private function convertTimeToDBTime($hour)
+    /*private function convertTimeToDBTime($hour)
     {
         // the diff between the $hour and the
         // shift's start and end hours
@@ -159,7 +231,7 @@ class ScheduleController extends Controller
     /**
      * Remove the time slots for today for each employee
      * @return \Illuminate\Http\RedirectResponse
-     */
+
     public function updateScheduleForNextDay()
     {
         // get all couriers
@@ -179,5 +251,5 @@ class ScheduleController extends Controller
         echo "<pre>";
         print_r($arr);
         echo "</pre>";
-    }
+    }*/
 }

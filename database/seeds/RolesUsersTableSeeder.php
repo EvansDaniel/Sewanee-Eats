@@ -27,47 +27,6 @@ class RolesUsersTableSeeder extends Seeder
 
         $num_couriers = 10;
 
-        // format of available_times
-        /*[
-            'monday','tuesday','....','sunday'
-        ]*/
-        $available_times = [
-            [
-                '10:00-12:00',
-                '20:00-22:00',
-                ''
-            ],
-            [
-                '08:00-10:00',
-                '22:00-00:00',
-                ''
-            ],
-            [
-                '16:00-18:00',
-                '',
-                ''
-            ],
-            [
-                '18:00-20:00',
-                '16:00-18:00',
-                ''
-            ],
-            [
-                '12:00-14:00',
-                '00:00-02:00',
-                ''
-            ],
-            [
-                '18:00-20:00',
-                '20:00-22:00',
-                '22:00-00:00'
-            ],
-            [
-                '14:00-16:00',
-                '16:00-18:00',
-                '18:00-20:00'
-            ]
-        ];
         $faker = Faker\Factory::create();
         for ($i = 0; $i < $num_couriers; $i++) {
             $courier = new User;
@@ -75,10 +34,8 @@ class RolesUsersTableSeeder extends Seeder
             $courier->email = $faker->companyEmail;
             $courier->password = "mypass";
             $courier->remember_token = str_random(10);
-            $courier->available_times = json_encode($available_times);
             $courier->save();
             $courier->roles()->attach($courier_role->id);
-            shuffle($available_times);
         }
     }
 }

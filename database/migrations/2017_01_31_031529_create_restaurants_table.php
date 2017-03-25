@@ -14,11 +14,9 @@ class CreateRestaurantsTable extends Migration
     public function up()
     {
         // Has many MenuItems
-        // used to be called restuaraunts, now called sellers
         Schema::create('restaurants', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->longText('available_times')->nullable();
             // used to be location, this is the exact address
             $table->string('address')->nullable();
             $table->integer('seller_type'); // +

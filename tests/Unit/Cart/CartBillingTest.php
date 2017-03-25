@@ -60,8 +60,6 @@ class CartBillingTest extends TestCase
     {
         // use weekly special b/c on demand is capped
         factory(Restaurant::class, 1)->create(['seller_type' => RestaurantOrderCategory::WEEKLY_SPECIAL]);
-        \Log::info('count ' . count(Restaurant::all()));
-        \Log::info('cat' . Restaurant::all()->first()->getSellerType());
         factory(SpecialEvent::class, 1)->create();
         factory(ItemCategory::class, 3)->create();
         factory(MenuItem::class, $num_menu_items)->create(['price' => $menu_item_price]);

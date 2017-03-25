@@ -81,7 +81,8 @@
                                     </div>
                                 </div>
                             @else
-                                <input name="role_type" type="hidden" value="{{ $role_user }}">
+                            <!-- Assume that this person is trying to create a user account -->
+                                <input name="role_type" type="hidden" value="{{ $role_user->id }}">
                             @endif
 
                             <div class="form-group">

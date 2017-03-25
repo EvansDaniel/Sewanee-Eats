@@ -18,8 +18,7 @@ class CreateUsersTable extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->string('password');
-            $table->longText('available_times');
-            // TODO: Need to add shifts so that I can show who is working when
+            // using time_ranges table for the users shifts
             $table->rememberToken();
             $table->timestamps();
         });

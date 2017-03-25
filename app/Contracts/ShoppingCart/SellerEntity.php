@@ -14,5 +14,7 @@ interface SellerEntity
     public function getLocation();
 
     public function getSellerType();
+
+    public function isForProfit();
     /*public function getAvailability();*/
 }

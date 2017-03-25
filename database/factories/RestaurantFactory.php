@@ -18,60 +18,24 @@ use App\Models\Restaurant;
 $factory->define(Restaurant::class, function (Faker\Generator $faker) {
     // There is no index in the referenced table where the referenced columns appear as the first columns.
     $locations = [
-        'campus',
-        'downtown',
-        'monteagle'
+        '521 W Main St Monteagle, TN 37356', // mcdonalds
+        '640 Dixie Lee Hwy Monteagle, TN 37356', // wendy's
+        '12595 Sollace M Freeman Hwy, Sewanee, TN 37375' // shenanigans
     ];
-    // format of available_times
-    /*[
-        'monday','tuesday','....','sunday'
-    ]*/
-    $available_times = [
-        [
-            '13:30-17:30',
-            '20:30-24:30',
-            ''
-        ],
-        [
-            '8:30-12:30',
-            '20:30-24:30',
-            ''
-        ],
-        [
-            '13:30-17:30',
-            '',
-            ''
-        ],
-        [
-            '20:30-00:30',
-            /*'01:00-05:00',*/
-            '',
-            ''
-        ],
-        [
-            '9:30-17:30',
-            '20:30-00:30',
-            ''
-        ],
-        [
-            '8:30-16:30',
-            '',
-            ''
-        ],
-        [
-            '8:30-12:30',
-            '',
-            ''
-        ]
+    $rest_names = [
+        'Mcdonald\'s',
+        'Wendy\'s',
+        'Shenanigans'
     ];
+
     // note that hours_open is a 24 hour clock
     // so this one is open from 1 to 5 and 8pm to 12am on Mondays
     $images = ['http://static.asiawebdirect.com/m/bangkok/portals/pattaya-bangkok-com/homepage/best-restaurants/allParagraphs/0/top10Set/02/image/radius-restaurant-1200.jpg'];
-
+    $rest_loc_index = mt_rand(0, 2);
     return [
-        'name' => $faker->company,
-        'available_times' => json_encode($available_times),
-        'address' => $locations[mt_rand(0, 2)],
+        'name' => $rest_names[$rest_loc_index],
+
+        'address' => $locations[$rest_loc_index],
         'seller_type' => RestaurantOrderCategory::ON_DEMAND,
         'callable' => true,
         'phone_number' => '5555555555',

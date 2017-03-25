@@ -2,11 +2,13 @@
 
 namespace App;
 
+use App\Contracts\Availability;
 use App\CustomTraits\IsAvailable;
+use App\Models\Role;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-class User extends Authenticatable
+class User extends Authenticatable implements Availability
 {
     use Notifiable;
     use IsAvailable;
@@ -54,29 +56,29 @@ class User extends Authenticatable
         return $this->hasMany('App\Models\Issue', 'admin_id', 'id');
     }
 
-    /* public function orders()
-     {
-         if($this->hasRole('admin') || $this->hasRole('courier')) {
-             return $this->belongsToMany('App\Models\Order','couriers_orders',
-                                         'courier_id','order_id')->withTimestamps();
-         }
-         return null;
-     }*/
+    // a user (that is an employee) has many shifts
+    public function timeRanges()
+    {
+        if ($this->hasRole('admin') || $this->hasRole('courier') || $this->hasRole('manager')) {
+            return $this->hasMany('App\Models\TimeRange', 'user_id', 'id');
+        }
+        return null;
+    }
 
-    /*
-     * This is dynamic scoping. It allows you to encapsulate
-     * dynamic query logic.
-     * Helpful link: http://www.easylaravelbook.com/blog/2015/06/23/using-scopes-with-laravel-5/
-     */
-    /* public function scopeMemberType($query,$member_type)
-     {
-         $role = Role::where('name',$member_type)->first();
-         return $query->where('role_id',$role->id);
-     }*/
+    public function ofType($type)
+    {
+        $role = Role::ofType($type)->first();
+        return $role->users;
+    }
 
     public function roles()
     {
         return $this->belongsToMany('App\Models\Role', 'roles_users',
             'user_id', 'role_id');
+    }
+
+    public function getAvailability()
+    {
+        return $this->timeRanges;
     }
 }

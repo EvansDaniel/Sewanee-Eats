@@ -2,11 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\CustomClasses\ScheduleFiller;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
-use App\User;
-use Auth;
 
 class AdminDashboardController extends Controller
 {
@@ -46,9 +43,9 @@ class AdminDashboardController extends Controller
     public function showSchedule()
     {
         // check current time, if it is < 02:00, then $today = day - 1
-        $schedule_filler = new ScheduleFiller();
-        $courier = User::find(Auth::id());
-        return view('admin.main.schedule', compact('schedule_filler', 'courier'));
+        /*$schedule_filler = new ScheduleFiller();
+        $courier = User::find(Auth::id());*/
+        return view('admin.main.schedulev2'/*, compact('schedule_filler', 'courier')*/);
     }
 
     // Some tasks:

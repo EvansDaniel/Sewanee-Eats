@@ -23,4 +23,10 @@ class CourierDashboardController extends Controller
         $courier = User::find(Auth::id());
         return view('employee.schedule', compact('schedule_filler', 'courier'));
     }
+
+    public function showPaymentBreakdown()
+    {
+        // this is the method that will show the courier his/her payment for the pay period, per order, etc.
+        // this will mostly be read only data
+    }
 }
