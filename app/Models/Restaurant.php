@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Contracts\Availability;
 use App\Contracts\ShoppingCart\SellerEntity;
+use App\CustomClasses\Availability\IsAvailable;
 use App\CustomClasses\ShoppingCart\RestaurantOrderCategory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -81,5 +82,12 @@ class Restaurant extends Model implements SellerEntity, Availability
     {
         return $this->seller_type;
     }
+
+    public function isOpen()
+    {
+        $is_avail = new IsAvailable($this);
+        return $is_avail->isAvailableNow();
+    }
+
 
 }

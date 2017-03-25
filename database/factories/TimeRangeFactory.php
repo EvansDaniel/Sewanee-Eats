@@ -9,7 +9,7 @@ $factory->define(TimeRange::class, function (Faker\Generator $faker) {
         'start_hour' => 9,
         'start_min' => 24,
         'end_dow' => 'Saturday',
-        'end_hour' => 1,
+        'end_hour' => 10,
         'end_min' => 27,
     ];
 });

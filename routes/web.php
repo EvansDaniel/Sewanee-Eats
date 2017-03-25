@@ -191,19 +191,15 @@ Route::group(['prefix' => 'admin',
     // Schedule Routes
     // prefix = admin, namespace = Admin
     Route::group(['prefix' => 'schedule'], function () {
-
-        Route::get('schedule', 'ScheduleController@showSchedule')
-            ->name('showSchedule');
-        Route::get('createShift', 'ScheduleController@showCreateShift')
-            ->name('showCreateShift');
-        Route::post('create', 'ScheduleController@createShift')
-            ->name('createShift');
-        Route::get('updateShift', 'ScheduleController@showUpdateShift')
-            ->name('showUpdateShift');
-        Route::post('update', 'ScheduleController@updateShift')
-            ->name('updateShift');
-        Route::post('delete', 'ScheduleController@deleteShift')
-            ->name('deleteShift');
+        // showing info
+        Route::get('schedule', 'ScheduleController@showSchedule')->name('showSchedule');
+        Route::get('shifts', 'ScheduleController@showShifts')->name('showShifts');
+        Route::get('createShift', 'ScheduleController@showCreateShift')->name('showCreateShift');
+        Route::get('updateShift', 'ScheduleController@showUpdateShift')->name('showUpdateShift');
+        // backend set up
+        Route::post('create', 'ScheduleController@createShift')->name('createShift');
+        Route::post('update', 'ScheduleController@updateShift')->name('updateShift');
+        Route::post('delete', 'ScheduleController@deleteShift')->name('deleteShift');
     });
 
     // -------------------------------------------------------------------

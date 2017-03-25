@@ -33,47 +33,72 @@
         </div>
 
         <div>
-            <form action="{{ route('createShift') }}" method="post">
+            <form action="{{ route('updateShift') }}" method="post">
                 <div class="form-group">
                     {{ csrf_field() }}
+                    <input name="time_range_id" type="hidden" value="{{ $shift->getId() }}">
                     <label for="start-day-of-week">Day of Week shifts starts</label>
                     <select class="select-form" name="start_dow" id="start-day-of-week">
                         @foreach($shift->getDayOfWeekNames() as $dow)
-                            <option value="{{ $dow }}">{{ $dow }}</option>
+                            @if($shift->getStartDay() == $dow)
+                                <option selected value="{{ $dow }}">{{ $dow }}</option>
+                            @else
+                                <option value="{{ $dow }}">{{ $dow }}</option>
+                            @endif
                         @endforeach
                     </select>
 
                     <label for="start-hour">Select Start Hour for the shift</label>
                     <select class="select-form" name="start_hour" id="start-hour">
                         @for($i = 0; $i <= 23; $i++)
-                            <option value="{{ $i }}">{{ $i }}</option>
+                            @if($shift->getStartHour() == $i)
+                                <option selected value="{{ $i }}">{{ $i }}</option>
+                            @else
+                                <option value="{{ $i }}">{{ $i }}</option>
+                            @endif
                         @endfor
                     </select>
 
                     <label for="start-min">Select Start Min for the shift</label>
                     <select class="select-form" name="start_min" id="start-min">
                         @for($i = 0; $i <= 59; $i++)
-                            <option value="{{ $i }}">{{ $i }}</option>
+                            @if($shift->getStartMin() == $i)
+                                <option selected value="{{ $i }}">{{ $i }}</option>
+                            @else
+                                <option value="{{ $i }}">{{ $i }}</option>
+                            @endif
                         @endfor
                     </select>
 
                     <label for="day-of-week">Day of Week shifts ends</label>
                     <select class="select-form" name="end_dow" id="day-of-week">
                         @foreach($shift->getDayOfWeekNames() as $dow)
-                            <option value="{{ $dow }}">{{ $dow }}</option>
+                            @if($shift->getEndDay() == $dow)
+                                <option selected value="{{ $dow }}">{{ $dow }}</option>
+                            @else
+                                <option value="{{ $dow }}">{{ $dow }}</option>
+                            @endif
                         @endforeach
                     </select>
                     <label for="end-hour">Select End Hour for the shift</label>
                     <select class="select-form" name="end_hour" id="end-hour">
                         @for($i = 0; $i <= 23; $i++)
-                            <option value="{{ $i }}">{{ $i }}</option>
+                            @if($shift->getEndHour() == $i)
+                                <option selected value="{{ $i }}">{{ $i }}</option>
+                            @else
+                                <option value="{{ $i }}">{{ $i }}</option>
+                            @endif
                         @endfor
                     </select>
 
                     <label for="end-min">Select End Min for the shift</label>
                     <select class="select-form" name="end_min" id="end-min">
                         @for($i = 0; $i <= 59; $i++)
-                            <option value="{{ $i }}">{{ $i }}</option>
+                            @if($shift->getEndMin() == $i)
+                                <option selected value="{{ $i }}">{{ $i }}</option>
+                            @else
+                                <option value="{{ $i }}">{{ $i }}</option>
+                            @endif
                         @endfor
                     </select>
                     <button id="new-shift-btn" class="btn btn-dark" type="submit">

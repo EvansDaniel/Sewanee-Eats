@@ -3,15 +3,13 @@
 namespace App;
 
 use App\Contracts\Availability;
-use App\CustomTraits\IsAvailable;
-use App\Models\Role;
+use App\CustomClasses\Availability\IsAvailable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable implements Availability
 {
     use Notifiable;
-    use IsAvailable;
     /**
      * The attributes that are mass assignable.
      *
@@ -46,11 +44,6 @@ class User extends Authenticatable implements Availability
         return false;
     }
 
-    public function isAvailable($day, $time)
-    {
-        return $this->isAvailableOnDayAtTime($this, $day, $time);
-    }
-
     public function issues() // TODO: double check that this is working
     {
         return $this->hasMany('App\Models\Issue', 'admin_id', 'id');
@@ -60,15 +53,10 @@ class User extends Authenticatable implements Availability
     public function timeRanges()
     {
         if ($this->hasRole('admin') || $this->hasRole('courier') || $this->hasRole('manager')) {
-            return $this->hasMany('App\Models\TimeRange', 'user_id', 'id');
+            return $this->belongsToMany('App\Models\TimeRange',
+                'time_ranges_users', 'user_id', 'time_range_id');
         }
         return null;
-    }
-
-    public function ofType($type)
-    {
-        $role = Role::ofType($type)->first();
-        return $role->users;
     }
 
     public function roles()
@@ -80,5 +68,15 @@ class User extends Authenticatable implements Availability
     public function getAvailability()
     {
         return $this->timeRanges;
+    }
+
+    public function isOnShift()
+    {
+        $isAvail = new IsAvailable($this);
+        // a courier accepts is sent order for there
+        // entire shift even if there is very little time
+        // left for it, they can only accept the shift during
+        // there shift though
+        return $isAvail->isAvailableNow();
     }
 }

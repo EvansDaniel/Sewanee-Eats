@@ -3,6 +3,7 @@
 namespace Tests\Unit\Availability;
 
 use App\CustomClasses\Availability\IsAvailable;
+use App\CustomClasses\Schedule\Shift;
 use App\Models\MenuItem;
 use App\Models\Restaurant;
 use App\Models\Role;
@@ -54,10 +55,12 @@ class IsAvailableTest extends TestCase
      */
     public function itCorrectlyDeterminesAvailabilityForRestaurants()
     {
+        // there functions run timerangeseeder twice
+        $this->populateRolesAndUsers();
         $this->populateRestaurants();
         $r = Restaurant::all()->first();
-        $isAvail = new IsAvailable($r);
-        \Log::info($isAvail->isAvailableNow(0));
+        $shift = new Shift();
+        \Log::info(count($shift->getCurrentShifts()));
     }
 
     private function populateRestaurants()

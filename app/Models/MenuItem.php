@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Contracts\Availability;
 use App\Contracts\ShoppingCart\Item;
+use App\CustomClasses\Availability\IsAvailable;
 use Illuminate\Database\Eloquent\Model;
 
 class MenuItem extends Model implements Item, Availability
@@ -41,6 +42,13 @@ class MenuItem extends Model implements Item, Availability
     public function itemIsAvailable()
     {
         return $this->isAvailableNow($this);
+    }
+
+    public function isAvailableNow()
+    {
+        $isAvail = new IsAvailable($this);
+        // the menu item is available with 30 min spare time
+        return $isAvail->isAvailableNow(30);
     }
 
     public function getPrice()

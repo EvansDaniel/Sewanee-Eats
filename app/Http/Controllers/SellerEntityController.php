@@ -10,8 +10,6 @@ use App\Models\SpecialEvent;
 
 class SellerEntityController extends Controller
 {
-    use IsAvailable;
-
     /*
      * General Idea:
      * for the given restaurant,
@@ -52,22 +50,6 @@ class SellerEntityController extends Controller
 
     public function list_restaurants()
     {
-        /*$all_restaurants = Restaurant::all();
-        $s_restaurants = [];
-        $restaurants = [];
-        foreach ($all_restaurants as $restaurant) {
-            if ($restaurant->getSellerType() == RestaurantOrderCategory::WEEKLY_SPECIAL) {
-                $s_restaurants[] = $restaurant;
-            } else if($restaurant->getSellerType() == RestaurantOrderCategory::ON_DEMAND) {
-                // TODO: NEED TO UNCOMMENT THIS IF STATEMENT AFTER DEVELOPMENT
-                //if ($this->isAvailableNow($restaurant)) {
-                $on_demand_rests[] = $restaurant;
-                //}
-            }
-        }
-        $events = SpecialEvent::all();*/
-        // boolean to use in the view show or not show a link
-        // to a page with all the restaurants on it
         $sellers = new Sellers();
         return view('orderFlow.list_restaurants',
             compact('sellers'));

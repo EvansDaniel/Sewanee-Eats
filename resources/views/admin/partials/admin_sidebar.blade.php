@@ -55,7 +55,9 @@
                     <li><a><i class="fa fa-bar-chart-o"></i>Schedule<span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
                             <li><a href="{{ route('showSchedule') }}">View Schedule</a></li>
+                            <li><a href="{{ route('showShifts') }}">View Current Shifts</a></li>
                             <li><a href="{{ route('showCreateShift') }}">Add New Shift</a></li>
+
                             {{--<li><a href="morisjs.html">Moris JS</a></li>
                             <li><a href="echarts.html">ECharts</a></li>
                             <li><a href="other_charts.html">Other Charts</a></li>--}}

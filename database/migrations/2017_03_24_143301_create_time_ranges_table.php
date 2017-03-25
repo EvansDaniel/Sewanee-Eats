@@ -21,17 +21,18 @@ class CreateTimeRangesTable extends Migration
             $table->string('end_dow');
             $table->integer('end_hour');
             $table->integer('end_min');
-            $table->integer('user_id')->unsigned()->nullable();
+            //$table->integer('user_id')->unsigned()->nullable();
             $table->integer('restaurant_id')->unsigned()->nullable();
             $table->integer('menu_item_id')->unsigned()->nullable();
+            $table->integer('time_range_type'); // shift, weekly special, on demand, etc.
             // todo: important
             // user time ranges have to be deleted b/c shifts change by week,
             // so when we are creating user time schedules, we need to provide the time at which the
             // time range should be deleted such as 3 hours after the shift
 
             // user id that represents an employee of Sewanee Eats that has a shift at specified time
-            $table->foreign('user_id')
-                ->references('id')->on('users');
+            /*$table->foreign('user_id')
+                ->references('id')->on('users');*/
             $table->foreign('restaurant_id')
                 ->references('id')->on('restaurants');
             $table->foreign('menu_item_id')

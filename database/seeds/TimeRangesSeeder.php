@@ -1,5 +1,7 @@
 <?php
 
+use App\CustomClasses\Availability\TimeRangeType;
+use App\CustomClasses\ShoppingCart\RestaurantOrderCategory;
 use App\Models\MenuItem;
 use App\Models\Restaurant;
 use App\Models\Role;
@@ -18,19 +20,29 @@ class TimeRangesSeeder extends Seeder
         $role = Role::ofType('courier')->first();
         if (!empty($role)) {
             foreach ($role->users as $user) {
-                factory(TimeRange::class, 1)->create(['user_id' => $user->id]);
+                factory(TimeRange::class, 1)->create(['time_range_type' => TimeRangeType::SHIFT])
+                    ->each(function ($t) use ($user) {
+                        $t->users()->attach($user->id);
+                    });
             }
         }
         $restaurants = Restaurant::all();
         if (!empty($restaurants)) {
             foreach ($restaurants as $restaurant) {
-                factory(TimeRange::class, 1)->create(['restaurant_id' => $restaurant->id]);
+                factory(TimeRange::class, 1)->create([
+                    'restaurant_id' => $restaurant->id,
+                    'time_range_type' => $restaurant->getSellerType() == RestaurantOrderCategory::ON_DEMAND ?
+                        TimeRangeType::ON_DEMAND : TimeRangeType::WEEKLY_SPECIAL
+                ]);
             }
         }
         $menu_items = MenuItem::all();
         if (!empty($menu_items)) {
             foreach ($menu_items as $menu_item) {
-                factory(TimeRange::class, 1)->create(['menu_item_id' => $menu_item->id]);
+                factory(TimeRange::class, 1)->create([
+                    'menu_item_id' => $menu_item->id,
+                    'time_range_type' => TimeRangeType::MENU_ITEM
+                ]);
             }
         }
     }

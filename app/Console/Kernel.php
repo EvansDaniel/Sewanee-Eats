@@ -2,7 +2,6 @@
 
 namespace App\Console;
 
-use App\CustomTraits\IsAvailable;
 use App\Models\Role;
 use Carbon\Carbon;
 use Illuminate\Console\Scheduling\Schedule;
@@ -10,7 +9,6 @@ use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
 class Kernel extends ConsoleKernel
 {
-    use IsAvailable;
     /**
      * The Artisan commands provided by your application.
      *

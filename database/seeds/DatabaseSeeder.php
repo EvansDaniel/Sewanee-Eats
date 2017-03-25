@@ -35,7 +35,7 @@ class DatabaseSeeder extends Seeder
             $this->call(ArticleTableSeeder::class);
             $this->call(SpecialEventsTableSeeder::class);
             $this->call(EventItemTableSeeder::class);
-            //$this->call(TimeRangesSeeder::class);
+            $this->call(TimeRangesSeeder::class);
         }
 
         Eloquent::reguard();

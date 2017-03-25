@@ -1,22 +1,20 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: daniel
- * Date: 3/23/17
- * Time: 7:25 PM
- */
 
 namespace App\CustomClasses\Availability;
-
 
 use App\Contracts\Availability;
 use App\Models\TimeRange;
 use Carbon\Carbon;
 
+/**
+ * Class IsAvailable determines the availability of the resource passed as object
+ * Caller is responsible for using the correct availability method for the
+ * object passed to the constructor
+ * @package App\CustomClasses\Availability
+ */
 class IsAvailable
 {
     protected $resource;
-
     /**
      * IsAvailable constructor.
      * @param Availability $resource Can be menu items, restaurants, couriers
@@ -24,7 +22,9 @@ class IsAvailable
      */
     public function __construct(Availability $resource)
     {
-        $this->resource = $resource; // restaurant, courier, manager, menu item, etc.
+        // this assumes that all classes that implement availability have
+        // the same types for there collections of resources, which is logically they case
+        $this->resource = $resource;
     }
 
     /**

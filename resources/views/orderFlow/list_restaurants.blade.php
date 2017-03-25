@@ -16,7 +16,8 @@
                 @foreach($sellers->getOnDemandRests() as $restaurant)
                     <li style="display: none"
                         class="restaurant list-group-item col-lg-3 col-md-3 col-xs-8 col-xs-offset-2 col-sm-8 col-sm-offset-2">
-                        <a href="{{ route('showMenu',['id' => $restaurant->id]) }}">
+                        <a class="menu-link" data-rest-is-avail="{{ $restaurant->isOpen() }}"
+                           href="{{ route('showMenu',['id' => $restaurant->id]) }}">
                             <!-- These urls must be https -->
                             <img src="{{ $restaurant->image_url }}"
                                  id="rest-images" class="img-responsive">
@@ -96,5 +97,17 @@
         })
 
       }
+
+      // checks if restaurant is available and if it isn't,
+      // disables the link to its menu
+      $('.menu-link').each(function () {
+        var restIsAvail = $(this).data('rest-is-avail');
+        if (restIsAvail == 1) {
+          $(this).on('click', function () {
+            return false;
+          });
+        }
+      })
+
     </script>
 @stop
