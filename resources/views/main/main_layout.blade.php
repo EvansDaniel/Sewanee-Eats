@@ -28,11 +28,9 @@
 <div id="main-container" class="container-fluid main-main-container">
     {{--@include('main.countdown')--}}
 
-    @if(url()->current() != route("home") and url()->current() != route("homev2"))
-        <div style="margin-top: 100px"></div>
+    @if(url()->current() != route("home"))
+        {{--<div style="margin-top: 35px"></div>--}}
         <script src={{ asset('js/resize.js',env('APP_ENV') !== 'local') }}></script>
-        <script src={{ asset('js/resize.js',env('APP_ENV') !== 'local') }}></script>
-
     @endif
 
 <!-- Status messages to user about what they are doing -->

@@ -56,7 +56,7 @@
             <div class="col-lg-offset-5 col-lg-2 col-md-2 col-md-offset-5 col-sm-4 col-sm-offset-4 col-xs-offset-4 col-xs-4">
 
                 {{--<img class="img-circle img-thumbnail" src="{{ $restaurant->image_url }}">--}}
-                <img class="img-circle img-thumbnail"  id="restaurant-logo" src="{{ asset('images/yamato.png',env('APP_ENV') === 'production') }}">
+                <img class="img-circle img-thumbnail"  id="restaurant-logo" src="{{ asset('images/branding/brand_tall_logo.png',env('APP_ENV') === 'production') }}">
                 <hr id="custom-line">
             </div>
         </div>
@@ -68,6 +68,7 @@
             @else
                 @foreach($menu_items as $category => $items)
                     <div class="panel-heading">
+                        <hr>
                         <h3 class="header catList">{{ $category }}</h3>
                     </div>
                     <div class="panel-body" id="mountain-menu">

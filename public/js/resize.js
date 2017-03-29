@@ -1,10 +1,11 @@
+/** function to push the footer at the bottom of the page every time
+*/
+
 $(document).ready(function () {
-  var footer = $('#footer').height();
-  var wn = $(window).height();
-  var doc = $('html').height();
-  var h = wn - doc;
+  var windowHeight = $(window).height();
+  var htmlHeight = $('html').height();
+  var h = windowHeight - htmlHeight;
   if (h > 0) {
-    var diff = h;
-    $("#push-div").css("height", diff);
+    $("#push-div").css("height", h);
   }
 });

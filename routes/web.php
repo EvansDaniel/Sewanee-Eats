@@ -13,13 +13,13 @@
 
 use Carbon\Carbon;
 
-/*Route::get('temp', function () {
-    return view('home.temp');
-});*/
 
-Route::get('homev2', function () { // redirect route to home
-    return view('home.homev2');
-})->name('homev2');
+
+// test link for some viewS
+
+/*Route::get('test', function () { // redirect route to home
+    return view('emails.dip_em');
+})->name('email');*/
 
 Route::get('time', function () {
     // if this is an ajax request

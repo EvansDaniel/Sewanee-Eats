@@ -5,11 +5,11 @@ use App\Models\TimeRange;
 
 $factory->define(TimeRange::class, function (Faker\Generator $faker) {
     return [
-        'start_dow' => 'Friday',
-        'start_hour' => 9,
-        'start_min' => 24,
+        'start_dow' => 'Saturday',
+        'start_hour' => 12,
+        'start_min' => 00,
         'end_dow' => 'Saturday',
-        'end_hour' => 10,
-        'end_min' => 27,
+        'end_hour' => 23,
+        'end_min' => 59,
     ];
 });

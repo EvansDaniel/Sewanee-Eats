@@ -1,12 +1,17 @@
-body{
-    background: url("../../images/bambou.jpg");
-}
+
 #custom-line{
-    border: double indianred 2px;
+    border: double rebeccapurple 2px;
+
 }
 #restaurant-logo{
     border: 2px indianred;
+    background: url("../../images/bambou.jpg");
+    margin-bottom: -15px;
 }
-#mountain-menu ul li:hover {
-    background: #fdf7f7;
+.panel-default, .panel-heading{
+    padding-top: 0;
+    margin-top: 0;
 }
+/*#mountain-menu ul li:hover {*/
+    /**/
+/*}*/

@@ -72,10 +72,14 @@
     font-size: 13px;
     font-weight: bold;
     border-radius: 5px;
-    background: rebeccapurple;
-    border: 1px solid rebeccapurple;
+    background: crimson;
+    border: 1px solid crimson;
     color: white;
     padding: 10px;
+}
+#add-to-cart-button{
+    background: rebeccapurple;
+    border-color: rebeccapurple;
 }
 
 #show-item-price {
@@ -166,14 +170,14 @@ textarea {
 }
 .free_toppings_d, .n_free_toppings_d{
     margin-left: 8%;
-    background: rebeccapurple;
-    color: white;
+    text-decoration: underline;
     /*border-radius: 5px;*/
     line-height: 25px;
     font-size: 15px;
     font-family: "Lato", sans-serif;
     padding-left: 1%;
-    width: 180px;
+    width: 92%;
+    padding-bottom: 15px;
 }
 .topings label{
     color: black;
@@ -197,7 +201,7 @@ textarea {
         margin-left: 9%;
     }
     .free_toppings_d, .n_free_toppings_d{
-        width: 23%;
+
     }
 }
 input[type=number]::-webkit-inner-spin-button,
@@ -216,7 +220,13 @@ input::-webkit-inner-spin-button {
 .f-item{
     margin-bottom: 3px;
 }
+.itembtn{
+    font-size: 14px;
+}
 @media only screen and (max-width: 768px) {
+    .itembtn{
+        font-size: 12px;
+    }
     .free_toppings, .n_free_toppings{
         margin-left: 9%;
         background: none;
@@ -254,9 +264,7 @@ input::-webkit-inner-spin-button {
     font-size: 16px;
     font-weight: bold;
 }
-.itembtn{
-    font-size: 12px;
-}
+
 #show-item-description{
     width: 90%;
     margin-left: 3%;
@@ -264,4 +272,149 @@ input::-webkit-inner-spin-button {
 .modal-footer, .q-manip-div, .q-head{
     width: 90%;
     margin-left: 5%;
+}
+
+
+
+/*changes for the new version*/
+
+
+
+.panel-heading hr{
+    border-top: solid .05em darkorange;
+    margin-bottom: 0;
+    width: 100%;
+    margin-left: 0;
+}
+.panel-heading h3{
+    margin-top: 0;
+    -webkit-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
+    box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
+
+}
+#show-menu{
+    margin-left: -30px;
+    margin-right: -30px;
+}
+
+.main-main-container{
+    background: white;
+    margin-bottom: -41px;
+}
+footer{
+    background: white;
+}
+
+@media only screen and (min-width: 1200px) {
+    .panel-heading h3{
+        padding: 7px 10px;
+        width: 8.333%;
+        background: rebeccapurple;
+        color: white;
+        letter-spacing: 1px;
+        border: 1px solid darkmagenta;
+        font-weight: bold;
+        text-transform: capitalize;
+        font-size: 19px
+
+    }
+    .panel-body, .panel-heading{
+        padding-left: 30px;
+        padding-right: 30px ;
+    }
+   .menuList{
+        font-size: 15px;
+    }
+    .menu-item-description{
+        font-size: 14px;
+    }
+}
+
+
+@media only screen and (min-width: 992px) and (max-width: 1199px){
+
+    .panel-heading h3{
+        padding: 7px 10px;
+        width: 16%;
+        background: rebeccapurple;
+        color: white;
+        letter-spacing: 1px;
+        border: 1px solid darkmagenta;
+        font-weight: bold;
+        text-transform: capitalize;
+        font-size: 18px;
+    }
+    .panel-body{
+        padding-left: 45px;
+        padding-right: 45px ;
+    }
+    .panel-heading{
+        padding-left: 40px;
+        padding-right: 45px ;
+    }
+    .menuList{
+        font-size: 14px;
+    }
+    .menu-item-description{
+        font-size: 13px;
+    }
+
+}
+@media only screen and (max-width: 991px) and (min-width: 768px) {
+    .panel-heading h3{
+        padding: 7px 10px;
+        width: 24%;
+        background: rebeccapurple;
+        color: white;
+        letter-spacing: 2px;
+        border: 1px solid darkmagenta;
+        font-weight: bold;
+        text-transform: capitalize;
+    }
+    .panel-body{
+        padding-left: 45px;
+        padding-right: 45px ;
+    }
+    .panel-heading{
+        padding-left: 40px;
+        padding-right: 45px ;
+    }
+    .menuList{
+        font-size: 15px;
+    }
+    .menu-item-description{
+        font-size: 14px;
+    }
+}
+@media only screen and (max-width: 768px){
+    .panel-heading h3{
+        padding: 7px 10px;
+        width: 33.333%;
+        background: rebeccapurple;
+        color: white;
+        letter-spacing: 2px;
+        border: 1px solid darkmagenta;
+        font-weight: bold;
+        text-transform: capitalize;
+        font-size: small;
+    }
+    .panel-body{
+        padding-left: 45px;
+        padding-right: 45px ;
+    }
+    .panel-heading{
+        padding-left: 35px;
+        padding-right: 45px ;
+    }
+    .menuList{
+        font-size: 13px;
+    }
+    .menu-item-description{
+        font-size: 13px;
+    }
+}
+
+.menu-item-description{
+    color: black;
 }

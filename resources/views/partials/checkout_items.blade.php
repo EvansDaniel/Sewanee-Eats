@@ -18,10 +18,11 @@
             <label for="si-id" id="special-btn">Special
                 instructions</label>
             <div class="container row">
-                                               <textarea id="si-id-{{$order->getCartItemId()}}"
-                                                         class="si"
-                                                         data-cart-item-id="{{$order->getCartItemId() }}"
-                                                         name="special_instructions">{{ $order->getSi() }}</textarea>
+                <textarea id="si-id-{{$order->getCartItemId()}}" class="si"
+                          data-cart-item-id="{{$order->getCartItemId() }}"
+                          name="special_instructions">
+                    {{ $order->getSi() }}
+                </textarea>
             </div>
             <input name="special_instructions" type="hidden"
                    value="{{ $order->getSi() }}">
@@ -29,7 +30,7 @@
     </div>
 
     @if(!empty($order->itemExtras()))
-        <div class="col-lg-2 col-md-2">
+        <div class="col-lg-2 col-md-2 order-extra">
             @if(empty($order->getExtras()) && !empty($order->itemExtras()))
                 <button type="button"
                         onclick="showExtras(this)"
@@ -72,7 +73,7 @@
 
         </div>
     @endif
-    <div class="col-lg-1 col-md-1">
+    <div class="col-lg-1 col-md-1 remove-btn">
         <button class="ckbtn btn btn-primary"
                 id="dfc-{{ $order->getCartItemId() }}"
                 data-cart-item-id="{{ $order->getCartItemId() }}"

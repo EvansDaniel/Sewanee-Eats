@@ -1,0 +1,30 @@
+this file is supposed to be filled with work in progress
+
+I. front-end
+----done-----
+new order to manager email
+checkout front end
+thank you page
+
+----todo-----
+checkout
+pricing
+thank you page
+email to customer
+tracker thingy: - home page top
+                - courier
+
+---version 2.1---
+move cart if the delivery information is visible and sreen width is grater than 1080 px
+email view for the order on complete and shit to sign
+
+
+II. back-end
+
+---todo----
+function for the checkout to work
+
+
+
+
+

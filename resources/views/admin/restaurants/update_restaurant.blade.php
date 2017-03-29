@@ -7,7 +7,7 @@
 
 @section('body')
     <div class="container">
-        <h1>Add a new restaurant</h1>
+        <h1>Update restaurant</h1>
         <form action="{{ url()->to(parse_url(route('updateRestaurant',[]),PHP_URL_PATH),[],env('APP_ENV') !== 'local') }}"
               method="post" enctype="multipart/form-data"
               id="update-restaurant" accept-charset="utf-8">
@@ -25,7 +25,7 @@
                 </select>
                 <br>
                 <input type="file" name="image" id="file" class="input-file form-control">
-                <label for="file" class="btn btn-primary form-control">Choose a restaurant image</label>
+                <label for="file" class="btn btn-primary form-control">Choose a restaurant image<span><strong> <i>RATIO MUST BE 40 BY 33 (width/height)</i></strong></span></label>
                 <br><br>
                 <label for="hours-table">Specify the hours this restaurant is open. If a restaurant is open for multiple
                     disjoint shifts use the extra rows for that day to fill that in. Fill each cell in in this form:

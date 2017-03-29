@@ -1,7 +1,11 @@
-/**
- * Created by blaise on 3/20/17.
+/** this is the script to animate the homepage
  */
-//500ms
+
+/**fade in according to group categories based on the fading time
+ * @param i: individual html node
+ * @param grp: the group category
+ */
+
 function fdin(i, grp){
     if(grp == 1){
         i.fadeIn(1500);
@@ -20,6 +24,7 @@ function fdin(i, grp){
 
 }
 
+// the big fade function
 $(document).ready(function () {
     // header animation
     var subHeading = $(".subheading"),

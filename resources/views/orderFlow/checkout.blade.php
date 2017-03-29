@@ -12,7 +12,8 @@
 @stop
 
 @section('body')
-    <div class="container-fluid" id="cart-container">
+    <script src="{{ asset('js/Checkout/checkout_animations.js',env('APP_ENV') === 'production') }}"></script>
+    <div class="container-fluid cart-container" id="cart-container">
         <form action="{{ url()->to(parse_url(route('handleCheckout',[]),PHP_URL_PATH),[],env('APP_ENV') !== 'local') }}"
               method="post" id="payment-form">
             {{--<form action="{{ route('handleCheckout') }}" method="POST" id="payment-form">--}}
@@ -32,21 +33,20 @@
                 <h1 id="cart-title" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     Thank you for shopping with us. This is your order summary,
                 </h1>
-
-                <div class="row">
-                    <h3 class="col-lg-12 col-md-12 col-sm-12 col-xs-12 cart-review">
-                        1.Review item(s)
+                <div class="row h3">
+                    <h3 class="col-lg-12 col-md-12 col-sm-12 col-xs-12 cart-review rev1">
+                        Review Order
                     </h3>
-
-
+                    <hr class="cart-sep sep1">
                 </div>
 
 
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="orders">
 
                     @if(!empty($cart->getOnDemandItems()))
-                        <h3>Your On Demand Items</h3>
-                        <h4><i>Estimated Delivery Time: <span id="on-demand-delivery-time"></span> mins</i></h4>
+                        <h3 class="type-title">Your On Demand Items</h3>
+                        <h4 class="estimated-time"><i>Estimated Delivery Time: <span
+                                        id="on-demand-delivery-time"></span> mins</i></h4>
                         <hr class="hr-separator">
                         @foreach($cart->getOnDemandItems() as $order)
                             @include('partials.checkout_items')
@@ -55,7 +55,7 @@
                     @endif
 
                     @if(!empty($cart->getWeeklySpecialItems()))
-                        <h3>Your Weekly Special Items</h3>
+                        <h3 class="type-title">Your Weekly Special Items</h3>
                         <hr class="hr-separator">
                         @foreach($cart->getWeeklySpecialItems() as $order)
                             @include('partials.checkout_items')
@@ -77,47 +77,129 @@
                         @endif
 
                     </div>
-                    <hr class="cart-line">
+                    {{--<hr class="cart-line">--}}
                     @endif
 
                 <!-- Show payment stuff if cart is not empty -->
                     @if($cart->getQuantity() != 0)
 
-                        <div class="cart " id="main-payment-form" style="">
+                        <div class="cart " id="main-payment-form">
+                            <div class="row">
+                                <h3 class="cart-review">
+                                    Delivery Information
+                                </h3>
+                                <hr class="cart-sep">
+
+                            </div>
+                            <div class="form-group row buyer-info">
+
+                                <label for="full-name">Name</label>
+                                <input class="form-control pay-input" maxlength="100"
+                                       type="text"
+                                       value="@if(env('APP_ENV') !== 'production') {{ 'Daniel Evans' }} @endif"
+                                       name="name" id="full-name" placeholder="Full Name">
+                                <br>
+                                @if(!empty($cart->getOnDemandItems()))
+                                    {{-- TODO: change this to use the $cart variable--}}
+                                    <div class="delivery-info-wrap">
+
+                                        <label for="location">Where should we deliver your On Demand items?</label>
+                                        <div class="location-option row">
+                                            <label class="radio-inline">
+                                                <input type="radio" name="loc" id="loc-university" class="loc-university" value="1">University Building
+                                            </label>
+                                            <label class="radio-inline ">
+                                                <input type="radio" name="loc" id="loc-address" class="loc-address" value="0">Specific Address
+                                            </label>
+                                        </div>
+                                        <div class="row" id="location-wrap">
+                                            <input class="form-control pay-input controls" type="text" maxlength="100"
+                                                   name="location"
+                                                   value="@if(env('APP_ENV') !== 'production') {{ '12595 Sollace M Freeman Hwy, Sewanee, TN 37375' }} @endif"
+                                                   id="location">
+                                        </div>
+                                        <div class="university-wrap" id="university-wrap">
+                                            <div class="building-wrap">
+
+                                                <label for="venmo-username">Building Name</label>
+                                                <input type="text" id="building" name="building"
+                                                       maxlength="150"
+                                                       placeholder="Building Name" class="form-control">
+                                            </div>
+                                            <div class="select-wrap">
+                                                <label for="venmo-username" class="row">Please select</label>
+                                                <select class="row custom-select" name="issue_type"
+                                                        id="inlineFormCustomSelect" required>
+                                                    {{--@if(!empty(old('issue_type')))
+                                                        @if(old('issue_type') == 1)
+                                                            <option value="1" selected>Concern</option>
+                                                        @else
+                                                            <option value="1">Concern</option>
+                                                        @endif
+                                                        @if(old('issue_type') == 1)
+                                                            <option value="2">Suggestion</option>
+                                                        @else
+                                                            <option value="1" selected>Concern</option>
+                                                        @endif
+                                                    @else--}}
+                                                    <option class="issue-type" value="1" selected>Room Number</option>
+                                                    <option class="issue-type" value="2">Room Name</option>
+                                                    {{--@endif--}}
+                                                </select>
+                                            </div>
+                                            <div class="room-wrap">
+                                                <label for="venmo-username">Room Name or Number</label>
+                                            {{--    <input type="text" id="room-name" name="room-name"
+                                                       maxlength="150"
+                                                       placeholder="Room Name/number" class="form-control hidden">--}}
+
+                                                {{-- realistically we need one input--}}
+                                                <input type="text" id="room-number" name="room-number"
+                                                       maxlength="150"
+                                                       placeholder="Room number/number" class="form-control">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                @endif
+                                {{--<p class="notice">--}}
+                                {{--<i>*If you are paying with card make sure name matches name on card.--}}
+                                {{--</i>--}}
+                                {{--</p>--}}
+                            </div>
 
                             <!-- Payment information -->
                             <div class="row">
-                                <h3 class="col-lg-12 col-md-12 col-sm-12 col-xs-12 cart-review">
-                                    2. Enter your information to pay:
+                                <h3 class="cart-review">
+                                    Payment
                                 </h3>
+                                <hr class="cart-sep">
+
                             </div>
+                            <div class="info-wrapper">
 
-                            <div id="ct-ct">
-                                <div class="form-group">
-                                    <div class="row">
-                                        <div class="col-lg-4 col-md-4 col-sm-10 col-xs-10">
+                                <div class="form-group row buyer-info">
 
-                                            <label for="full-name">Name</label>
-                                            <input class="form-control pay-input" maxlength="100"
-                                                   type="text"
-                                                   value="@if(env('APP_ENV') !== 'production') {{ 'Daniel Evans' }} @endif"
-                                                   name="name" id="full-name">
-                                            <br>
-                                            <label for="payment-type" id="pay-with-what">Check the box if you would
-                                                like to
-                                                pay with Venmo.</label>
-                                            <input type="checkbox" name="payment_type" id="payment-type" value="0">
-                                            <br>
+                                    {{--<label for="full-name">Name</label>--}}
+                                    {{--<input class="form-control pay-input" maxlength="100"--}}
+                                    {{--type="text"--}}
+                                    {{--value="@if(env('APP_ENV') !== 'production') {{ 'Daniel Evans' }} @endif"--}}
+                                    {{--name="name" id="full-name" placeholder="Full Name">--}}
+                                    {{--<br>--}}
+                                    <label for="payment-type" id="pay-with-what">Check the box if you would
+                                        like to
+                                        pay with Venmo.</label>
+                                    <input type="checkbox" name="payment_type" id="pay-with-venmo" value="0"
+                                           onclick="animate()" data-aim="#venmo-payment-div">
+                                    <br>
 
-                                            <div id="venmo-payment-div" class="form-group">
+                                    <div id="venmo-payment-div" class="form-group">
 
-                                                <label for="venmo-username">Venmo Username</label>
-                                                <input type="text" id="venmo-username" name="venmo_username"
-                                                       maxlength="150"
-                                                       placeholder="Type in your venmo username" class="form-control">
+                                        <label for="venmo-username">Venmo Username</label>
+                                        <input type="text" id="venmo-username" name="venmo_username"
+                                               maxlength="150"
+                                               placeholder="Venmo Username" class="form-control">
 
-                                            </div>
-                                        </div>
                                     </div>
                                     <br>
 
@@ -125,87 +207,92 @@
                                         below to
                                         pay with a card.</label>
 
-                                    <div class="row">
 
-                                        <div id="payment-errors-div" style="display: none">
-                                            <br>
-                                            <span class="alert alert-danger" id="payment-errors"></span>
-                                            <br><br>
+                                    <div id="payment-errors-div" style="display: none">
+                                        <br>
+                                        <span class="alert alert-danger" id="payment-errors"></span>
+                                        <br><br>
+                                    </div>
+
+                                    <div id="card-payment-div">
+
+                                        <div class="form-group" id="c-number">
+                                            <label>
+                                                <span class="row"> Card Number</span>
+                                                <input class="pay-input form-control"
+                                                       type="text"
+                                                       id="card-number" size="20"
+                                                       data-stripe="number"
+                                                       name="card_number"
+                                                       value="@if(env('APP_ENV') != "production") {{ 4242424242424242 }} @endif"
+                                                       placeholder="############">
+                                            </label>
+                                            {{--<div class="form-group" id="c-cvc">--}}
+                                            <label>
+                                                <span class="row">CVC</span>
+                                                <input class="pay-input" type="text" size="4" maxlength="4" id="cvc"
+                                                       data-stripe="cvc" name="cvc" placeholder="###">
+                                            </label>
+                                            {{--</div>--}}
                                         </div>
 
-                                        <div id="card-payment-div">
+                                        <div class="form-group" id="c-date">
+                                            <label>
+                                                <span class="row">Expiration</span>
+                                                <div class="row">
 
-                                            <div class="form-group  col-lg-3 col-md-3 col-sm-10   col-xs-10"
-                                                 id="c-number">
-                                                <label>
-                                                    <span class="row">Card Number</span>
-                                                    <input class="pay-input form-control" style="margin-top: 12%"
-                                                           type="text"
-                                                           id="card-number" size="20"
-                                                           data-stripe="number"
-                                                           name="card_number"
-                                                           value="@if(env('APP_ENV') != "production") {{ 4242424242424242 }} @endif">
-                                                </label>
-                                            </div>
-
-                                            <div class="form-group col-lg-3 col-md-3 col-sm-10  col-xs-10" id="c-date">
-                                                <label>
-                                                    <span class="row">Expiration (MM/YY)</span><br>
                                                     <input class="pay-input" type="text" size="2" id="exp-month"
                                                            maxlength="2"
-                                                           data-stripe="exp_month" name="expire_month">
-                                                </label>
-                                                {{--<span> / </span>--}}
-                                                <input class="pay-input" type="text" size="4" id="exp-year"
-                                                       maxlength="4"
-                                                       data-stripe="exp_year" name="expire_year">
-                                            </div>
-
-                                            <div class="form-group col-lg-3 col-md-3 col-sm-10  col-xs-10" id="c-cvc">
-                                                <label>
-                                                    <span class="row">CVC</span><br>
-                                                    <input class="pay-input" type="text" size="4" maxlength="4" id="cvc"
-                                                           data-stripe="cvc" name="cvc">
-                                                </label>
-                                            </div>
+                                                           data-stripe="exp_month" name="expire_month" placeholder="MM">
+                                                    <input class="pay-input" type="text" size="4" id="exp-year"
+                                                           maxlength="4"
+                                                           data-stripe="exp_year" name="expire_year" placeholder="YYYY">
+                                                </div>
+                                            </label>
                                         </div>
-
                                     </div>
-                                    <div class="form-group" id="loc-phone">
-                                        @if(!empty($cart->getOnDemandItems()))
-                                            {{-- TODO: change this to use the $cart variable--}}
-                                            <label for="location">Where should we deliver your On Demand items?</label>
-                                            <input class="form-control pay-input controls" type="text" maxlength="100"
-                                                   name="location"
-                                                   value="@if(env('APP_ENV') !== 'production') {{ '12595 Sollace M Freeman Hwy, Sewanee, TN 37375' }} @endif"
-                                                   id="location">
-                                        @endif
 
-                                        <label for="email-address">Email Address</label>
-                                        <input class="pay-input" style="display: block; padding: 6px 12px; width: 50%"
-                                               maxlength="100"
-                                               placeholder="Please enter your email address"
-                                               value="@if(env('APP_ENV') !== 'production') {{ 'evansdb0@sewanee.edu' }} @endif"
-                                               type="email"
-                                               name="email_address" id="email-address">
-                                        @if($cart->hasOnDemandItems())
-                                            <label for="phone-number">Phone Number (used by delivery personnel to
-                                                contact you when necessary)</label>
-                                            <input class="form-control pay-input" maxlength="10"
-                                                   placeholder="10 digits, only numbers"
-                                                   value="@if(env('APP_ENV') !== 'production') {{ '5555555555' }} @endif"
-                                                   type="tel"
-                                                   style="display: block"
-                                                   name="phone_number" id="phone-number">
-                                        @endif
-                                    </div>
+                                </div>
+
+
+                                <div class="form-group" id="loc-phone">
+                                    {{--@if(!empty($cart->getOnDemandItems()))--}}
+                                    {{-- TODO: change this to use the $cart variable--}}
+                                    {{--<label for="location">Where should we deliver your On Demand items?</label>--}}
+                                    {{--<input class="form-control pay-input controls" type="text" maxlength="100"--}}
+                                    {{--name="location"--}}
+                                    {{--value="@if(env('APP_ENV') !== 'production') {{ '12595 Sollace M Freeman Hwy, Sewanee, TN 37375' }} @endif"--}}
+                                    {{--id="location">--}}
+                                    {{--@endif--}}
+
+                                    <label for="email-address">Email Address</label>
+                                    <input class="pay-input email-address"
+                                           maxlength="100"
+                                           placeholder="Please enter your email address"
+                                           value="@if(env('APP_ENV') !== 'production') {{ 'evansdb0@sewanee.edu' }} @endif"
+                                           type="email"
+                                           name="email_address" id="email-address">
+                                    @if($cart->hasOnDemandItems())
+                                        <label for="phone-number">Phone Number <span id="reason"> (used by delivery personnel to
+                                                contact you when necessary)</span></label>
+                                        <input class="form-control pay-input" maxlength="10"
+                                               placeholder="10 digits, only numbers"
+                                               value="@if(env('APP_ENV') !== 'production') {{ '5555555555' }} @endif"
+                                               type="tel"
+                                               name="phone_number" id="phone-number">
+                                    @endif
+                                </div>
+                            </div>
+                            <div class="total">
+                                <p class="summary">Order Summary</p>
+                                <div class="summary-wrap">
+
                                     <div>Cost of Food: <span id="cost-of-food">{{ $bill->getCostOfFood() }}</span></div>
                                     <div>Delivery Fee:
                                         @if($bill->getDiscount() != 0)
-                                            (you saved <span
-                                                    id="delivery-fee-percentage">{{ $bill->getDiscount()  }}</span>%!)
+                                            <i id="delivery-fee-percentage">you saved {{$bill->getDiscount()}} %!</i>
                                         @endif
-                                        <span id="delivery-fee">{{ $bill->getDiscount()  }}</span>
+                                        <span id="delivery-fee">{{ $bill->getDeliveryFee()  }}</span>
                                     </div>
                                     <div>Subtotal: <span id="subtotal">{{ $bill->getSubtotal() }}</span></div>
                                     <div>Order Total (subtotal + tax): <span
@@ -213,123 +300,41 @@
                                     <button type="submit" id="pay-now-button" onclick="checkPayNow(event)"
                                             class="checkout-btn">Pay Now
                                     </button>
-
-                                    <br>
-                                    <br>
-
-                                    <i>*By clicking submit, you are agreeing to the Sewanee Eats <a
-                                                href="{{ route('terms') }}">Terms
-                                            and
-                                            Conditions</a>.</i>
+                                    <p>
+                                        <i>*By clicking submit, you are agreeing to the Sewanee Eats <a
+                                                    href="{{ route('terms') }}">Terms
+                                                and
+                                                Conditions</a>.
+                                        </i>
+                                    </p>
                                 </div>
                             </div>
-                        @endif
 
-                        <!-- Show checkout info only if we are on the checkout page -->
+
                         </div>
+                @endif
+
+                <!-- Show checkout info only if we are on the checkout page -->
                 </div>
         </form>
     </div>
 
-    <style>
-        .hr-separator {
-            display: block;
-            background-color: rebeccapurple;
-            height: 1px;
-            border: 0;
-            border-top: 1px solid #ccc;
-            margin-top: 2.5%;
-            margin-bottom: 2.5%;
-            padding: 0;
-        }
-    </style>
     <!-- End payment information -->
 
     <!-- Strip payment script -->
     <script>
-      @if(env('APP_ENV') === "production")
-          Stripe.setPublishableKey("{{ env('STRIPE_LIVE_PUBLISHABLE_KEY') }}");
-      @else
-          Stripe.setPublishableKey("{{ env('STRIPE_TEST_PUBLISHABLE_KEY') }}");
-      @endif
-
-      $(function () {
-        var $form = $('#payment-form');
-        $form.submit(function (event) {
-          $('#pay-now-button').prop('disabled', true);
-          if (!$('#pay-with-venmo').is(':checked')) {
-            // Disable the submit button to prevent repeated clicks:
-
-            // TODO: see where this fits into the current set up
-              /*var message = validPayForm(true);
-               if (message !== null) { // an error message was returned
-               $('#payment-errors').show().text(message);
-               event.preventDefault();
-               $form.find('.submit').prop('disabled', false);
-               return false;
-               }*/
-
-            // Request a token from Stripe:
-            Stripe.card.createToken($form, stripeResponseHandler);
-
-            // Prevent the form from being submitted:
-              /*$form.find('.submit').prop('disabled', false);*/
-            event.preventDefault();
-            return false;
-          }
-
-        });
-      });
-
-      function stripeResponseHandler(status, response) {
-        // Grab the form:
-        var $form = $('#payment-form');
-
-        if (response.error) { // Problem!
-
-          // Show the errors on the form:
-          $('#payment-errors-div').show();
-          $('#payment-errors').text(response.error.message);
-          p('here');
-          $('#pay-now-button').prop('disabled', false); // Re-enable submission
-
-        } else { // Token was created!
-
-          // Get the token ID:
-          var token = response.id;
-
-          // Insert the token ID into the form so it gets submitted to the server:
-          $form.append($('<input type="hidden" name="stripeToken">').val(token));
-
-          // Submit the form:
-          $form.get(0).submit();
-        }
-        return response
-      }
+        @if(env('APP_ENV') === "production")
+             Stripe.setPublishableKey("{{ env('STRIPE_LIVE_PUBLISHABLE_KEY') }}");
+        @else
+            Stripe.setPublishableKey("{{ env('STRIPE_TEST_PUBLISHABLE_KEY') }}");
+        @endif
 
     </script>
+    <script src="{{ asset('js/Checkout/stripe_checkout.js',env('APP_ENV') === 'production') }}"></script>
     <script type="text/javascript"
             src="http://maps.googleapis.com/maps/api/js?key=AIzaSyCRzYmXWGvA4FPHffiFUMyTCWLVSlYL04s&libraries=geometry,places"></script>
     <script src="{{ asset('js/Checkout/delivery_time_estimation.js',env('APP_ENV') === 'production') }}"></script>
     <script src="{{ asset('js/Checkout/checkout.js',env('APP_ENV') === 'production') }}"></script>
-    <script>
-      $('#venmo-payment-div').hide();
-      $('#pay-with-venmo').on('change', function () {
-        var box = $(this);
-        if (box.is(':checked')) {
-          // set pay with venmo to true
-          $('#pay-with-venmo').val(1);
-          $('#venmo-payment-div').show(350);
-          $('#card-payment-div').hide(350);
-          $('#pay-with-card').hide(350);
-        } else {
-          // set pay with venmo to false
-          $('#pay-with-venmo').val(0);
-          $('#venmo-payment-div').hide(350);
-          $('#card-payment-div').show(350);
-          $('#pay-with-card').show(350);
-        }
-      })
-    </script>
+
 
 @stop

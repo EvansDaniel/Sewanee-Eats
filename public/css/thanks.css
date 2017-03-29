@@ -1,0 +1,35 @@
+h3, h2, h4, h5{
+    font-family: "Lato", sans-serif;
+    font-size: 18px;
+    text-align: center;
+    color: black;
+}
+hr{
+    margin-top: 0;
+    border-top: 2px solid;
+    border-color: darkorange;
+    margin-bottom: 30px;
+}
+a{
+    color: rebeccapurple;
+}
+a:hover{
+    text-decoration: blink;
+}
+h4 span{
+    color: rebeccapurple;
+    font-weight: bolder;
+}
+
+@media (max-width: 767px) {
+    h3, h2, h4, h5{
+        font-family: "Lato", sans-serif;
+        font-size: 18px;
+        text-align: left;
+        color: black;
+        margin-left: 0;
+    }
+    #on-demand-order-div{
+        margin-left: 5px;
+    }
+}

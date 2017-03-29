@@ -52,3 +52,15 @@
         font-size: 16px;
     }
 }
+.restaurant-status, .weekly-status, .event-status{
+    background: rgb(31, 183, 99);
+    text-align: center;
+    font-size: 18px;
+    font-family: "Lato", sans-serif;
+    padding: 6px 12px;
+    color: white;
+    font-weight: bold;
+}
+.event-status{
+    background: darkorange;
+}

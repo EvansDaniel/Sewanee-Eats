@@ -23,7 +23,7 @@
                        type="checkbox" value="0">
                 <br>
                 <input type="file" name="image" id="file" class="input-file form-control" required>
-                <label for="file" class="btn btn-primary form-control">Choose a restaurant image</label>
+                <label for="file" class="btn btn-primary form-control">Choose a restaurant image <span><strong>RATIO MUST BE 40 BY 33 (width/height)</strong></span></label>
                 <br><br>
                 <div id="non-weekly-special-rest-div">
                     <label for="callable">Can this restaurant be called ahead of time?</label>
