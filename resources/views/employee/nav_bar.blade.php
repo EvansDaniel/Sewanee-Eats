@@ -9,9 +9,8 @@
     <div class="collapse navbar-collapse" id="navDiv">
         <ul id="navV" class="nav navbar-nav">
             <li><a class="active nav-links" href="{{ route('home') }}">MOUNTAIN EATS</a></li>
-            <li><a class="nav-links" href="{{ route('list_restaurants') }}">ORDER NOW</a></li>
-            {{--<li><a class="nav-links" href="{{ route('about') }}">ABOUT</a></li>--}}
             <li><a class="nav-links" href="{{ route('courierShowSchedule') }}">SCHEDULE</a></li>
+            <li><a class="nav-links" href="#">PAY PERIOD</a></li>
             @if(!empty(Session::get('cart')))
                 <li><a class="nav-links" href="{{ route('checkout') }}">CHECKOUT
                         <u>{{ count(Session::get('cart')) }}</u></a></li>
@@ -24,10 +23,7 @@
                       method="post">
                     {{--<form id="logout-form" action="{{ route('logout') }}" method="POST">--}}
                     {{ csrf_field() }}
-                    <a onclick="event.preventDefault();
-                                document.getElementById('logout-form').submit();">
-                        LOGOUT
-                    </a>
+                    <button type="submit">LOGOUT</button>
                 </form>
             </li>
         </ul>

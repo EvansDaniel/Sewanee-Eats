@@ -2,18 +2,20 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\CustomTraits\IsAvailable;
+use App\CustomClasses\Availability\TimeRangeType;
+use App\CustomClasses\ShoppingCart\RestaurantOrderCategory;
+use App\CustomTraits\HandlesTimeRanges;
 use App\CustomTraits\UploadFile;
 use App\Http\Controllers\Controller;
 use App\Models\Restaurant;
-use DB;
+use App\Models\TimeRange;
 use Illuminate\Http\Request;
 use Validator;
 
 class ManageRestaurantController extends Controller
 {
     use UploadFile;
-    use IsAvailable;
+    use HandlesTimeRanges;
     protected $restImageDir;
 
     public function __construct()
@@ -23,18 +25,135 @@ class ManageRestaurantController extends Controller
 
     public function showRestaurants()
     {
-        $rest = DB::table('restaurants')->orderBy('name', 'desc')->get();
-        return view('admin.restaurants.list_restaurants', compact('rest'));
+        // where id != null b/c is a workaround to retrieve all and still order them
+        $rests = Restaurant::where('id', '!=', 'null')->orderBy('name', 'desc')->get();
+        $on_demand_seller_type = RestaurantOrderCategory::ON_DEMAND;
+        //$weekly_special_seller_type = RestaurantOrderCategory::WEEKLY_SPECIAL;
+        return view('admin.restaurants.list_restaurants',
+            compact('rests', 'on_demand_seller_type'));
     }
 
-    // TODO: Double check file storage
+    public function changeRestAvailableStatus($rest_id)
+    {
+        $rest = Restaurant::find($rest_id);
+        if ($rest->isSellerType(RestaurantOrderCategory::ON_DEMAND)) {
+            $rest->is_available_to_customers = !$rest->is_available_to_customers;
+            $rest->save();
+            return back()->with('status_good', 'Restaurant user availability changed');
+        } else {
+            $day_of_week_names = $this->getDayOfWeekNames();
+            return view('admin.restaurants.change_payment_time_frame',
+                compact('rest', 'day_of_week_names'));
+        }
+    }
+
+    public function showUpdateWeeklySpecialRestTimeRange($rest_id)
+    {
+        $rest = Restaurant::find($rest_id);
+        $day_of_week_names = $this->getDayOfWeekNames();
+        return view('admin.restaurants.change_payment_time_frame',
+            compact('rest', 'day_of_week_names'));
+    }
+
+    public function showOpenTimes($rest_id)
+    {
+        $rest = $resource = Restaurant::find($rest_id);
+        $day_of_week_names = $this->getDayOfWeekNames();
+        $on_demand_seller_type = RestaurantOrderCategory::ON_DEMAND;
+        return view('admin.restaurants.open_times',
+            compact('rest', 'resource', 'day_of_week_names', 'on_demand_seller_type'));
+    }
+
+    public function showAddOpenTimes($rest_id)
+    {
+        $resource = $rest = Restaurant::find($rest_id);
+        $day_of_week_names = $this->getDayOfWeekNames();
+        // TODO: add infrastructure for weekly special restaurant paying time
+        return view('admin.restaurants.add_open_times',
+            compact('rest', 'resource', 'day_of_week_names', 'time_range_type'));
+    }
+
+    public function createOpenTime(Request $request)
+    {
+        $time_range = new TimeRange;
+        $rest = Restaurant::find($request->input('rest_id'));
+        $time_range = $this->timeRangeSetup($time_range, $request, $rest->getTimeRangeType());
+        if (!empty($msg = $this->isValidTimeRangeForRestaurant($rest, $time_range))) {
+            return back()->with('status_bad', $msg)->withInput();
+        }
+        $time_range->restaurant_id = $rest->id;
+        $time_range->save();
+        $time_range->save();
+        return back()->with('status_good', 'Open time added to restaurant');
+    }
+
+    public function updateOpenTime(Request $request)
+    {
+        $rest = Restaurant::find($request->input('rest_id'));
+        if ($rest->isSellerType(RestaurantOrderCategory::ON_DEMAND)) {
+            $open_time_id = $request->input('open_time_id');
+            $time_range = TimeRange::find($open_time_id);
+
+            $time_range = $this->timeRangeSetup($time_range, $request, $rest->getTimeRangeType());
+            if (!empty($msg = $this->isValidTimeRangeForRestaurant($rest, $time_range))) {
+                return back()->with('status_bad', $msg);
+            }
+            $time_range->save();
+            return redirect()->route('showOpenTimes', ['r_id' => $rest->id])
+                ->with('status_good', 'Open time for restaurant updated');
+        } else { // weekly special restaurant
+            \Log::info('here');
+            \Log::info($is_available = $request->input('is_available'));
+            if (empty($is_available)) { // workaround for 0 in input field
+                $is_available = false;
+            }
+            $rest->is_available_to_customers = $is_available;
+            $rest->save();
+            if ($is_available) {
+                // check for null b/c setting up the payment time range for
+                // weekly special is not required on creation of the restaurant
+                if (!empty($rest->getAvailability())) {
+                    // time range is already attached to the weekly special so no need to do that
+                    $time_range = TimeRange::find($rest->getAvailability()->id);
+                    $time_range = $this->timeRangeSetup($time_range, $request, TimeRangeType::WEEKLY_SPECIAL);
+                } else { // newly created time range for weekly special
+                    $time_range = new TimeRange;
+                    $time_range = $this->timeRangeSetup($time_range, $request, TimeRangeType::WEEKLY_SPECIAL);
+                    $time_range->restaurant_id = $rest->id;
+                }
+                // check validity of the time range
+                if (!empty($msg = $this->isValidTimeRangeForRestaurant($rest, $time_range))) {
+                    return back()->with('status_bad', $msg);
+                }
+                $time_range->save();
+            }
+            return redirect()->route('adminListRestaurants')
+                ->with('status_good', $rest->name . ' availability updated!');
+        }
+    }
+
+    public function showUpdateOpenTime($time_range_id, $rest_id)
+    {
+        $time_range = TimeRange::find($time_range_id);
+        $resource = $rest = Restaurant::find($rest_id);
+        $day_of_week_names = $this->getDayOfWeekNames();
+        $on_demand_seller_type = TimeRangeType::ON_DEMAND;
+        return view('admin.restaurants.update_open_times',
+            compact('resource', 'time_range', 'rest', 'day_of_week_names',
+                'on_demand_seller_type'));
+    }
+
     public function createRestaurant(Request $request)
     {
         // get request info
-        $location = $request->input('location');
+        $location = $request->input('address'); // for on demand rest
         $name = $request->input('name');
         $image = $request->file('image');
-        $is_weekly_special = $request->input('is_weekly_special');
+        if (empty($request->input('is_weekly_special'))) {
+            $is_weekly_special = 0;
+        } else {
+            $is_weekly_special = 1;
+        }
 
         // stuff to do regardless of if it is special weekly restaurant
         // validate request
@@ -51,18 +170,40 @@ class ManageRestaurantController extends Controller
         // Store restaurant info to database
         $restaurant->name = $name;
         $restaurant->image_url = $this->dbStoragePath($this->restImageDir, $file_name);
-        $restaurant->is_weekly_special = $is_weekly_special;
+        if ($is_weekly_special) {
+            $restaurant->seller_type = RestaurantOrderCategory::WEEKLY_SPECIAL;
+        } else {
+            $restaurant->seller_type = RestaurantOrderCategory::ON_DEMAND;
+        }
 
         // stuff to do if restaurant is not special
         if ($is_weekly_special == 0) {
-            $hours_open = $this->createAvailableTimesJsonStringFromRequest($request);
-            $restaurant->location = $location;
-            $restaurant->available_times = $hours_open;
+            if (!empty($request->input('callable'))) {
+                $restaurant->callable = true;
+                $restaurant->phone_number = $request->input('phone_number');
+            } else {
+                $restaurant->callable = false;
+            }
+            $restaurant->is_available_to_customers = true;
+            $restaurant->address = $location;
+        } else {
+            // weekly special restaurants default to not being available
+            $restaurant->is_available_to_customers = false;
         }
 
         \Log::info($this->dbStoragePath($this->restImageDir, $file_name));
         $restaurant->save();
-        return back()->with('status_good', $restaurant->name . " has been added to the database!");
+        if ($is_weekly_special) {
+            return back()->with('status_good',
+                $restaurant->name . " created. Be sure to add the time frame for the weekly special.");
+        } else { // on demand rest
+            // go to the add_open_times page
+            $day_of_week_names = $this->getDayOfWeekNames();
+            $rest = $restaurant;
+            return view('admin.restaurants.add_open_times',
+                compact('day_of_week_names', 'resource', 'rest'))
+                ->with('status_good', $restaurant->name . ' created. Now add the open times of the restaurant.');
+        }
     }
 
     private function imageUploadValidator($request)
@@ -101,12 +242,10 @@ class ManageRestaurantController extends Controller
 
     public function updateRestaurant(Request $request)
     {
-        // get request info
         $location = $request->input('location');
         $name = $request->input('name');
         $image = $request->file('image');
 
-        $hours_open = $this->createAvailableTimesJsonStringFromRequest($request);
 
         $validator = $this->imageUploadValidator($request);
         if ($validator->fails()) {
@@ -130,7 +269,6 @@ class ManageRestaurantController extends Controller
 
         $restaurant->name = $name;
         $restaurant->location = $location;
-        $restaurant->available_times = $hours_open;
 
         $restaurant->save();
         return back()->with('status_good', $restaurant->name . " has been updated!");

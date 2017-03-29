@@ -18,6 +18,8 @@ class CreateTimeRangesUsersTable extends Migration
             $table->integer('time_range_id')->unsigned();
             $table->integer('user_id')->unsigned();
 
+            // managers don't have a courier type so it can be nullable
+            $table->integer('courier_type')->nullable();
             $table->foreign('time_range_id')
                 ->references('id')->on('time_ranges');
             $table->foreign('user_id')

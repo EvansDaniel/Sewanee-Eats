@@ -192,10 +192,15 @@ Route::group(['prefix' => 'admin',
     // prefix = admin, namespace = Admin
     Route::group(['prefix' => 'schedule'], function () {
         // showing info
-        Route::get('schedule', 'ScheduleController@showSchedule')->name('showSchedule');
+        Route::get('', 'ScheduleController@showSchedule')->name('showSchedule');
         Route::get('shifts', 'ScheduleController@showShifts')->name('showShifts');
         Route::get('createShift', 'ScheduleController@showCreateShift')->name('showCreateShift');
-        Route::get('updateShift', 'ScheduleController@showUpdateShift')->name('showUpdateShift');
+        Route::get('updateShift/{shift_id}', 'ScheduleController@showUpdateShift')->name('showUpdateShift');
+        Route::post('removeWorkerFromShift', 'ScheduleController@removeWorkerFromShift')
+            ->name('removeWorkerFromShift');
+        Route::post('assignWorkerToShift', 'ScheduleController@assignWorkerToShift')
+            ->name('assignWorkerToShift');
+        // Route::get('getUnassignedWorkers/{shift_id}','ScheduleController@getNonAssignedWorkers')->name('getNonAssignedWorkers');
         // backend set up
         Route::post('create', 'ScheduleController@createShift')->name('createShift');
         Route::post('update', 'ScheduleController@updateShift')->name('updateShift');
@@ -225,6 +230,28 @@ Route::group(['prefix' => 'admin',
     // Shows all restaurants that are registered with the site
     Route::get('restaurants', 'ManageRestaurantController@showRestaurants')
         ->name('adminListRestaurants');
+
+    // Shows the pages where the restaurants open/available times are created/shown/updated
+    Route::get('openTimes/{r_id}', 'ManageRestaurantController@showOpenTimes')
+        ->name('showOpenTimes');
+
+    Route::get('addOpenTimes/{r_id}', 'ManageRestaurantController@showAddOpenTimes')
+        ->name('showAddOpenTimes');
+
+    Route::get('updateOpenTime/{time_range_id}/{rest_id}',
+        'ManageRestaurantController@showUpdateOpenTime')->name('showUpdateOpenTime');
+
+    Route::post('createOpenTime', 'ManageRestaurantController@createOpenTime')
+        ->name('createOpenTime');
+
+    Route::get('changeRestAvailableStatus/{rest_id}', 'ManageRestaurantController@changeRestAvailableStatus')
+        ->name('changeRestAvailableStatus');
+
+    Route::get('updateSpecialTime/{rest_id}', 'ManageRestaurantController@showUpdateWeeklySpecialRestTimeRange')
+        ->name('showUpdateWeeklySpecialRestTimeRange');
+
+    Route::post('updateOpenTime', 'ManageRestaurantController@updateOpenTime')
+        ->name('updateOpenTime');
 
     // Shows the form to add a new restaurant to the site
     Route::get('createRestaurant', 'ManageRestaurantController@showNewRestaurantForm')

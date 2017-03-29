@@ -88,7 +88,6 @@ class RegisterController extends Controller
         $user->name = $data['name'];
         $user->email = $data['email'];
         $user->password = bcrypt($data['password']);
-        $user->available_times = json_encode([null]);
         $user->save();
         $user->roles()->attach($data['role_type']);
         return $user;

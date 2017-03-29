@@ -21,9 +21,9 @@ class RolesUsersTableSeeder extends Seeder
         $blaise = User::where('email', 'iradub0@sewanee.edu')->first();
         $tari = User::where('email', 'kandeta0@sewanee.edu')->first();
 
-        $danny->roles()->attach([$admin_role->id, $courier_role->id, $manager_role->id]);
-        $blaise->roles()->attach([$admin_role->id, $courier_role->id, $manager_role->id]);
-        $tari->roles()->attach([$admin_role->id, $courier_role->id, $manager_role->id]);
+        $danny->roles()->attach([$admin_role->id, $manager_role->id]);
+        $blaise->roles()->attach([$admin_role->id, $manager_role->id]);
+        $tari->roles()->attach([$admin_role->id, $manager_role->id]);
 
         $num_couriers = 10;
 
@@ -32,7 +32,7 @@ class RolesUsersTableSeeder extends Seeder
             $courier = new User;
             $courier->name = $faker->name;
             $courier->email = $faker->companyEmail;
-            $courier->password = "mypass";
+            $courier->password = bcrypt("mypass");
             $courier->remember_token = str_random(10);
             $courier->save();
             $courier->roles()->attach($courier_role->id);

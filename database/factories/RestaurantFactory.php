@@ -34,11 +34,10 @@ $factory->define(Restaurant::class, function (Faker\Generator $faker) {
     $rest_loc_index = mt_rand(0, 2);
     return [
         'name' => $rest_names[$rest_loc_index],
-
         'address' => $locations[$rest_loc_index],
         'seller_type' => RestaurantOrderCategory::ON_DEMAND,
         'callable' => true,
         'phone_number' => '5555555555',
-        'image_url' => $images[0]
+        'image_url' => $images[0],
     ];
 });

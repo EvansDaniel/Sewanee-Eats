@@ -3,13 +3,17 @@
 namespace App\Models;
 
 use App\Contracts\Availability;
+use App\Contracts\ResourceTimeRange;
 use App\Contracts\ShoppingCart\Item;
 use App\CustomClasses\Availability\IsAvailable;
+use App\CustomClasses\Availability\TimeRangeType;
+use App\CustomTraits\HandlesTimeRanges;
 use Illuminate\Database\Eloquent\Model;
 
-class MenuItem extends Model implements Item, Availability
+class MenuItem extends Model implements Item, Availability, ResourceTimeRange
 {
 
+    use HandlesTimeRanges;
     protected $table = "menu_items";
 
     // belongs to one category
@@ -94,5 +98,16 @@ class MenuItem extends Model implements Item, Availability
     public function getAvailability()
     {
         return $this->timeRanges;
+    }
+
+    public function getResourceTimeRangesByDay($dow)
+    {
+        $time_range_type = $this->getTimeRangeType();
+        return $this->getTimeRangesByDay($dow, $time_range_type, 'menu_item_id');
+    }
+
+    public function getTimeRangeType()
+    {
+        return TimeRangeType::MENU_ITEM;
     }
 }

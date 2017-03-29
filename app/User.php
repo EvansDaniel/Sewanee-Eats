@@ -4,6 +4,9 @@ namespace App;
 
 use App\Contracts\Availability;
 use App\CustomClasses\Availability\IsAvailable;
+use App\CustomClasses\Schedule\Shift;
+use App\Models\Role;
+use Doctrine\Instantiator\Exception\InvalidArgumentException;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -27,6 +30,15 @@ class User extends Authenticatable implements Availability
         'password', 'remember_token',
     ];
 
+    public static function ofType($role_type)
+    {
+        $role_type = Role::ofType($role_type)->first();
+        if (empty($role_type)) {
+            return null;
+        }
+        return $role_type->users;
+    }
+
     public function courierInfo()
     {
         if ($this->hasRole('courier')) {
@@ -44,12 +56,13 @@ class User extends Authenticatable implements Availability
         return false;
     }
 
+    // a user (that is an employee) has many shifts
+
     public function issues() // TODO: double check that this is working
     {
         return $this->hasMany('App\Models\Issue', 'admin_id', 'id');
     }
 
-    // a user (that is an employee) has many shifts
     public function timeRanges()
     {
         if ($this->hasRole('admin') || $this->hasRole('courier') || $this->hasRole('manager')) {
@@ -68,6 +81,14 @@ class User extends Authenticatable implements Availability
     public function getAvailability()
     {
         return $this->timeRanges;
+    }
+
+    public function getCourierType()
+    {
+        if (empty($this->pivot)) {
+            throw new InvalidArgumentException('The user must be retrieved with the pivot TimeRangesUsers table and column courier_type');
+        }
+        return Shift::getCourierType($this->pivot->courier_type);
     }
 
     public function isOnShift()

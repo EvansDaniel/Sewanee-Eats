@@ -80,7 +80,7 @@ class CartBilling
         if ($num_items >= 3) {
             return 60;
         }
-        return $num_items * 20;
+        return ($num_items - 1) * 20;
     }
 
     public function costOfFood()

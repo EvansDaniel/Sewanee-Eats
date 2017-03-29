@@ -16,7 +16,7 @@
                 @foreach($sellers->getOnDemandRests() as $restaurant)
                     <li style="display: none"
                         class="restaurant list-group-item col-lg-3 col-md-3 col-xs-8 col-xs-offset-2 col-sm-8 col-sm-offset-2">
-                        <a class="menu-link" data-rest-is-avail="{{ $restaurant->isOpen() }}"
+                        <a class="menu-link" data-rest-is-avail="{{ $restaurant->isAvailableNow() }}"
                            href="{{ route('showMenu',['id' => $restaurant->id]) }}">
                             <!-- These urls must be https -->
                             <img src="{{ $restaurant->image_url }}"

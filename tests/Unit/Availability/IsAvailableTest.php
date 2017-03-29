@@ -4,9 +4,11 @@ namespace Tests\Unit\Availability;
 
 use App\CustomClasses\Availability\IsAvailable;
 use App\CustomClasses\Schedule\Shift;
+use App\CustomTraits\HandlesTimeRanges;
 use App\Models\MenuItem;
 use App\Models\Restaurant;
 use App\Models\Role;
+use App\Models\TimeRange;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use ItemCategoryTableSeeder;
 use MenuItemTableSeeder;
@@ -20,6 +22,7 @@ use UserTableSeeder;
 class IsAvailableTest extends TestCase
 {
 
+    use HandlesTimeRanges;
     use DatabaseMigrations;
 
     /**
@@ -48,6 +51,42 @@ class IsAvailableTest extends TestCase
         $time_range_seed = new TimeRangesSeeder();
         $time_range_seed->run();
         \Eloquent::reguard();
+    }
+
+    public function testShortestDistSecondFromFirst()
+    {
+        $time_range = $this->makeTimeRange();
+        \Log::info($this->shortestDistSecondFromFirst($time_range->end_dow, $time_range->start_dow));
+    }
+
+    private function makeTimeRange()
+    {
+        $time_range = new TimeRange;
+        $time_range->start_dow = 'Monday';
+        $time_range->end_dow = 'Wednesday';
+        $time_range->start_hour = 0;
+        $time_range->start_min = 0;
+        $time_range->end_hour = 17;
+        $time_range->end_min = 55;
+        return $time_range;
+    }
+
+    public function testDistanceFromDay()
+    {
+        \Log::info($this->distanceFromDay('Sunday', 'Monday'));
+        \Log::info($this->distanceFromDay('Monday', 'Thursday'));
+    }
+
+    public function testEndCarbon()
+    {
+        $time_range = $this->makeTimeRange();
+        $time_range->getEndCarbon()->toDayDateTimeString();
+    }
+
+    public function testStartCarbon()
+    {
+        $time_range = $this->makeTimeRange();
+        \Log::info($time_range->getStartCarbon()->toDayDateTimeString());
     }
 
     /**

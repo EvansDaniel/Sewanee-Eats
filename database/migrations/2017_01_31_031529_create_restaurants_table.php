@@ -20,8 +20,11 @@ class CreateRestaurantsTable extends Migration
             // used to be location, this is the exact address
             $table->string('address')->nullable();
             $table->integer('seller_type'); // +
-            $table->boolean('callable');  // +
-            $table->string('phone_number');
+            // using this field we can switch on and off the availability
+            // of weekly special or on_demand restaurants to users
+            $table->integer('is_available_to_customers');
+            $table->boolean('callable')->nullable();  // +
+            $table->string('phone_number')->nullable();
             $table->string('image_url');
             $table->timestamps();
         });

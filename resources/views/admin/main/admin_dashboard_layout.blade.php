@@ -7,7 +7,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Gentelella Alela! | </title>
 
     <!-- Bootstrap -->
     <link href="{{ asset('vendors/bootstrap/dist/css/bootstrap.min.css',env('APP_ENV') !== 'local')  }}"
@@ -49,6 +48,7 @@
         console.log($obj);
       }
     </script>
+    @yield('head')
 </head>
 
 <body class="nav-md">
@@ -63,6 +63,7 @@
     @include('admin.partials.admin_sidebar')
     <!-- /top tiles -->
         <div class="container" style="margin-left: 16%">
+            <div class="clearfix"></div>
             @yield('body')
 
         </div>

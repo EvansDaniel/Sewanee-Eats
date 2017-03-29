@@ -17,16 +17,52 @@
                 <button class="btn btn-primary form-control" type="button">Add a restaurant</button>
             </a>
             <br><br>
-            @if(count($rest) == 0)
+            @if(count($rests) == 0)
                 <h1>No restaurants in database</h1>
             @else
-                @foreach($rest as $r)
+                @foreach($rests as $r)
                     <li class="list-group-item">
                         <div class="row">
                             <img height="100"
                                  src="{{ $r->image_url }}"
                                  alt="Restaurant Image">
-                            {{ $r->name }}
+                            {{ $r->name }} |
+                            @if($r->isSellerType($on_demand_seller_type))
+                                On Demand Restaurant
+                            @else
+                                Weekly Special Restaurant
+                            @endif
+                            |
+                            Available to Customers:
+                            @if($r->isAvailableToCustomers())
+                                Yes
+                                @if(!$r->isSellerType($on_demand_seller_type))
+                                    | Available: {{ $r->getAvailability()->getDayDateTimeString() }} <a
+                                            href="{{ route('changeRestAvailableStatus',['rest_id' => $r->id]) }}">
+                                        (Change)
+                                    </a>
+                                @else
+                                    <a href="{{ route('changeRestAvailableStatus',['rest_id' => $r->id]) }}">
+                                        (Change)
+                                    </a>
+                                @endif
+                            @else
+                                No <a href="{{ route('changeRestAvailableStatus',['rest_id' => $r->id]) }}">
+                                    (Change)
+                                </a>
+                            @endif
+                            |
+                            @if($r->isSellerType($on_demand_seller_type))
+                                Open
+                            @else
+                                Available
+                            @endif
+                            Now:
+                            @if($r->isAvailableNow())
+                                Yes
+                            @else
+                                No
+                            @endif
                         </div>
                         <div class="row">
                             <a href="{{ route('showRestaurantUpdateForm', ['id' => $r->id]) }}">
@@ -35,11 +71,24 @@
                             <a href="{{ route('adminShowMenu',['id' => $r->id]) }}">
                                 <button class="btn btn-info" type="button">View restaurant menu</button>
                             </a>
-                            <!-- TODO: make a js alert box that asks admin if he/she is sure that he/she wants to delete
+                            @if($r->isSellerType($on_demand_seller_type))
+                                <a href="{{ route('showOpenTimes',['id' => $r->id]) }}">
+                                    <button class="btn btn-info" type="button">View restaurant open times</button>
+                                </a>
+                            @endif
+                            @if($r->isSellerType($on_demand_seller_type))
+                                <a href="{{ route('showAddOpenTimes',['r_id' => $r->id]) }}">
+                                    <button class="btn btn-info" type="button">
+                                        Add open time
+                                    </button>
+                                </a>
+                            @endif
+
+                        <!-- TODO: make a js alert box that asks admin if he/she is sure that he/she wants to delete
                                        the restaurant
                             -->
                             <form action="{{ url()->to(parse_url(route('deleteRestaurant',['id' => $r->id]),PHP_URL_PATH),[],env('APP_ENV') !== 'local') }}"
-                                  method="post">
+                                  method="post" style="display: inline">
                                 {{ csrf_field() }}
 
                                 <button class="btn btn-danger" type="submit">Delete restaurant</button>

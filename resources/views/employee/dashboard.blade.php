@@ -5,5 +5,5 @@
 @stop
 
 @section('body')
-    <h1>TODO: Show courier's payment breakdown</h1>
+
 @stop

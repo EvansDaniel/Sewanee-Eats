@@ -1,14 +1,11 @@
 <?php
 
-use App\CustomTraits\PriceInformation;
 use App\Models\Order;
 use App\Models\OrderPriceInfo;
 use Illuminate\Database\Seeder;
 
 class OrdersTableSeeder extends Seeder
 {
-    use PriceInformation;
-
     /**
      * Run the database seeds.
      *

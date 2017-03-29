@@ -20,45 +20,53 @@
                 <br>
                 <label for="rest-is-special">Is this a weekly special restaurant?</label>
                 <input name="is_weekly_special" id="rest-is-special" class=""
-                       type="checkbox" required maxlength="100" value="0">
+                       type="checkbox" value="0">
                 <br>
                 <input type="file" name="image" id="file" class="input-file form-control" required>
                 <label for="file" class="btn btn-primary form-control">Choose a restaurant image</label>
                 <br><br>
                 <div id="non-weekly-special-rest-div">
-                    <label for="rest-location">Restaurant Location</label>
-                    <select name="location" class="form-control" id="rest-location" required>
-                        <option value="campus">Campus</option>
-                        <option value="downtown">Downtown</option>
-                    </select>
-                    <br>
-                    <br><br>
-                    <label for="hours-table">Specify the hours this restaurant is open. If a restaurant is open for
-                        multiple
-                        disjoint shifts use the extra rows for that day to fill that in. Fill each cell in in this form:
-                        "hh:mm-hh:mm" or put "closed" if the restaurant is closed that day</label>
-                    @include('partials.create_available_times')
+                    <label for="callable">Can this restaurant be called ahead of time?</label>
+                    <input type="checkbox" checked id="callable">
+                    <div id="is-callable-div">
+                        <label for="phone-number">What is the restaurant's phone number? (only numbers)</label>
+                        <input type="text" name="phone_number" id="phone-number">
+                    </div>
+                    <div>
+                        <label for="rest-location">Restaurant Address</label>
+                        <input type="text" name="address" class="form-control" id="rest-location">
+                    </div>
+                    {{--<div>
+                        <label for="restaurant-open-times">When is this restaurant open?</label>
+                    </div>--}}
                 </div>
-                {{--<label for="rest-name">Name of Restaurant Image File (all images relative to
-                    public/images/restaurants)</label>
-                <input name="image_name" id="rest-image-name" class="form-control"
-                       type="text" required maxlength="100" placeholder="ex: pub.png, mcdonalds.jpg">--}}
-                <button type="submit" class="btn btn-primary" onclick="checkDays(event)">Add New Restaurant</button>
+                <button type="submit" style="margin-top: 1%" class="btn btn-primary">Add New Restaurant</button>
             </div>
         </form>
 
         <script>
-          $('#non-weekly-special-rest-div').show();
-          $('#rest-is-special').on('change', function () {
-            if ($(this).is(':checked')) {
-              $('#non-weekly-special-rest-div').hide();
-              $(this).val(1);
-            }
-            else {
-              $('#non-weekly-special-rest-div').show();
-              $(this).val(0);
-            }
-          })
+          $(function () {
+            $('#non-weekly-special-rest-div').show();
+            $('#rest-is-special').on('change', function () {
+              if ($(this).is(':checked')) {
+                $('#non-weekly-special-rest-div').hide();
+                $(this).val(1);
+              }
+              else {
+                $('#non-weekly-special-rest-div').show();
+                $(this).val(0);
+              }
+            });
+
+            $('#is-callable-div').show();
+            $('#callable').on('change', function () {
+              if ($(this).is(':checked')) {
+                $('#is-callable-div').show();
+              } else {
+                $('#is-callable-div').hide();
+              }
+            })
+          });
         </script>
     </div>
 @stop

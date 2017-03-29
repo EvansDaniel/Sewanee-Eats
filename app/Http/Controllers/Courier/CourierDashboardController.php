@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Courier;
 
-use App\CustomClasses\ScheduleFiller;
+use App\CustomClasses\Courier\CourierTypes;
+use App\CustomClasses\Schedule\Shift;
 use App\Http\Controllers\Controller;
-use App\User;
-use Auth;
+use Carbon\Carbon;
 
 class CourierDashboardController extends Controller
 {
@@ -18,10 +18,14 @@ class CourierDashboardController extends Controller
 
     public function showSchedule()
     {
-        // check current time, if it is < 02:00, then $today = day - 1
-        $schedule_filler = new ScheduleFiller();
-        $courier = User::find(Auth::id());
-        return view('employee.schedule', compact('schedule_filler', 'courier'));
+        $shift = new Shift();
+        // to show the start and end of this weeks schedule
+        $start_of_week = Carbon::now()->dayOfWeek == Carbon::MONDAY ? Carbon::now() : new Carbon('last Monday');
+        $end_of_week = Carbon::now()->dayOfWeek == Carbon::SUNDAY ? Carbon::now() : new Carbon('next Sunday');
+        $courier_types = [CourierTypes::BIKER, CourierTypes::DRIVER];
+        $courier_type_names = ['Biker', 'Driver'];
+        return view('employee.schedule',
+            compact('shift', 'start_of_week', 'end_of_week', 'courier_types', 'courier_type_names'));
     }
 
     public function showPaymentBreakdown()

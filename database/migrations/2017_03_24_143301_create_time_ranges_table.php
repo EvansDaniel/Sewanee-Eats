@@ -16,7 +16,7 @@ class CreateTimeRangesTable extends Migration
         Schema::create('time_ranges', function (Blueprint $table) {
             $table->increments('id');
             $table->string('start_dow'); // Carbon->format('l');
-            $table->integer('start_hour'); // mililtary hours
+            $table->integer('start_hour'); // military hours
             $table->integer('start_min');
             $table->string('end_dow');
             $table->integer('end_hour');

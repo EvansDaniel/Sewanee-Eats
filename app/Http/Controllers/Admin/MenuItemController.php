@@ -11,7 +11,6 @@ use Illuminate\Http\Request;
 
 class MenuItemController extends Controller
 {
-    use IsAvailable;
 
     public function showMenu($id)
     {

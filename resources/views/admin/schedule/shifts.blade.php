@@ -29,16 +29,35 @@
         <div>
             <p class="heading">
                 @if(empty($shifts))
-                    There are now shifts assigned at this time
+                    There are no shifts assigned at this time
                 @else
                     Current Shifts
                 @endif
             </p>
-            @foreach($shifts as $shift)
-                <h2>{{ $shift->getDateTimeString() }}</h2>
-                <h2>Add list of current couriers here or leave that for the actual schedule????</h2>
-                <h2>Click here to add courier to shift</h2>
-            @endforeach
+            <div id="container">
+                <div id="left">
+                    @foreach($shifts as $shift)
+                        <h2>{{ $shift->getDayDateTimeString() }}</h2>
+                        <hr style="padding: 1px">
+                    @endforeach
+                </div>
+                <div class="clear"></div>
+            </div>
         </div>
     </div>
+    <style>
+        #left {
+            width: 33%;
+            float: left;
+        }
+
+        #right {
+            margin-left: 25%;
+            /* Change this to whatever the width of your left column is*/
+        }
+
+        .clear {
+            clear: both;
+        }
+    </style>
 @stop

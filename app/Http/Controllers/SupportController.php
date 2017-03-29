@@ -15,8 +15,6 @@ use Validator;
 
 class SupportController extends Controller
 {
-    use IsAvailable;
-
     // User Capabilities --------------------------------------------
     // show user support page
     public function showSupport()

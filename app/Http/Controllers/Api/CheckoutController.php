@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\CustomTraits\PriceInformation;
 use App\Http\Controllers\Controller;
 use App\Models\Accessory;
 use Illuminate\Http\Request;
@@ -10,7 +9,6 @@ use Session;
 
 class CheckoutController extends Controller
 {
-    use PriceInformation;
 
     public function updateSpecialInstructionForItem(Request $request,
                                                     $model_id,

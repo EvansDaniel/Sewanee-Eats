@@ -1,7 +1,7 @@
 @extends('admin.main.admin_dashboard_layout')
 
 @section('head')
-    <title>New Shift</title>
+    <title>New Restaurant Open Time</title>
 @stop
 
 <style>
@@ -13,11 +13,11 @@
         display: block;
     }
 
-    #new-shift-btn {
+    #new-open-time-btn {
         margin-top: 1%;
     }
 
-    #new-shift-container {
+    #new-open-time-container {
         margin-left: 10%;
     }
 </style>
@@ -25,23 +25,24 @@
 @section('body')
     <div class="clearfix"></div>
 
-    <div class="container" id="new-shift-container">
+    <div class="container" id="new-open-time-container">
         <div>
             <p class="heading">
-                Update Shift
+                New Open Time
             </p>
         </div>
-        @include('admin.schedule.shifts_create_update')
+        @include('admin.partials.list_resource_times_by_day',
+        ['resource' => $rest])
         <div>
-            <form action="{{ url()->to(parse_url(route('updateShift',[]),PHP_URL_PATH),[],env('APP_ENV') !== 'local')  }}"
+            <form action="{{ url()->to(parse_url(route('createOpenTime',[]),PHP_URL_PATH),[],env('APP_ENV') !== 'local') }}"
                   method="post">
                 <div class="form-group">
                     {{ csrf_field() }}
-                    <input name="shift_id" type="hidden" value="{{ $shift->getId() }}">
-                    <label for="start-day-of-week">Day of Week shifts starts</label>
+                    <input name="rest_id" type="hidden" value="{{ $rest->id }}">
+                    <label for="start-day-of-week">Start Day of Week</label>
                     <select class="select-form" name="start_dow" id="start-day-of-week">
                         @foreach($day_of_week_names as $dow)
-                            @if($shift->getStartDay() == $dow)
+                            @if(old('start_dow') == $dow)
                                 <option selected value="{{ $dow }}">{{ $dow }}</option>
                             @else
                                 <option value="{{ $dow }}">{{ $dow }}</option>
@@ -49,10 +50,10 @@
                         @endforeach
                     </select>
 
-                    <label for="start-hour">Select Start Hour for the shift</label>
+                    <label for="start-hour">Start Hour</label>
                     <select class="select-form" name="start_hour" id="start-hour">
                         @for($i = 0; $i <= 23; $i++)
-                            @if($shift->getStartHour() == $i)
+                            @if(old('start_hour') == $i)
                                 <option selected value="{{ $i }}">{{ $i }}</option>
                             @else
                                 <option value="{{ $i }}">{{ $i }}</option>
@@ -60,10 +61,10 @@
                         @endfor
                     </select>
 
-                    <label for="start-min">Select Start Min for the shift</label>
+                    <label for="start-min">Start Min</label>
                     <select class="select-form" name="start_min" id="start-min">
                         @for($i = 0; $i <= 59; $i++)
-                            @if($shift->getStartMin() == $i)
+                            @if(old('start_min') == $i)
                                 <option selected value="{{ $i }}">{{ $i }}</option>
                             @else
                                 <option value="{{ $i }}">{{ $i }}</option>
@@ -71,20 +72,20 @@
                         @endfor
                     </select>
 
-                    <label for="day-of-week">Day of Week shifts ends</label>
+                    <label for="day-of-week">End Day of Week</label>
                     <select class="select-form" name="end_dow" id="day-of-week">
                         @foreach($day_of_week_names as $dow)
-                            @if($shift->getEndDay() == $dow)
+                            @if(old('end_dow') == $dow)
                                 <option selected value="{{ $dow }}">{{ $dow }}</option>
                             @else
                                 <option value="{{ $dow }}">{{ $dow }}</option>
                             @endif
                         @endforeach
                     </select>
-                    <label for="end-hour">Select End Hour for the shift</label>
+                    <label for="end-hour">Select End Hour</label>
                     <select class="select-form" name="end_hour" id="end-hour">
                         @for($i = 0; $i <= 23; $i++)
-                            @if($shift->getEndHour() == $i)
+                            @if(old('end_hour') == $i)
                                 <option selected value="{{ $i }}">{{ $i }}</option>
                             @else
                                 <option value="{{ $i }}">{{ $i }}</option>
@@ -92,18 +93,18 @@
                         @endfor
                     </select>
 
-                    <label for="end-min">Select End Min for the shift</label>
+                    <label for="end-min">Select End Min</label>
                     <select class="select-form" name="end_min" id="end-min">
                         @for($i = 0; $i <= 59; $i++)
-                            @if($shift->getEndMin() == $i)
+                            @if(old('end_min') == $i)
                                 <option selected value="{{ $i }}">{{ $i }}</option>
                             @else
                                 <option value="{{ $i }}">{{ $i }}</option>
                             @endif
                         @endfor
                     </select>
-                    <button id="new-shift-btn" class="btn btn-dark" type="submit">
-                        Update Shift Times
+                    <button id="new-open-time-btn" class="btn btn-dark" type="submit">
+                        Create New Open Time
                     </button>
                 </div>
             </form>

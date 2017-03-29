@@ -14,7 +14,12 @@ use Carbon\Carbon;
  */
 class IsAvailable
 {
+    // TODO: we will need to check restaurant availability every time
+    // TODO: a user does something associated with a restaurant b/c
+    // TODO: it can change at any time, a good message will need to be given
+    // TODO: in this event
     protected $resource;
+
     /**
      * IsAvailable constructor.
      * @param Availability $resource Can be menu items, restaurants, couriers
@@ -28,67 +33,39 @@ class IsAvailable
     }
 
     /**
-     * @param $spare_time integer the amount of extra time needed before the resource is unavailable
+     * @param $spare_time_before_ending integer the amount of extra time needed before the resource is unavailable
      * @return bool
      */
-    public function isAvailableNow($spare_time = 0)
+    public function isAvailableNow($spare_time_before_ending = 0)
     {
-        $resource_time_ranges = $this->resource->getAvailability(); // this should return TimeRange objects
-        $now = Carbon::now();
-        $today_dow = $now->format('l');
-        foreach ($resource_time_ranges as $time_range) {
-            if ($this->timeRangeIsForToday($time_range)) {
-                $start_carbon = $this->createStartCarbonCourier($time_range);
-                $end_carbon = $this->createEndCarbonCourier($time_range, $today_dow);
-                return Carbon::now()->between($start_carbon, $end_carbon) &&
-                    Carbon::now()->diffInMinutes($end_carbon) >= $spare_time;
+        // this should return TimeRange object(s)
+        $resource_time_ranges = $this->resource->getAvailability();
+        if (empty($resource_time_ranges)) { //
+            return false;
+        }
+        // getAvailability() returns single TimeRange (not array) for weekly specials
+        if ($resource_time_ranges instanceof TimeRange) {
+            return $this->nowIsBetweenTimeRange($resource_time_ranges, $spare_time_before_ending);
+        } else { // other time range types return an array of TimeRange
+            // check all time ranges and determine if now is between them
+            foreach ($resource_time_ranges as $time_range) {
+                if ($this->nowIsBetweenTimeRange($time_range, $spare_time_before_ending)) {
+                    return true;
+                }
             }
         }
         return false;
     }
 
-    /**
-     * @param TimeRange $time_range the time range to test if it indicates today
-     * @return bool returns true if the end_dow or start_dow matches today's dow
-     */
-    private function timeRangeIsForToday(TimeRange $time_range)
+    private function nowIsBetweenTimeRange(TimeRange $time_range, $spare_time_before_ending)
     {
-        // if either the start_dow or the end_dow is the same as today's dow
-        // then $time_range specifies a time range that is potentially today's shift
-        $start_dow = $time_range->start_dow;
-        $end_dow = $time_range->end_dow;
-        return Carbon::now()->format('l') == $start_dow
-            || Carbon::now()->format('l') == $end_dow;
-    }
-
-    private function createStartCarbonCourier(TimeRange $time_range)
-    {
-        $start_dow = $time_range->start_dow;
-        $end_dow = $time_range->end_dow;
-        $start_carbon = Carbon::now();
-        // if today is the end dow, make the start day be tomorrow
-        if (Carbon::now()->format('l') != $start_dow
-            && Carbon::now()->format('l') == $end_dow
-        ) {
-            $start_carbon = new Carbon('yesterday');
+        if (empty($time_range)) {
+            return false;
         }
-        $start_carbon->hour($time_range->start_hour);
-        $start_carbon->minute($time_range->start_min);
-        return $start_carbon;
-    }
-
-    private function createEndCarbonCourier(TimeRange $time_range, $today_dow)
-    {
-        $end_carbon = $time_range->end_dow == $today_dow
-            ? Carbon::now() : new Carbon('next ' . $time_range->end_dow);
-        $end_carbon->hour($time_range->end_hour);
-        $end_carbon->minute($time_range->end_min);
-        return $end_carbon;
-    }
-
-    public function restaurantIsAvailable($spare_time = 0)
-    {
-        $resource_time_ranges = $this->resource->getAvailability();
-        \Log::info($resource_time_ranges);
+        $start_carbon = $time_range->getStartCarbon();
+        $end_carbon = $time_range->getEndCarbon();
+        // TODO: check if Carbon::now() is equal to start or end carbon
+        return Carbon::now()->between($start_carbon, $end_carbon) &&
+            Carbon::now()->diffInMinutes($end_carbon) >= $spare_time_before_ending;
     }
 }
