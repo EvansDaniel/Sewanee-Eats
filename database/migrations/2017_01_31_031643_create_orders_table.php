@@ -38,6 +38,7 @@ class CreateOrdersTable extends Migration
             $table->integer('payment_type');
             $table->string('venmo_username')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

@@ -11,20 +11,24 @@
 |
 */
 
+use App\CustomClasses\ShoppingCart\PaymentType;
 use App\CustomClasses\ShoppingCart\RestaurantOrderCategory;
 use App\Models\Order;
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 $factory->define(Order::class, function (Faker\Generator $faker) {
-    $bool = [0, 1];
-    $location = ['Smith Hall', 'Tuckaway', 'Library', 'Quintard'];
-    $email = "hello@gmail.com";
     return [
         'is_open_order' => 0,
         'order_types' => json_encode(['on_demand' => RestaurantOrderCategory::ON_DEMAND]),
         'is_delivered' => 0,
-        'delivery_location' => $location[mt_rand(0, 3)],
-        'email_of_customer' => $email,
+        'is_being_processed' => 0,
+        'courier_types' => json_encode([2]), // drivers
+        'payment_type' => PaymentType::STRIPE_PAYMENT,
+        'phone_number' => '9316913594',
+        'c_name' => 'Mark Garcia',
+        'venmo_username' => null, // stripe payment
+        'delivery_location' => '249 Circle Dr, Cowan, TN 37318',
+        'email_of_customer' => 'evansdb0@sewanee.edu',
         'is_cancelled' => 0,
         'was_refunded' => 0
     ];

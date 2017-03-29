@@ -91,6 +91,7 @@ class CustomerOrder
         $order->order_types = json_encode($order_types);
         $del_info = new DeliveryInfo($this->cart);
         $courier_types = $del_info->getCourierTypesForItems();
+        $order->courier_types = json_encode($courier_types);
         return $order;
     }
 

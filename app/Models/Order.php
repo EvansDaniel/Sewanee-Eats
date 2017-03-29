@@ -13,7 +13,7 @@ class Order extends Model implements HasItems
 {
 
     use SoftDeletes;
-
+    protected $dates = ['deleted_at'];
     protected $table = "orders";
 
 
