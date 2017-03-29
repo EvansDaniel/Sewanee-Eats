@@ -27,8 +27,8 @@ class ScheduleController extends Controller
         // to show the start and end of this weeks schedule
         $start_of_week = Carbon::now()->dayOfWeek == Carbon::MONDAY ? Carbon::now() : new Carbon('last Monday');
         $end_of_week = Carbon::now()->dayOfWeek == Carbon::SUNDAY ? Carbon::now() : new Carbon('next Sunday');
-        $courier_types = [CourierTypes::BIKER, CourierTypes::DRIVER];
-        $courier_type_names = ['Biker', 'Driver'];
+        $courier_types = [CourierTypes::WALKER, CourierTypes::BIKER, CourierTypes::DRIVER];
+        $courier_type_names = ['Walker', 'Biker', 'Driver'];
         $shift_type = TimeRangeType::SHIFT;
         $days_of_week = $this->getDayOfWeekNames();
         return view('admin.schedule.schedulev2',
@@ -93,6 +93,17 @@ class ScheduleController extends Controller
         }
     }
 
+    public function deleteShift(Request $request)
+    {
+        $shift_id = $request->input('shift_id');
+        $time_range = TimeRange::find($shift_id);
+        // this will affect have the affect of deleting any rows workers
+        // attached to the shift in the time_ranges_users table
+        // as well as deleting this time range
+        $time_range->delete();
+        return back()->with('status_good', 'Shift deleted');
+    }
+
     public function removeWorkerFromShift(Request $request)
     {
         $time_range = TimeRange::find($request->input('shift_id'));
@@ -100,20 +111,6 @@ class ScheduleController extends Controller
         $shift->removeWorkerFromShift($request->input('worker_id'));
         return back()->with('status_good', 'Worker removed from shift');
     }
-
-    /*private function shiftSetUp(TimeRange $shift, Request $request)
-    {
-        $shift->start_dow = $request->input('start_dow');
-        $shift->start_hour = $request->input('start_hour');
-        $shift->start_min = $request->input('start_min');
-        $shift->end_dow = $request->input('end_dow');
-        $shift->end_hour = $request->input('end_hour');
-        $shift->end_min = $request->input('end_min');
-        // this controller creates shifts and no other type of time range
-        $shift->time_range_type = TimeRangeType::SHIFT;
-
-        return $shift;
-    }*/
 
     public function updateShift(Request $request)
     {
@@ -127,10 +124,5 @@ class ScheduleController extends Controller
         } else {
             return back()->with('status_good', $valid_shift_message);
         }
-    }
-
-    public function deleteShift()
-    {
-
     }
 }

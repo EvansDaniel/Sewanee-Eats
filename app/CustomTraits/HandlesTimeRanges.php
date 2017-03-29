@@ -10,6 +10,7 @@ namespace App\CustomTraits;
 
 use App\CustomClasses\Schedule\Shift;
 use App\CustomClasses\ShoppingCart\RestaurantOrderCategory;
+use App\Models\MenuItem;
 use App\Models\Restaurant;
 use App\Models\TimeRange;
 use Carbon\Carbon;
@@ -203,6 +204,33 @@ trait HandlesTimeRanges
                     if (!$this->timeRangesDisjoint($existing_r_time_range, $time_range)) {
                         return 'The new open time must be disjoint (no overlap) with other restaurant open times';
                     }
+                }
+            }
+        }
+        return 0;
+    }
+
+    /**
+     * @param MenuItem $menu_item
+     * @param TimeRange $time_range
+     * @return int|string returns error msg to user when given invalid
+     * time range for a menu item, 0 when given a valid time range
+     * Note: this doesn't check if the menu item is within the time range
+     * specified by the restaurant it belongs to
+     */
+    public function isValidTimeRangeForMenuItem(MenuItem $menu_item, TimeRange $time_range)
+    {
+        if (!$this->startTimesComeAfterEndTimes($time_range)) {
+            return 'Invalid day and time start and end ranges';
+        }
+        // get existing restaurant open times and determine if $time_range overlaps
+        // we only need to check this for on demand
+        foreach ($menu_item->getAvailability() as $existing_m_time_range) {
+            // we need this check b/c on updates to the passed time range
+            // the $time_range will be in the list we loop through
+            if ($existing_m_time_range->id != $time_range->id) {
+                if (!$this->timeRangesDisjoint($existing_m_time_range, $time_range)) {
+                    return 'The new availability time range must be disjoint (no overlap) with other restaurant open times';
                 }
             }
         }

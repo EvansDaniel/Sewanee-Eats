@@ -7,32 +7,56 @@
 
 @section('body')
     <div class="container">
-        <h1>Add a new restaurant</h1>
+        <h1>Update Restaurant</h1>
         <form action="{{ url()->to(parse_url(route('updateRestaurant',[]),PHP_URL_PATH),[],env('APP_ENV') !== 'local') }}"
               method="post" enctype="multipart/form-data"
-              id="update-restaurant" accept-charset="utf-8">
+              id="create-restaurant" accept-charset="utf-8">
             {{ csrf_field() }}
-            <input type="hidden" name="rest_id" value="{{ $r->id }}">
+            <input name="rest_id" type="hidden" value="{{ $rest->id }}">
             <div class="form-group">
                 <label for="rest-name">Restaurant Name</label>
                 <input name="name" id="rest-name" class="form-control"
-                       type="text" required maxlength="100"
-                       value="{{ $r->name }}">
-                <label for="rest-location">Restaurant Location</label>
-                <select name="location" class="form-control" id="rest-location" required>
-                    <option value="campus">Campus</option>
-                    <option value="downtown">Downtown</option>
-                </select>
+                       type="text" required maxlength="100" value="{{ $rest->name }}">
                 <br>
                 <input type="file" name="image" id="file" class="input-file form-control">
                 <label for="file" class="btn btn-primary form-control">Choose a restaurant image</label>
                 <br><br>
-                <label for="hours-table">Specify the hours this restaurant is open. If a restaurant is open for multiple
-                    disjoint shifts use the extra rows for that day to fill that in. Fill each cell in in this form:
-                    "hh:mm-hh:mm" or put "closed" if the restaurant is closed that day</label>
-                @include('partials.update_available_times')
-                <button type="submit" class="btn btn-primary" onclick="checkDays(event)">Update Restaurant</button>
+                @if(!$rest->isSellerType($weekly_special_seller_type))
+                    <div id="non-weekly-special-rest-div">
+                        <label for="callable">Can this restaurant be called ahead of time?</label>
+                        @if($rest->callable)
+                            <input type="checkbox" checked id="callable" name="callable" value="{{ $rest->callable }}">
+                        @else
+                            <input type="checkbox" id="callable" name="callable" value="{{ $rest->callable }}">
+                        @endif
+                        <div id="is-callable-div">
+                            <label for="phone-number">What is the restaurant's phone number? (only numbers)</label>
+                            <input type="text" name="phone_number" value="{{ $rest->phone_number }}" id="phone-number">
+                        </div>
+                        <div>
+                            <label for="rest-location">Restaurant Address</label>
+                            <input type="text" name="address" value="{{ $rest->address }}" class="form-control"
+                                   id="rest-location">
+                        </div>
+                    </div>
+                @endif
+                <button type="submit" style="margin-top: 1%" class="btn btn-primary">Update Restaurant</button>
             </div>
         </form>
     </div>
+
+    <script>
+      function callableCheck() {
+        var callable = $('#callable');
+        if (callable.is(':checked')) {
+          $('#is-callable-div').show();
+          callable.val(1);
+        } else {
+          $('#is-callable-div').hide();
+          callable.val(0);
+        }
+      }
+      callableCheck();
+      $('#callable').on('change', callableCheck)
+    </script>
 @stop

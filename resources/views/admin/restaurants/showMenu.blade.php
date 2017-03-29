@@ -40,12 +40,21 @@
                                             <a href="{{ route('showMenuItemUpdateForm', ['id' => $item->id,'r_id' => $restaurant->id]) }}">
                                                 <button class="btn btn-primary" type="button">Update Menu Item</button>
                                             </a>
+                                            <a href="{{ route('showMenuItemAvailability',['menu_item_id' => $item->id]) }}">
+                                                <button class="btn btn-primary" type="button">View Menu Item Available
+                                                    Times
+                                                </button>
+                                            </a>
+                                            <a href="{{ route('showMenuItemAddAvailability',['menu_item_id' => $item->id]) }}">
+                                                <button class="btn btn-primary" type="button">Add Availability Times
+                                                </button>
+                                            </a>
                                             <!-- TODO: make js alert button that makes sures admin wants to delete this -->
 
                                             {{--<form action="{{ route('deleteMenuItem', ['id' => $item->id]) }}" method="post">--}}
                                             <form action="{{ url()->to(parse_url(route('deleteMenuItem',['id' => $item->id]),
                                                                                  PHP_URL_PATH),[],env('APP_ENV') !== 'local') }}"
-                                                  method="post">
+                                                  method="post" style="display: inline">
                                                 {{ csrf_field() }}
                                                 <button class="btn btn-danger" type="submit" style="margin-top: 5px">
                                                     Delete Menu Item

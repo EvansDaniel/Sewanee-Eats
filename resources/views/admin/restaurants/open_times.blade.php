@@ -36,6 +36,12 @@
                     ['open_time_id' => $time_range->id,'rest_id' => $rest->id]) }}">
                             <button class="btn btn-dark" type="submit">Update time</button>
                         </a>
+                        <form action="{{ url()->to(parse_url(route('deleteOpenTime',[]),PHP_URL_PATH),[],env('APP_ENV') !== 'local') }}"
+                              method="post" style="display: inline;">
+                            {{ csrf_field() }}
+                            <input name="open_time_id" type="hidden" value="{{ $time_range->id }}">
+                            <button class="btn btn-danger">Delete Restaurant Open Time</button>
+                        </form>
                     </li>
                 @endforeach
             </ul>

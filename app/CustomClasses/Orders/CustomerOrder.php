@@ -2,6 +2,7 @@
 
 namespace App\CustomClasses\Orders;
 
+use App\CustomClasses\Delivery\DeliveryInfo;
 use App\CustomClasses\ShoppingCart\CartBilling;
 use App\CustomClasses\ShoppingCart\CartItem;
 use App\CustomClasses\ShoppingCart\PaymentType;
@@ -64,7 +65,7 @@ class CustomerOrder
     public function handleVenmoOrder()
     {
         $order = new Order;
-// order is open b/c they haven't paid for it yet
+        // order is open b/c they haven't paid for it yet
         $order->is_open_order = true;
         $order->venmo_username = $this->request->input('venmo_username');
         $order->payment_type = PaymentType::VENMO_PAYMENT;
@@ -88,6 +89,8 @@ class CustomerOrder
         $order = $this->handleDeliveryLocation($order);
         $order_types = $this->cart->getOrderTypes();
         $order->order_types = json_encode($order_types);
+        $del_info = new DeliveryInfo($this->cart);
+        $courier_types = $del_info->getCourierTypesForItems();
         return $order;
     }
 

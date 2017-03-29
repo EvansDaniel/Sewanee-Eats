@@ -19,7 +19,7 @@ class OrdersController extends Controller
 
     public function inputExtraOrder()
     {
-
+        // TODO: make it so that a manager/admin can add order not filled on site
     }
 
     public function undoCloseVenmoOrder(Request $request)

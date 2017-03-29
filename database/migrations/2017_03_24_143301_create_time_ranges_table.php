@@ -34,9 +34,11 @@ class CreateTimeRangesTable extends Migration
             /*$table->foreign('user_id')
                 ->references('id')->on('users');*/
             $table->foreign('restaurant_id')
-                ->references('id')->on('restaurants');
+                ->references('id')->on('restaurants')
+                ->onDelete('cascade');
             $table->foreign('menu_item_id')
-                ->references('id')->on('menu_items');
+                ->references('id')->on('menu_items')
+                ->onDelete('cascade');
             $table->timestamps();
         });
     }

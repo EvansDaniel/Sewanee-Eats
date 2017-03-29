@@ -27,7 +27,7 @@
                 <br><br>
                 <div id="non-weekly-special-rest-div">
                     <label for="callable">Can this restaurant be called ahead of time?</label>
-                    <input type="checkbox" checked id="callable">
+                    <input type="checkbox" name="callable" checked id="callable">
                     <div id="is-callable-div">
                         <label for="phone-number">What is the restaurant's phone number? (only numbers)</label>
                         <input type="text" name="phone_number" id="phone-number">
@@ -36,9 +36,6 @@
                         <label for="rest-location">Restaurant Address</label>
                         <input type="text" name="address" class="form-control" id="rest-location">
                     </div>
-                    {{--<div>
-                        <label for="restaurant-open-times">When is this restaurant open?</label>
-                    </div>--}}
                 </div>
                 <button type="submit" style="margin-top: 1%" class="btn btn-primary">Add New Restaurant</button>
             </div>

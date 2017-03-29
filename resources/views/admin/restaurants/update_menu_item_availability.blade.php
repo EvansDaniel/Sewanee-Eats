@@ -1,7 +1,7 @@
 @extends('admin.main.admin_dashboard_layout')
 
 @section('head')
-    <title>New Restaurant Open Time</title>
+    <title>Update {{ $menu_item->name }} Open Time</title>
 @stop
 
 <style>
@@ -23,25 +23,26 @@
 </style>
 
 @section('body')
-    <div class="clearfix"></div>
-
     <div class="container" id="new-open-time-container">
         <div>
             <p class="heading">
-                New Open Time
+                Updating Availability Time Frame for {{ $menu_item->name }}
             </p>
         </div>
         @include('admin.partials.list_resource_times_by_day',
-        ['resource' => $rest])
+        ['resource' => $menu_item])
         <div>
-            <form action="{{ url()->to(parse_url(route('createOpenTime',[]),PHP_URL_PATH),[],env('APP_ENV') !== 'local') }}"
+            Availability Time Frame to update: {{ $time_range->getDayDateTimeString() }}
+            <form action="{{ url()->to(parse_url(route('menuItemUpdateAvailability',[]),PHP_URL_PATH),[],env('APP_ENV') !== 'local') }}"
                   method="post">
                 <div class="form-group">
                     {{ csrf_field() }}
-                    <input name="rest_id" type="hidden" value="{{ $rest->id }}">
-                    @include('admin.restaurants.create_time_range')
+                    <input name="menu_item_id" type="hidden" value="{{ $menu_item->id }}">
+                    <input name="time_range_id" type="hidden" value="{{ $time_range->id }}">
+                    @include('admin.restaurants.update_time_range',
+                    ['time_range' => $time_range])
                     <button id="new-open-time-btn" class="btn btn-dark" type="submit">
-                        Create New Open Time
+                        Update Open Time
                     </button>
                 </div>
             </form>

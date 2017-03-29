@@ -28,20 +28,21 @@
     <div class="container" id="new-open-time-container">
         <div>
             <p class="heading">
-                New Open Time
+                New Available Time for Menu Item
             </p>
         </div>
         @include('admin.partials.list_resource_times_by_day',
-        ['resource' => $rest])
+        ['resource' => $menu_item])
         <div>
-            <form action="{{ url()->to(parse_url(route('createOpenTime',[]),PHP_URL_PATH),[],env('APP_ENV') !== 'local') }}"
+            <form action="{{ url()->to(parse_url(route('menuItemCreateAvailability',[]),PHP_URL_PATH),[],env('APP_ENV') !== 'local') }}"
                   method="post">
                 <div class="form-group">
                     {{ csrf_field() }}
                     <input name="rest_id" type="hidden" value="{{ $rest->id }}">
+                    <input name="menu_item_id" type="hidden" value="{{ $menu_item->id }}">
                     @include('admin.restaurants.create_time_range')
                     <button id="new-open-time-btn" class="btn btn-dark" type="submit">
-                        Create New Open Time
+                        Create New Available Time for {{ $menu_item->name }}
                     </button>
                 </div>
             </form>
