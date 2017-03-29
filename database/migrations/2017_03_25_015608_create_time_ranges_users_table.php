@@ -21,9 +21,11 @@ class CreateTimeRangesUsersTable extends Migration
             // managers don't have a courier type so it can be nullable
             $table->integer('courier_type')->nullable();
             $table->foreign('time_range_id')
-                ->references('id')->on('time_ranges');
+                ->references('id')->on('time_ranges')
+                ->onDelete('cascade');
             $table->foreign('user_id')
-                ->references('id')->on('users');
+                ->references('id')->on('users')
+                ->onDelete('cascade');
             $table->timestamps();
         });
     }

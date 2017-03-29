@@ -32,13 +32,13 @@ class CreateOrdersTable extends Migration
             $table->boolean('was_refunded');
             $table->boolean('is_delivered');
             $table->boolean('is_being_processed');
-            $table->integer('num_couriers_necessary');
             $table->string('courier_types'); // json string denoting the types of couriers that can deliver this order
             // did they opt to pay with venmo
             // was paid_with_venmo of type boolean
             $table->integer('payment_type');
             $table->string('venmo_username')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

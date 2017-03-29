@@ -244,6 +244,9 @@ Route::group(['prefix' => 'admin',
     Route::post('createOpenTime', 'ManageRestaurantController@createOpenTime')
         ->name('createOpenTime');
 
+    Route::post('deleteOpenTime', 'ManageRestaurantController@deleteOpenTime')
+        ->name('deleteOpenTime');
+
     Route::get('changeRestAvailableStatus/{rest_id}', 'ManageRestaurantController@changeRestAvailableStatus')
         ->name('changeRestAvailableStatus');
 
@@ -298,6 +301,28 @@ Route::group(['prefix' => 'admin',
     // back end for deleting menu items
     Route::post('menuItems/{id}/delete', 'MenuItemController@deleteMenuItem')
         ->name('deleteMenuItem');
+
+    // Available times for menu items routes
+    Route::get('menuItemAvailability/{menu_item_id}', 'MenuItemController@showMenuItemAvailability')
+        ->name('showMenuItemAvailability');
+
+    Route::get('addMenuItemAvailability/{menu_item_id}', 'MenuItemController@showMenuItemAddAvailability')
+        ->name('showMenuItemAddAvailability');
+
+    Route::get('updateMenuItemAvailability/{time_range_id}/{menu_item_id}',
+        'MenuItemController@showMenuItemUpdateAvailability')
+        ->name('showMenuItemUpdateAvailability');
+
+    // back ends
+    Route::post('menuItemAvailabilityUpdate', 'MenuItemController@menuItemUpdateAvailability')
+        ->name('menuItemUpdateAvailability');
+
+    Route::post('deleteMenuItemAvailability', 'MenuItemController@menuItemDeleteAvailability')
+        ->name('menuItemDeleteAvailability');
+
+    Route::post('menuItemAvailabilityCreate', 'MenuItemController@menuItemCreateAvailability')
+        ->name('menuItemCreateAvailability');
+
 
     // Accessory Routes
     // show routes

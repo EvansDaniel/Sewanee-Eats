@@ -9,6 +9,12 @@
             <a href="{{ route('showUpdateShift',['shift_id' => $s->getId()]) }}">
                 <button class="btn btn-dark">Change Shift</button>
             </a>
+            <form action="{{ url()->to(parse_url(route('deleteShift',[]),PHP_URL_PATH),[],env('APP_ENV') !== 'local') }}"
+                  method="post" style="display: inline;">
+                {{ csrf_field() }}
+                <input name="shift_id" type="hidden" value="{{ $s->getId() }}">
+                <button type="submit" class="btn btn-danger">Delete Shift</button>
+            </form>
         @endif
     </h2>
     <h3>

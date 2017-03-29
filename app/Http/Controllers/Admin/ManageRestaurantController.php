@@ -10,6 +10,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Restaurant;
 use App\Models\TimeRange;
 use Illuminate\Http\Request;
+use Session;
 use Validator;
 
 class ManageRestaurantController extends Controller
@@ -87,6 +88,14 @@ class ManageRestaurantController extends Controller
         return back()->with('status_good', 'Open time added to restaurant');
     }
 
+    public function deleteOpenTime(Request $request)
+    {
+        $open_time_id = $request->input('open_time_id');
+        $time_range = TimeRange::find($open_time_id);
+        $time_range->delete();
+        return back()->with('status_good', 'The restaurant open time has been deleted');
+    }
+
     public function updateOpenTime(Request $request)
     {
         $rest = Restaurant::find($request->input('rest_id'));
@@ -102,8 +111,7 @@ class ManageRestaurantController extends Controller
             return redirect()->route('showOpenTimes', ['r_id' => $rest->id])
                 ->with('status_good', 'Open time for restaurant updated');
         } else { // weekly special restaurant
-            \Log::info('here');
-            \Log::info($is_available = $request->input('is_available'));
+            $is_available = $request->input('is_available');
             if (empty($is_available)) { // workaround for 0 in input field
                 $is_available = false;
             }
@@ -195,14 +203,12 @@ class ManageRestaurantController extends Controller
         $restaurant->save();
         if ($is_weekly_special) {
             return back()->with('status_good',
-                $restaurant->name . " created. Be sure to add the time frame for the weekly special.");
+                $restaurant->name . " restaurant created. Be sure to add the time frame for the weekly special.");
         } else { // on demand rest
             // go to the add_open_times page
-            $day_of_week_names = $this->getDayOfWeekNames();
-            $rest = $restaurant;
-            return view('admin.restaurants.add_open_times',
-                compact('day_of_week_names', 'resource', 'rest'))
-                ->with('status_good', $restaurant->name . ' created. Now add the open times of the restaurant.');
+            Session::flash('status_good', $restaurant->name . ' created. Now add the open times of the restaurant.');
+            return redirect()->route('showAddOpenTimes',
+                ['r_id' => $restaurant->id]);
         }
     }
 
@@ -224,9 +230,10 @@ class ManageRestaurantController extends Controller
 
     public function showRestaurantUpdate($id)
     {
-        $r = Restaurant::find($id); // updating this restaurant so pass it to view
-        $available_times = json_decode($r->available_times);
-        return view('admin.restaurants.update_restaurant', compact('r', 'available_times'));
+        $rest = Restaurant::find($id); // updating this restaurant so pass it to view
+        $weekly_special_seller_type = RestaurantOrderCategory::WEEKLY_SPECIAL;
+        return view('admin.restaurants.update_restaurant',
+            compact('rest', 'weekly_special_seller_type'));
     }
 
     public function deleteRestaurant($id)
@@ -242,9 +249,11 @@ class ManageRestaurantController extends Controller
 
     public function updateRestaurant(Request $request)
     {
-        $location = $request->input('location');
+        $address = $request->input('address');
         $name = $request->input('name');
         $image = $request->file('image');
+        $callable = $request->input('callable');
+        $phone_number = $request->input('phone_number');
 
 
         $validator = $this->imageUploadValidator($request);
@@ -268,8 +277,18 @@ class ManageRestaurantController extends Controller
         }
 
         $restaurant->name = $name;
-        $restaurant->location = $location;
-
+        if ($restaurant->isSellerType(RestaurantOrderCategory::ON_DEMAND)) {
+            \Log::info('callable ' . $callable);
+            if (empty($callable)) {
+                \Log::info('here');
+                $restaurant->callable = false;
+            } else {
+                $restaurant->callable = true;
+            }
+            $restaurant->phone_number = $phone_number;
+            $restaurant->address = $address;
+        }
+        \Log::info('here i am');
         $restaurant->save();
         return back()->with('status_good', $restaurant->name . " has been updated!");
     }

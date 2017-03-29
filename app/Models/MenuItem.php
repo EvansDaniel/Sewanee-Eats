@@ -43,11 +43,6 @@ class MenuItem extends Model implements Item, Availability, ResourceTimeRange
             'id');
     }
 
-    public function itemIsAvailable()
-    {
-        return $this->isAvailableNow($this);
-    }
-
     public function isAvailableNow()
     {
         $isAvail = new IsAvailable($this);
