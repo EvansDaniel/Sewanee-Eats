@@ -2,6 +2,7 @@
 
 use App\Models\Order;
 use App\Models\OrderPriceInfo;
+use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 
 class OrdersTableSeeder extends Seeder
@@ -16,6 +17,10 @@ class OrdersTableSeeder extends Seeder
         factory(Order::class, 10)->create();
         $orders = Order::all();
         foreach ($orders as $order) {
+            $carbon = new Carbon($order->created_at);
+            $carbon->hour(mt_rand(0, Carbon::now()->hour));
+            $order->created_at = $carbon;
+            $order->save();
             $pi = new OrderPriceInfo;
             $pi->order_id = $order->id;
             $pi->total_price = 20;

@@ -15,8 +15,8 @@ class CreateOrdersTable extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->increments('id');
-            // it is an open order if it hasn't been paid for yet
-            $table->boolean('is_open_order');
+            // has been paid for
+            $table->boolean('is_paid_for');
             // can be address or location description
             // will we provide locations via select or will it be via text box?
             $table->string('delivery_location', 150)->nullable();

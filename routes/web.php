@@ -14,7 +14,6 @@
 use Carbon\Carbon;
 
 
-
 // test link for some viewS
 
 /*Route::get('test', function () { // redirect route to home
@@ -348,6 +347,17 @@ Route::group(['prefix' => 'admin',
         ->name('deleteAccessory');
 });
 
+Route::get('next', function () {
+    return view('emails.link_to_next_order');
+});
+
+// TODO: make other middleware role routes use auth as well, and figure out role:courier problem
+Route::group(['prefix' => 'queue',
+    'middleware' => ['auth', 'role:courier,admin,manager'], 'namespace' => 'Courier'],
+    function () {
+        Route::get('orders', 'OrderQueueController@showOrdersQueue')->name('showOrdersQueue');
+        Route::get('nextOrderInQueue', 'OrderQueueController@nextOrderInQueue')->name('nextOrderInQueue');
+    });
 
 // Routes specific to couriers (schedule, etc)
 Route::group(['prefix' => 'courier',

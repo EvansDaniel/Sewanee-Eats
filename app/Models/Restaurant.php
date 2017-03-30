@@ -67,12 +67,20 @@ class Restaurant extends Model implements SellerEntity, Availability, ResourceTi
 
     public function scopeWeeklySpecials($query)
     {
-        return $query->where('seller_type', RestaurantOrderCategory::WEEKLY_SPECIAL);
+        return $query->where([
+            'seller_type' => RestaurantOrderCategory::WEEKLY_SPECIAL,
+            'is_available_to_customers' => true
+        ]);
     }
 
     public function scopeOnDemand($query)
     {
-        return $query->where('seller_type', RestaurantOrderCategory::ON_DEMAND);
+        return $query->where([
+                'seller_type' => RestaurantOrderCategory::ON_DEMAND,
+                'is_available_to_customers' => true,
+
+            ]
+        );
     }
 
     public function timeRanges()

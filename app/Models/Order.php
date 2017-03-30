@@ -62,8 +62,104 @@ class Order extends Model implements HasItems
             'order_id', 'courier_id')->withTimestamps();
     }
 
-    public function getProfit()
+    public function scopeUndelivered($query)
     {
-        return $this->profit($this->total_price, $this->menuItems);
+        return $query->where('is_delivered', false);
+    }
+
+    public function scopeBeingProcessed($query, $bool)
+    {
+        return $query->where('is_being_processed', $bool);
+    }
+
+    public function scopeDelivered($query)
+    {
+        return $query->where('is_delivered', true);
+    }
+
+    public function scopeCancelled($query)
+    {
+        return $query->where('is_cancelled', true);
+    }
+
+    /**
+     * @param $courier_type integer constant from class CourierTypes
+     * @return boolean returns true if the order has the given $courier_type
+     * false otherwise
+     */
+    public function hasCourierType($courier_type)
+    {
+        $courier_types = json_decode($this->courier_types, true);
+        foreach ($courier_types as $ct) {
+            if ($ct == $courier_type) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public function showCourierTypes()
+    {
+        $courier_types = json_decode($this->courier_types);
+        \Log::info($courier_types);
+    }
+
+    public function scopePending($query)
+    {
+        // must be undelivered, not being processed,
+        // not paid for yet, not cancelled (implies not refunded)
+        //
+        return $query->where([
+            'is_delivered' => false,
+            'is_being_processed' => false,
+            'is_paid_for' => true,
+            'is_cancelled' => false
+        ]);
+    }
+
+    /**
+     * @param $payment_type integer constant from the class PaymentTypes
+     * @return boolean true if the given $payment_type is the same as the
+     * order's payment type, false otherwise
+     */
+    public function wasPaidWith($payment_type)
+    {
+        return $this->payment_type == $payment_type;
+    }
+
+    public function scopeRefunded($query)
+    {
+        return $query->where('was_refunded', true);
+    }
+
+    public function scopeNotPaidFor($query)
+    {
+        return $query->where('is_paid_for', false);
+    }
+
+    public function scopePaidFor($query)
+    {
+        return $query->where('is_paid_for', true);
+    }
+
+    /**
+     * @param $order_type integer constant from class RestaurantOrderCategory
+     * @return boolean returns true if the order has the given $order_type
+     * false otherwise
+     */
+    public function hasOrderType($order_type)
+    {
+        $order_types = json_decode($this->order_types, true);
+        foreach ($order_types as $ot) {
+            if ($ot == $order_type) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public function getWeeklySpecialOrders()
+    {
+
     }
 }

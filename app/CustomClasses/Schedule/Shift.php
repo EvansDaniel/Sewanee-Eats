@@ -9,6 +9,7 @@
 namespace App\CustomClasses\Schedule;
 
 
+use App\CustomClasses\Availability\IsAvailable;
 use App\CustomClasses\Availability\TimeRangeType;
 use App\CustomClasses\Courier\CourierTypes;
 use App\CustomTraits\HandlesTimeRanges;
@@ -78,9 +79,18 @@ class Shift
         throw new InvalidArgumentException('Invalid courier type given. Must be a constant from the CourierTypes class');
     }
 
+    /**
+     * Gets the current shift
+     */
     public static function now()
     {
-
+        $shifts = TimeRange::ofType(TimeRangeType::SHIFT)->get();
+        foreach ($shifts as $shift) {
+            if (IsAvailable::nowIsBetweenOrEqualToTimeRange($shift, 0)) {
+                return $shift;
+            }
+        }
+        return null;
     }
 
     public function getCurrentShifts()
@@ -201,7 +211,7 @@ class Shift
 
     public function getStartDay()
     {
-        return $this->shift->start_day;
+        return $this->shift->start_dow;
     }
 
     public function getEndDay()

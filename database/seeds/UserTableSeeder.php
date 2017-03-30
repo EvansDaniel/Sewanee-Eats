@@ -16,45 +16,6 @@ class UserTableSeeder extends Seeder
         // All available times for couriers will be in the range
         // of two hours i.e. '10:00-12:00'. This is b/c this is the current
         // length of a shift
-
-        /*$available_times = json_encode([
-            [
-                '10:00-12:00',
-                '20:00-22:00',
-                ''
-            ],
-            [
-                '08:00-10:00',
-                '22:00-00:00',
-                ''
-            ],
-            [
-                '16:00-18:00',
-                '',
-                ''
-            ],
-            [
-                '18:00-20:00',
-                '16:00-18:00',
-                ''
-            ],
-            [
-                '12:00-14:00',
-                '00:00-02:00',
-                ''
-            ],
-            [
-                '18:00-20:00',
-                '20:00-22:00',
-                '22:00-00:00'
-            ],
-            [
-                '14:00-16:00',
-                '16:00-18:00',
-                '18:00-20:00'
-            ]
-        ]);*/
-
         User::create([
             'name' => 'Daniel Evans',
             'email' => 'evansdb0@sewanee.edu',

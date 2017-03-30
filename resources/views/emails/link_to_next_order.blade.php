@@ -1,0 +1,1 @@
+<a href="{{ route('nextOrderInQueue') }}">Service Next Order</a>

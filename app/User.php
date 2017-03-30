@@ -67,7 +67,8 @@ class User extends Authenticatable implements Availability
     {
         if ($this->hasRole('admin') || $this->hasRole('courier') || $this->hasRole('manager')) {
             return $this->belongsToMany('App\Models\TimeRange',
-                'time_ranges_users', 'user_id', 'time_range_id');
+                'time_ranges_users', 'user_id', 'time_range_id')
+                ->withPivot('courier_type');
         }
         return null;
     }

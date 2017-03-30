@@ -11,6 +11,7 @@
 |
 */
 
+use App\CustomClasses\Courier\CourierTypes;
 use App\CustomClasses\ShoppingCart\PaymentType;
 use App\CustomClasses\ShoppingCart\RestaurantOrderCategory;
 use App\Models\Order;
@@ -22,9 +23,9 @@ $factory->define(Order::class, function (Faker\Generator $faker) {
         'order_types' => json_encode(['on_demand' => RestaurantOrderCategory::ON_DEMAND]),
         'is_delivered' => 0,
         'is_being_processed' => 0,
-        'courier_types' => json_encode([2]), // drivers
+        'courier_types' => json_encode([CourierTypes::DRIVER]), // drivers
         'payment_type' => PaymentType::STRIPE_PAYMENT,
-        'phone_number' => '9316913594',
+        'phone_number' => '93   16913594',
         'c_name' => 'Mark Garcia',
         'venmo_username' => null, // stripe payment
         'delivery_location' => '249 Circle Dr, Cowan, TN 37318',

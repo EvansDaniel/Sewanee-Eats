@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\CourierInfo;
 use App\Models\Role;
 use App\User;
 use Illuminate\Database\Seeder;
@@ -36,6 +37,23 @@ class RolesUsersTableSeeder extends Seeder
             $courier->remember_token = str_random(10);
             $courier->save();
             $courier->roles()->attach($courier_role->id);
+            $courier_info = new CourierInfo;
+            $courier_info->phone_number = "9316913594";
+            $courier_info->is_delivering_order = false;
+            $courier_info->user_id = $courier->id;
+            $courier_info->save();
         }
+        $courier = new User;
+        $courier->name = 'Test Courier';
+        $courier->email = 't@t.com';
+        $courier->password = bcrypt('dsmith');
+        $courier->remember_token = str_random(10);
+        $courier->save();
+        $courier->roles()->attach($courier_role->id);
+        $courier_info = new CourierInfo;
+        $courier_info->phone_number = "9316913594";
+        $courier_info->is_delivering_order = false;
+        $courier_info->user_id = $courier->id;
+        $courier_info->save();
     }
 }
