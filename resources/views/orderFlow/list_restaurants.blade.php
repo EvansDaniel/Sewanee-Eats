@@ -7,6 +7,9 @@
 @section('body')
     <link rel="stylesheet" href={{ asset('css/restaurants.css',env('APP_ENV') === 'production') }}>
     <script src="{{ asset('js/restaurants.js',env('APP_ENV') === 'production') }}"></script>
+
+
+
     <section class="container header">
         <h3 id="mountain">ON DEMAND RESTAURANTS</h3>
         <ul class="list-group container" id="restaurant-group">
@@ -60,30 +63,30 @@
         @endif
     </section>
     <hr>
-    <section class="container header">
-        <h5 id="events"></h5>
-        <h3 id="" class="events-header"><a
-                    href="{{ route('eventsInfo') }}">Click to learn more about this weeks events</a></h3>
-        <ul class="list-group container" id="restaurant-group">
-            <!-- Make this special Events -->
-            @if(!empty($sellers->getEvents()))
-                @foreach($sellers->getEvents() as $event)
-                    <h3>{{ $event->event_name }}</h3>
-                    <li style="display: none"
-                        class="restaurant list-group-item col-lg-3 col-md-3 col-xs-8 col-xs-offset-2 col-sm-8 col-sm-offset-2">
-                        <a href="{{ route('uShowEventItems',['event_id' => $event->id]) }}" >
-                            <!-- These urls must be https -->
-                            <img src="{{ $event->host_logo }}"
-                                 id="rest-images" class="img-responsive">
-                        </a>
-                        {{--<p class="event-status">
-                            Event starts the 04/05
-                        </p>
-                        <p class="status-ev-bool" style="display: none">1</p>
---}}                    </li>
-                @endforeach
-            @endif
-        </ul>
-    </section>
+    {{--<section class="container header">--}}
+        {{--<h5 id="events"></h5>--}}
+        {{--<h3 id="" class="events-header"><a--}}
+                    {{--href="{{ route('eventsInfo') }}">Click to learn more about this weeks events</a></h3>--}}
+        {{--<ul class="list-group container" id="restaurant-group">--}}
+            {{--<!-- Make this special Events -->--}}
+            {{--@if(!empty($sellers->getEvents()))--}}
+                {{--@foreach($sellers->getEvents() as $event)--}}
+                    {{--<h3>{{ $event->event_name }}</h3>--}}
+                    {{--<li style="display: none"--}}
+                        {{--class="restaurant list-group-item col-lg-3 col-md-3 col-xs-8 col-xs-offset-2 col-sm-8 col-sm-offset-2">--}}
+                        {{--<a href="{{ route('uShowEventItems',['event_id' => $event->id]) }}" >--}}
+                            {{--<!-- These urls must be https -->--}}
+                            {{--<img src="{{ $event->host_logo }}"--}}
+                                 {{--id="rest-images" class="img-responsive">--}}
+                        {{--</a>--}}
+                        {{--<p class="event-status">--}}
+                            {{--Event starts the 04/05--}}
+                        {{--</p>--}}
+                        {{--<p class="status-ev-bool" style="display: none">1</p>--}}
+{{----}}{{--                    </li>--}}
+                {{--@endforeach--}}
+            {{--@endif--}}
+        {{--</ul>--}}
+    {{--</section>--}}
 
 @stop
