@@ -11,6 +11,9 @@
             <li><a class="active nav-links" href="{{ route('home') }}">MOUNTAIN EATS</a></li>
             <li><a class="nav-links" href="{{ route('courierShowSchedule') }}">SCHEDULE</a></li>
             <li><a class="nav-links" href="#">PAY PERIOD</a></li>
+            @if(Auth::user()->isOnShift())
+                <li><a class="nav-links" href="{{ route('nextOrderInQueue') }}">Next order</a></li>
+            @endif
             @if(!empty(Session::get('cart')))
                 <li><a class="nav-links" href="{{ route('checkout') }}">CHECKOUT
                         <u>{{ count(Session::get('cart')) }}</u></a></li>

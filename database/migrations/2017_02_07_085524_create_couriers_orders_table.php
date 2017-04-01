@@ -16,6 +16,9 @@ class CreateCouriersOrdersTable extends Migration
         Schema::create('couriers_orders', function (Blueprint $table) {
             $table->integer('courier_id')->unsigned();
             $table->integer('order_id')->unsigned();
+            $table->integer('courier_payment');
+
+
             $table->foreign('courier_id')
                 ->references('id')->on('users')
                 ->onDelete('cascade');
@@ -25,6 +28,8 @@ class CreateCouriersOrdersTable extends Migration
             // going to leave these timestamps so there is data about
             // when a user added him/herself as a employee to the order request
             $table->timestamps();
+            $table->softDeletes();
+            // TODO: use soft deletes to keep all records of couriers being assigned to orders
         });
     }
 

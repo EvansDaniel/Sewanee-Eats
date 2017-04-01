@@ -28,7 +28,7 @@ class IsAvailable
     public function __construct(Availability $resource)
     {
         // this assumes that all classes that implement availability have
-        // the same types for there collections of resources, which is logically they case
+        // the same types for there collections of resources, which is logically the case
         $this->resource = $resource;
     }
 
@@ -45,11 +45,11 @@ class IsAvailable
         }
         // getAvailability() returns single TimeRange (not array) for weekly specials
         if ($resource_time_ranges instanceof TimeRange) {
-            return $this->nowIsBetweenTimeRange($resource_time_ranges, $spare_time_before_ending);
+            return IsAvailable::nowIsBetweenOrEqualToTimeRange($resource_time_ranges, $spare_time_before_ending);
         } else { // other time range types return an array of TimeRange
             // check all time ranges and determine if now is between them
             foreach ($resource_time_ranges as $time_range) {
-                if ($this->nowIsBetweenTimeRange($time_range, $spare_time_before_ending)) {
+                if (IsAvailable::nowIsBetweenOrEqualToTimeRange($time_range, $spare_time_before_ending)) {
                     return true;
                 }
             }
@@ -57,7 +57,7 @@ class IsAvailable
         return false;
     }
 
-    private function nowIsBetweenTimeRange(TimeRange $time_range, $spare_time_before_ending)
+    public static function nowIsBetweenOrEqualToTimeRange(TimeRange $time_range, $spare_time_before_ending)
     {
         if (empty($time_range)) {
             return false;
@@ -65,7 +65,7 @@ class IsAvailable
         $start_carbon = $time_range->getStartCarbon();
         $end_carbon = $time_range->getEndCarbon();
         // TODO: check if Carbon::now() is equal to start or end carbon
-        return Carbon::now()->between($start_carbon, $end_carbon) &&
+        return Carbon::now()->between($start_carbon, $end_carbon, true) &&
             Carbon::now()->diffInMinutes($end_carbon) >= $spare_time_before_ending;
     }
 }
