@@ -13,6 +13,7 @@
             <div class="row">
                 <h4> steps</h4>
             </div>
+
             <div class="row" id="steps">
                 <div class="col-lg-3 col-md-3 col-sm-5 col-xs-8 pick" id="pick">
                     <h6> Pick Food and Sides</h6>

@@ -18,7 +18,7 @@ function TimeEstimation(customerDeliveryLocation, restaurantLocation) {
     service.getDistanceMatrix({
       origins: [this.startingLocation],
       destinations: [this.restaurauntLocation, this.customerDeliveryLocation],
-      travelMode: 'BICYCLING',
+      travelMode: 'DRIVING',
       unitSystem: google.maps.UnitSystem.METRIC,
       avoidHighways: false,
       avoidTolls: false

@@ -4,85 +4,9 @@
 @stop
 
 @section('body')
+    <link rel="stylesheet" href={{ asset('css/pricing.css', env('APP_ENV') !== 'local')  }}>
 
-    <style type="text/css">
-
-
-        .prices ul {
-            display: inline-block;
-            text-align: left;
-        }
-
-        * html .test ul {
-            display: inline
-        }
-
-        /* ie6 inline-block fix */
-        * + html .test ul {
-            display: inline
-        }
-
-        .rests {
-            font-family: "Lato", sans-serif;
-            list-style: none;
-        }
-
-        #promo-order-button {
-            background: linear-gradient(90deg, #240a54 10%, #7459a5 90%);
-            color: white;
-            border-radius: 0px;
-            text-align: center;
-            padding: 10px 18px;
-            text-decoration: none;
-            margin-bottom: 1em;
-            margin-left: 40%;
-            font-size: 14px;
-            font-weight: bold;
-            /*width: 20%;*/
-            border-radius: 5px;
-            margin-top: 10px;
-            border: solid rebeccapurple 2px;
-            vertical-align: middle;
-        }
-
-        #promo-order-button:hover {
-            background: linear-gradient(90deg, #7459a5 10%, #240a54 90%);
-            -webkit-box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.75);
-            -moz-box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.75);
-            box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.75);
-        }
-
-        .pr-page {
-            font-family: "Lato", sans-serif;
-
-        }
-
-        #pricing-p {
-
-        }
-
-        body {
-            background: white;
-        }
-
-        @media only screen and (max-width: 768px) {
-
-        }
-
-        p {
-            font-size: 18px;
-        }
-
-        .rests {
-            font-size: 18px;
-        }
-
-        #pricing-header{
-            margin-left: -30px;
-        }
-        /* ie7 inline-block fix */
-    </style>
-    <div align="center">
+    <div align="center" class="center">
 
         <div class="container pr-page">
             <h1 id="pricing-header">Pricing</h1>
@@ -99,43 +23,55 @@
                     restaurant would charge</b> plus a <b>base delivery fee from Sewanee Eats, with tax).</b> Below are
                 the
                 base delivery prices. Prices are <b>per order</b>.
-
-                <br>
-                <br>
-
-                If you purchase 5 or more items from inside the gates, we will add $1 per item to your order total.
-                <br>
-                If you purchase 5 or more items from outside the gates, we will add $2 per item to your delivery charge.
             </p>
-
-            <h2>Restaurants Inside the Gates:</h2>
-            <hr>
+            <p class="on-demand">
+                1. ON DEMANS DELIVERY PRICES
+            </p>
 
             <div class="prices">
                 <ul>
-                    <li class="rests">Stirlings - $3</li>
-                    <li class="rests">Pub - $3</li>
+                    <div class="central">
+                        <hr>
+                        <h2>Central campus restaurant - $3</h2>
+                        <hr>
+                    </div>
+                    <p class="include">*on campus restaurants include</p>
+                    <li class="rests">Stirlings</li>
+                    <li class="rests">Pub</li>
                     <br>
-                    <li class="rests">Sewanee Market - $3</li>
-                    <li class="rests">Shenanigans - $4</li>
-                    <li class="rests">Blue Chair or Tavern - $4</li>
+                    <hr>
+                    <h2>Others - $4</h2>
+                    <hr>
+                    <li class="rests">Sewanee Market</li>
+                    <li class="rests">Shenanigans</li>
+                    <li class="rests">Blue Chair or Tavern</li>
+                    <li class="rests">Pizza Hut</li>
+                    <li class="rests">Waffle House</li>
+                    <li class="rests">Sonic</li>
+                    <li class="rests">McDonalds</li>
+                    <li class="rests">Mountain Goat Market</li>
+                    <li class="rests">Wendys</li>
+                    <p class="note"><br><span>Note: </span><br> - for any item added to your cart after the second item
+                        and extra<strong> $ 0.30</strong> is added to your delivery fee
+                        <br> - this only applies to On-Demand delivery services
+                    </p>
+                    <hr>
+                </ul>
+                <h2 class="special">2. Weekly Special Prices - $3</h2>
                 <hr>
-                <h2>Restaurants Outside the Gates:</h2>
-                <hr>
-                    <li class="rests">Pizza Hut - $4.50</li>
-                    <li class="rests">Waffle House - $6</li>
-                    <li class="rests">Sonic - $4.50</li>
-                    <li class="rests">McDonalds - $4.50</li>
-                    <br>
-                    <li class="rests">Mountain Goat Market - $6</li>
-                    <li class="rests">Wendys - $5</li>
+                <ul>
 
-                <hr>
-                <h2>Weekly Special Prices:</h2>
-                <hr>
-                    <li class="rests">Chick-fil-a - $3 for less than 5 items, 75 cents per item for more than 5 items.
-                    </li>
-                    <li class="rests">Zaxbys - $3</li>
+                <p class="more"> The more you add to your cart, the more the delivery prices reduces on Weekly specials
+                    services</p>
+                <p> restaurants include:</p>
+                <li class="rests">
+                    All restaurants that are outside Monteagle
+                </li>
+                <li class="rests">Please let us know which restaurants you would like us to deliver from <a
+                            href="{{ route('support') }}">here</a></li>
+                <p class="note"><br><span>Note: </span><br> - for any item added to your cart after the first item and
+                    extra<strong> 20%</strong> is added to your delivery fee
+                </p>
                 </ul>
 
             </div>
@@ -146,5 +82,5 @@
             </h6>
 
         </div>
-
+    </div>
 @stop

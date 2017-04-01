@@ -1,0 +1,109 @@
+
+.prices ul {
+    display: inline-block;
+    text-align: left;
+}
+
+* html .test ul {
+    display: inline
+}
+
+/* ie6 inline-block fix */
+* + html .test ul {
+    display: inline
+}
+
+.rests {
+    font-family: "Lato", sans-serif;
+    list-style: none;
+}
+.prices .include{
+    font-weight: bolder;
+    font-style: italic;
+}
+.note{
+    font-style: italic;
+}
+.note span{
+    font-weight: bolder;
+}
+
+.special{
+    color: rebeccapurple;
+    text-transform: uppercase;
+    font-weight: bolder;
+}
+.more{
+    font-weight: bolder;
+    color: darkorange;
+    font-style: italic;
+}
+.center{
+    text-align: center;
+}
+#promo-order-button {
+    background: linear-gradient(90deg, #240a54 10%, #7459a5 90%);
+    color: white;
+    border-radius: 0px;
+    text-align: center;
+    padding: 10px 18px;
+    text-decoration: none;
+    margin-bottom: 1em;
+    margin-left: 40%;
+    font-size: 14px;
+    font-weight: bold;
+    /*width: 20%;*/
+    border-radius: 5px;
+    margin-top: 10px;
+    border: solid rebeccapurple 2px;
+    vertical-align: middle;
+}
+
+#promo-order-button:hover {
+    background: linear-gradient(90deg, #7459a5 10%, #240a54 90%);
+    -webkit-box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.75);
+    box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.75);
+}
+
+.pr-page {
+    font-family: "Lato", sans-serif;
+
+}
+
+#pricing-p {
+
+}
+
+body {
+    background: white;
+}
+
+@media only screen and (max-width: 768px) {
+
+}
+
+p {
+    font-size: 18px;
+}
+
+.rests {
+    font-size: 18px;
+}
+
+#pricing-header{
+    margin-left: -30px;
+}
+.on-demand{
+    color: rebeccapurple;
+    font-size: 18px;
+    font-family: "Lato", sans-serif;
+    font-weight: bolder;
+}
+h2{
+    color: darkorange;
+    font-size: 18px;
+    font-family: "Lato", sans-serif;
+    font-weight: bolder;
+}
+/* ie7 inline-block fix */

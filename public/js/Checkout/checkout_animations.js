@@ -5,7 +5,6 @@
 
 var loc_address = $("input[type='radio'] [name='loc-address']");
 
-
 $(document).ready(function () {
     var university_wrap = $('#university-wrap');
     var adrress_wrap= $('#location-wrap');

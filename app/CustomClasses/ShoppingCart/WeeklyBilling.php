@@ -5,7 +5,7 @@ namespace App\CustomClasses\ShoppingCart;
 
 use App\Models\Accessory;
 
-class CartBilling
+class WeeklyBilling
 {
     protected $cart;
     protected $delivery_fee;
@@ -39,8 +39,6 @@ class CartBilling
         $this->delivery_fee = $this->deliveryFee();
         $this->discount = $this->discount();
         $this->cost_of_food = $this->costOfFood();
-        $this->subtotal = $this->subtotal();
-        $this->tax = $this->tax();
         $this->total = round($this->totalPrice(), 2);
         $this->stripe_fees = $this->stripeFees();
         $this->profit = $this->profit();
@@ -68,6 +66,7 @@ class CartBilling
     {
         return $this->base_delivery_fee;
     }
+
 
     public function getDeliveryFeeReduction()
     {
@@ -108,6 +107,7 @@ class CartBilling
     }
 
     /**
+
      * @return mixed
      */
     public function getDeliveryFee()
