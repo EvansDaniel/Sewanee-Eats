@@ -50,7 +50,9 @@ function showOptions(i) {
     if (accessories != null) {
       // list out accessories
       var pricy = accessories.accs.pricy;
+      p(pricy);
       var free = accessories.accs.free;
+      p(free);
 
       // fill the pricy div
       // only show the pricy toppings header if there are pricy toppings to show
@@ -70,10 +72,11 @@ function showOptions(i) {
       // fill the free div
       // only show the free toppings header if there are free toppings to show
       if (free.length == 0) {
+        p('in the free time');
         $('#free_toppings_d' + i).hide();
       }
       for (j = 0; j < free.length; j++) {
-        freeDiv.html
+        freeDiv.append
         (
         '<label class="col-lg-9 col-md-9 col-sm-8 col-xs-8">' +
         '<input type="checkbox" id="f_ex-' + i + free[j].id + '" onclick="saveCheck(this,' + i + ',' + free[j].id + ',false)" name="extras' + i + '[]" value="' + free[j].id + '">' +
@@ -185,6 +188,7 @@ function retreiveAccessories(item_id) {
     dataType: 'json'
   }).done(function (result) {
 
+    p(result);
     // AJAX SUCCESS
     // save the current item's accessories
     saveAjaxResult(result);
