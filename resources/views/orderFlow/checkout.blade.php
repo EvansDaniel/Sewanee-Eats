@@ -106,10 +106,10 @@
                                         <label for="location">Where should we deliver your On Demand items?</label>
                                         <div class="location-option row">
                                             <label class="radio-inline">
-                                                <input type="radio" name="loc" id="loc-university" class="loc-university" value="1">University Building
+                                                <input type="radio" name="address_loc" id="loc-university" class="loc-university" value="1">University Building
                                             </label>
                                             <label class="radio-inline ">
-                                                <input type="radio" name="loc" id="loc-address" class="loc-address" value="0">Specific Address
+                                                <input type="radio" name="address_loc" id="loc-address" class="loc-address" value="0">Specific Address
                                             </label>
                                         </div>
                                         <div class="row" id="location-wrap">

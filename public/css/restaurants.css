@@ -68,3 +68,20 @@
 .on-demand-links:hover, .weekly-specials-link:hover{
     text-decoration: none;
 }
+/*new looks*/
+#mountain{
+    color: white;
+    font-weight: bolder;
+    font-size: 18px;
+    background: rebeccapurple;
+    padding: 6px 12px;
+}
+#no-specials{
+    color: black;
+    font-size: 16px;
+}
+@media  (min-width: 768px){
+    #mountain{
+        width: 320px;
+    }
+}

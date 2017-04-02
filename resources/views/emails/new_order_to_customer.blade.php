@@ -198,20 +198,24 @@
                                                                 valign="top">{{ $order->orderPriceInfo->total_price }}
                                                             </td>
                                                         </tr>
+                                                        <tr>
+                                                            In case you wanted your order to be delivered to a University dorm after 10pm, the SewaneeEats courier will be waiting outside
+                                                            the dorm instead of the room.
+                                                        </tr>
                                                     </table>
                                                 </td>
                                             </tr>
                                         </table>
                                     </td>
                                 </tr>
-                                <tr style="font-family: 'Lato', sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
+                                {{--<tr style="font-family: 'Lato', sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
                                     <td align="center">
                                         <table width="100%" border="0" cellspacing="0" cellpadding="0">
                                             <tr>
                                                 <td align="center" style="padding-top: 25px;" class="padding">
                                                     <table border="0" cellspacing="0" cellpadding="0"
                                                            class="mobile-button-container">
-                                                        {{--<tr>
+                                                        --}}{{--<tr>
                                                             <td align="center" style="border-radius: 3px;"
                                                                 bgcolor="#256F9C"><a
                                                                         href="{{ route('orderSummary',['id',$order->id]) }}"
@@ -219,16 +223,16 @@
                                                                         style="font-size: 16px; font-family: Helvetica, Arial, sans-serif; color: #ffffff; text-decoration: none; color: #ffffff; text-decoration: none; border-radius: 3px; padding: 15px 25px; border: 1px solid #256F9C; display: inline-block;"
                                                                         class="mobile-button">
                                                                     View Order Summary on SewaneeEats &rarr;</a></td>
-                                                        </tr>--}}
+                                                        </tr>--}}{{--
                                                     </table>
                                                 </td>
                                             </tr>
                                         </table>
                                     </td>
-                                </tr>
+                                </tr>--}}
                                 <tr style="font-family: 'Lato', sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
                                     <td class="content-block aligncenter"
-                                        style="font-family: 'Lato', sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; text-align: center; margin: 0; padding: 0 0 20px;"
+                                        style="font-family: 'Lato', sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; text-align: center; margin: 0; padding: 0 0 10px;"
                                         align="center" valign="top">
                                         Have questions for SewaneeEats? Ask them on via our <a
                                                 href="{{ route('support') }}">Support</a> page
@@ -239,12 +243,12 @@
                     </tr>
                 </table>
                 <div class="footer"
-                     style="font-family: 'Lato', sans-serif; box-sizing: border-box; font-size: 14px; width: 100%; clear: both; color: #999; margin: 0; padding: 20px;">
+                     style="font-family: 'Lato', sans-serif; box-sizing: border-box; font-size: 14px; width: 100%; clear: both; color: #999; margin: 0; padding: 10px;">
                     <table width="100%"
                            style="font-family: 'Lato', sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
                         <tr style="font-family: 'Lato', sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
                             <td class="aligncenter content-block"
-                                style="font-family: 'Lato', sans-serif; box-sizing: border-box; font-size: 12px; vertical-align: top; color: #999; text-align: center; margin: 0; padding: 0 0 20px;"
+                                style="font-family: 'Lato', sans-serif; box-sizing: border-box; font-size: 12px; vertical-align: top; color: #999; text-align: center; margin: 0; padding: 0 0 10px;"
                                 align="center" valign="top">
                         </tr>
                     </table>
