@@ -50,7 +50,9 @@ function showOptions(i) {
     if (accessories != null) {
       // list out accessories
       var pricy = accessories.accs.pricy;
+      p(pricy);
       var free = accessories.accs.free;
+      p(free);
 
       // fill the pricy div
       // only show the pricy toppings header if there are pricy toppings to show
@@ -61,8 +63,8 @@ function showOptions(i) {
         pricyDiv.append
         (
         '<label class="col-lg-9 col-md-9 col-sm-8 col-xs-8">' +
-        '<input type="checkbox" id="p_ex-' + i + pricy[j].id + '" onclick="saveCheck(this,' + i + ',' + pricy[j].id + ',true)" value="' + pricy[j].id + '">' +
-        pricy[j].name + '</label><p id="check-price-' + i + '" class="f_price col-lg-3 col-md-3 col-sm-4 col-xs-4">' + pricy[j].price + '</p>'
+        '<input type="checkbox" id="p_ex-' + i + pricy[j].id + '" onclick="saveCheck(this,' + j + ',' + pricy[j].id + ',true)" value="' + pricy[j].id + '">' +
+        pricy[j].name + '</label><p id="check-price-' + j + '" class="f_price col-lg-3 col-md-3 col-sm-4 col-xs-4">' + pricy[j].price + '</p>'
         );
       }
 
@@ -70,10 +72,11 @@ function showOptions(i) {
       // fill the free div
       // only show the free toppings header if there are free toppings to show
       if (free.length == 0) {
+        p('in the free time');
         $('#free_toppings_d' + i).hide();
       }
       for (j = 0; j < free.length; j++) {
-        freeDiv.html
+        freeDiv.append
         (
         '<label class="col-lg-9 col-md-9 col-sm-8 col-xs-8">' +
         '<input type="checkbox" id="f_ex-' + i + free[j].id + '" onclick="saveCheck(this,' + i + ',' + free[j].id + ',false)" name="extras' + i + '[]" value="' + free[j].id + '">' +
@@ -131,6 +134,7 @@ function saveCheck(checkbox_input, i, acc_id, pricy) {
   // get current price and price of toppings
   var price = parseFloat(priceObj.text());
   var checkPrice = parseFloat($('#check-price-' + i).text());
+  p(checkPrice);
 
   if (checkbox.prop('checked')) { // checkbox was originally not checked
     if (pricy) {
@@ -185,6 +189,7 @@ function retreiveAccessories(item_id) {
     dataType: 'json'
   }).done(function (result) {
 
+    p(result);
     // AJAX SUCCESS
     // save the current item's accessories
     saveAjaxResult(result);
