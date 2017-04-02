@@ -11,9 +11,6 @@
             <li><a class="active nav-links" href="{{ route('home') }}">MOUNTAIN EATS</a></li>
             <li><a class="nav-links" href="{{ route('courierShowSchedule') }}">SCHEDULE</a></li>
             <li><a class="nav-links" href="#">PAY PERIOD</a></li>
-            {{--@if(Auth::user()->isOnShift())
-                <li><a class="nav-links" href="{{ route('showOrdersQueue') }}">View current orders</a></li>
-            @endif--}}
             @if(Auth::user()->isOnShift() && !Auth::user()->courierInfo->is_delivering_order)
                 <li><a class="nav-links" href="{{ route('nextOrderInQueue') }}">Next order</a></li>
             @elseif(Auth::user()->isOnShift() && Auth::user()->courierInfo->is_delivering_order)
@@ -25,7 +22,7 @@
             @endif
             @if(Auth::check() && Auth::user()->hasRole('admin'))
                 <li><a class="nav-links" href="{{ route('showAdminDashboard') }}">ADMIN DASHBOARD</a></li>
-            @endif
+            @endif--}}
             <li>
                 <form action="{{ url()->to(parse_url(route('logout',[]),PHP_URL_PATH),[],env('APP_ENV') !== 'local') }}"
                       method="post">
