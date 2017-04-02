@@ -324,6 +324,9 @@ class ShoppingCart implements HasItems
         $n_avail_menu_items = [];
         if (!empty($this->cart)) {
             foreach ($this->cart as $item) {
+                if ($item->getSellerEntity()->isSellerType(RestaurantOrderCategory::WEEKLY_SPECIAL)) {
+                    continue;
+                }
                 $is_avail = new IsAvailable($item);
                 if (!$is_avail->isAvailableNow()) {
                     $n_avail_menu_items[] = $item;

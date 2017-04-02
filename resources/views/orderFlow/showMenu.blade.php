@@ -69,9 +69,11 @@
                                     <div class="hidden-hr hidden-lg hidden-md row">
                                         <hr class="col-sm-offset-1 col-sm-8 col-xs-offset-1 col-xs-8">
                                     </div>
+                                    @if(!$is_weekly_special)
                                     <div>
                                         {{ $item->isAvailableNow() == 1 ? "" : "This item is not available right now" }}
                                     </div>
+                                    @endif
                                 </li>
                             @endforeach
                         </ul>
