@@ -100,6 +100,7 @@ Route::group([
     'prefix' => 'admin'], function () {
 
     Route::get('weeklyOrders', 'OrdersController@listWeeklyOrders')->name('listWeeklyOrders');
+    Route::get('openOnDemandOrders', 'OrdersController@viewOnDemandOpenOrders')->name('viewOnDemandOpenOrders');
 
     Route::get('', function () {
         return view('admin.order.orders');
