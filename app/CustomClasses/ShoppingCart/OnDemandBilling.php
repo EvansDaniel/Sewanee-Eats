@@ -39,7 +39,7 @@ class OnDemandBilling
     public function __construct(ShoppingCart $cart = null)
     {
         $this->cart = $cart;
-        $this->delivery_fee = 4;
+        $this->delivery_fee = $this->deliveryFee();
         $this->number_of_items = $cart->countOnDemandItems();
         $this->extraFee = 0.30;
         $this->number_without_fee_items = 2;
@@ -145,6 +145,20 @@ class OnDemandBilling
         return $this->getDeliveryFee();
     }
 
-
+    public function deliveryFee()
+    {
+        $max = 0;
+        if(!empty($this->cart->getOnDemandItems())) {
+            foreach ($this->cart->getOnDemandItems() as $item) {
+                \Log::info($item->getSellerEntity());
+                $courier_payment = $item->getSellerEntity()->delivery_payment_for_courier;
+                \Log::info($courier_payment);
+                if ($courier_payment > $max) {
+                    $max = $courier_payment;
+                }
+            }
+        }
+        return ++$max;
+    }
 
 }

@@ -119,7 +119,7 @@ class WeeklyBilling
 
     public function countWeeklyItems()
     {
-        return($this->cart->getWeeklySpecialItems());
+        return count($this->cart->getWeeklySpecialItems());
     }
     /**
      * @return float
@@ -178,7 +178,7 @@ class WeeklyBilling
 
     public function profit()
     {
-        return $this->getDeliveryFee() + ($this->getNumberOfItems() * $this->discount_value);
+        return $this->getDeliveryFee() + ($this->getNumberOfItems() * $this->getDiscountValue() );
     }
 
     public function discount()

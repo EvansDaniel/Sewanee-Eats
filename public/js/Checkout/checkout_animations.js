@@ -8,15 +8,17 @@ var loc_address = $("input[type='radio'] [name='loc-address']");
 $(document).ready(function () {
     var university_wrap = $('#university-wrap');
     var adrress_wrap= $('#location-wrap');
+    var loc_university = $('#loc-university');
+    var loc_address = $('#loc-address');
 
     $('#venmo-payment-div').hide();
     handle_venmo_options();
     initialize_locations();
-    $("#loc-university").click(function () {
-        hideOrShow(this,university_wrap, adrress_wrap );
+    loc_university.click(function () {
+        hideOrShow(this,university_wrap, adrress_wrap, loc_address);
     });
-    $("#loc-address").click(function () {
-        hideOrShow(this, adrress_wrap, university_wrap);
+    loc_address.click(function () {
+        hideOrShow(this, adrress_wrap, university_wrap, loc_university);
     });
 });
 
@@ -63,16 +65,24 @@ function initialize_locations(){
  * @param to_hide
  */
 
-function hideOrShow(radio,target, to_hide){
+function hideOrShow(radio,target, to_hide, to_change){
     if($(radio).prop("checked")){
-        p($(radio).prop("checked"));
         $(to_hide).hide(0);
         $(target).show(200);
+        $(radio).val(1);
+        $(to_change).val(0);
+        // ---if testing is needed
+        // p( $(radio).attr('id') + $(radio).val());
+        // p( $(to_change).attr('id') + $(to_change).val());
+        // p($(radio).prop("checked"));
         $(radio).prop("checked", true);
     }
     else{
         $(to_hide).show(0);
+        $(radio).val(0);
+        p($(radio).val());
         $(target).hide(200);
+        $(to_change).val(1);
         $(radio).prop("checked", false);
     }
 

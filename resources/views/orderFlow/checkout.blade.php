@@ -156,7 +156,7 @@
                                                 {{-- realistically we need one input--}}
                                                 <input type="text" id="room-number" name="room-number"
                                                        maxlength="150"
-                                                       placeholder="Room number/number" class="form-control">
+                                                       placeholder="Room name/number" class="form-control">
                                             </div>
                                         </div>
                                     </div>

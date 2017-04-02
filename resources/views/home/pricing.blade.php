@@ -70,7 +70,7 @@
                 <li class="rests">Please let us know which restaurants you would like us to deliver from <a
                             href="{{ route('support') }}">here</a></li>
                 <p class="note"><br><span>Note: </span><br> - for any item added to your cart after the first item and
-                    extra<strong> 20%</strong> is added to your delivery fee
+                    extra<strong>20%</strong> is reduced to your delivery fee.<br> This discount applies up to 4 items in your weekly special cart which means that you can save up to <strong>60%</strong>
                 </p>
                 </ul>
 

@@ -16,9 +16,9 @@ use Carbon\Carbon;
 
 // test link for some viewS
 
-/*Route::get('test', function () { // redirect route to home
+Route::get('email', function () { // redirect route to home
     return view('emails.dip_em');
-})->name('email');*/
+})->name('email');
 
 Route::get('time', function () {
     // if this is an ajax request
