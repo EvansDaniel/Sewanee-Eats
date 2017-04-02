@@ -63,8 +63,8 @@ function showOptions(i) {
         pricyDiv.append
         (
         '<label class="col-lg-9 col-md-9 col-sm-8 col-xs-8">' +
-        '<input type="checkbox" id="p_ex-' + i + pricy[j].id + '" onclick="saveCheck(this,' + i + ',' + pricy[j].id + ',true)" value="' + pricy[j].id + '">' +
-        pricy[j].name + '</label><p id="check-price-' + i + '" class="f_price col-lg-3 col-md-3 col-sm-4 col-xs-4">' + pricy[j].price + '</p>'
+        '<input type="checkbox" id="p_ex-' + j + pricy[j].id + '" onclick="saveCheck(this,' + j + ',' + pricy[j].id + ',true)" value="' + pricy[j].id + '">' +
+        pricy[j].name + '</label><p id="check-price-' + j + '" class="f_price col-lg-3 col-md-3 col-sm-4 col-xs-4">' + pricy[j].price + '</p>'
         );
       }
 
