@@ -12,12 +12,12 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         Eloquent::unguard();
-        if (env('APP_ENV') === "local") {
             $this->call(RoleTableSeeder::class);
-            // after role
             $this->call(UserTableSeeder::class);
-            // after role and user
             $this->call(RolesUsersTableSeeder::class);
+        if (env('APP_ENV') === "local") {
+            // after role
+            // after role and user
 
             $this->call(RestaurantTableSeeder::class);
             $this->call(ItemCategoryTableSeeder::class);
