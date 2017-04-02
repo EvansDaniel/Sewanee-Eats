@@ -52,6 +52,7 @@
                             <li><a href="{{ route('listClosedIssues') }}">Closed Support Issues</a></li>
                         </ul>
                     </li>
+                    <li><a class="on_demand_open" href="{{ route('viewOnDemandOpenOrders') }}"></a></li>
                     <li><a><i class="fa fa-bar-chart-o"></i>Schedule<span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
                             <li><a href="{{ route('showSchedule') }}">View Schedule</a></li>
