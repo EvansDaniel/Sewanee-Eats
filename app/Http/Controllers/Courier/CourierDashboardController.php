@@ -22,8 +22,8 @@ class CourierDashboardController extends Controller
         // to show the start and end of this weeks schedule
         $start_of_week = Carbon::now()->dayOfWeek == Carbon::MONDAY ? Carbon::now() : new Carbon('last Monday');
         $end_of_week = Carbon::now()->dayOfWeek == Carbon::SUNDAY ? Carbon::now() : new Carbon('next Sunday');
-        $courier_types = [CourierTypes::BIKER, CourierTypes::DRIVER];
-        $courier_type_names = ['Biker', 'Driver'];
+        $courier_types = [CourierTypes::WALKER, CourierTypes::BIKER, CourierTypes::DRIVER];
+        $courier_type_names = ['Walker', 'Biker', 'Driver'];
         return view('employee.schedule',
             compact('shift', 'start_of_week', 'end_of_week', 'courier_types', 'courier_type_names'));
     }

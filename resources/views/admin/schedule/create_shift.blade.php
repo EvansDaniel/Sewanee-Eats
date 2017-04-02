@@ -32,7 +32,7 @@
             </p>
         </div>
         @include('admin.schedule.shifts_create_update')
-        <div>
+        <div class="container">
             <form action="{{ url()->to(parse_url(route('createShift',[]),PHP_URL_PATH),[],env('APP_ENV') !== 'local') }}"
                   method="post">
                 <div class="form-group">

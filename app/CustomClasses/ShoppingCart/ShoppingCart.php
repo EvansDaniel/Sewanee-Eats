@@ -3,6 +3,7 @@
 namespace App\CustomClasses\ShoppingCart;
 
 use App\Contracts\HasItems;
+use App\CustomClasses\Availability\IsAvailable;
 use App\CustomTraits\CategorizeItems;
 use Session;
 
@@ -55,18 +56,24 @@ class ShoppingCart implements HasItems
      */
     protected $quantity;
 
+    /**
+     * @var integer max number of rest
+     */
+    protected $max_num_on_demand_rests;
+
     public function __construct()
     {
         // Lucky's barf: I cleaned it up and I said let's clean it up, you said let's tell lisa and bill
         // Can't see, Making a Murderer: Why did you say that I couldn't understand what they say in Making a Murderer
         // I can understand what they say, but I couldn't read the words on the evidence when it is really small
         $this->max_items_in_cart = 10;
-        $this->max_on_demand_items = 10; // temporarily increasing this
+        $this->max_on_demand_items = 5; // temporarily increasing this
         $this->next_cart_item_id = Session::get('next_cart_item_id');
         $this->cart = Session::get('cart');
         $this->categorizedItems();
         $this->quantity = $this->quantity();
         $this->num_on_demand_items = $this->countOnDemandItems();
+        $this->max_num_on_demand_rests = 2;
     }
 
     private function quantity()
@@ -191,8 +198,12 @@ class ShoppingCart implements HasItems
             ) {
                 return -1;
             }
-            if ($curr_quantity == $this->getMaxItemsInCart()) {
+            // on demand overflow is all we care about but keep this for now
+            /*if ($curr_quantity == $this->getMaxItemsInCart()) {
                 return -2;
+            }*/
+            if ($this->countRests($cart_item) > $this->max_num_on_demand_rests) {
+                return -3;
             }
             // update current quantity
             ++$curr_quantity;
@@ -228,12 +239,34 @@ class ShoppingCart implements HasItems
         return $this->max_on_demand_items;
     }
 
-    /**
-     * @return int
-     */
-    public function getMaxItemsInCart()
+    private function countRests($item = null)
     {
-        return $this->max_items_in_cart;
+        $rest_ids = [];
+        if (!empty($this->items())) {
+            foreach ($this->items() as $item) {
+                // only care about on demand rests
+                if ($item->getSellerEntity()->isSellerType(RestaurantOrderCategory::ON_DEMAND)) {
+                    $rest_id = $item->getSellerEntity()->id;
+                    if (!in_array($rest_id, $rest_ids)) {
+                        $rest_ids[] = $rest_id;
+                    }
+                }
+            }
+            if (!empty($item)) {
+                if (in_array($item->getSellerEntity()->id, $rest_ids)) {
+                    return count($rest_ids) + 1;
+                }
+            }
+        }
+        return count($rest_ids);
+    }
+
+    /**
+     * @return array of CartItem, which are the items in the shopping cart
+     */
+    public function items()
+    {
+        return Session::get('cart');
     }
 
     /**
@@ -261,6 +294,69 @@ class ShoppingCart implements HasItems
     public function save()
     {
         Session::put('cart', $this->cart);
+    }
+
+    /**
+     * @return int
+     */
+    public function getMaxItemsInCart()
+    {
+        return $this->max_items_in_cart;
+    }
+
+    public function sessionFlashItemAutoRemovalMessage($items)
+    {
+        /* $ul = '<ul>';
+         $inner = null;
+         foreach ($items as $item) {
+             $inner .= '<li>'.$item->getName().' from ' . $item->getSellerEntity()->name.'</li>';
+         }
+         $endul = '</ul>';*/
+        return "";
+    }
+
+    /**
+     * @return array detect if any previously open menu item/ restaurant
+     * has recently closed
+     */
+    public function checkMenuItemAvailabilityAndDelete()
+    {
+        $n_avail_menu_items = [];
+        if (!empty($this->cart)) {
+            foreach ($this->cart as $item) {
+                $is_avail = new IsAvailable($item);
+                if (!$is_avail->isAvailableNow()) {
+                    $n_avail_menu_items[] = $item;
+                }
+            }
+            foreach ($n_avail_menu_items as $item) {
+                $this->deleteItem($item->getCartItemId());
+            }
+        }
+        return $n_avail_menu_items;
+    }
+
+    /**
+     * @param $cart_item_id integer the id of the item
+     * in the cart to delete permanently
+     */
+    public function deleteItem($cart_item_id)
+    {
+        $did_delete = false;
+        for ($i = 0; $i < $this->getQuantity(); $i++) {
+            if ($this->cart[$i]->getCartItemId() == $cart_item_id) {
+                unset($this->cart[$i]);
+                $this->cart = array_values($this->cart);
+                $this->save();
+                $did_delete = true;
+                // recategorize the items
+                $this->categorizedItems();
+                break;
+            }
+        }
+        // delete only if it was deleted in the loop
+        if ($did_delete)
+            $this->quantity--;
     }
 
     /**
@@ -311,16 +407,14 @@ class ShoppingCart implements HasItems
         if (empty($this->cart)) {
             return false;
         }
-        $num_on_demand_items = 0;
+        $num_on_demand_items = $this->num_on_demand_items;
         foreach ($cart_items as $cart_item) {
             // check each item in the cart, if it is an on demand item, increment on demand orders
             if ($cart_item->getSellerEntity()->getSellerType() == RestaurantOrderCategory::ON_DEMAND) {
                 $num_on_demand_items++;
-                if ($num_on_demand_items == $this->max_on_demand_items)
-                    return true;
             }
         }
-        return false;
+        return $num_on_demand_items > $this->max_on_demand_items;
     }
 
     /**
@@ -409,37 +503,6 @@ class ShoppingCart implements HasItems
                 break;
             }
         }
-    }
-
-    /**
-     * @param $cart_item_id integer the id of the item
-     * in the cart to delete permanently
-     */
-    public function deleteItem($cart_item_id)
-    {
-        $did_delete = false;
-        for ($i = 0; $i < $this->getQuantity(); $i++) {
-            if ($this->cart[$i]->getCartItemId() == $cart_item_id) {
-                unset($this->cart[$i]);
-                $this->cart = array_values($this->cart);
-                $this->save();
-                $did_delete = true;
-                // recategorize the items
-                $this->categorizedItems();
-                break;
-            }
-        }
-        // delete only if it was deleted in the loop
-        if ($did_delete)
-            $this->quantity--;
-    }
-
-    /**
-     * @return array of CartItem, which are the items in the shopping cart
-     */
-    public function items()
-    {
-        return Session::get('cart');
     }
 
     /**

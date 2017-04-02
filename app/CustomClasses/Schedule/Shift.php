@@ -95,7 +95,9 @@ class Shift
 
     public function getCurrentShifts()
     {
-        $shift_time_ranges = TimeRange::where('time_range_type', TimeRangeType::SHIFT)->get();
+        $shift_time_ranges = TimeRange::where('time_range_type', TimeRangeType::SHIFT)
+            ->orderBy('start_dow', 'ASC')->orderBy('start_hour', 'ASC')
+            ->orderBy('start_min', 'ASC')->get();
         $shifts = [];
         foreach ($shift_time_ranges as $shift_time_range) {
             $shifts[] = new Shift($shift_time_range);

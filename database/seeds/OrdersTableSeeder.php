@@ -14,7 +14,7 @@ class OrdersTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(Order::class, 10)->create();
+        factory(Order::class, 50)->create();
         $orders = Order::all();
         foreach ($orders as $order) {
             $carbon = new Carbon($order->created_at);

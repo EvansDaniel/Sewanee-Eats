@@ -3,7 +3,6 @@
 namespace App\CustomClasses\Courier;
 
 
-use App\Models\CourierOrder;
 use App\Models\Order;
 use App\User;
 use Auth;
@@ -16,14 +15,14 @@ class OrderQueue
     protected $orders_for_courier;
     protected $orders;
 
-    public function __construct(User $courier)
+    public function __construct(User $courier = null)
     {
-        if (!$courier->hasRole('courier')) {
+        if (!empty($courier) && !$courier->hasRole('courier')) {
             throw new InvalidArgumentException('The User type passed must have the role of courier');
         }
         $this->courier = $courier;
         $this->courier_info = new CourierInfo($this->courier);
-        $this->courier_info->setIsDeliveringOrder(false);
+        // check they are on shift, etc.
         if (!empty($err_msg = $this->validateCourier())) {
             throw new InvalidArgumentException($err_msg);
         }
@@ -68,6 +67,7 @@ class OrderQueue
         $potential_orders = Order::pending()->
         orderBy('created_at', 'ASC')->get();
         $this->orders = $potential_orders;
+        //\Log::info($this->orders);
         $orders = [];
         $courier_type = $this->courier_info->getCourierTypeCurrentShift();
         // get only orders for this courier type
@@ -77,6 +77,21 @@ class OrderQueue
             }
         }
         $this->orders_for_courier = $orders;
+    }
+
+    public static function getOrderQueue()
+    {
+        self::checkLoggedInUser();
+        $potential_orders = Order::pending()
+            ->orderBy('created_at', 'ASC')->get();
+        return $potential_orders;
+    }
+
+    private static function checkLoggedInUser()
+    {
+        if (empty($courier) && !Auth::user()->hasRole('manager') && !Auth::user()->hasRole('admin')) {
+            throw new InvalidArgumentException('You do not have privileges to access this information. Contact your manager or an admin');
+        }
     }
 
     /**
@@ -133,17 +148,6 @@ class OrderQueue
         return count($this->orders_for_courier);
     }
 
-    /**
-     * @param Order $order the order to assign the the given courier
-     */
-    public function assignCourierToOrder(Order $order)
-    {
-        // TODO: create a new couriers orders entry and set the is_delivering_order bool for courier
-        $courier_order = new CourierOrder;
-        $courier_order->courier_id = $this->courier->id;
-        $courier_order->order_id = $order->id;
-        $courier_order->save();
-    }
 
     /**
      * @return mixed retrieves all pending orders

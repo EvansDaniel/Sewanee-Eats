@@ -66,7 +66,7 @@ class CustomerOrder
     {
         $order = new Order;
         // order is open b/c they haven't paid for it yet
-        $order->is_open_order = true;
+        $order->is_paid_for = false;
         $order->venmo_username = $this->request->input('venmo_username');
         $order->payment_type = PaymentType::VENMO_PAYMENT;
         $order = $this->commonOrderSetup($order);
@@ -110,6 +110,7 @@ class CustomerOrder
             if ($item->isSellerType(RestaurantOrderCategory::EVENT)) {
                 $order_item->event_item_id = $item->getId();
             } else {
+                \Log::info($item);
                 $order_item->menu_item_id = $item->getId();
             }
             $order_item->special_instructions = $item->getSi();
@@ -125,7 +126,7 @@ class CustomerOrder
 // check to make sure this if statement works
 // check that we can attach accessories to this item,
 // we can only attach accessories to menu items at the moment
-        if (!empty($menu_item_order->menu_item_id)) {
+        if (!empty($menu_item_order->menu_item_id) && !empty($cart_item->getExtras())) {
             foreach ($cart_item->getExtras() as $extra_id) {
                 $menu_item_order->accessories()->attach($extra_id);
             }
@@ -160,8 +161,6 @@ class CustomerOrder
 // Token is created using Stripe.js or Checkout!
 // Get the payment token submitted by the form:
         $token = $this->request->input('stripeToken');
-        \Log::info($token);
-        \Log::info($this->billing->getTotal());
 
         $problem_with_stripe = 'There was a problem processing your payment. Please try again';
         try {
@@ -206,7 +205,7 @@ Your card may have insufficient funds or the number may be incorrect. That\'s al
             // yourself an email
             return back()->with('status_bad', $problem_with_stripe);
         }
-        $order->is_open_order = false;
+        $order->is_paid_for = true;
         $order->payment_type = PaymentType::STRIPE_PAYMENT;
         $order = $this->commonOrderSetup($order);
         $order->save();

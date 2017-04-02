@@ -8,7 +8,7 @@ function TimeEstimation(customerDeliveryLocation, restaurantLocation) {
   this.parseResponse = function (response) {
     var toRest = response.rows[0].elements[0];
     var toDeliveryLoc = response.rows[0].elements[1];
-    var pessimisticTime = 10;
+    var pessimisticTime = 18;
     return Math.ceil((toRest.duration.value + toDeliveryLoc.duration.value) * 2 / 60) + pessimisticTime;
   };
 

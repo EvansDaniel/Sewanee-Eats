@@ -25,32 +25,6 @@
     <link rel="stylesheet" href={{ asset('css/customPlaces/yamato.css',env('APP_ENV') !== 'local')  }}>
     <input name="item_type" id="item-type" type="hidden" value="{{ $item_type }}">
     <!-- TODO: get rid of this; it is for debugging, add a restaurant image logo as the head of evrypage -->
-    <br><br><br>
-    <!-- DON'T DELETE THIS YET -->
-    {{--@if(!empty($remove_items))
-        <div class="alert alert-danger" align="center">
-            <div>
-                {{ $message }}
-            </div>
-            <br>
-            <ul>
-                @foreach($remove_items as $item)
-                    <li style="list-style-type: none">
-                        {{ $item->name }}
-                    </li>
-                @endforeach
-            </ul>
-        </div>
-        <script>
-
-            {{ "var DISABLE_ADD_BUTTON = true" }}
-        </script>
-    @else
-        <script>
-
-            {{ "var DISABLE_ADD_BUTTON = false" }}
-        </script>
-    @endif--}}
     <div class="container-fluid" id="show-menu">
         <div class="row" id="restaurant-logo">
             <div class="col-lg-offset-5 col-lg-2 col-md-2 col-md-offset-5 col-sm-4 col-sm-offset-4 col-xs-offset-4 col-xs-4">
@@ -74,7 +48,8 @@
                     <div class="panel-body" id="mountain-menu">
                         <ul class="list-group  row">
                             @foreach($items as $item)
-                                <li class="menu-li clickable list-group-item col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                <li class="menu-li clickable is-available list-group-item col-lg-4 col-md-4 col-sm-12 col-xs-12"
+                                    data-is-available="{{ $item->isAvailableNow() }}">
                                     <div class="menu-item">
                                         <!-- IF YOU TOUCH THIS HTML, MAKE SURE TO UPDATE THE loadModal FUNCTION WITH NEW STRUCTURE -->
                                         <div class="row" id="menu-item-top">
@@ -93,6 +68,9 @@
                                     <div class="hidden-hr hidden-lg hidden-md row">
                                         <hr class="col-sm-offset-1 col-sm-8 col-xs-offset-1 col-xs-8">
                                     </div>
+                                    <div>
+                                        {{ $item->isAvailableNow() == 1 ? "" : "This item is not available right now" }}
+                                    </div>
                                 </li>
                             @endforeach
                         </ul>
@@ -101,6 +79,17 @@
             @endif
         </div>
     </div>
+
+    <script>
+      $('.is-available').each(function () {
+        var isAvail = $(this).data('is-available');
+        if (!isAvail) {
+          $(this).on('click', function () {
+            return false;
+          })
+        }
+      });
+    </script>
 
     <div class="modal fade" id="add-to-cart-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
         <div class="modal-dialog" role="document">

@@ -32,6 +32,26 @@ class IsAvailable
         $this->resource = $resource;
     }
 
+    public static function isWithinTimeRange(TimeRange $time_range, TimeRange $within)
+    {
+        // get start and end times for both shifts
+        $start_carbon1 = $time_range->getStartCarbon();
+        $end_carbon1 = $time_range->getEndCarbon();
+        $start_carbon2 = $within->getStartCarbon();
+        $end_carbon2 = $within->getEndCarbon();
+        // zero out all the shifts seconds, which we don't care about for the time range
+        // this is just to ensure equality of Carbon objects below for day, hour, and min
+        $start_carbon1->second(0);
+        $start_carbon2->second(0);
+        $end_carbon1->second(0);
+        $end_carbon2->second(0);
+        $start_is_within = ($start_carbon2->between($start_carbon1, $end_carbon1)
+            || $start_carbon2->equalTo($start_carbon1));
+        $end_is_within = ($end_carbon2->between($start_carbon1, $end_carbon1)
+            || $end_carbon2->equalTo($end_carbon1));
+        return $end_is_within && $start_is_within;
+    }
+
     /**
      * @param $spare_time_before_ending integer the amount of extra time needed before the resource is unavailable
      * @return bool
@@ -45,11 +65,11 @@ class IsAvailable
         }
         // getAvailability() returns single TimeRange (not array) for weekly specials
         if ($resource_time_ranges instanceof TimeRange) {
-            return IsAvailable::nowIsBetweenOrEqualToTimeRange($resource_time_ranges, $spare_time_before_ending);
+            return IsAvailable::nowIsBetweenOrEqualToTimeRange($resource_time_ranges, $this->resource->getExtraTime());
         } else { // other time range types return an array of TimeRange
             // check all time ranges and determine if now is between them
             foreach ($resource_time_ranges as $time_range) {
-                if (IsAvailable::nowIsBetweenOrEqualToTimeRange($time_range, $spare_time_before_ending)) {
+                if (IsAvailable::nowIsBetweenOrEqualToTimeRange($time_range, $this->resource->getExtraTime())) {
                     return true;
                 }
             }

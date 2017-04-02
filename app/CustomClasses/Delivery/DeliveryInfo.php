@@ -7,6 +7,7 @@ use App\CustomClasses\Courier\CourierTypes;
 use App\CustomClasses\Helpers\HttpRequest;
 use App\CustomClasses\Helpers\UrlBuilder;
 use App\CustomClasses\ShoppingCart\RestaurantOrderCategory;
+use App\Models\Order;
 
 class DeliveryInfo
 {
@@ -17,6 +18,7 @@ class DeliveryInfo
     protected $mtrs_per_mile;
     protected $dist_biker_can_travel;
     protected $dist_walker_can_travel;
+    protected $on_campus_delivery_threshold;
 
     /**
      * DeliveryInfo constructor.
@@ -32,8 +34,21 @@ class DeliveryInfo
         $this->starting_loc = '735 University Ave, Sewanee, TN 37383';
         $this->API_KEY = env('GOOGLE_MAPS_KEY');
         $this->mtrs_per_mile = 1609.34;
-        $this->dist_biker_can_travel = 4; // miles
-        $this->dist_walker_can_travel = 2.5; // miles
+        $this->on_campus_delivery_threshold = 4;
+        $this->dist_biker_can_travel = $this->on_campus_delivery_threshold; // miles
+        $this->dist_walker_can_travel = $this->on_campus_delivery_threshold; // miles
+    }
+
+    public static function getMaxRestaurantCourierPayment(Order $order)
+    {
+        $max = -999999;
+        foreach ($order->menuItemOrders as $menu_item_order) {
+            $courier_payment = $menu_item_order->item->restaurant->courier_payment;
+            if ($courier_payment > $max) {
+                $max = $courier_payment;
+            }
+        }
+        return $max;
     }
 
     /**

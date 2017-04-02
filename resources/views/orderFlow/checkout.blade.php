@@ -275,7 +275,7 @@
                                     @if($cart->hasOnDemandItems())
                                         <label for="phone-number">Phone Number <span id="reason"> (used by delivery personnel to
                                                 contact you when necessary)</span></label>
-                                        <input class="form-control pay-input" maxlength="10"
+                                        <input class="form-control pay-input" maxlength="12"
                                                placeholder="10 digits, only numbers"
                                                value="@if(env('APP_ENV') !== 'production') {{ '5555555555' }} @endif"
                                                type="tel"

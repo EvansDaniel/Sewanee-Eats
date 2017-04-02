@@ -101,4 +101,13 @@ class User extends Authenticatable implements Availability
         // there shift though
         return $isAvail->isAvailableNow();
     }
+
+    /**
+     * @return integer the extra time to check before it actually closes
+     * i.e. the cushion period
+     */
+    public function getExtraTime()
+    {
+        return 0; // 0 minutes before end of shift
+    }
 }

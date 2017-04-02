@@ -11,9 +11,13 @@ use Illuminate\Http\Request;
 class CheckoutController extends Controller
 {
 
+
     public function showCheckoutPage()
     {
         $cart = new ShoppingCart();
+        if (!empty($items = $cart->checkMenuItemAvailabilityAndDelete())) {
+            \Session::flash('became_unavailable', $items);
+        }
         $bill = new CartBilling($cart);
         return view('orderFlow.checkout', compact('cart', 'bill'));
     }
@@ -22,6 +26,10 @@ class CheckoutController extends Controller
     public function handleCheckout(Request $request)
     {
         $cart = new ShoppingCart();
+        if (!empty($items = $cart->checkMenuItemAvailabilityAndDelete())) {
+            \Session::flash('status_bad', $items);
+            return redirect()->route('checkout');
+        }
         $bill = new CartBilling($cart);
         $view_payment_type = $request->input('payment_type');
         if (empty($view_payment_type)) {
@@ -41,7 +49,7 @@ class CheckoutController extends Controller
         }
 
         //Event::fire(new NewOrderReceived($new_order->getOrder()));
-        //Session::forget('cart');
+        \Session::forget('cart');
         // TODO: delete this from session after leave thank you
         return redirect()->route('thankYou');
     }

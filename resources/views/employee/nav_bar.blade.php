@@ -11,8 +11,13 @@
             <li><a class="active nav-links" href="{{ route('home') }}">MOUNTAIN EATS</a></li>
             <li><a class="nav-links" href="{{ route('courierShowSchedule') }}">SCHEDULE</a></li>
             <li><a class="nav-links" href="#">PAY PERIOD</a></li>
-            @if(Auth::user()->isOnShift())
+            {{--@if(Auth::user()->isOnShift())
+                <li><a class="nav-links" href="{{ route('showOrdersQueue') }}">View current orders</a></li>
+            @endif--}}
+            @if(Auth::user()->isOnShift() && !Auth::user()->courierInfo->is_delivering_order)
                 <li><a class="nav-links" href="{{ route('nextOrderInQueue') }}">Next order</a></li>
+            @elseif(Auth::user()->isOnShift() && Auth::user()->courierInfo->is_delivering_order)
+                <li><a class="nav-links" href="{{ route('currentOrder') }}">Current Order</a></li>
             @endif
             @if(!empty(Session::get('cart')))
                 <li><a class="nav-links" href="{{ route('checkout') }}">CHECKOUT

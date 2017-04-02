@@ -28,6 +28,15 @@ class Order extends Model implements HasItems
         return $this->hasMany('App\Models\MenuItemOrder', 'order_id', 'id');
     }
 
+    public function toRestBuckets()
+    {
+        $items = [];
+        foreach ($this->menuItemOrders as $item) {
+            $items[$item->item->restaurant->name][] = $item;
+        }
+        return $items;
+    }
+
     // returns array of CartItem that contains the menu items for this order
     public function items()
     {
@@ -91,6 +100,8 @@ class Order extends Model implements HasItems
     {
         $courier_types = json_decode($this->courier_types, true);
         foreach ($courier_types as $ct) {
+            // check all the courier types that can fulfill this order
+            // and return true if $courier_type matches
             if ($ct == $courier_type) {
                 return true;
             }

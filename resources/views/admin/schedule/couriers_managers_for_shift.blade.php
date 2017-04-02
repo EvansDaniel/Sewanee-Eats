@@ -58,6 +58,8 @@
             @endforeach
         @endif
     </ul>
+    <!-- only managers and admin can modify the schedule -->
+    @if(Auth::user()->hasRole('admin') || Auth::user()->hasRole('manager'))
     {{--<a href="{{ route('getNonAssignedWorkers',['shift_id' => $s->getId()]) }}"></a>--}}
     <button class="btn btn-dark btn-assign-workers" data-shift-id="{{ $s->getId() }}">Add Workers To
         Shift
@@ -115,5 +117,6 @@
             @endforeach
         </ul>
     </div>
+    @endif
     <hr style="padding: 1px">
 @endforeach

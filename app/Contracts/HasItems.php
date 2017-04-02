@@ -11,5 +11,6 @@ namespace App\Contracts;
 
 interface HasItems
 {
+    // must be a CartItem
     public function items();
 }

@@ -36,6 +36,8 @@ $factory->define(Restaurant::class, function (Faker\Generator $faker) {
         'name' => $rest_names[$rest_loc_index],
         'address' => $locations[$rest_loc_index],
         'seller_type' => RestaurantOrderCategory::ON_DEMAND,
+        'is_available_to_customers' => 1,
+        'delivery_payment_for_courier' => 4, // only for on demand
         'callable' => true,
         'phone_number' => '5555555555',
         'image_url' => $images[0],

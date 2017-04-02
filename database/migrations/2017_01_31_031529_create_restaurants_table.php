@@ -22,6 +22,7 @@ class CreateRestaurantsTable extends Migration
             $table->integer('seller_type'); // +
             // using this field we can switch on and off the availability
             // of weekly special or on_demand restaurants to users
+            $table->float('delivery_payment_for_courier')->nullable();
             $table->integer('is_available_to_customers');
             $table->boolean('callable')->nullable();  // +
             $table->string('phone_number')->nullable();

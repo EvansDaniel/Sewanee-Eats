@@ -193,6 +193,7 @@ class ManageRestaurantController extends Controller
                 $restaurant->callable = false;
             }
             $restaurant->is_available_to_customers = true;
+            $restaurant->delivery_payment_for_courier = $request->input('delivery_payment');
             $restaurant->address = $location;
         } else {
             // weekly special restaurants default to not being available
@@ -254,6 +255,7 @@ class ManageRestaurantController extends Controller
         $image = $request->file('image');
         $callable = $request->input('callable');
         $phone_number = $request->input('phone_number');
+        $delivery_payment = $request->input('delivery_payment');
 
 
         $validator = $this->imageUploadValidator($request);
@@ -278,17 +280,15 @@ class ManageRestaurantController extends Controller
 
         $restaurant->name = $name;
         if ($restaurant->isSellerType(RestaurantOrderCategory::ON_DEMAND)) {
-            \Log::info('callable ' . $callable);
             if (empty($callable)) {
-                \Log::info('here');
                 $restaurant->callable = false;
             } else {
                 $restaurant->callable = true;
             }
             $restaurant->phone_number = $phone_number;
             $restaurant->address = $address;
+            $restaurant->delivery_payment_for_courier = $delivery_payment;
         }
-        \Log::info('here i am');
         $restaurant->save();
         return back()->with('status_good', $restaurant->name . " has been updated!");
     }

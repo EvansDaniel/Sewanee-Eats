@@ -77,8 +77,7 @@ class Restaurant extends Model implements SellerEntity, Availability, ResourceTi
     {
         return $query->where([
                 'seller_type' => RestaurantOrderCategory::ON_DEMAND,
-                'is_available_to_customers' => true,
-
+                'is_available_to_customers' => true
             ]
         );
     }
@@ -117,6 +116,11 @@ class Restaurant extends Model implements SellerEntity, Availability, ResourceTi
     public function getSellerType()
     {
         return $this->seller_type;
+    }
+
+    public function getExtraTime()
+    {
+        return 30;// restaurants require 30 min of extra time
     }
 
     public function isForProfit()

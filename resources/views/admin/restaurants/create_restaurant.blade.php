@@ -36,6 +36,11 @@
                         <label for="rest-location">Restaurant Address</label>
                         <input type="text" name="address" class="form-control" id="rest-location">
                     </div>
+                    <div>
+                        <label for="rest-delivery-payment">Restaurant Delivery Payment for Couriers</label>
+                        <input required type="number" name="delivery_payment" class="form-control"
+                               id="rest-delivery-payment">
+                    </div>
                 </div>
                 <button type="submit" style="margin-top: 1%" class="btn btn-primary">Add New Restaurant</button>
             </div>

@@ -13,14 +13,19 @@ class CreateSpecialEventsTable extends Migration
      */
     public function up()
     {
+        // used for our specials and for third party seller events
         Schema::create('special_events', function (Blueprint $table) {
             $table->increments('id');
             $table->string('event_name');
             $table->string('host_name');
             $table->string('host_logo');
             $table->string('event_description');
-            $table->integer('seller_type');
+            // when ordering starts and ends
             $table->boolean('for_profit');
+
+            /*$table->integer('time_range_id')->unsigned();
+            $table->foreign('time_range_id')->
+                references('id')->on('time_ranges');*/
             $table->timestamps();
         });
     }

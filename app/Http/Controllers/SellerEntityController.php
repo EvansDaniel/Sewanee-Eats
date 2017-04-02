@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\CustomClasses\Restaurants\Sellers;
 use App\CustomClasses\ShoppingCart\ItemType;
+use App\CustomClasses\ShoppingCart\ShoppingCart;
 use App\CustomTraits\IsAvailable;
 use App\Models\Restaurant;
 use App\Models\SpecialEvent;
@@ -20,36 +21,27 @@ class SellerEntityController extends Controller
      */
     public function showMenu($id)
     {
+        $cart = new ShoppingCart();
+        // detect if any previously open menu item/ restaurant
+        // has recently closed
+        if (!empty($items = $cart->checkMenuItemAvailabilityAndDelete())) {
+            \Session::flash('became_unavailable', $items);
+        }
         $restaurant = Restaurant::find($id);
         $menu_items = null;
         foreach ($restaurant->menuItems as $item) {
             $menu_items[$item->itemCategory->name][] = $item;
         }
-        // DON'T DELETE THIS YET
-        /*// check if user is trying to mix weekly special and non-weekly special restaurant items
-        $remove_items = [];
-        $categorized_items = $this->categorizedItems();
-        $message = "";
-        if((!empty($categorized_items['special_items']) && !$restaurant->is_weekly_special) ||
-            (!empty($categorized_items['non_special_items']) && $restaurant->is_weekly_special))
-        {
-
-            if($restaurant->is_weekly_special) {
-                $message = "Your cart contains items that are not part of the weekly special. 
-                    To order items from this restaurant, please remove the following non-weekly-special items from your cart";
-                $remove_items = $categorized_items['non_special_items'];
-            } else {
-                $message = "Your cart contains items that are only apart of the weekly special. 
-                To order items from this restaurant, please remove the following items from your cart";
-                $remove_items = $categorized_items['special_items'];
-            }
-        }*/
         $item_type = ItemType::RESTAURANT_ITEM;
         return view('orderFlow.showMenu', compact('restaurant', 'menu_items', 'remove_items', 'message', 'item_type'));
     }
 
     public function list_restaurants()
     {
+        $cart = new ShoppingCart();
+        if (!empty($items = $cart->checkMenuItemAvailabilityAndDelete())) {
+            \Session::flash('became_unavailable', $items);
+        }
         $sellers = new Sellers();
         return view('orderFlow.list_restaurants',
             compact('sellers'));

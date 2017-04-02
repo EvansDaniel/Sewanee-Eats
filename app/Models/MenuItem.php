@@ -105,4 +105,13 @@ class MenuItem extends Model implements Item, Availability, ResourceTimeRange
     {
         return TimeRangeType::MENU_ITEM;
     }
+
+    /**
+     * @return integer the extra time to check before it actually closes
+     * i.e. the cushion period
+     */
+    public function getExtraTime()
+    {
+        return 30; // 30 extra minutes before menu item closes out
+    }
 }

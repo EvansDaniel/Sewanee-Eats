@@ -8,6 +8,7 @@
 
 namespace App\CustomTraits;
 
+use App\CustomClasses\Availability\IsAvailable;
 use App\CustomClasses\Schedule\Shift;
 use App\CustomClasses\ShoppingCart\RestaurantOrderCategory;
 use App\Models\MenuItem;
@@ -165,13 +166,12 @@ trait HandlesTimeRanges
         $end_carbon1 = $time_range1->getEndCarbon();
         $start_carbon2 = $time_range2->getStartCarbon();
         $end_carbon2 = $time_range2->getEndCarbon();
-        // created shift
-        //\Log::info($start_carbon1);
-        //\Log::info($end_carbon1);
-        // checking this shift
-        //\Log::info($start_carbon2);
-        //\Log::info($time_range2->start_dow . ' ' . $time_range2->end_dow);
-        //\Log::info($end_carbon2);
+        // zero out all the shifts seconds, which we don't care about for the time range
+        // this is just to ensure equality of Carbon objects below for day, hour, and min
+        $start_carbon1->second(0);
+        $start_carbon2->second(0);
+        $end_carbon1->second(0);
+        $end_carbon2->second(0);
         // shifts disjoint if it is not the case that the start time of shift1
         // is not between both the start and end time of shift2 AND the end time of shift1
         // is not between both the start and end time of shift2
@@ -181,11 +181,11 @@ trait HandlesTimeRanges
         $shift1_disjoint =
             ($start_carbon1->equalTo($end_carbon2) || !$start_carbon1->between($start_carbon2, $end_carbon2)) &&
             ($end_carbon1->equalTo($start_carbon2) || !$end_carbon1->between($start_carbon2, $end_carbon2));
-        //\Log::info($shift1_disjoint);
+        //\Log::info('1 ' . $shift1_disjoint);
         // start_carbon2 equal to end_carbon1 or not between the other shifts start and end times
         $shift2_disjoint = ($start_carbon2->equalTo($end_carbon1) || !$start_carbon2->between($start_carbon1, $end_carbon1)) &&
             ($end_carbon2->equalTo($start_carbon1) || !$end_carbon2->between($start_carbon1, $end_carbon1));
-        //\Log::info($shift2_disjoint);
+        //\Log::info('2 ' . $shift2_disjoint);
         return $shift1_disjoint && $shift2_disjoint;
     }
 
@@ -223,6 +223,9 @@ trait HandlesTimeRanges
         if (!$this->startTimesComeAfterEndTimes($time_range)) {
             return 'Invalid day and time start and end ranges';
         }
+        if (!$this->isWithinRestaurantTimeRange($menu_item, $time_range)) {
+            return 'Menu item time range must be within restaurant time range';
+        }
         // get existing restaurant open times and determine if $time_range overlaps
         // we only need to check this for on demand
         foreach ($menu_item->getAvailability() as $existing_m_time_range) {
@@ -235,6 +238,20 @@ trait HandlesTimeRanges
             }
         }
         return 0;
+    }
+
+    private function isWithinRestaurantTimeRange(MenuItem $menu_item, TimeRange $within)
+    {
+        $rest = $menu_item->restaurant;
+        if ($rest->isSellerType(RestaurantOrderCategory::WEEKLY_SPECIAL)) {
+            return true; // menu item selling times don't matter for weekly specials
+        }
+        foreach ($rest->getAvailability() as $time_range) {
+            if (IsAvailable::isWithinTimeRange($time_range, $within)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**

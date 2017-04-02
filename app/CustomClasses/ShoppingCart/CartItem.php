@@ -3,6 +3,7 @@
 namespace App\CustomClasses\ShoppingCart;
 
 
+use App\Contracts\Availability;
 use App\Models\EventItem;
 use App\Models\MenuItem;
 
@@ -10,7 +11,7 @@ use App\Models\MenuItem;
  * Class CartItem Client interface for items in the shopping cart
  * @package App\CustomClasses
  */
-class CartItem
+class CartItem implements Availability
 {
     protected $item;
     protected $extras;
@@ -24,9 +25,9 @@ class CartItem
         if ($item_type == ItemType::EVENT_ITEM) {
             $this->item = EventItem::find($item_id);
         } else
-        if ($item_type == ItemType::RESTAURANT_ITEM) {
-            $this->item = MenuItem::find($item_id);
-        }
+            if ($item_type == ItemType::RESTAURANT_ITEM) {
+                $this->item = MenuItem::find($item_id);
+            }
         $this->si = "";
         $this->extras = [];
     }
@@ -43,7 +44,13 @@ class CartItem
 
     public function getId()
     {
-        $this->item->getId();
+        \Log::info($this->item->id);
+        return $this->item->id;
+    }
+
+    public function __toString()
+    {
+        return json_encode($this->item);
     }
 
     /**
@@ -113,5 +120,19 @@ class CartItem
     public function getPrice()
     {
         return $this->item->getPrice();
+    }
+
+    public function getAvailability()
+    {
+        return $this->item->getAvailability();
+    }
+
+    /**
+     * @return integer the extra time to check before it actually closes
+     * i.e. the cushion period
+     */
+    public function getExtraTime()
+    {
+        return 30; // extra 30 minutes
     }
 }

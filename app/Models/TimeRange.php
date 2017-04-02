@@ -90,4 +90,17 @@ class TimeRange extends Model
         $end_carbon->minute($this->end_min);
         return $end_carbon;
     }
+
+    public function getStartTime()
+    {
+        $start = $this->getStartCarbon();
+        $date = null;
+        $date .= $start->format('l M j') . " at " . $start->format('h i A');
+        return $date;
+    }
+
+    public function getEndTime()
+    {
+        return $this->getStartCarbon()->formatLocalized('%A %d %B %Y');
+    }
 }

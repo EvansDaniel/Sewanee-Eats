@@ -31,12 +31,18 @@
                         @endif
                         <div id="is-callable-div">
                             <label for="phone-number">What is the restaurant's phone number? (only numbers)</label>
-                            <input type="text" name="phone_number" value="{{ $rest->phone_number }}" id="phone-number">
+                            <input type="text" name="phone_number" required value="{{ $rest->phone_number }}"
+                                   id="phone-number">
                         </div>
                         <div>
                             <label for="rest-location">Restaurant Address</label>
-                            <input type="text" name="address" value="{{ $rest->address }}" class="form-control"
+                            <input type="text" name="address" required value="{{ $rest->address }}" class="form-control"
                                    id="rest-location">
+                        </div>
+                        <div>
+                            <label for="rest-delivery-payment">Restaurant Delivery Payment for Couriers</label>
+                            <input type="number" name="delivery_payment" class="form-control" required
+                                   id="rest-delivery-payment" value="{{ $rest->delivery_payment_for_courier }}">
                         </div>
                     </div>
                 @endif

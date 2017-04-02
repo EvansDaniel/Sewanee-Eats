@@ -12,4 +12,10 @@ interface Availability
      * @return array|TimeRange
      */
     public function getAvailability();
+
+    /**
+     * @return integer the extra time to check before it actually closes
+     * i.e. the cushion period
+     */
+    public function getExtraTime();
 }

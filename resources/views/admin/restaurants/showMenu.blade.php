@@ -40,6 +40,7 @@
                                             <a href="{{ route('showMenuItemUpdateForm', ['id' => $item->id,'r_id' => $restaurant->id]) }}">
                                                 <button class="btn btn-primary" type="button">Update Menu Item</button>
                                             </a>
+                                            @if($restaurant->isSellerType($on_demand_seller_type))
                                             <a href="{{ route('showMenuItemAvailability',['menu_item_id' => $item->id]) }}">
                                                 <button class="btn btn-primary" type="button">View Menu Item Available
                                                     Times
@@ -49,6 +50,7 @@
                                                 <button class="btn btn-primary" type="button">Add Availability Times
                                                 </button>
                                             </a>
+                                            @endif
                                             <!-- TODO: make js alert button that makes sures admin wants to delete this -->
 
                                             {{--<form action="{{ route('deleteMenuItem', ['id' => $item->id]) }}" method="post">--}}

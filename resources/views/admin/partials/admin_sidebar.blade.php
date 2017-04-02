@@ -34,7 +34,7 @@
                     <li><a><i class="fa fa-edit"></i> Manage Sellers <span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
                             <li><a href="{{ route('adminListRestaurants') }}">Restaurants</a></li>
-                            <li><a href="{{ route('showEvents') }}">Special Events</a></li>
+                            <li><a href="#">Special Events</a></li>
                             <li><a href="#">Catering</a></li>
                         </ul>
                     </li>
@@ -75,7 +75,7 @@
             <div class="menu_section">
                 <h3>Live On</h3>
                 <ul class="nav side-menu">
-                    <li><a href="{{ route('showOrdersQueue') }}"><i class="fa fa-bug"></i> Order Queue <span
+                    <li><a href="{{ route('managerShowOrdersQueue') }}"><i class="fa fa-bug"></i> Order Queue <span
                                     class="fa fa-chevron-down"></span></a>
                         {{--<ul class="nav child_menu">
                             <li><a href="e_commerce.html">E-commerce</a></li>

@@ -25,7 +25,9 @@ class MenuItemController extends Controller
         foreach ($restaurant->menuItems as $item) {
             $menu_items[$item->itemCategory->name][] = $item;
         }
-        return view('admin.restaurants.showMenu', compact('restaurant', 'menu_items'));
+        $on_demand_seller_type = RestaurantOrderCategory::ON_DEMAND;
+        return view('admin.restaurants.showMenu',
+            compact('restaurant', 'menu_items', 'on_demand_seller_type'));
     }
 
     public function showMenuItemCreateForm($r_id)

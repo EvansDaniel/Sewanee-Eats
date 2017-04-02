@@ -18,17 +18,7 @@ class TimeRangesSeeder extends Seeder
     {
         $role = Role::ofType('courier')->first();
         if (!empty($role)) {
-            foreach ($role->users as $user) {
-                /*factory(TimeRange::class, 1)->create(
-                    [
-                        'time_range_type' => TimeRangeType::SHIFT,
-                        'start_hour' => mt_rand(0,12),
-                        'end_hour' => mt_rand(13,23)
-                    ])
-                    ->each(function ($t) use ($user) {
-                        //$t->users()->attach([$user->id => ['courier_type' => CourierTypes::DRIVER]]);
-                    });*/
-            }
+
         }
         $restaurants = Restaurant::all();
         if (!empty($restaurants)) {

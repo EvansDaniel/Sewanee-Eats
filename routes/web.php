@@ -276,8 +276,6 @@ Route::group(['prefix' => 'admin',
         ->name('deleteRestaurant');
 
     // Menu Item Routes
-    // TODO: Make sure I know what each route is doing. Write comments!!!
-    //
     Route::get('restaurants/{id}/menuItems', 'MenuItemController@showMenu')
         ->name('adminShowMenu');
 
@@ -355,8 +353,14 @@ Route::get('next', function () {
 Route::group(['prefix' => 'queue',
     'middleware' => ['auth', 'role:courier,admin,manager'], 'namespace' => 'Courier'],
     function () {
+        Route::get('managerQueue', 'OrderQueueController@managerShowOrdersQueue')
+            ->name('managerShowOrdersQueue');
         Route::get('orders', 'OrderQueueController@showOrdersQueue')->name('showOrdersQueue');
         Route::get('nextOrderInQueue', 'OrderQueueController@nextOrderInQueue')->name('nextOrderInQueue');
+        Route::get('markAsDelivered', 'OrderQueueController@markAsDelivered')
+            ->name('markAsDelivered');
+        Route::get('currentOrder', 'OrderQueueController@currentOrder')
+            ->name('currentOrder');
     });
 
 // Routes specific to couriers (schedule, etc)

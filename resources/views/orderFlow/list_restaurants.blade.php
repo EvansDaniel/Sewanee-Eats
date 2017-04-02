@@ -19,7 +19,8 @@
                 @foreach($sellers->getOnDemandRests() as $restaurant)
                     <li style="display: none"
                         class="restaurant list-group-item col-lg-3 col-md-3 col-xs-8 col-xs-offset-2 col-sm-8 col-sm-offset-2">
-                        <a href="{{ route('showMenu',['id' => $restaurant->id]) }}" data-open="{{$restaurant->isAvailableNow()}}" class="on-demand-links">
+                        <a href="{{ route('showMenu',['id' => $restaurant->id]) }}"
+                           data-open="{{$restaurant->isAvailableNow(30)}}" class="on-demand-links">
                             <!-- These urls must be https -->
                             <img src="{{ $restaurant->image_url }}"
                                  id="rest-images" class="img-responsive">
@@ -27,6 +28,7 @@
                                 open
                             </p>
                         </a>
+                        {{--{{ $restaurant->address }}--}}
                     </li>
                 @endforeach
             @endif
@@ -34,7 +36,7 @@
     </section>
     <hr>
     <section class="container header">
-        <h3 id="mountain">WEEKLY SPECIALS</h3>
+        <h3 id="mountain">SPECIALS</h3>
         @if(empty($sellers->getWeeklySpecials()))
             <h4>There are no weekly special restaurants at this time</h4>
         @else
@@ -53,7 +55,8 @@
                             <img src="{{ $s_restaurant->image_url }}"
                                  id="rest-images" class="img-responsive">
                             <p class="weekly-status">
-                                orders open
+                                Orders open until
+                                {{ $s_restaurant->getAvailability()->getStartTime()}}
                             </p>
                         </a>
                     </li>
