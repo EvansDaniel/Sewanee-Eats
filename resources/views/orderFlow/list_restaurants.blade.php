@@ -41,10 +41,10 @@
             <h4>There are no weekly special restaurants at this time</h4>
         @else
         <!-- TODO: change the hardcoded chick fil a to the names of the weekly special restaurants -->
-            <h5 id="mountain" class="restaurant-cat-header">This week's Weekly Special is Chick-fil-a! <a
+            <h5 id="no-specials" class="restaurant-cat-header">This week's Weekly Special is Chick-fil-a! <a
                         href="{{ route('howItWorks') }}#specials">Learn more about weekly specials</a></h5>
             <hr>
-            <a href="{{ route('clearCart') }}">Clear Session</a>
+            {{--<a href="{{ route('clearCart') }}">Clear Session</a>--}}
             <ul class="list-group container" id="restaurant-group">
                 @foreach($sellers->getWeeklySpecials() as $s_restaurant)
                     @if($s_restaurant->isAvailableNow())
