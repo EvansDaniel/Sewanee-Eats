@@ -5,7 +5,10 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\Role;
 use App\User;
-use Illuminate\Foundation\Auth\RegistersUsers;
+use Auth;
+use Illuminate\Auth\Events\Registered;
+use Illuminate\Foundation\Auth\RedirectsUsers;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
 class RegisterController extends Controller
@@ -21,7 +24,7 @@ class RegisterController extends Controller
     |
     */
 
-    use RegistersUsers;
+    use RedirectsUsers;
 
     /**
      * Where to redirect users after registration.
@@ -38,6 +41,36 @@ class RegisterController extends Controller
     public function __construct()
     {
         $this->middleware('guest');
+    }
+
+    /**
+     * Show the application registration form.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function showRegistrationForm()
+    {
+        $roles = Role::all();
+        $role_user = Role::ofType('user')->first();
+        return view('auth.register', compact('roles', 'role_user'));
+    }
+
+    /**
+     * Handle a registration request for the application.
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function register(Request $request)
+    {
+        $this->validator($request->all())->validate();
+
+        event(new Registered($user = $this->create($request->all())));
+
+        $this->guard()->login($user);
+
+        return $this->registered($request, $user)
+            ?: redirect($this->redirectPath());
     }
 
     /**
@@ -91,5 +124,27 @@ class RegisterController extends Controller
         $user->save();
         $user->roles()->attach($data['role_type']);
         return $user;
+    }
+
+    /**
+     * Get the guard to be used during registration.
+     *
+     * @return \Illuminate\Contracts\Auth\StatefulGuard
+     */
+    protected function guard()
+    {
+        return Auth::guard();
+    }
+
+    /**
+     * The user has been registered.
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @param  mixed $user
+     * @return mixed
+     */
+    protected function registered(Request $request, $user)
+    {
+        //
     }
 }
