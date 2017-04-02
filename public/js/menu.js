@@ -63,7 +63,7 @@ function showOptions(i) {
         pricyDiv.append
         (
         '<label class="col-lg-9 col-md-9 col-sm-8 col-xs-8">' +
-        '<input type="checkbox" id="p_ex-' + j + pricy[j].id + '" onclick="saveCheck(this,' + j + ',' + pricy[j].id + ',true)" value="' + pricy[j].id + '">' +
+        '<input type="checkbox" id="p_ex-' + i + pricy[j].id + '" onclick="saveCheck(this,' + j + ',' + pricy[j].id + ',true)" value="' + pricy[j].id + '">' +
         pricy[j].name + '</label><p id="check-price-' + j + '" class="f_price col-lg-3 col-md-3 col-sm-4 col-xs-4">' + pricy[j].price + '</p>'
         );
       }
@@ -134,6 +134,7 @@ function saveCheck(checkbox_input, i, acc_id, pricy) {
   // get current price and price of toppings
   var price = parseFloat(priceObj.text());
   var checkPrice = parseFloat($('#check-price-' + i).text());
+  p(checkPrice);
 
   if (checkbox.prop('checked')) { // checkbox was originally not checked
     if (pricy) {

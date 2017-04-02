@@ -106,8 +106,7 @@
                 </div>
                 <div class="modal-body">
                     {{--<form action="{{ route('addToCart') }}" method="post">--}}
-                    <form action="{{ route('addToCart',['item_type' => $item_type]) }}"
-                          method="post">
+                    <form action="{{ route('addToCart',['item_type' => $item_type]) }}" method="post">
                         {{ csrf_field() }}
                         <div class="form-group">
                             <div class="pull-right">Price: $<span id="show-item-price"></span></div>
