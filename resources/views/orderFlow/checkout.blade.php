@@ -127,7 +127,7 @@
                                                        placeholder="Building Name" class="form-control">
                                             </div>
                                             <div class="select-wrap">
-                                                <label for="venmo-username" class="row">Please select</label>
+                                                <label for="venmo-username" class="row">Please select</label> <br>
                                                 <select class="row custom-select" name="issue_type"
                                                         id="inlineFormCustomSelect" required>
                                                     {{--@if(!empty(old('issue_type')))

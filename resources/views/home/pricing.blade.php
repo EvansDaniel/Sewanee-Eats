@@ -52,7 +52,7 @@
                     <li class="rests">Mountain Goat Market</li>
                     <li class="rests">Wendys</li>
                     <p class="note"><br><span>Note: </span><br> - for any item added to your cart after the second item
-                        and extra<strong> $ 0.30</strong> is added to your delivery fee
+                        an extra<strong> $ 0.30</strong> is added to your delivery fee
                         <br> - this only applies to On-Demand delivery services
                     </p>
                     <hr>
