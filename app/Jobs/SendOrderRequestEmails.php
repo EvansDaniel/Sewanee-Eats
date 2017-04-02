@@ -2,6 +2,8 @@
 
 namespace App\Jobs;
 
+use App\CustomClasses\ShoppingCart\PaymentType;
+use App\CustomClasses\ShoppingCart\RestaurantOrderCategory;
 use App\Models\Order;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Mail\Mailer;
@@ -38,7 +40,7 @@ class SendOrderRequestEmails implements ShouldQueue
         if (env('APP_ENV') === "local") {
             // fake managers
             $managers = [
-                env('TEST_EMAIL')
+                'iradub0@sewanee.edu'
             ];
             $m_name = [
                 "Test Manager"
@@ -53,29 +55,45 @@ class SendOrderRequestEmails implements ShouldQueue
             ];
         }
         $subject = "New Order Request!";
-        if ($this->order->paid_with_venmo) {
+        if ($this->order->payment_type == PaymentType::VENMO_PAYMENT) {
             $subject = "New Venmo Order Request!";
         }
         // SEND TO SewaneeEats
         if (env('APP_ENV') === "production" || env('APP_ENV') == "staging") {
-            // if app is live
+
             $mailer->send('emails.new_order_to_manager', ['order' => $this->order], function ($message) use ($managers, $m_name, $subject) {
                 $message->from('sewaneeeats@gmail.com');
                 $message->to('sewaneeeats@gmail.com', 'SewaneeEats')->subject($subject);
             });
         }
         // SEND TO MANAGER
+        $on_demand_order_type = RestaurantOrderCategory::ON_DEMAND;
+        $weekly_order_type = RestaurantOrderCategory::WEEKLY_SPECIAL;
+        $venmo_payment_type = PaymentType::VENMO_PAYMENT;
         for ($i = 0; $i < count($managers); $i++) {
-            $mailer->send('emails.new_order_to_manager', ['order' => $this->order], function ($message) use ($managers, $m_name, $i, $subject) {
-                $message->from('sewaneeeats@gmail.com');
-                $message->to($managers[$i], $m_name[$i])->subject($subject);
-            });
+            $mailer->send('emails.new_order_to_manager', [
+                'order' => $this->order,
+                'on_demand_order_type' => $on_demand_order_type,
+                'weekly_order_type' => $weekly_order_type,
+                'venmo_payment_type' => $venmo_payment_type
+            ],
+                function ($message) use ($managers, $m_name, $i, $subject) {
+                    $message->from('sewaneeeats@gmail.com');
+                    \Log::info('to manager ' . $managers[$i]);
+                    $message->to($managers[$i], $m_name[$i])->subject($subject);
+                });
         }
 
         // SEND TO CUSTOMER
-        $mailer->send('emails.new_order_to_customer', ['order' => $this->order], function ($message) {
-            $message->from('sewaneeeats@gmail.com');
-            $message->to($this->order->email_of_customer)->subject('SewaneeEats Order Confirmation');
-        });
+        $mailer->send('emails.new_order_to_customer', [
+            'order' => $this->order,
+            'on_demand_order_type' => $on_demand_order_type,
+            'weekly_order_type' => $weekly_order_type,
+            'venmo_payment_type' => $venmo_payment_type
+        ],
+            function ($message) {
+                $message->from('sewaneeeats@gmail.com');
+                $message->to($this->order->email_of_customer)->subject('SewaneeEats Order Confirmation');
+            });
     }
 }

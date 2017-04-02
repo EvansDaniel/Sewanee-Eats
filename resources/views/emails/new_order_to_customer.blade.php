@@ -130,21 +130,20 @@
                                             Thank you for choosing SewaneeEats delivery service!
                                         </h4>
                                         <h4>
-                                            Your Order Confirmation Number:<span style="color:rebeccapurple"> {{ $order->id }}</span>
+                                            Your Order Confirmation Number:<span
+                                                    style="color:rebeccapurple">{{ $order->id }}</span>
                                             {{--<br>You can use this number to <a href="{{ route('findMyOrder') }}">Find Your Order</a>--}}
                                         </h4>
-                                        @if($order->paid_with_venmo)
+                                        @if($order->payment_type == $venmo_payment_type)
                                             <h4>
                                                 Since you requested to pay with Venmo, a SewaneeEats manager will be in
                                                 touch shortly
                                                 to finish the payment process.
-                                                @if(!$order->is_weekly_special)
-                                                    Once your payment is processed, our drivers will begin servicing
-                                                    your order.
-                                                @endif
+                                                Once your payment is processed, our drivers will begin servicing your
+                                                order.
                                             </h4>
                                         @endif
-                                        @if(!$order->is_weekly_special)
+                                        @if(!$order->hasOrderType($on_demand_order_type))
                                             <h4>
                                                 Your Order will be delivered to <span style="color:rebeccapurple"> {{ $order->delivery_location }}</span>
                                             </h4>
@@ -177,12 +176,12 @@
                                                             <tr style="font-family: 'Lato', sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
                                                                 <td style="font-family: 'Lato', sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; border-top-width: 1px; border-top-color: #eee; border-top-style: solid; margin: 0; padding: 5px 0;"
                                                                     valign="top">
-                                                                    {{ $item->menuItem->name }}
+                                                                    {{ $item->item->name }}
                                                                 </td>
                                                                 <td class="alignright"
                                                                     style="font-family: 'Lato', sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; text-align: right; border-top-width: 1px; border-top-color: #eee; border-top-style: solid; margin: 0; padding: 5px 0;"
                                                                     align="right" valign="top">
-                                                                    {{ $item->menuItem->restaurant->name }}
+                                                                    {{ $item->item->restaurant->name }}
                                                                 </td>
                                                             </tr>
                                                         @endforeach
@@ -211,15 +210,6 @@
                                                 <td align="center" style="padding-top: 25px;" class="padding">
                                                     <table border="0" cellspacing="0" cellpadding="0"
                                                            class="mobile-button-container">
-                                                        {{--<tr>
-                                                            <td align="center" style="border-radius: 3px;"
-                                                                bgcolor="#256F9C"><a
-                                                                        href="{{ route('orderSummary',['id',$order->id]) }}"
-                                                                        target="_blank"
-                                                                        style="font-size: 16px; font-family: Helvetica, Arial, sans-serif; color: #ffffff; text-decoration: none; color: #ffffff; text-decoration: none; border-radius: 3px; padding: 15px 25px; border: 1px solid #256F9C; display: inline-block;"
-                                                                        class="mobile-button">
-                                                                    View Order Summary on SewaneeEats &rarr;</a></td>
-                                                        </tr>--}}
                                                     </table>
                                                 </td>
                                             </tr>

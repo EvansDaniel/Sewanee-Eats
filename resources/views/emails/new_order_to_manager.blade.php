@@ -116,7 +116,7 @@
                                         <h1 class="aligncenter"
                                             style="font-family:  'Lato', sans-serif; box-sizing: border-box; font-size: 24px; color: #000; line-height: 1.2em; font-weight: 500; text-align: center; margin: 40px 0 0;"
                                             align="center">
-                                            New {{$order->is_weekly_special ? "Weekly Special" : "On Demand"}} Order
+                                            New Order
                                             Request</h1>
                                     </td>
                                 </tr>
@@ -129,12 +129,12 @@
                                             align="center">
                                             Customer Email: {{ $order->email_of_customer }}
                                         </h4>
-                                        @if($order->paid_with_venmo)
+                                        @if($order->payment_type == $venmo_payment_type)
                                         <h4>
                                             Venmo Username: {{ $order->venmo_username }}
                                         </h4>
                                         @endif
-                                        @if(!$order->is_weekly_special)
+                                        @if(!$order->hasOrderType($on_demand_order_type))
                                             <h4>
                                                 {{ $order->delivery_location }}
                                             </h4>
@@ -179,12 +179,12 @@
                                                             <tr style="font-family:  'Lato', sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
                                                                 <td style="font-family:  'Lato', sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; border-top-width: 1px; border-top-color: #eee; border-top-style: solid; margin: 0; padding: 5px 0;"
                                                                     valign="top">
-                                                                    {{ $item->menuItem->name }}
+                                                                    {{ $item->item->name }}
                                                                 </td>
                                                                 <td class="alignright"
                                                                     style="font-family:  'Lato', sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; text-align: right; border-top-width: 1px; border-top-color: #eee; border-top-style: solid; margin: 0; padding: 5px 0;"
                                                                     align="right" valign="top">
-                                                                    {{ $item->menuItem->restaurant->name }}
+                                                                    {{ $item->item->restaurant->name }}
                                                                 </td>
                                                             </tr>
                                                         @endforeach

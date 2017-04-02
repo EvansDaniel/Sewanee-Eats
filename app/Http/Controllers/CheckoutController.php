@@ -6,7 +6,9 @@ use App\CustomClasses\Orders\CustomerOrder;
 use App\CustomClasses\ShoppingCart\CartBilling;
 use App\CustomClasses\ShoppingCart\PaymentType;
 use App\CustomClasses\ShoppingCart\ShoppingCart;
+use App\Events\NewOrderReceived;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Event;
 
 class CheckoutController extends Controller
 {
@@ -44,11 +46,13 @@ class CheckoutController extends Controller
             }
         } else if ($view_payment_type == 0) { // stripe order
             if (!$new_order->orderValidation(PaymentType::STRIPE_PAYMENT)->fails()) {
-                $new_order->handleStripeOrder();
+                if (!empty($err_msg = $new_order->handleStripeOrder())) {
+                    return back()->with('status_bad', $err_msg);
+                }
             }
         }
 
-        //Event::fire(new NewOrderReceived($new_order->getOrder()));
+        Event::fire(new NewOrderReceived($new_order->getOrder()));
         \Session::forget('cart');
         \Session::put('new_order', $new_order->getOrder());
         // TODO: delete this from session after leave thank you

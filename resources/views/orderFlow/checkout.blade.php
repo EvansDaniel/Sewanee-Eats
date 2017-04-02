@@ -106,55 +106,41 @@
                                         <label for="location">Where should we deliver your On Demand items?</label>
                                         <div class="location-option row">
                                             <label class="radio-inline">
-                                                <input type="radio" name="loc" id="loc-university" class="loc-university" value="1">University Building
+                                                <input type="radio" name="address_loc" id="loc-university" value="1">University
+                                                Building
                                             </label>
                                             <label class="radio-inline ">
-                                                <input type="radio" name="loc" id="loc-address" class="loc-address" value="0">Specific Address
+                                                <input type="radio" name="address_loc" id="loc-address" value="0">Specific
+                                                Address
                                             </label>
                                         </div>
                                         <div class="row" id="location-wrap">
                                             <input class="form-control pay-input controls" type="text" maxlength="100"
-                                                   name="location"
+                                                   name="address"
                                                    value="@if(env('APP_ENV') !== 'production') {{ '12595 Sollace M Freeman Hwy, Sewanee, TN 37375' }} @endif"
                                                    id="location">
                                         </div>
                                         <div class="university-wrap" id="university-wrap">
                                             <div class="building-wrap">
 
-                                                <label for="venmo-username">Building Name</label>
-                                                <input type="text" id="building" name="building"
+                                                <label for="">Building Name</label>
+                                                <input type="text" id="building" name="building_name"
                                                        maxlength="150"
                                                        placeholder="Building Name" class="form-control">
                                             </div>
                                             <div class="select-wrap">
                                                 <label for="venmo-username" class="row">Please select</label> <br>
-                                                <select class="row custom-select" name="issue_type"
+                                                <select class="row custom-select" name="area_type"
                                                         id="inlineFormCustomSelect" required>
-                                                    {{--@if(!empty(old('issue_type')))
-                                                        @if(old('issue_type') == 1)
-                                                            <option value="1" selected>Concern</option>
-                                                        @else
-                                                            <option value="1">Concern</option>
-                                                        @endif
-                                                        @if(old('issue_type') == 1)
-                                                            <option value="2">Suggestion</option>
-                                                        @else
-                                                            <option value="1" selected>Concern</option>
-                                                        @endif
-                                                    @else--}}
-                                                    <option class="issue-type" value="1" selected>Room Number</option>
-                                                    <option class="issue-type" value="2">Room Name</option>
-                                                    {{--@endif--}}
+                                                    <option class="issue-type" value="Room Number" selected>Room
+                                                        Number
+                                                    </option>
+                                                    <option class="issue-type" value="Room Name">Room Name</option>
                                                 </select>
                                             </div>
                                             <div class="room-wrap">
                                                 <label for="venmo-username">Room Name or Number</label>
-                                            {{--    <input type="text" id="room-name" name="room-name"
-                                                       maxlength="150"
-                                                       placeholder="Room Name/number" class="form-control hidden">--}}
-
-                                                {{-- realistically we need one input--}}
-                                                <input type="text" id="room-number" name="room-number"
+                                                <input type="text" id="room-number" name="room_number"
                                                        maxlength="150"
                                                        placeholder="Room name/number" class="form-control">
                                             </div>
@@ -162,10 +148,6 @@
                                     </div>
 
                                 @endif
-                                {{--<p class="notice">--}}
-                                {{--<i>*If you are paying with card make sure name matches name on card.--}}
-                                {{--</i>--}}
-                                {{--</p>--}}
                             </div>
 
                             <!-- Payment information -->
@@ -179,13 +161,6 @@
                             <div class="info-wrapper">
 
                                 <div class="form-group row buyer-info">
-
-                                    {{--<label for="full-name">Name</label>--}}
-                                    {{--<input class="form-control pay-input" maxlength="100"--}}
-                                    {{--type="text"--}}
-                                    {{--value="@if(env('APP_ENV') !== 'production') {{ 'Daniel Evans' }} @endif"--}}
-                                    {{--name="name" id="full-name" placeholder="Full Name">--}}
-                                    {{--<br>--}}
                                     <label for="payment-type" id="pay-with-what">Check the box if you would
                                         like to
                                         pay with Venmo.</label>
@@ -218,7 +193,7 @@
 
                                         <div class="form-group" id="c-number">
                                             <label>
-                                                <span class="row"> Card Number</span>
+                                                <span class="row">Card Number</span>
                                                 <input class="pay-input form-control"
                                                        type="text"
                                                        id="card-number" size="20"
@@ -256,20 +231,12 @@
 
 
                                 <div class="form-group" id="loc-phone">
-                                    {{--@if(!empty($cart->getOnDemandItems()))--}}
-                                    {{-- TODO: change this to use the $cart variable--}}
-                                    {{--<label for="location">Where should we deliver your On Demand items?</label>--}}
-                                    {{--<input class="form-control pay-input controls" type="text" maxlength="100"--}}
-                                    {{--name="location"--}}
-                                    {{--value="@if(env('APP_ENV') !== 'production') {{ '12595 Sollace M Freeman Hwy, Sewanee, TN 37375' }} @endif"--}}
-                                    {{--id="location">--}}
-                                    {{--@endif--}}
 
                                     <label for="email-address">Email Address</label>
                                     <input class="pay-input email-address"
                                            maxlength="100"
                                            placeholder="Please enter your email address"
-                                           value="@if(env('APP_ENV') !== 'production') {{ 'evansdb0@sewanee.edu' }} @endif"
+                                           value="@if(env('APP_ENV') !== 'production') {{ 'iradub0@sewanee.edu' }} @endif"
                                            type="email"
                                            name="email_address" id="email-address">
                                     @if($cart->hasOnDemandItems())

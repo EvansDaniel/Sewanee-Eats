@@ -98,7 +98,16 @@ class CustomerOrder
     private function handleDeliveryLocation(Order $order)
     {
         if ($this->cart->hasOnDemandItems()) {
-            $order->delivery_location = $this->request->input('location');
+            $address_loc = $this->request->input('address_loc');
+            if (!empty($address_loc)) {
+                $order->delivery_location = $this->request->input('address');
+            } else {
+                $building_name = $this->request->input('building_name');
+                $area_type = $this->request->input('area_type');
+                $room_num = $this->request->input('room_number');
+                $location = $building_name . ', ' . $area_type . ': ' . $room_num;
+                $order->delivery_location = $location;
+            }
         }
         return $order;
     }
@@ -184,18 +193,18 @@ class CustomerOrder
             // param is '' in this case
             print('Param is:' . $err['param'] . "\n");
             print('Message is:' . $err['message'] . "\n");*/
-            return back()->with('status_bad', 'There was a problem processing your payment.
-Your card may have insufficient funds or the number may be incorrect. That\'s all we know');
+            return 'There was a problem processing your payment.
+    Your card may have insufficient funds or the number may be incorrect. That\'s all we know';
         } catch (\Stripe\Error\RateLimit $e) {
             \Log::info('Stripe Error: Rate Limit Exception');
             return back()->with('status_bad', $problem_with_stripe);
         } catch (\Stripe\Error\InvalidRequest $e) {
             // Invalid parameters were supplied to Stripe's API
             \Log::info('Stripe Error: Invalid parameters were supplied to Stripe\'s API');
-            return back()->with('status_bad', $problem_with_stripe);
+            return $problem_with_stripe;
         } catch (\Stripe\Error\Authentication $e) {
             \Log::info('Stripe Error: Stripe Authentication error');
-            return back()->with('status_bad', $problem_with_stripe);
+            return $problem_with_stripe;
         } catch (\Stripe\Error\ApiConnection $e) {
             // Network communication with Stripe failed
             \Log::info('Network Error: Network communication failure with Stripe');
@@ -203,7 +212,7 @@ Your card may have insufficient funds or the number may be incorrect. That\'s al
         } catch (\Stripe\Error\Base $e) {
             // Display a very generic error to the user, and maybe send
             // yourself an email
-            return back()->with('status_bad', $problem_with_stripe);
+            return $problem_with_stripe;
         }
         $order->is_paid_for = true;
         $order->payment_type = PaymentType::STRIPE_PAYMENT;
@@ -212,5 +221,6 @@ Your card may have insufficient funds or the number may be incorrect. That\'s al
         $this->order = $order;
         $this->saveOrderItems($order);
         $this->saveOrderPriceInfo($order);
+        return 0;
     }
 }
