@@ -33,7 +33,6 @@
                 item is available
                 during disjoint times use the extra rows for that day to fill that in. Fill each cell in in this form:
                 "hh:mm-hh:mm" or put "closed" if the menu item is not available on that day</label>
-            @include('partials.update_available_times')
             <div class="category-group">
                 <div id="select-category-parent">
                     <label for="select-category">Which category of food does it belong to?</label>

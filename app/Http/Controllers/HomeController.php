@@ -13,9 +13,8 @@ class HomeController extends Controller
 
     public function showThankYou()
     {
-        $on_demand_order = \Session::get('on_demand_order');
-        $weekly_special_order = \Session::get('weekly_special_order');
-        return view('orderFlow.thanks', compact('on_demand_order', 'weekly_special_order'));
+        $new_order = \Session::get('new_order');
+        return view('orderFlow.thanks', compact('new_order'));
     }
 
     public function findMyOrder()

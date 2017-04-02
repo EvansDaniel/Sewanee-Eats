@@ -43,7 +43,8 @@ class DeliveryInfo
     {
         $max = -999999;
         foreach ($order->menuItemOrders as $menu_item_order) {
-            $courier_payment = $menu_item_order->item->restaurant->courier_payment;
+            $courier_payment = $menu_item_order->item->restaurant->delivery_payment_for_courier;
+            \Log::info($courier_payment);
             if ($courier_payment > $max) {
                 $max = $courier_payment;
             }
@@ -77,18 +78,21 @@ class DeliveryInfo
         $starting_loc = $this->starting_loc;
         $dest_loc = null;
         $total_distance = null;
-        foreach ($this->container->items() as $item) {
-            // if this is an on demand restaurant
-            if ($item->isSellerType(RestaurantOrderCategory::ON_DEMAND)) {
-                $dest_loc = $item->getSellerEntity()->getLocation();
+        if (!empty($this->container->items())) {
+            foreach ($this->container->items() as $item) {
+                // if this is an on demand restaurant
+                if ($item->isSellerType(RestaurantOrderCategory::ON_DEMAND)) {
+                    $dest_loc = $item->getSellerEntity()->getLocation();
+                    \Log::info($dest_loc);
+                    $dist = $this->makeDistanceRequest($starting_loc, $dest_loc);
+                    $total_distance += $dist;
+                    $starting_loc = $dest_loc;
+                }
+            }
+            if (!empty($dest_loc)) { // there might be no items (thus no destinations)
                 $dist = $this->makeDistanceRequest($starting_loc, $dest_loc);
                 $total_distance += $dist;
-                $starting_loc = $dest_loc;
             }
-        }
-        if (!empty($dest_loc)) { // there might be no items (thus no destinations)
-            $dist = $this->makeDistanceRequest($starting_loc, $dest_loc);
-            $total_distance += $dist;
         }
         return round($total_distance);
     }

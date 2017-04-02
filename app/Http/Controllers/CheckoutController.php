@@ -50,8 +50,10 @@ class CheckoutController extends Controller
 
         //Event::fire(new NewOrderReceived($new_order->getOrder()));
         \Session::forget('cart');
+        \Session::put('new_order', $new_order->getOrder());
         // TODO: delete this from session after leave thank you
-        return redirect()->route('thankYou');
+        return redirect()->route('thankYou')
+            ->with('status_good', 'Your order has been placed and a confirmation email has been sent.');
     }
 
 }

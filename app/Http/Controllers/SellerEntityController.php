@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\CustomClasses\Restaurants\Sellers;
 use App\CustomClasses\ShoppingCart\ItemType;
+use App\CustomClasses\ShoppingCart\RestaurantOrderCategory;
 use App\CustomClasses\ShoppingCart\ShoppingCart;
 use App\CustomTraits\IsAvailable;
 use App\Models\Restaurant;
@@ -33,7 +34,10 @@ class SellerEntityController extends Controller
             $menu_items[$item->itemCategory->name][] = $item;
         }
         $item_type = ItemType::RESTAURANT_ITEM;
-        return view('orderFlow.showMenu', compact('restaurant', 'menu_items', 'remove_items', 'message', 'item_type'));
+        $is_weekly_special = $restaurant->isSellerType(RestaurantOrderCategory::WEEKLY_SPECIAL);
+        return view('orderFlow.showMenu',
+            compact('restaurant', 'menu_items',
+                'remove_items', 'message', 'item_type', 'is_weekly_special'));
     }
 
     public function list_restaurants()

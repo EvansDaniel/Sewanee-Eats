@@ -19,6 +19,7 @@ class MenuItemOrder extends Model
     public function item()
     {
         if (!empty($this->menu_item_id)) {
+            \Log::info('in menu item order menu item id');
             return $this->hasOne('\App\Models\MenuItem', 'id', 'menu_item_id');
         } else if (!empty($this->event_item_id)) {
             return $this->hasOne('\App\Models\EventItem', 'id', 'event_item_id');

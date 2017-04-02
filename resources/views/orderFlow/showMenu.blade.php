@@ -49,7 +49,8 @@
                         <ul class="list-group  row">
                             @foreach($items as $item)
                                 <li class="menu-li clickable is-available list-group-item col-lg-4 col-md-4 col-sm-12 col-xs-12"
-                                    data-is-available="{{ $item->isAvailableNow() }}">
+                                    data-is-available="{{ $item->isAvailableNow() }}"
+                                    data-is-weekly-special="{{ $is_weekly_special }}">
                                     <div class="menu-item">
                                         <!-- IF YOU TOUCH THIS HTML, MAKE SURE TO UPDATE THE loadModal FUNCTION WITH NEW STRUCTURE -->
                                         <div class="row" id="menu-item-top">
@@ -83,7 +84,8 @@
     <script>
       $('.is-available').each(function () {
         var isAvail = $(this).data('is-available');
-        if (!isAvail) {
+        var isWeeklySpecial = $(this).data('is-weekly-special');
+        if (!isAvail && !isWeeklySpecial) {
           $(this).on('click', function () {
             return false;
           })

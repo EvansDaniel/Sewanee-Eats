@@ -12,7 +12,10 @@
             <h3>Items:</h3>
             <ul class="list-group">
                 @foreach($next_order->toRestBuckets() as $rest => $items)
-                    <h3>{{ $items[0]->item->restaurant->name }} | {{ $items[0]->item->restaurant->address  }}</h3>
+                    <h3>{{ $items[0]->item->restaurant->name }} | {{ $items[0]->item->restaurant->address  }} <br>|
+                        @if($items[0]->item->restaurant->callable)
+                            Phone Number: (call ahead if possible) {{ $items[0]->item->restaurant->phone_number }}
+                        @endif</h3>
                     <ul>
                         @foreach($items as $item)
                             <li>
