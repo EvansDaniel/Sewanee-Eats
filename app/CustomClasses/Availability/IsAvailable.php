@@ -47,8 +47,10 @@ class IsAvailable
         $end_carbon2->second(0);
         $start_is_within = ($start_carbon2->between($start_carbon1, $end_carbon1)
             || $start_carbon2->equalTo($start_carbon1));
+        \Log::info($start_is_within);
         $end_is_within = ($end_carbon2->between($start_carbon1, $end_carbon1)
             || $end_carbon2->equalTo($end_carbon1));
+        \Log::info($end_is_within);
         return $end_is_within && $start_is_within;
     }
 

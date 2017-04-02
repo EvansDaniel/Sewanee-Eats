@@ -223,9 +223,9 @@ trait HandlesTimeRanges
         if (!$this->startTimesComeAfterEndTimes($time_range)) {
             return 'Invalid day and time start and end ranges';
         }
-        if (!$this->isWithinRestaurantTimeRange($menu_item, $time_range)) {
+        /*if (!$this->isWithinRestaurantTimeRange($menu_item, $time_range)) {
             return 'Menu item time range must be within restaurant time range';
-        }
+        }*/
         // get existing restaurant open times and determine if $time_range overlaps
         // we only need to check this for on demand
         foreach ($menu_item->getAvailability() as $existing_m_time_range) {
@@ -238,20 +238,6 @@ trait HandlesTimeRanges
             }
         }
         return 0;
-    }
-
-    private function isWithinRestaurantTimeRange(MenuItem $menu_item, TimeRange $within)
-    {
-        $rest = $menu_item->restaurant;
-        if ($rest->isSellerType(RestaurantOrderCategory::WEEKLY_SPECIAL)) {
-            return true; // menu item selling times don't matter for weekly specials
-        }
-        foreach ($rest->getAvailability() as $time_range) {
-            if (IsAvailable::isWithinTimeRange($time_range, $within)) {
-                return true;
-            }
-        }
-        return false;
     }
 
     /**
@@ -304,5 +290,19 @@ trait HandlesTimeRanges
             }
         }
         return -1;
+    }
+
+    private function isWithinRestaurantTimeRange(MenuItem $menu_item, TimeRange $within)
+    {
+        $rest = $menu_item->restaurant;
+        if ($rest->isSellerType(RestaurantOrderCategory::WEEKLY_SPECIAL)) {
+            return true; // menu item selling times don't matter for weekly specials
+        }
+        foreach ($rest->getAvailability() as $time_range) {
+            if (IsAvailable::isWithinTimeRange($time_range, $within)) {
+                return true;
+            }
+        }
+        return false;
     }
 }
