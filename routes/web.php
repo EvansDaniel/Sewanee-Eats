@@ -16,9 +16,9 @@ use Carbon\Carbon;
 
 // test link for some viewS
 
-Route::get('email', function () { // redirect route to home
-    return view('emails.dip_em');
-})->name('email');
+//Route::get('test', function () { // redirect route to home
+//    return view('admin.order.on_demand_orders');
+//})->name('test');
 
 Route::get('time', function () {
     // if this is an ajax request
@@ -101,6 +101,10 @@ Route::group([
 
     Route::get('weeklyOrders', 'OrdersController@listWeeklyOrders')->name('listWeeklyOrders');
     Route::get('openOnDemandOrders', 'OrdersController@viewOnDemandOpenOrders')->name('viewOnDemandOpenOrders');
+    Route::post('cancelOrder','OrdersController@cancelOrder')
+        ->name('cancelOrder');
+    Route::post('confirmPaymentForVenmo','OrdersController@confirmPaymentForVenmo')
+        ->name('confirmPaymentForVenmo');
 
     Route::get('', function () {
         return view('admin.order.orders');

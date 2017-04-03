@@ -130,8 +130,8 @@
                                             Thank you for choosing SewaneeEats delivery service!
                                         </h4>
                                         <h4>
-                                            Your Order Confirmation Number:<span
-                                                    style="color:rebeccapurple">{{ $order->id }}</span>
+                                            Your Order Confirmation Number: <span
+                                                    style="color:rebeccapurple"> {{ $order->id }}</span>
                                             {{--<br>You can use this number to <a href="{{ route('findMyOrder') }}">Find Your Order</a>--}}
                                         </h4>
                                         @if($order->payment_type == $venmo_payment_type)
@@ -149,6 +149,10 @@
                                             </h4>
                                         @endif
                                     </td>
+                                </tr>
+                                <tr style="width: 100%">
+                                    In case you wanted your order to be delivered to a University dorm after 10pm, the SewaneeEats courier will be waiting outside
+                                    the dorm instead of the room.
                                 </tr>
                                 <tr style="font-family: 'Lato', sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
                                     <td class="content-block aligncenter"
@@ -196,10 +200,6 @@
                                                                 align="right"
                                                                 valign="top">{{ $order->orderPriceInfo->total_price }}
                                                             </td>
-                                                        </tr>
-                                                        <tr>
-                                                            In case you wanted your order to be delivered to a University dorm after 10pm, the SewaneeEats courier will be waiting outside
-                                                            the dorm instead of the room.
                                                         </tr>
                                                     </table>
                                                 </td>

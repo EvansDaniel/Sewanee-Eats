@@ -8,10 +8,11 @@
     <link rel="stylesheet" href={{ asset('css/restaurants.css',env('APP_ENV') === 'production') }}>
     <script src="{{ asset('js/restaurants.js',env('APP_ENV') === 'production') }}"></script>
 
-
-
     <section class="container header">
-        <h3 id="mountain">ON DEMAND RESTAURANTS</h3>
+        <div class="container-fluid location_wrap">
+            <hr>
+            <h3 id="mountain">ON DEMAND RESTAURANTS</h3>
+        </div>
         <ul class="list-group container" id="restaurant-group">
             @if(empty($sellers->getOnDemandRests()))
                 <h4>There are no restaurants open at this time</h4>
@@ -34,9 +35,11 @@
             @endif
         </ul>
     </section>
-    <hr>
     <section class="container header">
-        <h3 id="mountain">SPECIALS</h3>
+        <div class="container-fluid  location_wrap">
+            <hr>
+            <h3 id="mountain">WEEKLY SPECIALS</h3>
+        </div>
         @if(empty($sellers->getWeeklySpecials()))
             <h4>There are no weekly special restaurants at this time</h4>
         @else
@@ -65,7 +68,7 @@
             </ul>
         @endif
     </section>
-    <hr>
+
     {{--<section class="container header">--}}
         {{--<h5 id="events"></h5>--}}
         {{--<h3 id="" class="events-header"><a--}}

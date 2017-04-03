@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\CustomClasses\Delivery\ManageOrder;
+use App\CustomClasses\ShoppingCart\PaymentType;
 use App\CustomClasses\ShoppingCart\RestaurantOrderCategory;
 use App\Models\Order;
 use Illuminate\Http\Request;
@@ -18,12 +20,17 @@ class OrdersController extends Controller
                 $on_demand_open_orders[] = $order;
             }
         }
-        return view('order.on_demand_orders', compact('on_demand_open_orders'));
+        $venmo_payment_type = PaymentType::VENMO_PAYMENT;
+        return view('admin.order.on_demand_orders', compact('on_demand_open_orders', 'venmo_payment_type'));
     }
 
-    public function closeVenmoOrder(Request $request)
+    public function confirmPaymentForVenmo(Request $request)
     {
-
+        $order_id = $request->input('order_id');
+        $order = Order::find($order_id);
+        $order_manager = new ManageOrder($order);
+        $order_manager->paidForStatus(true);
+        return back()->with("status_good", "Order has been paid for!!");
     }
 
     public function inputExtraOrder()
@@ -38,6 +45,11 @@ class OrdersController extends Controller
 
     public function cancelOrder(Request $request)
     {
+        $order_id = $request->input('order_id');
+        $order = Order::find($order_id);
+        $order_manager = new ManageOrder($order);
+        $order_manager->cancellationStatus(true);
+        return back()->with("status_good", "Order has been cancelled!");
 
     }
 
