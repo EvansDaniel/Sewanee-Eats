@@ -12,7 +12,7 @@ class ShoppingCartController extends Controller
     public function loadItemIntoShoppingCart(Request $request)
     {
         $item_id = $request->input('item_id');
-        $item_type = $request->query('item_type');
+        $item_type = $request->input('item_type');
         $cart = new ShoppingCart();
         $cart_items = [];
         for ($i = 1; $i <= $request->input('quantity'); $i++) {

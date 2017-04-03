@@ -156,6 +156,9 @@ Route::group([
 
     Route::post('removeCancelledOrder', 'OrdersController@cancelOrder')
         ->name('removeCancelledOrder');
+
+    Route::get('tempOnDemandOrders', 'OrdersController@showOpenOnDemandOrders')
+        ->name('openOnDemandOrders');
 });
 
 

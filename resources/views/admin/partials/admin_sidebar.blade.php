@@ -78,6 +78,9 @@
                 <ul class="nav side-menu">
                     <li><a href="{{ route('managerShowOrdersQueue') }}"><i class="fa fa-bug"></i> Order Queue <span
                                     class="fa fa-chevron-down"></span></a>
+                    <li><a href="{{ route('openOnDemandOrders') }}"><i class="fa fa-bug"></i> Open On Demand Orders
+                            <span
+                                    class="fa fa-chevron-down"></span></a>
                         {{--<ul class="nav child_menu">
                             <li><a href="e_commerce.html">E-commerce</a></li>
                             <li><a href="projects.html">Projects</a></li>

@@ -105,14 +105,15 @@
                     <strong><span id="max-items-exceeded-error" style="display: none"></span></strong>
                 </div>
                 <div class="modal-body">
-                    {{--<form action="{{ route('addToCart') }}" method="post">--}}
-                    <form action="{{ route('addToCart',['item_type' => $item_type]) }}" method="post">
+                    <form action="{{ url()->to(parse_url(route('addToCart',[]),PHP_URL_PATH),[],env('APP_ENV') !== 'local') }}"
+                          method="post">
                         {{ csrf_field() }}
                         <div class="form-group">
                             <div class="pull-right">Price: $<span id="show-item-price"></span></div>
                             <div id="show-item-description"></div>
 
                             <input type="hidden" id="to-cart-item-id" name="item_id" value="">
+                            <input type="hidden" id="item_type" name="item_type" value="{{ $item_type }}">
                             <div class="row q-head col-lg-offset-1 col-md-offset-1 col-sm-offset-1 col-xs-offset-1">
                                 QUANTITY:
                             </div>
