@@ -28,6 +28,9 @@ class CheckoutController extends Controller
     public function handleCheckout(Request $request)
     {
         $cart = new ShoppingCart();
+        if (empty($cart->items())) {
+            return redirect()->route('list_restaurants')->with('status_bad', 'There are no items in your cart. Start your order here');
+        }
         if (!empty($items = $cart->checkMenuItemAvailabilityAndDelete())) {
             \Session::flash('became_unavailable', $items);
             return redirect()->route('checkout');

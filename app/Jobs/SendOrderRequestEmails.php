@@ -40,7 +40,7 @@ class SendOrderRequestEmails implements ShouldQueue
         if (env('APP_ENV') === "local") {
             // fake managers
             $managers = [
-                'iradub0@sewanee.edu'
+                'kandeta0@sewanee.edu'
             ];
             $m_name = [
                 "Test Manager"
@@ -70,16 +70,12 @@ class SendOrderRequestEmails implements ShouldQueue
         $on_demand_order_type = RestaurantOrderCategory::ON_DEMAND;
         $weekly_order_type = RestaurantOrderCategory::WEEKLY_SPECIAL;
         $venmo_payment_type = PaymentType::VENMO_PAYMENT;
+        $order = $this->order;
         for ($i = 0; $i < count($managers); $i++) {
-            $mailer->send('emails.new_order_to_manager', [
-                'order' => $this->order,
-                'on_demand_order_type' => $on_demand_order_type,
-                'weekly_order_type' => $weekly_order_type,
-                'venmo_payment_type' => $venmo_payment_type
-            ],
+            $mailer->send('emails.new_order_to_manager',
+                compact('order', 'weekly_order_type', 'venmo_payment_type', 'on_demand_order_type'),
                 function ($message) use ($managers, $m_name, $i, $subject) {
                     $message->from('sewaneeeats@gmail.com');
-                    \Log::info('to manager ' . $managers[$i]);
                     $message->to($managers[$i], $m_name[$i])->subject($subject);
                 });
         }
