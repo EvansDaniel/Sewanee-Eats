@@ -43,6 +43,15 @@ class OrdersController extends Controller
 
     }
 
+    public function refundOrder(Request $request)
+    {
+        $order_id = $request->input('order_id');
+        $order = Order::find($order_id);
+        $order_manager = new ManageOrder($order);
+        $order_manager->refundOrder();
+        return back()->with('status_good','Order refunded');
+    }
+
     public function cancelOrder(Request $request)
     {
         $order_id = $request->input('order_id');

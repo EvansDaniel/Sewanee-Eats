@@ -105,6 +105,8 @@ Route::group([
         ->name('cancelOrder');
     Route::post('confirmPaymentForVenmo','OrdersController@confirmPaymentForVenmo')
         ->name('confirmPaymentForVenmo');
+    Route::post('refundOrder','OrdersController@refundOrder')
+        ->name('refundOrder');
 
     Route::get('', function () {
         return view('admin.order.orders');

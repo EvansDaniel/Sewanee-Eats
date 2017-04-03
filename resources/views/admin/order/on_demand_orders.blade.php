@@ -68,7 +68,7 @@
 
         -->
             <div class="row">
-                <div class="col-lg-1 small">ID: {{$on_demand_order->id}}</div>
+                <div class="col-lg-1 small"><a></a>ID: {{$on_demand_order->id}}</div></div>
                 <div class="col-lg-1 medium">customer: {{$on_demand_order->c_name}}</div>
                 <div class="col-lg-1 medium">Courier: {{$on_demand_order->couriers}}</div>
                 <div class="col-lg-1 medium">Location: {{$on_demand_order->delivery_location}}</div>
@@ -140,10 +140,12 @@
                                value="{{ $on_demand_order->id}}" style="display: none">
                         <button onclick="" class="btn btn-primary cancel-order">Cancel</button>
                     </form>
-                    {{--<form class="cancel" action="{{ route('cancelOrder') }}" method="post">--}}
-                        {{--{{ csrf_field() }}--}}
-                        {{--<button class="btn btn-primary change-status">Refund</button>--}}
-                    {{--</form>--}}
+                    <form class="refund" action="{{ route('refundOrder') }}" method="post">
+                        {{ csrf_field() }}
+                        <input id="refund-order-{{$on_demand_order->id}}" type="text" name="order_id"
+                               value="{{ $on_demand_order->id}}" style="display: none">
+                        <button class="btn btn-primary refund">Refund</button>
+                    </form>
                     @if($on_demand_order->payment_type == $venmo_payment_type)
                         <form class="cancel change-status" action="{{ route('confirmPaymentForVenmo') }}" method="post">
                             {{ csrf_field() }}
@@ -164,7 +166,9 @@
            $(".confirm-payment").click(changeStatus(".confirm-payment", "Are you sure this order is paid for?")
            );
            $(".cancel-order").click( changeStatus(".cancel-order", "Are you sure you want to cancel this order?")
-           )
+           );
+           $(".refund").click(changeStatus(".refund", ".Are you sure you want to refund the customer?"))
+
         });
         function changeStatus(button, text) {
             $(button).each(function () {
