@@ -28,7 +28,6 @@ class ShoppingCartController extends Controller
                 'Unable to add item to the cart because you have added the max number of on demand items for this order ' . $cart->getMaxOnDemandItems());
         }
         $error_val = $cart->putItems($cart_items);
-        \Log::info('error val = ' . $error_val);
         if ($error_val == -3) { // tried to add item with too many diff restaurants
             return back()->with('status_bad', 'Adding the item would cause you to order from too many different on demand restaurants. The max is two different on demand restaurants.');
         }

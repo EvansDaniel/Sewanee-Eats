@@ -138,20 +138,26 @@
             </div>
             <div class="row buttons-wrapper">
                 <div class="buttons">
-                    <form class="cancel" action="{{ route('cancelOrder') }}" method="post">
+                    <form class="cancel"
+                          action="{{ url()->to(parse_url(route('cancelOrder',[]),PHP_URL_PATH),[],env('APP_ENV') !== 'local') }}"
+                          method="post">
                         {{ csrf_field() }}
                         <input id="cancel-order-{{$on_demand_order->id}}" type="text" name="order_id"
                                value="{{ $on_demand_order->id}}" style="display: none">
                         <button onclick="" class="btn btn-primary cancel-order">Cancel</button>
                     </form>
-                    <form class="refund" action="{{ route('refundOrder') }}" method="post">
+                    <form class="refund"
+                          action="{{ url()->to(parse_url(route('refundOrder',[]),PHP_URL_PATH),[],env('APP_ENV') !== 'local') }}"
+                          method="post">
                         {{ csrf_field() }}
                         <input id="refund-order-{{$on_demand_order->id}}" type="text" name="order_id"
                                value="{{ $on_demand_order->id}}" style="display: none">
                         <button class="btn btn-primary refund">Refund</button>
                     </form>
                     @if($on_demand_order->payment_type == $venmo_payment_type)
-                        <form class="cancel change-status" action="{{ route('confirmPaymentForVenmo') }}" method="post">
+                        <form class="cancel change-status"
+                              action="{{url()->to(parse_url(route('confirmPaymentForVenmo',[]),PHP_URL_PATH),[],env('APP_ENV') !== 'local') }}"
+                              method="post">
                             {{ csrf_field() }}
                             <input id="confirm-payment-{{$on_demand_order->id}}" type="text" name="order_id"
                                    value="{{ $on_demand_order->id}}" style="display: none">
