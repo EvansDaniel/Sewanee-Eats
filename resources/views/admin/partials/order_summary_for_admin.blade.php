@@ -4,6 +4,8 @@
         <p>Total Cost of Food: ${{ $next_order->orderPriceInfo->cost_of_food }}</p>
         <p>Payment for Order: $4</p>
         <p>Delivery Location: {{ $next_order->delivery_location }}</p>
+        <p>Phone Number of Customer: {{ $next_order->phone_number }}</p>
+        <p>Email of Customer: {{ $next_order->email_of_customer }}</p>
     </div>
     <div>
         <h3>Items:</h3>

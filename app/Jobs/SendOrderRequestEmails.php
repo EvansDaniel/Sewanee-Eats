@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\CustomClasses\Schedule\Shift;
 use App\CustomClasses\ShoppingCart\PaymentType;
 use App\CustomClasses\ShoppingCart\RestaurantOrderCategory;
 use App\Models\Order;
@@ -68,10 +69,22 @@ class SendOrderRequestEmails implements ShouldQueue
 
             $mailer->send('emails.new_order_to_manager',
                 compact('order', 'weekly_order_type', 'venmo_payment_type', 'on_demand_order_type'), function ($message) use ($managers, $m_name, $subject) {
-                $message->from('sewaneeeats@gmail.com');
-                $message->to('sewaneeeats@gmail.com', 'SewaneeEats')->subject($subject);
-            });
+                    $message->from('sewaneeeats@gmail.com');
+                    $message->to('sewaneeeats@gmail.com', 'SewaneeEats')->subject($subject);
+                });
         }
+        // send to all couriers
+        $shift = Shift::now();
+        $couriers_online = $shift->couriers();
+        foreach ($couriers_online as $courier_online) {
+            $mailer->send('emails.new_order_to_manager',
+                compact('order', 'weekly_order_type', 'venmo_payment_type', 'on_demand_order_type'),
+                function ($message) use ($managers, $m_name, $subject, $courier_online) {
+                    $message->from('sewaneeeats@gmail.com');
+                    $message->to($courier_online->email, 'SewaneeEats')->subject($subject);
+                });
+        }
+
         // send to manager
         for ($i = 0; $i < count($managers); $i++) {
             $mailer->send('emails.new_order_to_manager',
