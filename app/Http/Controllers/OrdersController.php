@@ -6,6 +6,7 @@ use App\CustomClasses\Delivery\ManageOrder;
 use App\CustomClasses\ShoppingCart\PaymentType;
 use App\CustomClasses\ShoppingCart\RestaurantOrderCategory;
 use App\Models\Order;
+use Auth;
 use Illuminate\Http\Request;
 
 // TODO: add order change logic to this controller
@@ -51,6 +52,25 @@ class OrdersController extends Controller
         $order_manager->cancellationStatus(true);
         return back()->with("status_good", "Order has been cancelled!");
 
+    }
+
+    // temporary thing
+    public function showOpenOnDemandOrders()
+    {
+        if (Auth::user()->hasRole('admin') || Auth::user()->hasRole('manager')) {
+            $orders = Order::all();
+            $pending_orders = [];
+            foreach ($orders as $order) {
+                if ($order->hasOrderType(RestaurantOrderCategory::ON_DEMAND)) {
+                    $on_demand_open_orders[] = $order;
+                }
+            }
+            return view('admin.order.temp_on_demand_orders',
+                compact('pending_orders'));
+        } else {
+            return back()->with('status_bad', 'You don\'t have the necessary privileges 
+            to access that information');
+        }
     }
 
     public function listWeeklyOrders()
