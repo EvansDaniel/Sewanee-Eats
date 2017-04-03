@@ -34,7 +34,7 @@
                                     @foreach($item->accessories as $acc)
                                         <li>
                                             item accessories:   {{ $acc->name }}<br>
-                                            item price:  {{ $acc->price }} <br>
+                                            accessory price:  {{ $acc->price }} <br>
                                         </li>
                                     @endforeach
                                 </ul>
