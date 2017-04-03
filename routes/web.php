@@ -101,6 +101,7 @@ Route::group([
 
     Route::get('weeklyOrders', 'OrdersController@listWeeklyOrders')->name('listWeeklyOrders');
     Route::get('openOnDemandOrders', 'OrdersController@viewOnDemandOpenOrders')->name('viewOnDemandOpenOrders');
+    Route::get('orderSummaryForAdmin/{order_id}','OrdersController@orderSummaryForAdmin')->name('orderSummaryForAdmin');
     Route::post('cancelOrder','OrdersController@cancelOrder')
         ->name('cancelOrder');
     Route::post('confirmPaymentForVenmo','OrdersController@confirmPaymentForVenmo')

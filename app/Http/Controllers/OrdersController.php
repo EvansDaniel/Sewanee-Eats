@@ -86,4 +86,11 @@ class OrdersController extends Controller
     {
 
     }
+
+    public function orderSummaryForAdmin($order_id)
+    {
+        $next_order = Order::find($order_id);
+        return view('admin.partials.order_summary_for_admin',
+            compact('next_order'));
+    }
 }

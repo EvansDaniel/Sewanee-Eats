@@ -52,7 +52,6 @@
                             <li><a href="{{ route('listClosedIssues') }}">Closed Support Issues</a></li>
                         </ul>
                     </li>
-                    <li><a class="on_demand_open" href="{{ route('viewOnDemandOpenOrders') }}"></a></li>
                     <li><a><i class="fa fa-bar-chart-o"></i>Schedule<span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
                             <li><a href="{{ route('showSchedule') }}">View Schedule</a></li>
@@ -78,7 +77,8 @@
                 <ul class="nav side-menu">
                     <li><a href="{{ route('managerShowOrdersQueue') }}"><i class="fa fa-bug"></i> Order Queue <span
                                     class="fa fa-chevron-down"></span></a>
-                    <li><a href="{{ route('openOnDemandOrders') }}"><i class="fa fa-bug"></i> Open On Demand Orders
+                    <li><a class="on_demand_open" href="{{ route('viewOnDemandOpenOrders') }}">
+                            <i class="fa fa-bug"></i> Open On Demand Orders
                             <span
                                     class="fa fa-chevron-down"></span></a>
                         {{--<ul class="nav child_menu">

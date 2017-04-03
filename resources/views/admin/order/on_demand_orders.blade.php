@@ -68,7 +68,11 @@
 
         -->
             <div class="row">
-                <div class="col-lg-1 small"><a></a>ID: {{$on_demand_order->id}}</div></div>
+                <div class="col-lg-1 small">
+                    <a href="{{ route('orderSummaryForAdmin',['order_id' => $on_demand_order->id]) }}">
+                        ID: {{$on_demand_order->id}}
+                    </a>
+                </div>
                 <div class="col-lg-1 medium">customer: {{$on_demand_order->c_name}}</div>
                 <div class="col-lg-1 medium">Courier: {{$on_demand_order->couriers}}</div>
                 <div class="col-lg-1 medium">Location: {{$on_demand_order->delivery_location}}</div>
