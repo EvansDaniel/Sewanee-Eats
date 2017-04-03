@@ -54,6 +54,11 @@ class SendOrderRequestEmails implements ShouldQueue
                 'Tariro Kandemiri'
             ];
         }
+        // SEND TO MANAGER
+        $on_demand_order_type = RestaurantOrderCategory::ON_DEMAND;
+        $weekly_order_type = RestaurantOrderCategory::WEEKLY_SPECIAL;
+        $venmo_payment_type = PaymentType::VENMO_PAYMENT;
+        $order = $this->order;
         $subject = "New Order Request!";
         if ($this->order->payment_type == PaymentType::VENMO_PAYMENT) {
             $subject = "New Venmo Order Request!";
@@ -61,16 +66,13 @@ class SendOrderRequestEmails implements ShouldQueue
         // SEND TO SewaneeEats
         if (env('APP_ENV') === "production" || env('APP_ENV') == "staging") {
 
-            $mailer->send('emails.new_order_to_manager', ['order' => $this->order], function ($message) use ($managers, $m_name, $subject) {
+            $mailer->send('emails.new_order_to_manager',
+                compact('order', 'weekly_order_type', 'venmo_payment_type', 'on_demand_order_type'), function ($message) use ($managers, $m_name, $subject) {
                 $message->from('sewaneeeats@gmail.com');
                 $message->to('sewaneeeats@gmail.com', 'SewaneeEats')->subject($subject);
             });
         }
-        // SEND TO MANAGER
-        $on_demand_order_type = RestaurantOrderCategory::ON_DEMAND;
-        $weekly_order_type = RestaurantOrderCategory::WEEKLY_SPECIAL;
-        $venmo_payment_type = PaymentType::VENMO_PAYMENT;
-        $order = $this->order;
+        // send to manager
         for ($i = 0; $i < count($managers); $i++) {
             $mailer->send('emails.new_order_to_manager',
                 compact('order', 'weekly_order_type', 'venmo_payment_type', 'on_demand_order_type'),
