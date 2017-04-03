@@ -105,7 +105,6 @@
                     <strong><span id="max-items-exceeded-error" style="display: none"></span></strong>
                 </div>
                 <div class="modal-body">
-                    {{--<form action="{{ route('addToCart') }}" method="post">--}}
                     <form action="{{ route('addToCart',['item_type' => $item_type]) }}" method="post">
                         {{ csrf_field() }}
                         <div class="form-group">

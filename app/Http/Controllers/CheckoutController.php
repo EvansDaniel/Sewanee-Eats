@@ -29,7 +29,7 @@ class CheckoutController extends Controller
     {
         $cart = new ShoppingCart();
         if (!empty($items = $cart->checkMenuItemAvailabilityAndDelete())) {
-            \Session::flash('status_bad', $items);
+            \Session::flash('became_unavailable', $items);
             return redirect()->route('checkout');
         }
         $bill = new CartBilling($cart);
