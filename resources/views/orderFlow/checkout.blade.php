@@ -94,7 +94,7 @@
                             <div class="form-group row buyer-info">
 
                                 <label for="full-name">Name</label>
-                                <input class="form-control pay-input" maxlength="100"
+                                <input required class="form-control pay-input" maxlength="100"
                                        type="text"
                                        value="@if(env('APP_ENV') !== 'production') {{ 'Daniel Evans' }} @endif"
                                        name="name" id="full-name" placeholder="Full Name">
@@ -103,7 +103,7 @@
                                     {{-- TODO: change this to use the $cart variable--}}
                                     <div class="delivery-info-wrap">
 
-                                        <label for="location">Where should we deliver your On Demand items?</label>
+                                        <label for="location">Where should we deliver your On Demand items? <sup style="color:crimson">*required</sup> </label>
                                         <div class="location-option row">
                                             <label class="radio-inline">
                                                 <input type="radio" name="address_loc" id="loc-university" value="1">University
@@ -170,7 +170,7 @@
 
                                     <div id="venmo-payment-div" class="form-group">
 
-                                        <label for="venmo-username">Venmo Username</label>
+                                        <label for="venmo-username">Venmo Username </label>
                                         <input type="text" id="venmo-username" name="venmo_username"
                                                maxlength="150"
                                                placeholder="Venmo Username" class="form-control">
