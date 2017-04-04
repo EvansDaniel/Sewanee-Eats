@@ -44,10 +44,9 @@
     <hr>
     <br>
     <p>COPYRIGHT © SEWANEE EATS - ALL PAYMENTS ARE PROCESSED SECURELY THROUGH VENMO AND <a
-                href="https://www.stripe.com">STRIPE</a>.</p>
+                href="https://www.stripe.com">STRIPE</a>. | <a href="{{ route('login') }}">Login</a></p>
     {{--<h3><a style="float: right" href="{{ route('login') }}">Login</a></h3>--}}
     {{--<a href="{{ route('findMyOrder') }}">Find My Order</a>--}}
-    <br>
 </footer>
 </body>
 </html>

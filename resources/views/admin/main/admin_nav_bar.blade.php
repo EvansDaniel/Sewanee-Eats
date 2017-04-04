@@ -23,7 +23,8 @@
                         </li>
                         <li><a href="javascript:;">Help</a></li>
                         <li>
-                            <form action="{{ route('logout') }}" method="post">
+                            <form action="{{ url()->to(parse_url(route('logout',[]),PHP_URL_PATH),[],env('APP_ENV') !== 'local') }}"
+                                  method="post">
                                 {{ csrf_field() }}
                                 <a>
                                     <button type="submit"><i class="fa fa-sign-out pull-right"></i> Log Out</button>
