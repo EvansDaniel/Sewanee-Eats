@@ -165,7 +165,7 @@
                                         like to
                                         pay with Venmo.</label>
                                     <input type="checkbox" name="payment_type" id="pay-with-venmo" value="0"
-                                           onclick="animate()" data-aim="#venmo-payment-div">
+                                           onclick="handle_venmo_options()" data-aim="#venmo-payment-div">
                                     <br>
 
                                     <div id="venmo-payment-div" class="form-group">

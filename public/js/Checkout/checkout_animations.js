@@ -85,6 +85,4 @@ function hideOrShow(radio,target, to_hide, to_change){
         $(to_change).val(1);
         $(radio).prop("checked", false);
     }
-
-
 }
