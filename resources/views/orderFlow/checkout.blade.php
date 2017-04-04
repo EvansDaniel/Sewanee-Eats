@@ -299,7 +299,7 @@
     </script>
     <script src="{{ asset('js/Checkout/stripe_checkout.js',env('APP_ENV') === 'production') }}"></script>
     <script type="text/javascript"
-            src="http://maps.googleapis.com/maps/api/js?key=AIzaSyCRzYmXWGvA4FPHffiFUMyTCWLVSlYL04s&libraries=geometry,places"></script>
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCRzYmXWGvA4FPHffiFUMyTCWLVSlYL04s&libraries=geometry,places"></script>
     <script src="{{ asset('js/Checkout/delivery_time_estimation.js',env('APP_ENV') === 'production') }}"></script>
     <script src="{{ asset('js/Checkout/checkout.js',env('APP_ENV') === 'production') }}"></script>
 
