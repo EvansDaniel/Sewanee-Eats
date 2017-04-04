@@ -91,7 +91,9 @@
                                   method="post" style="display: inline">
                                 {{ csrf_field() }}
 
-                                <button class="btn btn-danger" type="submit">Delete restaurant</button>
+                                <button class="btn btn-danger" id="delete-restaurant-button" type="submit">Delete
+                                    restaurant
+                                </button>
                             </form>
                             {{--<form action="{{ route('deleteRestaurant', ['id' => $r->id]) }}" method="post"> --}}
                         </div>
@@ -101,4 +103,8 @@
             @endif
         </ul>
     </div>
+    <script src="{{ asset('js/helpers.js',env('APP_ENV') !== 'local')  }}"></script>
+    <script>
+      setWindowConfirmation('delete-restaurant-button', 'Are you sure you want to delete the restaurant?');
+    </script>
 @stop
