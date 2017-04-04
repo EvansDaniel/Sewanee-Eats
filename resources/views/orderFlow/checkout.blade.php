@@ -117,7 +117,7 @@
                                         <div class="row" id="location-wrap">
                                             <input class="form-control pay-input controls" type="text" maxlength="100"
                                                    name="address" placeholder="Enter your address"
-                                                   value="@if(env('APP_ENV') !== 'production') {{ '12595 Sollace M Freeman Hwy, Sewanee, TN 37375' }} @endif"
+                                                   value="{{--@if(env('APP_ENV') !== 'production') {{ '' }} @endif--}}"
                                                    id="location" required>
                                         </div>
                                         <div class="university-wrap" id="university-wrap">

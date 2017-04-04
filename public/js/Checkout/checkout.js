@@ -250,12 +250,20 @@ function showExtras(button) {
 }
 
 // need the restaurant locations
-var timeEstimation = new TimeEstimation($('#location').val(), '521 W Main St Monteagle, TN 37356');
-timeEstimation.timeEstimation(function (res, status) {
-  if (status == 'OK') {
-    $('#on-demand-delivery-time').text(res);
-  }
+var address = $('#location');
+var timeEstimation = new TimeEstimation(address.val(), '521 W Main St Monteagle, TN 37356');
+
+address.on('keyup', function () {
+  setDeliveryTime(address);
 });
+
+function setDeliveryTime() {
+  timeEstimation.timeEstimation(address, function (res, status) {
+    if (status == 'OK') {
+      $('#on-demand-delivery-time').text(res);
+    }
+  });
+}
 
 // Create the search box and link it to the UI element.
 var deliveryLocationInput = document.getElementById('location');
