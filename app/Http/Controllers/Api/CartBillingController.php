@@ -8,6 +8,10 @@ use App\Http\Controllers\Controller;
 
 class CartBillingController extends Controller
 {
+    /**
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
+     * Retrieves the pricing info for the current sessions cart
+     */
     public function getPriceSummary()
     {
         $cart = new ShoppingCart();

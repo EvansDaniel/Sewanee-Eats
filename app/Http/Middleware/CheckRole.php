@@ -19,7 +19,7 @@ class CheckRole
         if (!Auth::check())
             return redirect()->route('home');
 
-        $user = User::find(Auth::id());
+        $user = User::findOrFail(Auth::id());
         // loop through roles and check if the user has the role
         foreach ($roles as $role) {
             if ($user->hasRole($role)) {

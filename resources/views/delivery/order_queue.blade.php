@@ -23,7 +23,7 @@
                                 <br>
                                 Price: {{ $menuItemOrder->menuItem->price }}
                                 <br>
-                                Instructions: {{ $menuItemOrder->special_instructions }}
+                                Special Instructions for this item: {{ $menuItemOrder->special_instructions }}
                                 <ul>
                                     @foreach($menuItemOrder->accessories() as $acc)
                                         Acc name: {{ $acc->name }}

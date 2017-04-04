@@ -2,7 +2,9 @@
 <div class="container">
     <div>
         <p>Total Cost of Food: ${{ $next_order->orderPriceInfo->cost_of_food }}</p>
-        <p>Payment for Order: $4</p>
+        @if(!empty($next_order->couriers) && count($next_order->couriers) >= 1)
+            <p>Payment for Order: {{ $next_order->couriers[0]->pivot->courier_payment }}</p>
+        @endif
         <p>Delivery Location: {{ $next_order->delivery_location }}</p>
         <p>Phone Number of Customer: {{ $next_order->phone_number }}</p>
         <p>Email of Customer: {{ $next_order->email_of_customer }}</p>

@@ -138,30 +138,55 @@
             </div>
             <div class="row buttons-wrapper">
                 <div class="buttons">
+                    <form action="{{ route('toggleOrderIsDelivered') }}" method="post">
+                        {{ csrf_field() }}
+                        <input id="toggle-delivered-{{$on_demand_order->id}}" type="text" name="order_id"
+                               value="{{ $on_demand_order->id}}" style="display: none">
+                        @if($on_demand_order->is_delivered)
+                            <button onclick="" class="btn btn-primary toggle-delivered">Undo Mark Order as Delivered
+                            </button>
+                        @else
+                            <button onclick="" class="btn btn-primary toggle-delivered">Mark Order as Delivered</button>
+                        @endif
+                    </form>
                     <form class="cancel"
-                          action="{{ url()->to(parse_url(route('cancelOrder',[]),PHP_URL_PATH),[],env('APP_ENV') !== 'local') }}"
+                          action="{{ url()->to(parse_url(route('toggleOrderCancellation',[]),PHP_URL_PATH),[],env('APP_ENV') !== 'local') }}"
                           method="post">
                         {{ csrf_field() }}
                         <input id="cancel-order-{{$on_demand_order->id}}" type="text" name="order_id"
                                value="{{ $on_demand_order->id}}" style="display: none">
-                        <button onclick="" class="btn btn-primary cancel-order">Cancel</button>
+                        @if($on_demand_order->is_cancelled)
+                            <button onclick="" class="btn btn-primary cancel-order">Undo Order Cancellation</button>
+                        @else
+                            <button onclick="" class="btn btn-primary cancel-order">Cancel Order</button>
+                        @endif
                     </form>
+                @if(!$on_demand_order->is_cancelled) <!-- Can't refund if it is cancelled -->
                     <form class="refund"
-                          action="{{ url()->to(parse_url(route('refundOrder',[]),PHP_URL_PATH),[],env('APP_ENV') !== 'local') }}"
+                          action="{{ url()->to(parse_url(route('toggleRefundOrder',[]),PHP_URL_PATH),[],env('APP_ENV') !== 'local') }}"
                           method="post">
                         {{ csrf_field() }}
                         <input id="refund-order-{{$on_demand_order->id}}" type="text" name="order_id"
                                value="{{ $on_demand_order->id}}" style="display: none">
-                        <button class="btn btn-primary refund">Refund</button>
+                        @if($on_demand_order->was_refunded)
+                            <button class="btn btn-primary refund">Undo Order Refund</button>
+                        @else
+                            <button class="btn btn-primary refund">Refund Order</button>
+                        @endif
                     </form>
+                    @endif
                     @if($on_demand_order->payment_type == $venmo_payment_type)
                         <form class="cancel change-status"
-                              action="{{url()->to(parse_url(route('confirmPaymentForVenmo',[]),PHP_URL_PATH),[],env('APP_ENV') !== 'local') }}"
+                              action="{{url()->to(parse_url(route('togglePaymentConfirmationForVenmo',[]),PHP_URL_PATH),[],env('APP_ENV') !== 'local') }}"
                               method="post">
                             {{ csrf_field() }}
                             <input id="confirm-payment-{{$on_demand_order->id}}" type="text" name="order_id"
                                    value="{{ $on_demand_order->id}}" style="display: none">
-                            <button class="btn btn-primary confirm-payment">Order has been paid</button>
+                            @if($on_demand_order->is_paid_for)
+                                <button class="btn btn-primary confirm-payment">Undo Payment Confirmation</button>
+                            @else
+                                <button class="btn btn-primary confirm-payment">Confirm Payment</button>
+                            @endif
                         </form>
                     @endif
                 </div>
@@ -172,26 +197,25 @@
 
     <script>
 
-        $(document).ready(function () {
-           $(".confirm-payment").click(changeStatus(".confirm-payment", "Are you sure this order is paid for?")
-           );
-           $(".cancel-order").click( changeStatus(".cancel-order", "Are you sure you want to cancel this order?")
-           );
-           $(".refund").click(changeStatus(".refund", ".Are you sure you want to refund the customer?"))
+      $(document).ready(function () {
+        $(".confirm-payment").click(changeStatus(".confirm-payment", "Are you sure you want to change this order's payment status?"));
+        $(".cancel-order").click(changeStatus(".cancel-order", "Are you sure you want to change the cancellation status of this order?"));
+        $(".refund").click(changeStatus(".refund", ".Are you sure you want to change the refund status?"));
+        $(".toggle-delivered").click(changeStatus(".toggle-delivered", ".Are you sure you want to change the delivery status?"));
 
-        });
-        function changeStatus(button, text) {
-            $(button).each(function () {
-                $(this).on('click', function () {
-                    if (window.confirm(text)) {
-                    }
-                    else {
-                        return false;
-                    }
+      });
+      function changeStatus(button, text) {
+        $(button).each(function () {
+          $(this).on('click', function () {
+            if (window.confirm(text)) {
+            }
+            else {
+              return false;
+            }
 
-            });
+          });
         });
-        }
+      }
     </script>
 
 @stop

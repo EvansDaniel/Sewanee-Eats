@@ -11,6 +11,11 @@ use App\Models\TimeRange;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
+/**
+ * TODO: the find function along with all other DB accesses here need to be bullet proofed
+ * Class ScheduleController
+ * @package App\Http\Controllers\Admin
+ */
 class ScheduleController extends Controller
 {
 

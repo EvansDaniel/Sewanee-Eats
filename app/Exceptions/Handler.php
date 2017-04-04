@@ -44,8 +44,13 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        // for when a token mismatch is thrown because a session expires
         if ($exception instanceof \Illuminate\Session\TokenMismatchException) {
             return back()->with('status_bad', 'Sorry, your session seems to have expired.');
+        }
+        // for when models are not found
+        if ($exception instanceof \Illuminate\Database\Eloquent\ModelNotFoundException) {
+            return redirect()->route('list_restaurants')->with('status_bad', 'Sorry the resource you requested could not be found');
         }
         return parent::render($request, $exception);
     }

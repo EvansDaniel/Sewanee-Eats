@@ -25,13 +25,30 @@ class OrdersController extends Controller
         return view('admin.order.on_demand_orders', compact('on_demand_open_orders', 'venmo_payment_type'));
     }
 
-    public function confirmPaymentForVenmo(Request $request)
+    public function toggleOrderIsDelivered(Request $request)
+    {
+        $order_id = $request->input('order_id');
+        $order = Order::findOrFail($order_id);
+        $order_manager = new ManageOrder($order);
+        if ($delivered = $order->is_delivered) {
+            $order_manager->deliveredStatus(false);
+        } else {
+            $order_manager->deliveredStatus(true);
+        }
+        return back()->with('status_good', 'Order delivery confirmed as ' . (!$delivered ? " not delivered" : "delivered"));
+    }
+
+    public function togglePaymentConfirmationForVenmo(Request $request)
     {
         $order_id = $request->input('order_id');
         $order = Order::find($order_id);
         $order_manager = new ManageOrder($order);
-        $order_manager->paidForStatus(true);
-        return back()->with("status_good", "Order has been paid for!!");
+        if ($is_paid_for = $order->is_paid_for) {
+            $order_manager->paidForStatus(false);
+        } else {
+            $order_manager->paidForStatus(true);
+        }
+        return back()->with("status_good", "Order payment status confirmed as " . (!$is_paid_for ? "not " : "" . "paid for"));
     }
 
     public function inputExtraOrder()
@@ -44,22 +61,30 @@ class OrdersController extends Controller
 
     }
 
-    public function refundOrder(Request $request)
+    public function toggleRefundOrder(Request $request)
     {
         $order_id = $request->input('order_id');
-        $order = Order::find($order_id);
+        $order = Order::findOrFail($order_id);
         $order_manager = new ManageOrder($order);
-        $order_manager->refundOrder();
-        return back()->with('status_good','Order refunded');
+        if ($is_refunded = $order->was_refunded) { // undo refund
+            $order_manager->refundOrder(false);
+        } else { // refund
+            $order_manager->refundOrder(true);
+        }
+        return back()->with('status_good', 'Order refund status confirmed as ' . (!$is_refunded ? " not refunded" : "refunded"));
     }
 
-    public function cancelOrder(Request $request)
+    public function toggleOrderCancellation(Request $request)
     {
         $order_id = $request->input('order_id');
-        $order = Order::find($order_id);
+        $order = Order::findOrFail($order_id);
         $order_manager = new ManageOrder($order);
-        $order_manager->cancellationStatus(true);
-        return back()->with("status_good", "Order has been cancelled!");
+        if ($is_cancelled = $order->is_cancelled) { // undo order cancel
+            $order_manager->cancellationStatus(false);
+        } else { // cancel order
+            $order_manager->cancellationStatus(true);
+        }
+        return back()->with("status_good", "Order confirmed as " . (!$is_cancelled ? "not cancelled" : "cancelled"));
 
     }
 
@@ -89,7 +114,7 @@ class OrdersController extends Controller
 
     public function orderSummaryForAdmin($order_id)
     {
-        $next_order = Order::find($order_id);
+        $next_order = Order::findOrFail($order_id);
         return view('admin.partials.order_summary_for_admin',
             compact('next_order'));
     }

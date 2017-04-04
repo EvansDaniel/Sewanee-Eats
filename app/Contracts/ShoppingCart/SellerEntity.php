@@ -15,6 +15,10 @@ interface SellerEntity
 
     public function getSellerType();
 
+    public function getItems();
+
+    public function getId();
+
     public function isForProfit();
     /*public function getAvailability();*/
 }

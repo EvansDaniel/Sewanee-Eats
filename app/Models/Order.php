@@ -68,7 +68,7 @@ class Order extends Model implements HasItems
     public function couriers()
     {
         return $this->belongsToMany('App\User', 'couriers_orders',
-            'order_id', 'courier_id')->withTimestamps();
+            'order_id', 'courier_id')->withPivot('courier_payment')->withTimestamps();
     }
 
     public function scopeUndelivered($query)

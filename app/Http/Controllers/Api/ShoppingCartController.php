@@ -6,6 +6,12 @@ use App\CustomClasses\ShoppingCart\ShoppingCart;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
+/**
+ * JS Endpoint for updating cart information on the checkout page
+ * Class ShoppingCartController
+ * @package App\Http\Controllers\Api
+ */
+
 class ShoppingCartController extends Controller
 {
     public function quantity()

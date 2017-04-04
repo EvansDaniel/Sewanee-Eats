@@ -260,3 +260,37 @@ timeEstimation.timeEstimation(function (res, status) {
 // Create the search box and link it to the UI element.
 var deliveryLocationInput = document.getElementById('location');
 var searchBox = new google.maps.places.SearchBox(deliveryLocationInput);
+
+
+// delivery location validation
+var uLocDiv = $('#university-wrap');
+var aLocDiv = $('#location-wrap');
+
+$('input:radio').on('change', function () {
+  var uLocInputs = uLocDiv.find('input');
+  var aLocInputs = aLocDiv.find('input');
+  p(uLocInputs);
+  if (uLocDiv.is(':visible')) {
+    setLocationInputsRequired(false, uLocInputs, aLocInputs);
+  } else {
+    setLocationInputsRequired(true, uLocInputs, aLocInputs);
+  }
+});
+
+function setLocationInputsRequired(setALocsRequired, uLocInputs, aLocInputs) {
+  var i = 0;
+  for (i = 0; i < uLocInputs.length; i++) {
+    p(!setALocsRequired);
+    $(uLocInputs[i]).prop('required', !setALocsRequired);
+    if (setALocsRequired) {
+      $(uLocInputs[i]).val("");
+    }
+  }
+  for (i = 0; i < aLocInputs.length; i++) {
+    $(aLocInputs[i]).prop('required', setALocsRequired);
+    if (!setALocsRequired) {
+      $(aLocInputs[i]).val("");
+    }
+  }
+
+}

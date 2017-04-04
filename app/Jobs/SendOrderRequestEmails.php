@@ -5,6 +5,8 @@ namespace App\Jobs;
 use App\CustomClasses\Schedule\Shift;
 use App\CustomClasses\ShoppingCart\PaymentType;
 use App\CustomClasses\ShoppingCart\RestaurantOrderCategory;
+use App\Mail\NewOrderToDriver;
+use App\Mail\NewOrderToManager;
 use App\Models\Order;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Mail\Mailer;
@@ -38,7 +40,7 @@ class SendOrderRequestEmails implements ShouldQueue
     {
         $managers = [];
         $m_name = "";
-        if (env('APP_ENV') === "local") {
+        /*if (env('APP_ENV') === "local") {
             // fake managers
             $managers = [
                 'kandeta0@sewanee.edu'
@@ -54,7 +56,7 @@ class SendOrderRequestEmails implements ShouldQueue
             $m_name = [
                 'Tariro Kandemiri'
             ];
-        }
+        }*/
         // SEND TO MANAGER
         $on_demand_order_type = RestaurantOrderCategory::ON_DEMAND;
         $weekly_order_type = RestaurantOrderCategory::WEEKLY_SPECIAL;
@@ -64,36 +66,22 @@ class SendOrderRequestEmails implements ShouldQueue
         if ($this->order->payment_type == PaymentType::VENMO_PAYMENT) {
             $subject = "New Venmo Order Request!";
         }
+        // ONLY RUNS IN PRODUCTION/STAGING
         // SEND TO SewaneeEats
         if (env('APP_ENV') === "production" || env('APP_ENV') == "staging") {
-
-            $mailer->send('emails.new_order_to_manager',
-                compact('order', 'weekly_order_type', 'venmo_payment_type', 'on_demand_order_type'), function ($message) use ($managers, $m_name, $subject) {
-                    $message->from('sewaneeeats@gmail.com');
-                    $message->to('sewaneeeats@gmail.com', 'SewaneeEats')->subject($subject);
-                });
+            \Mail::to('sewaneeeats@gmail.com')->sendNow(new NewOrderToManager($order));
         }
         // send to all couriers
-        $shift = Shift::now();
-        $couriers_online = $shift->couriers();
-        foreach ($couriers_online as $courier_online) {
-            $mailer->send('emails.new_order_to_manager',
-                compact('order', 'weekly_order_type', 'venmo_payment_type', 'on_demand_order_type'),
-                function ($message) use ($managers, $m_name, $subject, $courier_online) {
-                    $message->from('sewaneeeats@gmail.com');
-                    $message->to($courier_online->email, 'SewaneeEats')->subject($subject);
-                });
+        // Having a shift now MUST imply that ther is couriers on that shift
+        $couriers_online = $this->getCouriersForOrder($order);
+        if (!empty($couriers_online)) {
+            foreach ($couriers_online as $courier_online) {
+                \Mail::to($courier_online->email)->sendNow(new NewOrderToDriver($order));
+            }
+        } else {
+            // TODO: send email to manager saying there is no one online to service order
         }
 
-        // send to manager
-        for ($i = 0; $i < count($managers); $i++) {
-            $mailer->send('emails.new_order_to_manager',
-                compact('order', 'weekly_order_type', 'venmo_payment_type', 'on_demand_order_type'),
-                function ($message) use ($managers, $m_name, $i, $subject) {
-                    $message->from('sewaneeeats@gmail.com');
-                    $message->to($managers[$i], $m_name[$i])->subject($subject);
-                });
-        }
 
         // SEND TO CUSTOMER
         $mailer->send('emails.new_order_to_customer', [
@@ -106,5 +94,18 @@ class SendOrderRequestEmails implements ShouldQueue
                 $message->from('sewaneeeats@gmail.com');
                 $message->to($this->order->email_of_customer)->subject('SewaneeEats Order Confirmation');
             });
+    }
+
+    private function getCouriersForOrder(Order $order)
+    {
+        $shift = Shift::now();
+        $couriers_online = $shift->users;
+        $couriers_with_courier_type = [];
+        foreach ($couriers_online as $courier_online) {
+            if ($order->hasCourierType($courier_online->pivot->courier_type)) {
+                $couriers_with_courier_type[] = $courier_online;
+            }
+        }
+        return $couriers_with_courier_type;
     }
 }

@@ -6,6 +6,7 @@ namespace App\CustomClasses\ShoppingCart;
 use App\Contracts\Availability;
 use App\Models\EventItem;
 use App\Models\MenuItem;
+use Doctrine\Instantiator\Exception\InvalidArgumentException;
 
 /**
  * Class CartItem Client interface for items in the shopping cart
@@ -24,10 +25,12 @@ class CartItem implements Availability
         $this->item_type = $item_type;
         if ($item_type == ItemType::EVENT_ITEM) {
             $this->item = EventItem::find($item_id);
-        } else
-            if ($item_type == ItemType::RESTAURANT_ITEM) {
-                $this->item = MenuItem::find($item_id);
-            }
+        } else if ($item_type == ItemType::RESTAURANT_ITEM) {
+            $this->item = MenuItem::find($item_id);
+        }
+        if (empty($this->item)) {
+            throw new InvalidArgumentException('Item associated with $item_id passed to CartItem constructor could not be found');
+        }
         $this->si = "";
         $this->extras = [];
     }

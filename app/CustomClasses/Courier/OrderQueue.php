@@ -3,6 +3,7 @@
 namespace App\CustomClasses\Courier;
 
 
+use App\CustomClasses\Delivery\ManageOrder;
 use App\Models\Order;
 use App\User;
 use Auth;
@@ -41,7 +42,7 @@ class OrderQueue
      */
     public function validateCourier()
     {
-        if (!Auth::user()->isOnShift()) {
+        if (!$this->courier->isOnShift()) {
             return "You are not on the current shift and 
                     therefore cannot view the orders queue";
         }
@@ -81,17 +82,32 @@ class OrderQueue
 
     public static function getOrderQueue()
     {
-        self::checkLoggedInUser();
+        if (!Auth::user()->hasRole('manager') && !Auth::user()->hasRole('admin')) {
+            throw new InvalidArgumentException('You do not have privileges to access this information. Contact your manager or an admin');
+        }
         $potential_orders = Order::pending()
             ->orderBy('created_at', 'ASC')->get();
         return $potential_orders;
     }
 
-    private static function checkLoggedInUser()
+    /**
+     * In the event that a courier is unable to fulfill an order
+     * after accepting it, this method will be used to return the
+     * order to the order queue, where it will be made a top priority
+     * @param $order Order the order to be reinserted into the queue
+     * at top priority
+     */
+    public static function reinsertOrder(Order $order)
     {
-        if (empty($courier) && !Auth::user()->hasRole('manager') && !Auth::user()->hasRole('admin')) {
-            throw new InvalidArgumentException('You do not have privileges to access this information. Contact your manager or an admin');
+        if ($order->is_delivered) {
+            throw new InvalidArgumentException('The order given has been delivered already');
         }
+        // check that the order is currently being delivered
+        // if so, set it to not being delivered
+        // TODO: check that the order is being delivered by the given courier before reinserting
+        $order_manager = new ManageOrder($order);
+        $order_manager->processingStatus(false);
+        // nothing to do if the order is not being delivered and isnt' delivered
     }
 
     /**
@@ -148,7 +164,6 @@ class OrderQueue
         return count($this->orders_for_courier);
     }
 
-
     /**
      * @return mixed retrieves all pending orders
      */
@@ -174,29 +189,5 @@ class OrderQueue
     public function orderNotServicedPromptly()
     {
 
-    }
-
-    /**
-     * In the event that a courier is unable to fulfill an order
-     * after accepting it, this method will be used to return the
-     * order to the order queue, where it will be made a top priority
-     * @param $order Order the order to be reinserted into the queue
-     * at top priority
-     */
-    public function reinsertOrder(Order $order)
-    {
-        if ($order->is_delivered) {
-            throw new InvalidArgumentException('The order given has been delivered already');
-        }
-        // check that the order is currently being delivered
-        // if so, set it to not being delivered
-        // TODO: check that the order is being delivered by the given courier before reinserting
-        if ($order->is_being_delivered) {
-            $order->is_being_delivered = false;
-            $order->save();
-            // TODO: send email to shift manager notifying them that an order was delayed\
-            // TODO: An order can be reinserted by a courier servicing it, make him/her give a reason why they can no longer service it
-        }
-        // nothing to do if the order is not being delivered and isnt' delivered
     }
 }

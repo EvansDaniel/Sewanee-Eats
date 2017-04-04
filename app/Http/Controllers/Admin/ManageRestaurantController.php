@@ -13,6 +13,11 @@ use Illuminate\Http\Request;
 use Session;
 use Validator;
 
+/**
+ * TODO: the find function along with all other DB accesses here need to be bullet proofed
+ * Class ManageRestaurantController
+ * @package App\Http\Controllers\Admin
+ */
 class ManageRestaurantController extends Controller
 {
     use UploadFile;

@@ -18,7 +18,7 @@ class CourierInfo
         }
         $this->courier = $courier;
         $this->courier_info =
-            \App\Models\CourierInfo::where('user_id', $courier->id)->first();
+            \App\Models\CourierInfo::where('user_id', $courier->id)->firstOrFail();
     }
 
     /**

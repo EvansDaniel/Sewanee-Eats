@@ -11,7 +11,7 @@ class AccessoryController extends Controller
 {
     public function showAccessories($id)
     {
-        $menu_item = MenuItem::find($id);
+        $menu_item = MenuItem::findOrFail($id);
         // $accessories = $menu_item->accessories->sortBy('name');
         $accessories = $menu_item->accessories->sort(function ($a, $b) {
             return strcmp($a->name, $b->name);
@@ -22,7 +22,7 @@ class AccessoryController extends Controller
 
     public function showCreateAccessoryForm($id)
     {
-        $menu_item = MenuItem::find($id);
+        $menu_item = MenuItem::findOrFail($id);
         return view('admin.accessory.create_accessory_form',
             compact('menu_item'));
     }
@@ -31,8 +31,8 @@ class AccessoryController extends Controller
     // corresponding route parameters in web.php
     public function showUpdateAccessoryForm($m_id, $a_id)
     {
-        $accessory = Accessory::find($a_id);
-        $menu_item = MenuItem::find($m_id);
+        $accessory = Accessory::findOrFail($a_id);
+        $menu_item = MenuItem::findOrFail($m_id);
         return view('admin.accessory.update_accessory_form',
             compact('accessory', 'menu_item'));
     }
@@ -61,7 +61,7 @@ class AccessoryController extends Controller
     public function updateAccessory(Request $request)
     {
         $menu_item_id = $request->input('menu_item_id');
-        $acc = Accessory::find($request->input('accessory_id'));
+        $acc = Accessory::findOrFail($request->input('accessory_id'));
         $this->createAndUpdateHelper($request, $acc);
         return redirect(route('showAccessories', ['id' => $menu_item_id]))
             ->with('status_good', "The accessory was updated!");
@@ -71,7 +71,7 @@ class AccessoryController extends Controller
     {
         $menu_item_id = $request->input('menu_item_id');
         $acc_id = $request->input('accessory_id');
-        Accessory::find($acc_id)->menuItems()->detach($menu_item_id);
+        Accessory::findOrFail($acc_id)->menuItems()->detach($menu_item_id);
         return redirect(route('showAccessories', ['id' => $menu_item_id]))
             ->with('status_good', "The accessory was deleted!");
     }

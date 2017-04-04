@@ -3,8 +3,10 @@
 namespace App\CustomClasses\ShoppingCart;
 
 use App\Contracts\HasItems;
+use App\Contracts\ShoppingCart\SellerEntity;
 use App\CustomClasses\Availability\IsAvailable;
 use App\CustomTraits\CategorizeItems;
+use Doctrine\Instantiator\Exception\InvalidArgumentException;
 use Session;
 
 /**
@@ -319,7 +321,7 @@ class ShoppingCart implements HasItems
      * @return array detect if any previously open menu item/ restaurant
      * has recently closed
      */
-    public function checkMenuItemAvailabilityAndDelete()
+    public function checkMenuItemAndRestaurantAvailabilityAndDelete()
     {
         $n_avail_menu_items = [];
         if (!empty($this->cart)) {
@@ -331,12 +333,32 @@ class ShoppingCart implements HasItems
                 if (!$is_avail->isAvailableNow()) {
                     $n_avail_menu_items[] = $item;
                 }
+                $is_avail = new IsAvailable($item->getSellerEntity());
+                if (!$is_avail->isAvailableNow()) {
+                    $n_avail_menu_items = array_merge($this->getRestaurantItemsToRemove($item->getSellerEntity()), $n_avail_menu_items);
+                }
             }
             foreach ($n_avail_menu_items as $item) {
                 $this->deleteItem($item->getCartItemId());
             }
         }
         return $n_avail_menu_items;
+    }
+
+    private function getRestaurantItemsToRemove(SellerEntity $entity)
+    {
+        if (empty($entity)) {
+            throw new InvalidArgumentException('Empty $entity passed to ' . __FUNCTION__);
+        }
+        $removed_items = [];
+        if (!empty($items) && !empty($this->cart)) {
+            foreach ($this->cart as $item) {
+                if ($item->restaurant->id = $entity->getId()) {
+                    $removed_items[] = $item;
+                }
+            }
+        }
+        return $removed_items;
     }
 
     /**

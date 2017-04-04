@@ -81,6 +81,7 @@ class Shift
 
     /**
      * Gets the current shift
+     * @return TimeRange|null
      */
     public static function now()
     {

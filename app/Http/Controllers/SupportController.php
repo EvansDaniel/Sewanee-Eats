@@ -13,6 +13,11 @@ use Illuminate\Http\Request;
 use Session;
 use Validator;
 
+/**
+ * TODO: the find function along with all other DB accesses here need to be bullet proofed and finish support features
+ * Class SupportController
+ * @package App\Http\Controllers
+ */
 class SupportController extends Controller
 {
     // User Capabilities --------------------------------------------

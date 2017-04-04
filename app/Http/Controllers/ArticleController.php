@@ -8,7 +8,7 @@ class ArticleController extends Controller
 {
     public function showArticle($id)
     {
-        $article = Article::find($id);
+        $article = Article::findOrFail($id);
         return view('home.article', compact('article'));
     }
 }

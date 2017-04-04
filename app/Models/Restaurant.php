@@ -149,4 +149,13 @@ class Restaurant extends Model implements SellerEntity, Availability, ResourceTi
         return $this->is_available_to_customers && $is_avail->isAvailableNow();
     }
 
+    public function getItems()
+    {
+        return $this->menuItems;
+    }
+
+    public function getId()
+    {
+        return $this->id;
+    }
 }

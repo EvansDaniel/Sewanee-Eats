@@ -24,7 +24,7 @@ class HomeController extends Controller
 
     public function orderSummary($order_id)
     {
-        $order = Order::find($order_id);
+        $order = Order::findOrFail($order_id);
         return view('home.order_summary', compact('order'));
     }
 

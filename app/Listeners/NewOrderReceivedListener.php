@@ -28,7 +28,7 @@ class NewOrderReceivedListener
      */
     public function handle(NewOrderReceived $event)
     {
-        $this->dispatch((new SendOrderRequestEmails($event->orderRequest))->delay(15));
+        $this->dispatch((new SendOrderRequestEmails($event->orderRequest)));
 
         /*$user = User::findOrFail(\Auth::id());
         Mail::send('emails.new_order', compact('items'), function ($message) use ($user) {

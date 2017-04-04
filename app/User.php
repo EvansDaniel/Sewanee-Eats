@@ -84,6 +84,9 @@ class User extends Authenticatable implements Availability
         return $this->timeRanges;
     }
 
+    /**
+     * @return string the courier type converted to a string
+     */
     public function getCourierType()
     {
         if (empty($this->pivot)) {

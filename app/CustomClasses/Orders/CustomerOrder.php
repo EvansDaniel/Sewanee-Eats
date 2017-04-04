@@ -73,7 +73,7 @@ class CustomerOrder
         $order->save();
         $this->order = $order;
         $this->saveOrderItems($order);
-        $this->saveOrderPriceInfo($order);
+        $this->saveOrderPriceInfo($order, true);
     }
 
 // TODO: move stripe view error handling to controller, make this method return error codes
@@ -98,10 +98,10 @@ class CustomerOrder
     private function handleDeliveryLocation(Order $order)
     {
         if ($this->cart->hasOnDemandItems()) {
-            $address_loc = $this->request->input('address_loc');
-            if (!empty($address_loc)) {
+            $building_name = $this->request->input('building_name');
+            if (empty($building_name)) { // they didn't input the building name
                 $order->delivery_location = $this->request->input('address');
-            } else {
+            } else { // the chose university building
                 $building_name = $this->request->input('building_name');
                 $area_type = $this->request->input('area_type');
                 $room_num = $this->request->input('room_number');
@@ -142,14 +142,14 @@ class CustomerOrder
         }
     }
 
-    public function saveOrderPriceInfo(Order $order)
+    public function saveOrderPriceInfo(Order $order, $is_stripe_order)
     {
         $order_price_info = new OrderPriceInfo;
         $order_price_info->order_id = $order->id;
         $order_price_info->total_price = $this->billing->getTotal();
         $order_price_info->subtotal = $this->billing->getSubtotal();
         // TODO: profit and stripe fees
-        $order_price_info->stripe_fees = $this->billing->getStripeFees();
+        $order_price_info->stripe_fees = $this->billing->getStripeFees($is_stripe_order);
         $order_price_info->profit = $this->billing->getProfit();
         $order_price_info->cost_of_food = $this->billing->getCostOfFood();
         $order_price_info->delivery_fee = $this->billing->getDeliveryFee();
@@ -220,7 +220,7 @@ class CustomerOrder
         $order->save();
         $this->order = $order;
         $this->saveOrderItems($order);
-        $this->saveOrderPriceInfo($order);
+        $this->saveOrderPriceInfo($order, true);
         return 0;
     }
 }

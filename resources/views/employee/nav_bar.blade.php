@@ -20,9 +20,9 @@
                 <li><a class="nav-links" href="{{ route('checkout') }}">CHECKOUT
                         <u>{{ count(Session::get('cart')) }}</u></a></li>
             @endif
-            @if(Auth::check() && Auth::user()->hasRole('admin'))
+            @if(Auth::user()->hasRole('admin'))
                 <li><a class="nav-links" href="{{ route('showAdminDashboard') }}">ADMIN DASHBOARD</a></li>
-            @endif--}}
+            @endif
             <li>
                 <form action="{{ url()->to(parse_url(route('logout',[]),PHP_URL_PATH),[],env('APP_ENV') !== 'local') }}"
                       method="post">

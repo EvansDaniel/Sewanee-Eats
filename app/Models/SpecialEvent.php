@@ -39,4 +39,14 @@ class SpecialEvent extends Model implements SellerEntity
     {
         return $this->for_profit;
     }
+
+    public function getItems()
+    {
+        return $this->eventItems;
+    }
+
+    public function getId()
+    {
+        return $this->id;
+    }
 }

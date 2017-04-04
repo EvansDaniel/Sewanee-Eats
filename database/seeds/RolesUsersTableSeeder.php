@@ -54,7 +54,7 @@ class RolesUsersTableSeeder extends Seeder
             $courier_info = new CourierInfo;
             $courier_info->phone_number = "9316913594";
             $courier_info->is_delivering_order = false;
-            $courier_info->current_order_id = 0;
+            $courier_info->current_order_id = null;
             $courier_info->user_id = $courier->id;
             $courier_info->save();
         }

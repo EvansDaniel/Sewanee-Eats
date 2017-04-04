@@ -7,6 +7,11 @@ use App\Http\Controllers\Controller;
 use App\Models\MenuItem;
 use Illuminate\Http\Request;
 
+/**
+ * Class ItemController JS endpoint on showMenu page for menu.js
+ * @package App\Http\Controllers\Api
+ */
+
 class ItemController extends Controller
 {
     /**
@@ -21,15 +26,17 @@ class ItemController extends Controller
     {
         $item_id = $request->query("item_id");
         $item_type = $request->query("item_type");
-        if ($item_type == ItemType::RESTAURANT_ITEM) {
+        if ($item_type == ItemType::RESTAURANT_ITEM) { // only restaurant items have accessories right now
             $menu_item = MenuItem::find($item_id);
             $pricy = [];
             $free = [];
-            foreach ($menu_item->accessories as $accessory) {
-                if ($accessory->price == 0) { // free
-                    $free[] = $accessory;
-                } else { // pricy
-                    $pricy[] = $accessory;
+            if (!empty($menu_item)) {
+                foreach ($menu_item->accessories as $accessory) {
+                    if ($accessory->price == 0) { // free
+                        $free[] = $accessory;
+                    } else { // pricy
+                        $pricy[] = $accessory;
+                    }
                 }
             }
             $accessories = ['accs' => ['free' => $free, 'pricy' => $pricy]];

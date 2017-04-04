@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\CourierInfo;
 use App\Models\Role;
 use App\User;
 use Auth;
@@ -123,7 +124,27 @@ class RegisterController extends Controller
         $user->password = bcrypt($data['password']);
         $user->save();
         $user->roles()->attach($data['role_type']);
+        if ($this->requestHasTypeCourier($data['role_type'])) {
+            // save the courier's extra info
+            $courier_info = new CourierInfo;
+            $courier_info->phone_number = $data['phone_number'];
+            $courier_info->is_delivering_order = false;
+            $courier_info->current_order_id = null;
+            $courier_info->user_id = $user->id;
+            $courier_info->save();
+        }
         return $user;
+    }
+
+    private function requestHasTypeCourier($dataRoleType)
+    {
+        $role_courier = Role::ofType('courier')->first()->id;
+        foreach ($dataRoleType as $type) {
+            if ($role_courier == $type) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**

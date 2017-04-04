@@ -14,6 +14,11 @@ use App\Models\TimeRange;
 use Illuminate\Http\Request;
 use Session;
 
+/**
+ * TODO: the find function along with all other DB accesses here need to be bullet proofed
+ * Class MenuItemController
+ * @package App\Http\Controllers\Admin
+ */
 class MenuItemController extends Controller
 {
 

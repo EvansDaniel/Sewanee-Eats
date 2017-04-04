@@ -102,12 +102,14 @@ Route::group([
     Route::get('weeklyOrders', 'OrdersController@listWeeklyOrders')->name('listWeeklyOrders');
     Route::get('openOnDemandOrders', 'OrdersController@viewOnDemandOpenOrders')->name('viewOnDemandOpenOrders');
     Route::get('orderSummaryForAdmin/{order_id}','OrdersController@orderSummaryForAdmin')->name('orderSummaryForAdmin');
-    Route::post('cancelOrder','OrdersController@cancelOrder')
-        ->name('cancelOrder');
-    Route::post('confirmPaymentForVenmo','OrdersController@confirmPaymentForVenmo')
-        ->name('confirmPaymentForVenmo');
-    Route::post('refundOrder','OrdersController@refundOrder')
-        ->name('refundOrder');
+    Route::post('toggleOrderCancellation', 'OrdersController@toggleOrderCancellation')
+        ->name('toggleOrderCancellation');
+    Route::post('togglePaymentConfirmationForVenmo', 'OrdersController@togglePaymentConfirmationForVenmo')
+        ->name('togglePaymentConfirmationForVenmo');
+    Route::post('toggleRefundOrder', 'OrdersController@toggleRefundOrder')
+        ->name('toggleRefundOrder');
+    Route::post('toggleOrderIsDelivered', 'OrdersController@toggleOrderIsDelivered')
+        ->name('toggleOrderIsDelivered');
 
     Route::get('', function () {
         return view('admin.order.orders');
@@ -370,6 +372,8 @@ Route::group(['prefix' => 'queue',
         Route::get('nextOrderInQueue', 'OrderQueueController@nextOrderInQueue')->name('nextOrderInQueue');
         Route::get('markAsDelivered', 'OrderQueueController@markAsDelivered')
             ->name('markAsDelivered');
+        Route::get('cancelOrderDelivery', 'OrderQueueController@cancelOrderDelivery')
+            ->name('cancelOrderDelivery');
         Route::get('currentOrder', 'OrderQueueController@currentOrder')
             ->name('currentOrder');
     });
@@ -384,15 +388,6 @@ Route::group(['prefix' => 'courier',
 
     Route::get('schedule', 'CourierDashboardController@showSchedule')
         ->name('courierShowSchedule');
-
-    Route::post('schedule/addToSchedule', 'ScheduleController@addCourierToTimeSlot')
-        ->name('addToSchedule');
-
-    Route::get('schedule/updateSchedule', 'ScheduleController@updateScheduleForNextDay')
-        ->name('updateSchedule');
-
-    Route::post('schedule/removeFromSchedule', 'ScheduleController@removeCourierFromTimeSlot')
-        ->name('removeFromSchedule');
 });
 
 

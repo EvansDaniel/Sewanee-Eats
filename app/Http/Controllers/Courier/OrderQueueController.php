@@ -9,8 +9,15 @@ use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\User;
 use Auth;
+use Carbon\Carbon;
 use Doctrine\Instantiator\Exception\InvalidArgumentException;
+use Mail;
 
+/**
+ * TODO: Bullet proof DB accesses
+ * Class OrderQueueController
+ * @package App\Http\Controllers\Courier
+ */
 class OrderQueueController extends Controller
 {
     protected $empty_next_order_msg;
@@ -24,7 +31,6 @@ class OrderQueueController extends Controller
     public function managerShowOrdersQueue()
     {
         if (Auth::user()->hasRole('admin') || Auth::user()->hasRole('manager')) {
-            $pending_orders = OrderQueue::getOrderQueue();
 
             return view('delivery.manager_admin_order_queue',
                 compact('pending_orders'));
@@ -42,6 +48,7 @@ class OrderQueueController extends Controller
     public function showOrdersQueue()
     {
         try {
+            // no need for findOrFail, auth is required for access
             $order_queue = new OrderQueue(User::find(Auth::id()));
         } catch (InvalidArgumentException $e) {
             // TODO: return a nice view with the given message
@@ -67,6 +74,22 @@ class OrderQueueController extends Controller
             return redirect()->route('courierShowSchedule')
                 ->with('status_good', $err_msg);
         }
+    }
+
+    public function cancelOrderDelivery()
+    {
+        $user = Auth::user();
+        $order = Order::find($user->courierInfo->current_order_id);
+        OrderQueue::reinsertOrder($order);
+        $diff_in_minutes = Carbon::now()->diffInMinutes($order->created_at);
+        Mail::send('emails.order_delivery_cancellation', compact('user', 'order', 'diff_in_minutes'), function ($message) use ($user) {
+            $message->from('sewaneeeats@gmail.com');
+            $message->to('sewaneeeats@gmail.com')->subject($user->name . ' has cancelled the delivery of his/her order');
+        });
+        $user->courierInfo->is_delivering_order = false;
+        $user->courierInfo->save();
+        return redirect()->route('courierShowSchedule')->with('status_good', 'An email has been sent to the on shift manager informing
+            him/her of the situation and should contact you shortly.');
     }
 
     public function currentOrder()

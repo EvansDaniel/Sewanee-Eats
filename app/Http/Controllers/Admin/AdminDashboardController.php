@@ -36,7 +36,7 @@ class AdminDashboardController extends Controller
 
     public function orderSummary($id)
     {
-        $order = Order::find($id);
+        $order = Order::findOrFail($id);
         return view('admin.order.order_summary', compact('order'));
     }
 

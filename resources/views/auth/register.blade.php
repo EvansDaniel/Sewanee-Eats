@@ -72,7 +72,7 @@
                                     </label>
 
                                     <div class="col-md-6">
-                                        <select id="role-type" type="password" class="form-control"
+                                        <select id="role-type" onchange="changeDisplayForRole()" class="form-control"
                                                 name="role_type[]" required multiple>
                                             @foreach($roles as $role)
                                                 <option value="{{ $role->id }}">{{ $role->name }}</option>
@@ -85,6 +85,10 @@
                                 <input name="role_type" type="hidden" value="{{ $role_user->id }}">
                             @endif
 
+                            <div style="display: none;" id="courier-phone-number-wrapper">
+                                <label for="courier-phone-number">Please input the courier's phone number</label>
+                                <input type="number" required name="phone_number" id="courier-phone-number">
+                            </div>
                             <div class="form-group">
                                 <div class="col-md-6 col-md-offset-4">
                                     <button type="submit" class="btn btn-primary">
@@ -98,4 +102,6 @@
             </div>
         </div>
     </div>
+
+    <script src="{{ asset('js/Auth/register.js',env('APP_ENV') !== 'local') }}"></script>
 @endsection

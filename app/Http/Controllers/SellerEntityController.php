@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\CustomClasses\Restaurants\Sellers;
+use App\CustomClasses\Schedule\Shift;
 use App\CustomClasses\ShoppingCart\ItemType;
 use App\CustomClasses\ShoppingCart\RestaurantOrderCategory;
 use App\CustomClasses\ShoppingCart\ShoppingCart;
@@ -25,10 +26,21 @@ class SellerEntityController extends Controller
         $cart = new ShoppingCart();
         // detect if any previously open menu item/ restaurant
         // has recently closed
-        if (!empty($items = $cart->checkMenuItemAvailabilityAndDelete())) {
+        if (!empty($items = $cart->checkMenuItemAndRestaurantAvailabilityAndDelete())) {
             \Session::flash('became_unavailable', $items);
         }
-        $restaurant = Restaurant::find($id);
+        $restaurant = Restaurant::findOrFail($id);
+        // if this is an on demand restaurant and we are closed right now
+        \Log::info($restaurant->isSellerType(RestaurantOrderCategory::ON_DEMAND));
+        \Log::info(empty(Shift::now()));
+        if ($restaurant->isSellerType(RestaurantOrderCategory::ON_DEMAND) && empty(Shift::now())) {
+            return back()->with('status_bad', 'Sorry we are currently closed and not taking On Demand orders');
+        }
+        // only check isAvailable if it is an on demand restaurant
+        if (!$restaurant->isAvailableNow()) {
+            // TODO:
+            return redirect()->route('list_restaurants')->with('status_bad', 'Sorry this restaurant is not available right now');
+        }
         $menu_items = null;
         foreach ($restaurant->menuItems as $item) {
             $menu_items[$item->itemCategory->name][] = $item;
@@ -43,12 +55,13 @@ class SellerEntityController extends Controller
     public function list_restaurants()
     {
         $cart = new ShoppingCart();
-        if (!empty($items = $cart->checkMenuItemAvailabilityAndDelete())) {
+        if (!empty($items = $cart->checkMenuItemAndRestaurantAvailabilityAndDelete())) {
             \Session::flash('became_unavailable', $items);
         }
         $sellers = new Sellers();
+        $shift_now = Shift::now();
         return view('orderFlow.list_restaurants',
-            compact('sellers'));
+            compact('sellers', 'shift_now'));
     }
 
     public function showEventItems($event_id)

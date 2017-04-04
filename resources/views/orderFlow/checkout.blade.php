@@ -94,7 +94,7 @@
                             <div class="form-group row buyer-info">
 
                                 <label for="full-name">Name</label>
-                                <input required class="form-control pay-input" maxlength="100"
+                                <input class="form-control pay-input" maxlength="100"
                                        type="text"
                                        value="@if(env('APP_ENV') !== 'production') {{ 'Daniel Evans' }} @endif"
                                        name="name" id="full-name" placeholder="Full Name">
@@ -118,7 +118,7 @@
                                             <input class="form-control pay-input controls" type="text" maxlength="100"
                                                    name="address"
                                                    value="@if(env('APP_ENV') !== 'production') {{ '12595 Sollace M Freeman Hwy, Sewanee, TN 37375' }} @endif"
-                                                   id="location">
+                                                   id="location" required>
                                         </div>
                                         <div class="university-wrap" id="university-wrap">
                                             <div class="building-wrap">
@@ -126,7 +126,7 @@
                                                 <label for="">Building Name</label>
                                                 <input type="text" id="building" name="building_name"
                                                        maxlength="150"
-                                                       placeholder="Building Name" class="form-control">
+                                                       placeholder="Building Name" required class="form-control">
                                             </div>
                                             <div class="select-wrap">
                                                 <label for="venmo-username" class="row">Please select</label> <br>
@@ -142,7 +142,7 @@
                                                 <label for="venmo-username">Room Name or Number</label>
                                                 <input type="text" id="room-number" name="room_number"
                                                        maxlength="150"
-                                                       placeholder="Room name/number" class="form-control">
+                                                       placeholder="Room name/number" required class="form-control">
                                             </div>
                                         </div>
                                     </div>
@@ -236,7 +236,7 @@
                                     <input class="pay-input email-address"
                                            maxlength="100"
                                            placeholder="Please enter your email address"
-                                           value="@if(env('APP_ENV') !== 'production') {{ 'iradub0@sewanee.edu' }} @endif"
+                                           value="@if(env('APP_ENV') !== 'production') {{ 'seatstest17@gmail.com' }} @endif"
                                            type="email"
                                            name="email_address" id="email-address">
                                     @if($cart->hasOnDemandItems())

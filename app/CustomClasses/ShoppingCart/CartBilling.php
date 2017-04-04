@@ -6,17 +6,14 @@
  * Time: 3:59 PM
  */
 namespace App\CustomClasses\ShoppingCart;
-use App\CustomClasses\ShoppingCart\WeeklyBilling;
-use App\CustomClasses\ShoppingCart\OnDemandBilling;
-
-
 use App\Models\Accessory;
+
 
 class CartBilling
 {
     protected $cart;
-    protected $weekly_item;
-    protected $on_demand_item;
+    protected $weekly_special_billing;
+    protected $on_demand_billing;
     protected $weekly_cost;
     protected $on_demand_cost;
     protected $subtotal;
@@ -38,8 +35,8 @@ class CartBilling
     public function __construct(ShoppingCart $cart = null)
     {
         $this->cart = $cart;
-        $this->weekly_item = new WeeklyBilling($cart);
-        $this->on_demand_item = new OnDemandBilling($cart);
+        $this->weekly_special_biliing = new WeeklyBilling($cart);
+        $this->on_demand_biliing = new OnDemandBilling($cart);
         $this->tax_percent = 1.0925;
         $this->weekly_cost= $this->weeklyCost();
         $this->on_demand_cost = $this->onDemandCost();
@@ -56,19 +53,15 @@ class CartBilling
 
     }
 
-    public function onDemandCost()
-    {
-        return $this->on_demand_item->getOnDemandCost();
-    }
     private function weeklyCost(){
 
 
-        return $this->weekly_item->getCostOfWeekly();
+        return $this->weekly_special_biliing->getCostOfWeekly();
     }
 
-    private function deliveryFee()
+    public function onDemandCost()
     {
-        return $this->on_demand_item->getFeeAfter() + $this->weekly_item->getFeeAfter();
+        return $this->on_demand_biliing->getOnDemandCost();
     }
 
     public function costOfFood()
@@ -80,7 +73,12 @@ class CartBilling
             foreach ($this->cart->items() as $cart_item) {
                 if (!empty($cart_item->getExtras())) {
                     foreach ($cart_item->getExtras() as $extra_id) {
-                        $cost_of_accessories += Accessory::find($extra_id)->price;
+                        $acc = Accessory::find($extra_id);
+                        if (empty($acc)) {
+                            \Log::info('tried to access accessory that didn\'t exist at line: ' . __LINE__ . ' in function ' . __FUNCTION__);
+                            continue;
+                        }
+                        $cost_of_accessories += $acc->price;
                     }
                 }
             }
@@ -89,17 +87,14 @@ class CartBilling
         return $cost_of_food + $cost_of_accessories;
     }
 
+    private function deliveryFee()
+    {
+        return $this->on_demand_biliing->getFeeAfter() + $this->weekly_special_biliing->getFeeAfter();
+    }
+
     private function subtotal()
     {
         return $this->getCostOfFood() + $this->deliveryFee();
-    }
-
-    /**
-     * @return int
-     */
-    public function getDeliveryFee()
-    {
-        return $this->delivery_fee;
     }
 
     public function getCostOfFood()
@@ -141,6 +136,30 @@ class CartBilling
     }
 
     /**
+     * @return mixed
+     */
+    public function getTotal()
+    {
+        return $this->total;
+    }
+
+    public function profit()
+    {
+        // profit per order is the calculated delivery fee
+        // plus the mark up on each item * num items
+        // minus expenses i.e. stripe fees
+        return $this->weekly_special_biliing->getWeeklyProfit() + $this->on_demand_biliing->getOnDemandProfit();
+    }
+
+    /**
+     * @return int
+     */
+    public function getDeliveryFee()
+    {
+        return $this->delivery_fee;
+    }
+
+    /**
      * @return ShoppingCart|null
      */
     public function getCart()
@@ -153,7 +172,7 @@ class CartBilling
      */
     public function getWeeklyItem()
     {
-        return $this->weekly_item;
+        return $this->weekly_special_biliing;
     }
 
     /**
@@ -161,7 +180,7 @@ class CartBilling
      */
     public function getOnDemandItem()
     {
-        return $this->on_demand_item;
+        return $this->on_demand_biliing;
     }
 
     /**
@@ -188,27 +207,12 @@ class CartBilling
         return $this->total_price;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getTotal()
+    public function getStripeFees($is_stripe_order)
     {
-        return $this->total;
-    }
-
-    public function profit()
-    {
-        // profit per order is the calculated delivery fee
-        // plus the mark up on each item * num items
-        // minus expenses i.e. stripe fees
-        return $this->weekly_item->getWeeklyProfit() + $this->on_demand_item->getOnDemandCost();
-    }
-
-
-
-    public function getStripeFees()
-    {
-        return $this->stripe_fees;
+        if ($is_stripe_order) {
+            return $this->stripe_fees;
+        }
+        return 0;
     }
 
     /**
@@ -226,7 +230,7 @@ class CartBilling
 
     public function discount()
     {
-        return $this->weekly_item -> getDiscount();
+        return $this->weekly_special_biliing->getDiscount();
     }
 
     /**

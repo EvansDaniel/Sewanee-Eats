@@ -9,9 +9,6 @@
 namespace App\CustomClasses\ShoppingCart;
 
 
-use App\Models\Accessory;
-use App\Models\MenuItem;
-
 class OnDemandBilling
 {
     protected $cart;
@@ -23,14 +20,8 @@ class OnDemandBilling
     protected $on_demand_cost;
     protected $fee_after;
     protected $on_demand_profit;
+    protected $courier_payment;
 
-    /**
-     * @return int
-     */
-    public function getOnDemandProfit()
-    {
-        return $this->on_demand_profit;
-    }
     /**
      * CartBilling constructor.
      * @param ShoppingCart|null $cart For displaying business info, like prices, no need to pass a shopping cart
@@ -49,6 +40,32 @@ class OnDemandBilling
         $this->on_demand_profit = $this->demandProfit();
     }
 
+    public function deliveryFee()
+    {
+        $max = 0;
+        if (!empty($this->cart->getOnDemandItems())) {
+            foreach ($this->cart->getOnDemandItems() as $item) {
+                $courier_payment = $item->getSellerEntity()->delivery_payment_for_courier;
+                if ($courier_payment > $max) {
+                    $max = $courier_payment;
+                }
+            }
+        }
+        $this->courier_payment = $max;
+        return $max + 1;
+    }
+
+    public function costOfOnDemand()
+    {
+        $cost = 0;
+        if (!empty($this->on_demand_items)) {
+            foreach ($this->on_demand_items as $item) {
+                $cost += $item->getPrice();
+            }
+        }
+        return $cost;
+    }
+
     public function fee()
     {
         if($this->number_of_items >2){
@@ -60,6 +77,33 @@ class OnDemandBilling
         else
             return 0;
     }
+
+    public function demandProfit()
+    {
+        return $this->getDeliveryFee() - $this->getCourierPayment();
+    }
+
+    /**
+     * @return int
+     */
+    public function getDeliveryFee()
+    {
+        return $this->delivery_fee;
+    }
+
+    public function getCourierPayment()
+    {
+        return $this->courier_payment;
+    }
+
+    /**
+     * @return int
+     */
+    public function getOnDemandProfit()
+    {
+        return $this->on_demand_profit;
+    }
+
     /**
      * @return int
      */
@@ -76,17 +120,6 @@ class OnDemandBilling
         return $this->on_demand_items;
     }
 
-    public function costOfOnDemand()
-    {
-        $cost = 0;
-        if (!empty($this->on_demand_items)){
-            foreach ($this->on_demand_items as $item){
-                $cost += $item->getPrice();
-            }
-        }
-        return $cost;
-    }
-
     /**
      * @return int
      */
@@ -94,6 +127,7 @@ class OnDemandBilling
     {
         return $this->fee_after;
     }
+
     /**
      * @return int
      */
@@ -101,19 +135,13 @@ class OnDemandBilling
     {
         return $this->number_without_fee_items;
     }
+
     /**
      * @return ShoppingCart|null
      */
     public function getCart()
     {
         return $this->cart;
-    }
-    /**
-     * @return int
-     */
-    public function getDeliveryFee()
-    {
-        return $this->delivery_fee;
     }
 
     /**
@@ -138,27 +166,6 @@ class OnDemandBilling
     public function getMinItemsWithoutFee()
     {
         return $this->min_items_without_fee;
-    }
-
-    public function demandProfit()
-    {
-        return $this->getDeliveryFee();
-    }
-
-    public function deliveryFee()
-    {
-        $max = 0;
-        if(!empty($this->cart->getOnDemandItems())) {
-            foreach ($this->cart->getOnDemandItems() as $item) {
-                \Log::info($item->getSellerEntity());
-                $courier_payment = $item->getSellerEntity()->delivery_payment_for_courier;
-                \Log::info($courier_payment);
-                if ($courier_payment > $max) {
-                    $max = $courier_payment;
-                }
-            }
-        }
-        return ++$max;
     }
 
 }

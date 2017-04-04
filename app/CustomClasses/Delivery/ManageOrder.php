@@ -6,6 +6,7 @@ use App\CustomClasses\Courier\CourierInfo;
 use App\Models\CourierOrder;
 use App\Models\Order;
 use App\User;
+use Doctrine\Instantiator\Exception\InvalidArgumentException;
 
 class ManageOrder
 {
@@ -37,11 +38,13 @@ class ManageOrder
         $this->order->save();
     }
 
-    public function refundOrder()
+    public function refundOrder($bool)
     {
+        if ($this->order->is_cancelled) {
+            throw new InvalidArgumentException('Can\'t refund a cancelled order in ' . __FUNCTION__);
+        }
         // Update pricing info
-        $this->order->was_refunded = true;
-        $this->order->is_cancelled = true;
+        $this->order->was_refunded = $bool;
         $this->order->save();
     }
 

@@ -7,6 +7,11 @@ use App\Http\Controllers\Controller;
 use App\Models\SpecialEvent;
 use Illuminate\Http\Request;
 
+/**
+ * TODO: the find function along with all other DB accesses here need to be bullet proofed
+ * Class SpecialEventsController
+ * @package App\Http\Controllers\Admin\Events
+ */
 class SpecialEventsController extends Controller
 {
     use UploadFile;

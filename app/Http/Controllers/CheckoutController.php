@@ -17,7 +17,7 @@ class CheckoutController extends Controller
     public function showCheckoutPage()
     {
         $cart = new ShoppingCart();
-        if (!empty($items = $cart->checkMenuItemAvailabilityAndDelete())) {
+        if (!empty($items = $cart->checkMenuItemAndRestaurantAvailabilityAndDelete())) {
             \Session::flash('became_unavailable', $items);
         }
         $bill = new CartBilling($cart);
@@ -31,7 +31,7 @@ class CheckoutController extends Controller
         if (empty($cart->items())) {
             return redirect()->route('list_restaurants')->with('status_bad', 'There are no items in your cart. Start your order here');
         }
-        if (!empty($items = $cart->checkMenuItemAvailabilityAndDelete())) {
+        if (!empty($items = $cart->checkMenuItemAndRestaurantAvailabilityAndDelete())) {
             \Session::flash('became_unavailable', $items);
             return redirect()->route('checkout');
         }

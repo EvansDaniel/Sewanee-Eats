@@ -129,19 +129,17 @@
                                             align="center">
                                             Customer Email: {{ $order->email_of_customer }}
                                         </h4>
-                                        @if($order->payment_type == $venmo_payment_type)
                                         <h4>
-                                            Venmo Username: {{ $order->venmo_username }}
+                                            @if(!empty($order->phone_number))
+                                                Customer Phone Number: {{ $order->phone_number }}
+                                            @endif
+
                                         </h4>
-                                        @endif
-                                        @if(!$order->hasOrderType($on_demand_order_type))
+                                        @if($order->hasOrderType($on_demand_order_type))
                                             <h4>
-                                                {{ $order->delivery_location }}
+                                                Delivery Location: {{ $order->delivery_location }}
                                             </h4>
                                         @endif
-                                        <h4>
-                                            <a href="{{ route('showAdminDashboard') }}">View in Admin Dashboard</a>
-                                        </h4>
                                     </td>
                                 </tr>
                                 <tr style="font-family:  'Lato', sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
@@ -153,10 +151,30 @@
                                             <tr style="font-family:  'Lato', sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
                                                 <td style="font-family:  'Lato', sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 5px 0;"
                                                     valign="top">
-                                                    Order Received:
                                                     <br style="font-family:  'Lato', sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;"/>
+                                                    <div align="center">
 
-                                                    Order Invoice Number: {{ $order->id }}
+                                                        Instructions for You:<br><br>
+                                                        <strong>
+                                                            If the delivery location or food items requested is not
+                                                            given,
+                                                            try contacting the customer via email or phone number.<br>
+                                                            If they do not pick up, contact the manager of the shift via
+                                                            the
+                                                            official SewaneeEats phone number or email: (931) 313-1670
+                                                            and sewaneeeats@gmail.com
+                                                        </strong><br><br>
+
+                                                        If all is good, click the <strong>Service Order</strong>
+                                                        link/button below and
+                                                        <strong>you will be assigned to the next order in the queue of
+                                                            orders (not necessarily this one)</strong>
+                                                        and directed to an order summary on sewaneeeats.com giving
+                                                        necessary delivery details for
+                                                        the order.<br><br> When finished delivering, click the button at
+                                                        the bottom of that page to start servicing
+                                                        the next order.
+                                                    </div>
                                                 </td>
                                             </tr>
                                             <tr style="font-family:  'Lato', sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
@@ -213,14 +231,15 @@
                                                 <td align="center" style="padding-top: 25px;" class="padding">
                                                     <table border="0" cellspacing="0" cellpadding="0"
                                                            class="mobile-button-container">
-                                                        {{--<tr>
+                                                        <tr>
                                                             <td align="center" style="border-radius: 3px;"
-                                                                bgcolor="#256F9C"><a href="https://litmus.com"
-                                                                                     target="_blank"
-                                                                                     style="font-size: 16px; font-family:  'Lato', sans-serif; color: #ffffff; text-decoration: none; color: #ffffff; text-decoration: none; border-radius: 3px; padding: 15px 25px; border: 1px solid #256F9C; display: inline-block;"
-                                                                                     class="mobile-button">Service
+                                                                bgcolor="#256F9C"><a
+                                                                        href="{{ route('nextOrderInQueue') }}"
+                                                                        target="_blank"
+                                                                        style="font-size: 16px; font-family:  'Lato', sans-serif; color: #ffffff; text-decoration: none; color: #ffffff; text-decoration: none; border-radius: 3px; padding: 15px 25px; border: 1px solid #256F9C; display: inline-block;"
+                                                                        class="mobile-button">Service
                                                                     Order &rarr;</a></td>
-                                                        </tr>--}}
+                                                        </tr>
                                                     </table>
                                                 </td>
                                             </tr>
