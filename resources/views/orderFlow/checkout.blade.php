@@ -118,7 +118,7 @@
                                             <input class="form-control pay-input controls" type="text" maxlength="100"
                                                    name="address" placeholder="Enter your address"
                                                    value="{{--@if(env('APP_ENV') !== 'production') {{ '' }} @endif--}}"
-                                                   id="location" required>
+                                                   id="location">
                                         </div>
                                         <div class="university-wrap" id="university-wrap">
                                             <div class="building-wrap">
