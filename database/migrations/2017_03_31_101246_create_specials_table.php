@@ -16,9 +16,11 @@ class CreateSpecialsTable extends Migration
         Schema::create('specials', function (Blueprint $table) {
             $table->increments('id');
             $table->string('title'); // title of the special
-            $table->string('description');
+            $table->string('description'); // what's up with it
+            $table->string('delivery time');
+            $table->string('delivery_location');
             $table->integer('time_range_id')->unsigned();
-            $table->foreign('time_range_id')
+            $table->foreign('time_range_id')// is avaiable on site
                 ->references('id')->on('time_ranges');
             $table->timestamps();
         });

@@ -19,7 +19,7 @@ class CreateRestaurantsSpecialsTable extends Migration
             $table->integer('special_id')->unsigned();
 
             $table->foreign('special_id')
-                ->references('id')->on('special_events');
+                ->references('id')->on('specials');
             $table->foreign('restaurant_id')
                 ->references('id')->on('restaurants');
             $table->timestamps();
