@@ -88,10 +88,15 @@ class CustomerOrder
         $order->was_refunded = false;
         $order->is_delivered = false;
         $order->is_being_processed = false;
-        $order->phone_number = $this->input['phone_number'];
-        $order = $this->handleDeliveryLocation($order);
         $order_types = $this->cart->getOrderTypes();
         $order->order_types = json_encode($order_types);
+        if ($order->hasOrderType(RestaurantOrderCategory::ON_DEMAND)) {
+            // only need phone number for on demand item
+            if (array_key_exists('phone_number', $this->input)) {
+                $order->phone_number = $this->input['phone_number'];
+            }
+        }
+        $order = $this->handleDeliveryLocation($order);
         $del_info = new DeliveryInfo($this->cart);
         $courier_types = $del_info->getCourierTypesForItems();
         $order->courier_types = json_encode($courier_types);
