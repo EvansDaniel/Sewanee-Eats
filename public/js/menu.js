@@ -50,9 +50,7 @@ function showOptions(i) {
     if (accessories != null) {
       // list out accessories
       var pricy = accessories.accs.pricy;
-      p(pricy);
       var free = accessories.accs.free;
-      p(free);
 
       // fill the pricy div
       // only show the pricy toppings header if there are pricy toppings to show
@@ -63,7 +61,7 @@ function showOptions(i) {
         pricyDiv.append
         (
         '<label class="col-lg-9 col-md-9 col-sm-8 col-xs-8">' +
-        '<input type="checkbox" id="p_ex-' + i + pricy[j].id + '" onclick="saveCheck(this,' + j + ',' + pricy[j].id + ',true)" value="' + pricy[j].id + '">' +
+        '<input type="checkbox" id="p_ex-' + i + pricy[j].id + '" onclick="saveCheck(this,' + i + ',' + pricy[j].id + ',true)" value="' + pricy[j].id + '">' +
         pricy[j].name + '</label><p id="check-price-' + j + '" class="f_price col-lg-3 col-md-3 col-sm-4 col-xs-4">' + pricy[j].price + '</p>'
         );
       }
@@ -181,6 +179,7 @@ function loadModal(div) {
   retreiveAccessories(item_id);
 }
 
+// for when user clicks on the menu item
 function retreiveAccessories(item_id) {
   $.ajax({
     url: API_URL + "items/accessories",

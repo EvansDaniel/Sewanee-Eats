@@ -129,7 +129,6 @@ class CustomerOrder
             if ($item->isSellerType(RestaurantOrderCategory::EVENT)) {
                 $order_item->event_item_id = $item->getId();
             } else {
-                \Log::info($item);
                 $order_item->menu_item_id = $item->getId();
             }
             $order_item->special_instructions = $item->getSi();
@@ -183,7 +182,11 @@ class CustomerOrder
 
         // Token is created using Stripe.js or Checkout!
         // Get the payment token submitted by the form:
-        $token = $this->input['stripeToken'];
+        if (array_key_exists('stripeToken', $this->input)) {
+            $token = $this->input['stripeToken'];
+        } else { // stripe payment with no stripe token, error
+            return 'We\'re sorry, there was a problem processing your request. Please try again';
+        }
 
         $problem_with_stripe = 'There was a problem processing your payment. Please try again';
         try {

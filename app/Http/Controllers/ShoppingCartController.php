@@ -15,10 +15,13 @@ class ShoppingCartController extends Controller
         $item_type = $request->input('item_type');
         $cart = new ShoppingCart();
         $cart_items = [];
+        // loop through the quanity to be added, they are all the same item
         for ($i = 1; $i <= $request->input('quantity'); $i++) {
             $cart_item = new CartItem($item_id, $item_type);
             $cart_items[] = $cart_item;
+            // save the extras off this new item
             $extra = $request->input('extras' . $i);
+            // save the special instructions for this new item
             $instruct = $request->input('special_instructions' . $i);
             $cart_item->setInstructions($instruct);
             $cart_item->setExtras($extra);

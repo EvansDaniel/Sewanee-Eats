@@ -92,6 +92,8 @@ class OrderQueueController extends Controller
             him/her of the situation and should contact you shortly.');
     }
 
+    // TODO: notify the assigned courier that an order has been cancelled or refunded
+
     public function currentOrder()
     {
         // the current order for this courier is the order
