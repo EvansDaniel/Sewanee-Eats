@@ -29,7 +29,7 @@ class ScheduleController extends Controller
     public function showSchedule()
     {
         $shift = new Shift();
-        // to show the start and end of this weeks schedule
+// to show the start and end of this weeks schedule
         $start_of_week = Carbon::now()->dayOfWeek == Carbon::MONDAY ? Carbon::now() : new Carbon('last Monday');
         $end_of_week = Carbon::now()->dayOfWeek == Carbon::SUNDAY ? Carbon::now() : new Carbon('next Sunday');
         $courier_types = [CourierTypes::WALKER, CourierTypes::BIKER, CourierTypes::DRIVER];
@@ -57,7 +57,7 @@ class ScheduleController extends Controller
             compact('shift', 'shifts', 'day_of_week_names'));
     }
 
-    // TODO: refactor to use cool ajax calls so page doesn't have to reload
+// TODO: refactor to use cool ajax calls so page doesn't have to reload
     public function assignWorkerToShift(Request $request)
     {
         $time_range = TimeRange::find($request->input('shift_id'));
@@ -68,7 +68,7 @@ class ScheduleController extends Controller
         if ($ret_val == -1) {
             return back()->with('status_bad', 'This shift already has manager');
         }
-        // no error
+// no error
         return back()->with('status_good', 'Worker added to shift successfully');
     }
 
@@ -76,7 +76,7 @@ class ScheduleController extends Controller
     {
         $time_range = TimeRange::find($shift_id);
         $shift = new Shift($time_range);
-        // show current shifts so that user has reference
+// show current shifts so that user has reference
         $shifts = $shift->getCurrentShifts();
         $day_of_week_names = $this->getDayOfWeekNames();
         return view('admin.schedule.update_shift',
@@ -86,7 +86,7 @@ class ScheduleController extends Controller
     public function createShift(Request $request)
     {
         $shift = new TimeRange;
-        // this controller handles shifts
+// this controller handles shifts
         $shift = $this->timeRangeSetup($shift, $request, TimeRangeType::SHIFT);
         $shift_check = new Shift($shift);
         if (empty(($valid_shift_message = $shift_check->isValidShift()))) {
@@ -102,9 +102,9 @@ class ScheduleController extends Controller
     {
         $shift_id = $request->input('shift_id');
         $time_range = TimeRange::find($shift_id);
-        // this will affect have the affect of deleting any rows workers
-        // attached to the shift in the time_ranges_users table
-        // as well as deleting this time range
+// this will affect have the affect of deleting any rows workers
+// attached to the shift in the time_ranges_users table
+// as well as deleting this time range
         $time_range->delete();
         return back()->with('status_good', 'Shift deleted');
     }
