@@ -15,8 +15,8 @@ use App\Models\Accessory;
 class CartBilling
 {
     protected $cart;
-    protected $weekly_billing_object;
-    protected $on_demand_billing_object;
+    protected $weekly_item;
+    protected $on_demand_item;
     protected $weekly_cost;
     protected $on_demand_cost;
     protected $subtotal;
@@ -38,8 +38,8 @@ class CartBilling
     public function __construct(ShoppingCart $cart = null)
     {
         $this->cart = $cart;
-        $this->weekly_billing_object = new WeeklyBilling($cart);
-        $this->on_demand_billing_object = new OnDemandBilling($cart);
+        $this->weekly_item = new WeeklyBilling($cart);
+        $this->on_demand_item = new OnDemandBilling($cart);
         $this->tax_percent = 1.0925;
         $this->weekly_cost= $this->weeklyCost();
         $this->on_demand_cost = $this->onDemandCost();
@@ -58,17 +58,17 @@ class CartBilling
 
     public function onDemandCost()
     {
-        return $this->on_demand_billing_object->getOnDemandCost();
+        return $this->on_demand_item->getOnDemandCost();
     }
     private function weeklyCost(){
 
 
-        return $this->weekly_billing_object->getCostOfWeekly();
+        return $this->weekly_item->getCostOfWeekly();
     }
 
     private function deliveryFee()
     {
-        return $this->on_demand_billing_object->getFeeAfter() + $this->weekly_billing_object->getFeeAfter();
+        return $this->on_demand_item->getFeeAfter() + $this->weekly_item->getFeeAfter();
     }
 
     public function costOfFood()
@@ -158,7 +158,7 @@ class CartBilling
      */
     public function getWeeklyItem()
     {
-        return $this->weekly_billing_object;
+        return $this->weekly_item;
     }
 
     /**
@@ -166,7 +166,7 @@ class CartBilling
      */
     public function getOnDemandItem()
     {
-        return $this->on_demand_billing_object;
+        return $this->on_demand_item;
     }
 
     /**
@@ -206,7 +206,7 @@ class CartBilling
         // profit per order is the calculated delivery fee
         // plus the mark up on each item * num items
         // minus expenses i.e. stripe fees
-        return $this->weekly_billing_object->getWeeklyProfit() + $this->on_demand_billing_object->getOnDemandCost();
+        return $this->weekly_item->getWeeklyProfit() + $this->on_demand_item->getOnDemandCost();
     }
 
     public function getStripeFees($is_stripe_order)
@@ -232,7 +232,7 @@ class CartBilling
 
     public function discount()
     {
-        return $this->weekly_billing_object -> getDiscount();
+        return $this->weekly_item -> getDiscount();
     }
 
     /**
