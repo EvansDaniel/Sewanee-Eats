@@ -23,7 +23,7 @@ class CreateOrdersTable extends Migration
             // used to be boolean type -> is_weekly_special
             // this might be multiple order types, stored as json -> these are RestaurantOrderCategory(s)
             $table->string('order_types');
-            $table->string('phone_number');
+            $table->string('phone_number')->nullable();
             $table->string('email_of_customer');
             $table->string('c_name');
             // cancelled may not mean refunded
@@ -32,7 +32,7 @@ class CreateOrdersTable extends Migration
             $table->boolean('was_refunded');
             $table->boolean('is_delivered');
             $table->boolean('is_being_processed');
-            $table->string('courier_types'); // json string denoting the types of couriers that can deliver this order
+            $table->string('courier_types')->nullable(); // json string denoting the types of couriers that can deliver this order
             // did they opt to pay with venmo
             // was paid_with_venmo of type boolean
             $table->integer('payment_type');

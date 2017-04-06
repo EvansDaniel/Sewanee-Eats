@@ -97,9 +97,11 @@ class CustomerOrder
             }
         }
         $order = $this->handleDeliveryLocation($order);
-        $del_info = new DeliveryInfo($this->cart);
-        $courier_types = $del_info->getCourierTypesForItems();
-        $order->courier_types = json_encode($courier_types);
+        if ($this->cart->hasOnDemandItems()) {
+            $del_info = new DeliveryInfo($this->cart);
+            $courier_types = $del_info->getCourierTypesForItems();
+            $order->courier_types = json_encode($courier_types);
+        }
         return $order;
     }
 
