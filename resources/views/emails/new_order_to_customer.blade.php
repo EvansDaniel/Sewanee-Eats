@@ -151,8 +151,10 @@
                                     </td>
                                 </tr>
                                 <tr style="width: 100%">
+                                    @@if($order->hasOrderType($on_demand_order))
                                     In case you wanted your order to be delivered to a University dorm after 10pm, the SewaneeEats courier will be waiting outside
                                     the dorm instead of the room.
+                                    @endif
                                 </tr>
                                 <tr style="font-family: 'Lato', sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
                                     <td class="content-block aligncenter"
