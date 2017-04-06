@@ -24,9 +24,9 @@ class MenuItemController extends Controller
 
     use HandlesTimeRanges;
 
-    public function showMenu($id)
+    public function showMenu(Restaurant $restaurant, $id)
     {
-        $restaurant = Restaurant::find($id);
+        $restaurant = $restaurant->find($id);
         foreach ($restaurant->menuItems as $item) {
             $menu_items[$item->itemCategory->name][] = $item;
         }
