@@ -136,7 +136,7 @@ Route::get('event-info', 'HomeController@showEventInfo')
 Route::get('event/{event_id}/items', 'SellerEntityController@showEventItems')
     ->name('uShowEventItems');
 
-// -------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------
 
 Route::get('restaurants/{id}', 'SellerEntityController@showMenu')
     ->name('showMenu');
@@ -292,6 +292,7 @@ Route::group(['prefix' => 'admin',
     Route::get('restaurants/{id}/menuItems', 'MenuItemController@showMenu')
         ->name('adminShowMenu');
 
+
     // shows the menu items
     Route::get('restaurants/{r_id}/createMenuItem', 'MenuItemController@showMenuItemCreateForm')
         ->name('showMenuItemCreateForm');
@@ -356,6 +357,12 @@ Route::group(['prefix' => 'admin',
     // id of accessory passed via hidden form input
     Route::post('accessories/delete', 'AccessoryController@deleteAccessory')
         ->name('deleteAccessory');
+
+
+    // TimeRangeController routes
+    Route::get('multiAddAvailableTimes/{rest_id}', 'TimeRangeController@showMultiAddItems')->name('showMultiAddItems');
+    Route::post('multiAddItemsCreate', 'TimeRangeController@createTimeRangeMultiItems')
+        ->name('createTimeRangeMultiItems');
 });
 
 Route::get('next', function () {

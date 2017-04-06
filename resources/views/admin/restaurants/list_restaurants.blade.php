@@ -71,6 +71,10 @@
                             <a href="{{ route('adminShowMenu',['id' => $r->id]) }}">
                                 <button class="btn btn-info" type="button">View restaurant menu</button>
                             </a>
+                            <a href="{{ route('showMultiAddItems',['rest_id' => $r->id]) }}">
+                                <button class="btn btn-info" type="button">Add available times to multiple items
+                                </button>
+                            </a>
                             @if($r->isSellerType($on_demand_seller_type))
                                 <a href="{{ route('showOpenTimes',['id' => $r->id]) }}">
                                     <button class="btn btn-info" type="button">View restaurant open times</button>

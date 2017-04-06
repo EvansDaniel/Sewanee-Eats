@@ -11,34 +11,43 @@ use App\CustomTraits\IsAvailable;
 use App\Models\Restaurant;
 use App\Models\SpecialEvent;
 
+/**
+ * @test Tests\Unit\Controllers\OrderFlow\SellerEntityControllerTest
+ * Class SellerEntityController
+ * @package App\Http\Controllers
+ */
 class SellerEntityController extends Controller
 {
-    /*
-     * General Idea:
-     * for the given restaurant,
-     * get all the categories associated with food at that restaurant
-     * make an associative array of those categories where each element
-     * points to the food in that category
-     * That is the object to inject into the view
+
+    protected $cart;
+
+    /**
+     * SellerEntityController constructor.
+     * @param ShoppingCart $cart
      */
-    public function showMenu($id)
+    public function __construct(ShoppingCart $cart)
     {
-        $cart = new ShoppingCart();
+        $this->cart = $cart;
         // detect if any previously open menu item/ restaurant
         // has recently closed
-        if (!empty($items = $cart->checkMenuItemAndRestaurantAvailabilityAndDelete())) {
+        if (!empty($items = $this->cart->checkMenuItemAndRestaurantAvailabilityAndDelete())) {
             \Session::flash('became_unavailable', $items);
         }
-        $restaurant = Restaurant::findOrFail($id);
+    }
+
+    /**
+     * @param Restaurant $rest
+     * @param $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\View\View
+     */
+    public function showMenu(Restaurant $rest, $id)
+    {
+        $restaurant = $rest->findOrFail($id);
         // if this is an on demand restaurant and we are closed right now
-        \Log::info($restaurant->isSellerType(RestaurantOrderCategory::ON_DEMAND));
-        \Log::info(empty(Shift::now()));
         if ($restaurant->isSellerType(RestaurantOrderCategory::ON_DEMAND) && empty(Shift::now())) {
             return back()->with('status_bad', 'Sorry we are currently closed and not taking On Demand orders');
         }
-        // only check isAvailable if it is an on demand restaurant
         if (!$restaurant->isAvailableNow()) {
-            // TODO:
             return redirect()->route('list_restaurants')->with('status_bad', 'Sorry this restaurant is not available right now');
         }
         $menu_items = null;
@@ -48,25 +57,19 @@ class SellerEntityController extends Controller
         $item_type = ItemType::RESTAURANT_ITEM;
         $is_weekly_special = $restaurant->isSellerType(RestaurantOrderCategory::WEEKLY_SPECIAL);
         return view('orderFlow.showMenu',
-            compact('restaurant', 'menu_items',
-                'remove_items', 'message', 'item_type', 'is_weekly_special'));
+            compact('restaurant', 'menu_items', 'item_type', 'is_weekly_special'));
     }
 
-    public function list_restaurants()
+    public function list_restaurants(Sellers $sellers)
     {
-        $cart = new ShoppingCart();
-        if (!empty($items = $cart->checkMenuItemAndRestaurantAvailabilityAndDelete())) {
-            \Session::flash('became_unavailable', $items);
-        }
-        $sellers = new Sellers();
         $shift_now = Shift::now();
         return view('orderFlow.list_restaurants',
             compact('sellers', 'shift_now'));
     }
 
-    public function showEventItems($event_id)
+    public function showEventItems(SpecialEvent $event, $event_id)
     {
-        $event = SpecialEvent::find($event_id);
+        $event = $event->findOrFail($event_id);
         $item_type = ItemType::EVENT_ITEM;
         return view('orderFlow.show_event_items', compact('event', 'item_type'));
     }

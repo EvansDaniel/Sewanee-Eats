@@ -23,17 +23,17 @@ class CustomerOrder
 {
     protected $billing;
     protected $cart;
-    protected $request;
+    protected $input;
     protected $order;
 
-    public function __construct(ShoppingCart $cart, CartBilling $billing, Request $request)
+    public function __construct(ShoppingCart $cart, CartBilling $billing, $input)
     {
         $this->cart = $cart;
         $this->billing = $billing;
-        $this->request = $request;
+        $this->input = $input;
     }
 
-// returns the order model instance
+    // returns the order model instance
     public function getOrder()
     {
         return $this->order;
@@ -43,9 +43,9 @@ class CustomerOrder
      * @param $payment_type integer One of the PaymentType const integer literals
      * @return \Illuminate\Validation\Validator
      */
-    public function orderValidation($payment_type)
+    public function orderValidation(Request $request, $payment_type)
     {
-// TODO: handle validation for location if on demand order request
+        // TODO: handle validation for location if on demand order request
         $rules = null;
         if ($payment_type == PaymentType::VENMO_PAYMENT) {
             $rules = array(
@@ -59,33 +59,36 @@ class CustomerOrder
                 'email_address' => 'email|required'
             );
         }
-        return Validator::make($this->request->all(), $rules);
+        return Validator::make($request->all(), $rules);
     }
 
+    /**
+     * TODO: Integration Test
+     */
     public function handleVenmoOrder()
     {
         $order = new Order;
         // order is open b/c they haven't paid for it yet
         $order->is_paid_for = false;
-        $order->venmo_username = $this->request->input('venmo_username');
+        $order->venmo_username = $this->input['venmo_username'];
         $order->payment_type = PaymentType::VENMO_PAYMENT;
         $order = $this->commonOrderSetup($order);
         $order->save();
         $this->order = $order;
         $this->saveOrderItems($order);
-        $this->saveOrderPriceInfo($order, true);
+        // false this is not a stripe order
+        $this->saveOrderPriceInfo($order, false);
     }
 
-// TODO: move stripe view error handling to controller, make this method return error codes
     private function commonOrderSetup(Order $order)
     {
-        $order->email_of_customer = $this->request->input('email_address');
-        $order->c_name = $this->request->input('name');
+        $order->email_of_customer = $this->input['email_address'];
+        $order->c_name = $this->input['name'];
         $order->is_cancelled = false;
         $order->was_refunded = false;
         $order->is_delivered = false;
         $order->is_being_processed = false;
-        $order->phone_number = $this->request->input('phone_number');
+        $order->phone_number = $this->input['phone_number'];
         $order = $this->handleDeliveryLocation($order);
         $order_types = $this->cart->getOrderTypes();
         $order->order_types = json_encode($order_types);
@@ -98,13 +101,13 @@ class CustomerOrder
     private function handleDeliveryLocation(Order $order)
     {
         if ($this->cart->hasOnDemandItems()) {
-            $building_name = $this->request->input('building_name');
+            $building_name = $this->input['building_name'];
             if (empty($building_name)) { // they didn't input the building name
-                $order->delivery_location = $this->request->input('address');
+                $order->delivery_location = $this->input['address'];
             } else { // the chose university building
-                $building_name = $this->request->input('building_name');
-                $area_type = $this->request->input('area_type');
-                $room_num = $this->request->input('room_number');
+                $building_name = $this->input['building_name'];
+                $area_type = $this->input['area_type'];
+                $room_num = $this->input['room_number'];
                 $location = $building_name . ', ' . $area_type . ': ' . $room_num;
                 $order->delivery_location = $location;
             }
@@ -132,9 +135,9 @@ class CustomerOrder
 
     public function saveOrderItemAccessories(CartItem $cart_item, MenuItemOrder $menu_item_order)
     {
-// check to make sure this if statement works
-// check that we can attach accessories to this item,
-// we can only attach accessories to menu items at the moment
+        // check to make sure this if statement works
+        // check that we can attach accessories to this item,
+        // we can only attach accessories to menu items at the moment
         if (!empty($menu_item_order->menu_item_id) && !empty($cart_item->getExtras())) {
             foreach ($cart_item->getExtras() as $extra_id) {
                 $menu_item_order->accessories()->attach($extra_id);
@@ -158,6 +161,10 @@ class CustomerOrder
         $order_price_info->save();
     }
 
+    /**
+     * TODO: Integration Test
+     * @return int|string
+     */
     public function handleStripeOrder()
     {
         $order = new Order;
@@ -167,23 +174,20 @@ class CustomerOrder
             Stripe::setApiKey(env('STRIPE_TEST_SECRET_KEY'));
         }
 
-// Token is created using Stripe.js or Checkout!
-// Get the payment token submitted by the form:
-        $token = $this->request->input('stripeToken');
+        // Token is created using Stripe.js or Checkout!
+        // Get the payment token submitted by the form:
+        $token = $this->input['stripeToken'];
 
         $problem_with_stripe = 'There was a problem processing your payment. Please try again';
         try {
-// Use Stripe's library to make requests...
-// Charge the user's card:
-// TODO: email the user a receipt of purchase w/ order info, could be basically the same as the employee email view
             $charge = \Stripe\Charge::create(array(
-                "amount" => $this->billing->getTotal() * 100,
+                "amount" => $this->getChargeTotal(),
                 "currency" => "usd",
                 "description" => "SewaneeEats Delivery Charge (includes cost of food)",
                 "source" => $token
             ));
         } catch (\Stripe\Error\Card $e) {
-// Since it's a decline, \Stripe\Error\Card will be caught
+            // Since it's a decline, \Stripe\Error\Card will be caught
             /*$body = $e->getJsonBody();
             $err  = $body['error'];
 
@@ -194,7 +198,7 @@ class CustomerOrder
             print('Param is:' . $err['param'] . "\n");
             print('Message is:' . $err['message'] . "\n");*/
             return 'There was a problem processing your payment.
-    Your card may have insufficient funds or the number may be incorrect. That\'s all we know';
+                    Your card may have insufficient funds or the number may be incorrect. That\'s all we know';
         } catch (\Stripe\Error\RateLimit $e) {
             \Log::info('Stripe Error: Rate Limit Exception');
             return back()->with('status_bad', $problem_with_stripe);
@@ -222,5 +226,10 @@ class CustomerOrder
         $this->saveOrderItems($order);
         $this->saveOrderPriceInfo($order, true);
         return 0;
+    }
+
+    public function getChargeTotal()
+    {
+        return $this->billing->getTotal() * 100;
     }
 }
