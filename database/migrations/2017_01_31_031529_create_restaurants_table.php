@@ -20,6 +20,9 @@ class CreateRestaurantsTable extends Migration
             // used to be location, this is the exact address
             $table->string('address')->nullable();
             $table->integer('seller_type'); // +
+            $table->longText('description')->nullable();
+            $table->longText('time_special')->nullable();
+            $table->longText('location_special')->nullable();
             // using this field we can switch on and off the availability
             // of weekly special or on_demand restaurants to users
             $table->float('delivery_payment_for_courier')->nullable();
