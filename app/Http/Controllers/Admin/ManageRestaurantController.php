@@ -200,9 +200,12 @@ class ManageRestaurantController extends Controller
             $restaurant->is_available_to_customers = true;
             $restaurant->delivery_payment_for_courier = $request->input('delivery_payment');
             $restaurant->address = $location;
-        } else {
+        } else { // this rest is a weekly special
             // weekly special restaurants default to not being available
             $restaurant->is_available_to_customers = false;
+            $restaurant->description = $request->input('special_description');
+            $restaurant->time_special = $request->input('time_special');
+            $restaurant->location_special = $request->input('location_special');
         }
 
         \Log::info($this->dbStoragePath($this->restImageDir, $file_name));

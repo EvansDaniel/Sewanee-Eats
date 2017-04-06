@@ -25,6 +25,24 @@
                 <input type="file" name="image" id="file" class="input-file form-control" required>
                 <label for="file" class="btn btn-primary form-control">Choose a restaurant image <span><strong>RATIO MUST BE 40 BY 33 (width/height)</strong></span></label>
                 <br><br>
+                <!-- Temporary changes -->
+                <label for="weekly-special-description">Add information about the special here
+                    DONT FILL THIS OUT IF THIS IS AN ON DEMAND RESTAURANT</label>
+                <input class="form-control" type="text"
+                       placeholder="DONT FILL THIS OUT IF THIS IS AN ON DEMAND RESTAURANT" name="special_description">
+
+                <label for="weekly-special-description">Add information about the specials delivery time/date here (ex:
+                    Mon, Jan 25, 2017 9:00PM)
+                    DONT FILL THIS OUT IF THIS IS AN ON DEMAND RESTAURANT</label>
+                <input class="form-control" type="text"
+                       placeholder="(ex: Mon, Jan 25, 2017 9:00PM) DONT FILL THIS OUT IF THIS IS AN ON DEMAND RESTAURANT"
+                       name="time_special">
+                <label for="weekly-special-description">Add information about the special delivery location here. DONT
+                    FILL THIS OUT IF THIS IS AN ON DEMAND RESTAURANT</label>
+                <input class="form-control" type="text"
+                       placeholder="DONT FILL THIS OUT IF THIS IS AN ON DEMAND RESTAURANT" name="location_special">
+
+                <!-- End temporary changes -->
                 <div id="non-weekly-special-rest-div">
                     <label for="callable">Can this restaurant be called ahead of time?</label>
                     <input type="checkbox" name="callable" checked id="callable">
@@ -38,7 +56,7 @@
                     </div>
                     <div>
                         <label for="rest-delivery-payment">Restaurant Delivery Payment for Couriers</label>
-                        <input required type="number" name="delivery_payment" class="form-control"
+                        <input type="number" name="delivery_payment" class="form-control"
                                id="rest-delivery-payment">
                     </div>
                 </div>

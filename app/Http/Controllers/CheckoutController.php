@@ -13,10 +13,8 @@ use Illuminate\Support\Facades\Event;
 class CheckoutController extends Controller
 {
 
-
-    public function showCheckoutPage()
+    public function showCheckoutPage(ShoppingCart $cart)
     {
-        $cart = new ShoppingCart();
         if (!empty($items = $cart->checkMenuItemAndRestaurantAvailabilityAndDelete())) {
             \Session::flash('became_unavailable', $items);
         }
