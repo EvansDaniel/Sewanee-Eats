@@ -17,7 +17,7 @@
         </p>
         <div>
             <ul class="list-group">
-                @foreach($next_order->toRestBuckets() as $rest => $items)
+                @foreach($next_order->toOnDemandRestBuckets() as $rest => $items)
                     <div style="margin: 0 auto;">
 
                         <div>
@@ -46,6 +46,7 @@
                                             @endif
                                         </div>
                                         @if(!empty($item->accessories))
+                                            <p>Buy the below accessories with the item</p>
                                             <ul class="list-group">
                                                 @foreach($item->accessories as $acc)
                                                     <li class="list-group-item">

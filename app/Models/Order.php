@@ -28,11 +28,13 @@ class Order extends Model implements HasItems
         return $this->hasMany('App\Models\MenuItemOrder', 'order_id', 'id');
     }
 
-    public function toRestBuckets()
+    public function toOnDemandRestBuckets()
     {
         $items = [];
         foreach ($this->menuItemOrders as $item) {
-            $items[$item->item->restaurant->name][] = $item;
+            if ($item->item->restaurant->isSellerType(RestaurantOrderCategory::ON_DEMAND)) {
+                $items[$item->item->restaurant->name][] = $item;
+            }
         }
         return $items;
     }

@@ -151,7 +151,7 @@
                                     </td>
                                 </tr>
                                 <tr style="width: 100%">
-                                    @@if($order->hasOrderType($on_demand_order))
+                                    @if($order->hasOrderType($on_demand_order_type))
                                     In case you wanted your order to be delivered to a University dorm after 10pm, the SewaneeEats courier will be waiting outside
                                     the dorm instead of the room.
                                     @endif

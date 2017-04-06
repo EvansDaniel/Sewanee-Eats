@@ -74,8 +74,12 @@
                     </a>
                 </div>
                 <div class="col-lg-1 medium">customer: {{$on_demand_order->c_name}}</div>
-                <div class="col-lg-1 medium">Courier: {{$on_demand_order->couriers}}</div>
-                <div class="col-lg-1 medium">Location: {{$on_demand_order->delivery_location}}</div>
+                <div class="col-lg-1 medium">
+                    Courier: @if(count($on_demand_order->couriers) > 1) {{$on_demand_order->couriers[0]->name}} @else No
+                    courier assigned yet   @endif</div>
+                <div class="col-lg-1 medium">Deliver to Location: {{$on_demand_order->delivery_location}}</div>
+                <div class="col-lg-1 medium">Customer Email: {{$on_demand_order->email_of_customer}}</div>
+                <div class="col-lg-1 medium">Customer Phone Number: {{$on_demand_order->phone_number}}</div>
                 <div class="col-lg-1 medium">Payment type:
                     @if($on_demand_order->payment_type == $venmo_payment_type)
                         Venmo
@@ -132,26 +136,29 @@
                     @endif
                 </div>
                 <div class="col-lg-1 medium">
-                    {{$on_demand_order->couriers}}
+
                 </div>
 
             </div>
             <div class="row buttons-wrapper">
                 <div class="buttons">
-                    <form action="{{ route('toggleOrderIsDelivered') }}" method="post">
+                    <form action="{{ route('toggleOrderIsDelivered') }}" method="post" style="display: inline">
                         {{ csrf_field() }}
                         <input id="toggle-delivered-{{$on_demand_order->id}}" type="text" name="order_id"
                                value="{{ $on_demand_order->id}}" style="display: none">
                         @if($on_demand_order->is_delivered)
-                            <button onclick="" class="btn btn-primary toggle-delivered">Undo Mark Order as Delivered
+                            <button onclick="" class="btn btn-primary toggle-delivered" style="display: inline">Undo
+                                Mark Order as Delivered
                             </button>
                         @else
-                            <button onclick="" class="btn btn-primary toggle-delivered">Mark Order as Delivered</button>
+                            <button onclick="" class="btn btn-primary toggle-delivered" style="display: inline">Mark
+                                Order as Delivered
+                            </button>
                         @endif
                     </form>
                     <form class="cancel"
                           action="{{ url()->to(parse_url(route('toggleOrderCancellation',[]),PHP_URL_PATH),[],env('APP_ENV') !== 'local') }}"
-                          method="post">
+                          method="post" style="display: inline">
                         {{ csrf_field() }}
                         <input id="cancel-order-{{$on_demand_order->id}}" type="text" name="order_id"
                                value="{{ $on_demand_order->id}}" style="display: none">
@@ -164,7 +171,7 @@
                 @if(!$on_demand_order->is_cancelled) <!-- Can't refund if it is cancelled -->
                     <form class="refund"
                           action="{{ url()->to(parse_url(route('toggleRefundOrder',[]),PHP_URL_PATH),[],env('APP_ENV') !== 'local') }}"
-                          method="post">
+                          method="post" style="display: inline">
                         {{ csrf_field() }}
                         <input id="refund-order-{{$on_demand_order->id}}" type="text" name="order_id"
                                value="{{ $on_demand_order->id}}" style="display: none">
@@ -178,7 +185,7 @@
                     @if($on_demand_order->payment_type == $venmo_payment_type)
                         <form class="cancel change-status"
                               action="{{url()->to(parse_url(route('togglePaymentConfirmationForVenmo',[]),PHP_URL_PATH),[],env('APP_ENV') !== 'local') }}"
-                              method="post">
+                              method="post" style="display: inline">
                             {{ csrf_field() }}
                             <input id="confirm-payment-{{$on_demand_order->id}}" type="text" name="order_id"
                                    value="{{ $on_demand_order->id}}" style="display: none">
