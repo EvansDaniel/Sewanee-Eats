@@ -21,7 +21,7 @@ class CartBillingTest extends TestCase
     use DatabaseMigrations;
 
     /**
-     * @test
+     *
      */
     public function itCalcsTotalPrice()
     {
@@ -29,7 +29,7 @@ class CartBillingTest extends TestCase
     }
 
     /**
-     * @test
+     *
      */
     public function itCalcsDeliveryFee()
     {
@@ -78,7 +78,7 @@ class CartBillingTest extends TestCase
     }
 
     /**
-     * @test
+     *
      */
     public function itCalcsDiscount()
     {
@@ -107,7 +107,7 @@ class CartBillingTest extends TestCase
     /**
      * Tests CartBilling::getCostOfFood()
      * Makes sure that it totals the cost of food correctly
-     * @test
+     *
      */
     public function itCalcsCostOfFood()
     {
@@ -122,7 +122,7 @@ class CartBillingTest extends TestCase
      * Tests CartBilling::getSubtotal
      * Ensures it calculates the subtotal, which is the sum of the cost of and deduction of
      * all expenses and discounts
-     * @test
+     *
      */
     public function itCalcsSubtotal()
     {
@@ -153,7 +153,7 @@ class CartBillingTest extends TestCase
     /**
      * Makes sure that it adds up the accessory price when adding
      * up the cost of food
-     * @test
+     *
      */
     public function itTakesIntoAccountTheAccessoryPrice()
     {

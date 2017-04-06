@@ -3,11 +3,13 @@
 namespace App\Models;
 
 use App\Contracts\ShoppingCart\SellerEntity;
+use App\CustomClasses\ShoppingCart\RestaurantOrderCategory;
 use Illuminate\Database\Eloquent\Model;
 
 // needs to implement seller entity b/c we need to categorize the CartItem based on the seller
 class SpecialEvent extends Model implements SellerEntity
 {
+
     // has many menu items
     public function eventItems()
     {
@@ -30,11 +32,6 @@ class SpecialEvent extends Model implements SellerEntity
         return $this->location;
     }
 
-    public function getSellerType()
-    {
-        return $this->seller_type;
-    }
-
     public function isForProfit()
     {
         return $this->for_profit;
@@ -48,5 +45,15 @@ class SpecialEvent extends Model implements SellerEntity
     public function getId()
     {
         return $this->id;
+    }
+
+    public function isSellerType($type)
+    {
+        return $this->getSellerType() == $type;
+    }
+
+    public function getSellerType()
+    {
+        return RestaurantOrderCategory::EVENT;
     }
 }

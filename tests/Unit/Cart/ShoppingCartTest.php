@@ -42,7 +42,7 @@ class ShoppingCartTest extends TestCase
         $special_items = $special_rest->menuItems;
         // make sure that the number of on demand items is less than or equal to the max
         $demand_items = [];
-        for ($i = 0; $i < min(count($demand_rest->menuItems), $cart->getMaxItemsInCart()); $i++) {
+        for ($i = 0; $i < min(count($demand_rest->menuItems), $cart->getMaxOnDemandItems()); $i++) {
             $demand_items[] = $demand_rest->menuItems[$i];
         }
         $cart_items = [];
@@ -67,10 +67,11 @@ class ShoppingCartTest extends TestCase
      * Checks that the correct quantity is calculated by the cart
      * @test
      */
-    public function hasCorrectQuantity()
+    public function hasCorrectQuantityForWeeklySpecial()
     {
         $cart = new ShoppingCart();
         // returns 6 cart items
+        factory(Restaurant::class, 1)->create(['seller_type' => RestaurantOrderCategory::WEEKLY_SPECIAL]);
         $cart_items = $this->putMenuAndEventItemsInDB(3);
         $cart->putItems($cart_items);
         self::assertEquals(6, $cart->getQuantity());
@@ -91,7 +92,6 @@ class ShoppingCartTest extends TestCase
     private function putMenuAndEventItemsInDB($num_event_and_menu_items)
     {
         // use weekly special b/c on demand is capped
-        factory(Restaurant::class, 1)->create(['seller_type' => RestaurantOrderCategory::WEEKLY_SPECIAL]);
         factory(SpecialEvent::class, 1)->create();
         factory(ItemCategory::class, 3)->create();
         factory(MenuItem::class, $num_event_and_menu_items)->create();
@@ -109,8 +109,9 @@ class ShoppingCartTest extends TestCase
     /**
      * @test
      */
-    public function checkMultipleSetsOfAdditions()
+    public function checkMultipleSetsOfAdditionsForWeeklySpecial()
     {
+        factory(Restaurant::class, 1)->create(['seller_type' => RestaurantOrderCategory::WEEKLY_SPECIAL]);
         $cart_items1 = $this->putMenuAndEventItemsInDB(1);
         $cart_items2 = $this->putMenuAndEventItemsInDB(1);
         $cart_items3 = $this->putMenuAndEventItemsInDB(1);
@@ -141,6 +142,8 @@ class ShoppingCartTest extends TestCase
     {
         $cart = new ShoppingCart();
         // divide by two b/c the function returns twice that many CartItems
+        /*factory(Restaurant::class, 1)->create(['seller_type' => RestaurantOrderCategory::WEEKLY_SPECIAL]);*/
+        factory(Restaurant::class, 1)->create(['seller_type' => RestaurantOrderCategory::ON_DEMAND]);
         $cart_items = $this->putMenuAndEventItemsInDB(2);
         $cart->putItems($cart_items);
         $cart_item_ids = [];
@@ -172,6 +175,7 @@ class ShoppingCartTest extends TestCase
      */
     public function itUpdatesInstructions()
     {
+        factory(Restaurant::class, 1)->create(['seller_type' => RestaurantOrderCategory::ON_DEMAND]);
         $cart_items = $this->putMenuAndEventItemsInDB(2);
         $cart = new ShoppingCart();
         $cart->putItems($cart_items);
@@ -189,8 +193,10 @@ class ShoppingCartTest extends TestCase
      */
     public function itStoresNextCartItemIdInSession()
     {
-        $cart_items = $this->putMenuAndEventItemsInDB(3);
+        factory(Restaurant::class, 1)->create(['seller_type' => RestaurantOrderCategory::WEEKLY_SPECIAL]);
+        factory(Restaurant::class, 1)->create(['seller_type' => RestaurantOrderCategory::ON_DEMAND]);
         $cart = new ShoppingCart();
+        $cart_items = $this->putMenuAndEventItemsInDB($cart->getMaxOnDemandItems());
         $cart->putItems($cart_items);
         $this->seeInSession('next_cart_item_id');
     }
@@ -272,38 +278,14 @@ class ShoppingCartTest extends TestCase
     }
 
     /**
-     * Checks that the cart will reject the addition of a
-     * set of items if and only if the addition would cart a Cart Max Item Overflow
-     * @test
-     */
-    public function itCapsMaxNumberOfItems()
-    {
-        $cart = new ShoppingCart();
-        factory(Restaurant::class)->create(['seller_type' => RestaurantOrderCategory::WEEKLY_SPECIAL]);
-        factory(ItemCategory::class)->create();
-        // add one extra than the max to make sure that the cart will NOT add the extra
-        factory(MenuItem::class, $cart->getMaxItemsInCart() + 1)->create();
-        $cart_items = [];
-        $menu_items = MenuItem::all();
-        foreach ($menu_items as $menu_item) {
-            $cart_items[] = new CartItem($menu_item->id, ItemType::RESTAURANT_ITEM);
-        }
-        $cart->putItems($cart_items);
-        // rejects all additions b/c the set is one more than the max
-        self::assertEquals(0, $cart->getQuantity());
-        $cart_items_slice = array_slice($cart_items, 0, $cart->getMaxItemsInCart());
-        $cart->putItems($cart_items_slice);
-        // adds all items to the cart b/c the set contains less than or equal to the max number of allowable items
-        self::assertEquals($cart->getMaxItemsInCart(), $cart->getQuantity());
-    }
-
-    /**
      * @test
      */
     public function itGetsTheRightItem()
     {
-        $cart_items = $this->putMenuAndEventItemsInDB(3);
+        factory(Restaurant::class, 1)->create(['seller_type' => RestaurantOrderCategory::WEEKLY_SPECIAL]);
+        factory(Restaurant::class, 1)->create(['seller_type' => RestaurantOrderCategory::ON_DEMAND]);
         $cart = new ShoppingCart();
+        $cart_items = $this->putMenuAndEventItemsInDB($cart->getMaxOnDemandItems());
         $cart->putItems($cart_items);
         self::assertEquals($cart->getItem($cart->items()[0]->getCartItemId()), $cart_items[0]);
     }
@@ -313,8 +295,10 @@ class ShoppingCartTest extends TestCase
      */
     public function itInsertsItems()
     {
-        $cart_items = $this->putMenuAndEventItemsInDB(3);
+        factory(Restaurant::class, 1)->create(['seller_type' => RestaurantOrderCategory::WEEKLY_SPECIAL]);
+        factory(Restaurant::class, 1)->create(['seller_type' => RestaurantOrderCategory::ON_DEMAND]);
         $cart = new ShoppingCart();
+        $cart_items = $this->putMenuAndEventItemsInDB($cart->getMaxOnDemandItems());
         $cart->putItems($cart_items);
         self::assertEquals($cart_items[0], $cart->items()[0]);
         self::assertEquals($cart_items[1], $cart->items()[1]);
@@ -326,8 +310,10 @@ class ShoppingCartTest extends TestCase
      */
     public function itDeletesItems()
     {
-        $cart_items = $this->putMenuAndEventItemsInDB(2);
+        factory(Restaurant::class, 1)->create(['seller_type' => RestaurantOrderCategory::WEEKLY_SPECIAL]);
+        factory(Restaurant::class, 1)->create(['seller_type' => RestaurantOrderCategory::ON_DEMAND]);
         $cart = new ShoppingCart();
+        $cart_items = $this->putMenuAndEventItemsInDB($cart->getMaxOnDemandItems());
         $cart->putItems($cart_items);
         self::assertEquals($cart_items, $cart->items());
         $cart->deleteItem($cart_items[0]->getCartItemId());

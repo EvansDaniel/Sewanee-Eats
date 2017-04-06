@@ -27,7 +27,7 @@ class IsAvailableTest extends TestCase
 
     /**
      * A basic test example.
-     * @test
+     *
      * @return void
      */
     public function itCorrectlyDeterminesAvailabilityForCouriers()
@@ -90,7 +90,7 @@ class IsAvailableTest extends TestCase
     }
 
     /**
-     * @test
+     *
      */
     public function itCorrectlyDeterminesAvailabilityForRestaurants()
     {
@@ -113,7 +113,7 @@ class IsAvailableTest extends TestCase
     }
 
     /**
-     * @test
+     *
      */
     public function itCorrectlyDeterminesAvailabilityForMenuItems()
     {

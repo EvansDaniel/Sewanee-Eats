@@ -40,15 +40,15 @@ class CheckoutController extends Controller
         if (empty($view_payment_type)) {
             $view_payment_type = 0;
         }
-        $new_order = new CustomerOrder($cart, $bill, $request);
+        $new_order = new CustomerOrder($cart, $bill, $request->all());
 
         // handle the new order, todo: check order validation
         if ($view_payment_type == 1) { // venmo order
-            if (!$new_order->orderValidation(PaymentType::VENMO_PAYMENT)->fails()) {
+            if (!$new_order->orderValidation($request, PaymentType::VENMO_PAYMENT)->fails()) {
                 $new_order->handleVenmoOrder();
             }
         } else if ($view_payment_type == 0) { // stripe order
-            if (!$new_order->orderValidation(PaymentType::STRIPE_PAYMENT)->fails()) {
+            if (!$new_order->orderValidation($request, PaymentType::STRIPE_PAYMENT)->fails()) {
                 if (!empty($err_msg = $new_order->handleStripeOrder())) {
                     return back()->with('status_bad', $err_msg);
                 }
