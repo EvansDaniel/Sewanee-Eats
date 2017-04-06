@@ -146,6 +146,12 @@
                                             </div>
                                         </div>
                                     </div>
+                                    @if( $cart->hasWeeklySpecialItems())
+
+                                    <div class="specials_delivery_loc">
+                                        {{--TODO: put the delivery location--}}
+                                    </div>
+                                    @endif
 
                                 @endif
                             </div>

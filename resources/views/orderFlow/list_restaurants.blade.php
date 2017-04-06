@@ -54,9 +54,9 @@
                         href="{{ route('howItWorks') }}#specials">Learn more about weekly specials</a></h5>
             <hr>
             {{--<a href="{{ route('clearCart') }}">Clear Session</a>--}}
+            @foreach($sellers->getWeeklySpecials() as $s_restaurant)
+                @if($s_restaurant->isAvailableNow())
             <ul class="list-group container" id="restaurant-group">
-                @foreach($sellers->getWeeklySpecials() as $s_restaurant)
-                    @if($s_restaurant->isAvailableNow())
                         <li style="display: none"
                             class="restaurant list-group-item col-lg-3 col-md-3 col-xs-8 col-xs-offset-2 col-sm-8 col-sm-offset-2">
                             <a href="{{ route('showMenu',['id' => $s_restaurant->id]) }}"
@@ -70,9 +70,13 @@
                                 </p>
                             </a>
                         </li>
-                    @endif
-                @endforeach
+
             </ul>
+            <p>
+                The weekly special will be delivered in {{$s_restaurant->time_special}} at {{$s_restaurant->location_special}} in Guerry Auditorium.
+            </p>
+                @endif
+             @endforeach
         @endif
     </section>
 
