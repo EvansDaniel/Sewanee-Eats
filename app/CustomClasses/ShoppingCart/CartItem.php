@@ -47,7 +47,6 @@ class CartItem implements Availability
 
     public function getId()
     {
-        \Log::info($this->item->id);
         return $this->item->id;
     }
 

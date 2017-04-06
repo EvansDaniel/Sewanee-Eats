@@ -9,9 +9,6 @@
 namespace App\CustomClasses\ShoppingCart;
 
 
-use App\Models\Accessory;
-use App\Models\MenuItem;
-
 class WeeklyBilling
 {
     protected $cart;
@@ -46,6 +43,66 @@ class WeeklyBilling
 
     }
 
+    public function countWeeklyItems()
+    {
+        return count($this->cart->getWeeklySpecialItems());
+    }
+
+    public function countItemsWithDiscount()
+    {
+        if ($this->number_of_items < 5 && $this->number_of_items > 1) {
+            return $this->number_of_items - 1;
+        } else if ($this->number_of_items >= 5) {
+            return 3;
+        } else {
+            return 0;
+        }
+    }
+
+    public function costOfWeekly()
+    {
+        $cost = 0;
+        if (!empty($this->weekly_items)) {
+            foreach ($this->weekly_items as $item) {
+                $cost += $item->getPrice() + $this->markup;
+            }
+        }
+        return $cost;
+    }
+
+    public function fee()
+    {
+        if (empty($this->weekly_items))
+            return 0;
+        else
+            return $this->delivery_fee - ($this->countItemsWithDiscount() * .60);
+    }
+
+    public function profit()
+    {
+        if ($this->getNumberOfItems() == 0) {
+            return 0;
+        } else {
+            return $this->getDeliveryFee() + ($this->getNumberOfItems() * $this->getDiscountValue());
+        }
+    }
+
+    /**
+     * @return array
+     */
+    public function getNumberOfItems()
+    {
+        return $this->number_of_items;
+    }
+
+    /**
+     * @return int
+     */
+    public function getDeliveryFee()
+    {
+        return $this->delivery_fee;
+    }
+
     /**
      * @return float
      */
@@ -73,54 +130,11 @@ class WeeklyBilling
     /**
      * @return int
      */
-    public function getDeliveryFee()
-    {
-        return $this->delivery_fee;
-    }
-
-    /**
-     * @return int
-     */
     public function getDiscount()
     {
         return $this->discount;
     }
 
-    /**
-     * @return array
-     */
-    public function getNumberOfItems()
-    {
-        return $this->number_of_items;
-    }
-
-    /**
-     * @return array|int
-     */
-    public function getItemsWithDiscount()
-    {
-        return $this->items_with_discount;
-    }
-
-
-
-    public function countItemsWithDiscount()
-    {
-        if($this->number_of_items < 5 && $this->number_of_items >1){
-            return $this->number_of_items -1;
-        }
-        else if($this->number_of_items >= 5){
-            return 3;
-        }
-        else{
-            return 0;
-        }
-    }
-
-    public function countWeeklyItems()
-    {
-        return count($this->cart->getWeeklySpecialItems());
-    }
     /**
      * @return float
      */
@@ -128,27 +142,6 @@ class WeeklyBilling
     {
         return $this->markup;
     }
-
-    public function fee()
-    {
-        if(empty($this->weekly_items))
-            return 0;
-        else
-            return $this->delivery_fee - ($this->countItemsWithDiscount() * .60);
-    }
-
-    public function costOfWeekly()
-    {
-        $cost = 0;
-        if(!empty($this->weekly_items)){
-            foreach ($this->weekly_items as $item){
-                $cost += $item->getPrice() + $this->markup;
-            }
-        }
-        return $cost;
-    }
-
-
 
     /**
      * @return array
@@ -174,15 +167,16 @@ class WeeklyBilling
         return $this->weekly_profit;
     }
 
-
-
-    public function profit()
-    {
-        return $this->getDeliveryFee() + ($this->getNumberOfItems() * $this->getDiscountValue() );
-    }
-
     public function discount()
     {
         return $this->getItemsWithDiscount() * $this->discount_value;
+    }
+
+    /**
+     * @return array|int
+     */
+    public function getItemsWithDiscount()
+    {
+        return $this->items_with_discount;
     }
 }

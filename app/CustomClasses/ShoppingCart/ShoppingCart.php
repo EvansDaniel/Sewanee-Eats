@@ -17,10 +17,6 @@ class ShoppingCart implements HasItems
 {
     use CategorizeItems;
     /**
-     * @var int the max number of items allowed in the cart
-     */
-    protected $max_items_in_cart;
-    /**
      * @var int the max number of On Demand items allowed in the cart
      */
     protected $max_on_demand_items;
@@ -68,7 +64,6 @@ class ShoppingCart implements HasItems
         // Lucky's barf: I cleaned it up and I said let's clean it up, you said let's tell lisa and bill
         // Can't see, Making a Murderer: Why did you say that I couldn't understand what they say in Making a Murderer
         // I can understand what they say, but I couldn't read the words on the evidence when it is really small
-        $this->max_items_in_cart = 10;
         $this->max_on_demand_items = 5; // temporarily increasing this
         $this->next_cart_item_id = Session::get('next_cart_item_id');
         $this->cart = Session::get('cart');
@@ -163,20 +158,6 @@ class ShoppingCart implements HasItems
     }
 
     /**
-     * @return bool true if the cart contains max items in the cart
-     * $this->max_items_in_cart
-     */
-    public function hasMaxItems()
-    {
-        return $this->getQuantity() == $this->max_items_in_cart;
-    }
-
-    public function getQuantity()
-    {
-        return $this->quantity;
-    }
-
-    /**
      * Adds CartItem item(s) to the cart
      * @param $cart_items array CartItem to add
      * Saves $cart_items into the Session, setting up
@@ -195,20 +176,13 @@ class ShoppingCart implements HasItems
         // TODO: check prior to adding items if adding the items will overflow cart and/or overflow the max on demand items
         // iterate through the items to add checking if adding them will cause a max item cart overflow or max on demand item cart overflow
         foreach ($cart_items as $cart_item) {
-            if ($num_on_demand_items == $this->getMaxOnDemandItems()
-                && $cart_item->isSellerType(RestaurantOrderCategory::ON_DEMAND)
-            ) {
+            if ($num_on_demand_items == $this->getMaxOnDemandItems() && $cart_item->isSellerType(RestaurantOrderCategory::ON_DEMAND)) {
                 return -1;
             }
-            // on demand overflow is all we care about but keep this for now
-            /*if ($curr_quantity == $this->getMaxItemsInCart()) {
-                return -2;
-            }*/
             if ($this->countRests($cart_item) > $this->max_num_on_demand_rests) {
                 return -3;
             }
             // update current quantity
-            ++$curr_quantity;
             // if on demand item, update the current number of on demand items
             if ($cart_item->isSellerType(RestaurantOrderCategory::ON_DEMAND)) {
                 ++$num_on_demand_items;
@@ -216,13 +190,9 @@ class ShoppingCart implements HasItems
         }
         // all is good i.e. no cart overflow, so add all the items
         foreach ($cart_items as $cart_item) {
-            /*// check if we are adding an On Demand item
-            if ($cart_item->getSellerEntity()->getSellerType() == RestaurantOrderCategory::ON_DEMAND) {
-                $this->num_on_demand_items++;
-            }*/
+            ++$curr_quantity;
             $cart_item->setCartItemId($this->nextCartId());
             $this->cart[] = $cart_item;
-            // set cart quantity to quantity after adding the items
         }
         // set the current quantity and number of on demand items
         $this->num_on_demand_items = $num_on_demand_items;
@@ -231,6 +201,11 @@ class ShoppingCart implements HasItems
         $this->categorizedItems();
         $this->save();
         return 0;
+    }
+
+    public function getQuantity()
+    {
+        return $this->quantity;
     }
 
     /**
@@ -296,25 +271,6 @@ class ShoppingCart implements HasItems
     public function save()
     {
         Session::put('cart', $this->cart);
-    }
-
-    /**
-     * @return int
-     */
-    public function getMaxItemsInCart()
-    {
-        return $this->max_items_in_cart;
-    }
-
-    public function sessionFlashItemAutoRemovalMessage($items)
-    {
-        /* $ul = '<ul>';
-         $inner = null;
-         foreach ($items as $item) {
-             $inner .= '<li>'.$item->getName().' from ' . $item->getSellerEntity()->name.'</li>';
-         }
-         $endul = '</ul>';*/
-        return "";
     }
 
     /**

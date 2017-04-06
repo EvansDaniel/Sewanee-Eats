@@ -17,6 +17,8 @@ interface SellerEntity
 
     public function getItems();
 
+    public function isSellerType($type);
+
     public function getId();
 
     public function isForProfit();
