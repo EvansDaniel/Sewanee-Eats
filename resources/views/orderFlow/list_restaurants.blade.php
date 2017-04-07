@@ -50,7 +50,7 @@
             <h5 class="restaurant-cat-header">Sorry we are currently closed and not taking on demand orders</h5>
         @else
         <!-- TODO: change the hardcoded chick fil a to the names of the weekly special restaurants -->
-            <h5 id="no-specials" class="restaurant-cat-header">This week's Weekly Special is Chick-fil-a! <a
+            <h5 id="no-specials" class="restaurant-cat-header"><a
                         href="{{ route('howItWorks') }}#specials">Learn more about weekly specials</a></h5>
             <hr>
             {{--<a href="{{ route('clearCart') }}">Clear Session</a>--}}
@@ -66,7 +66,7 @@
                                      id="rest-images" class="img-responsive">
                                 <p class="weekly-status">
                                     Orders open until
-                                    {{ $s_restaurant->getAvailability()->getStartTime()}}
+                                    {{ $s_restaurant->getAvailability()->getEndTime()}}
                                 </p>
                             </a>
                         </li>

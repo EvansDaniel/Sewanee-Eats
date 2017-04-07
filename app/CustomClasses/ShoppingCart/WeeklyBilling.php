@@ -75,7 +75,15 @@ class WeeklyBilling
         if (empty($this->weekly_items))
             return 0;
         else
-            return $this->delivery_fee - ($this->countItemsWithDiscount() * .60);
+            return $this->delivery_fee - ($this->countItemsWithDiscount() * $this->getDiscountValue());
+    }
+
+    /**
+     * @return float
+     */
+    public function getDiscountValue()
+    {
+        return $this->discount_value;
     }
 
     public function profit()
@@ -101,14 +109,6 @@ class WeeklyBilling
     public function getDeliveryFee()
     {
         return $this->delivery_fee;
-    }
-
-    /**
-     * @return float
-     */
-    public function getDiscountValue()
-    {
-        return $this->discount_value;
     }
 
     /**
