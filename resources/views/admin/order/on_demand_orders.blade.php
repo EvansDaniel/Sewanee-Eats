@@ -39,7 +39,7 @@
         }
 
         .medium {
-            width: 140px;
+            width: 150px;
             float: left;
             margin-right: 1px;
         }
