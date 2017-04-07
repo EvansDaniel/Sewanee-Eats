@@ -39,13 +39,13 @@
         }
 
         .medium {
-            width: 150px;
+            width: 140px;
             float: left;
-            margin-right: 5px;
+            margin-right: 1px;
         }
 
         .large {
-            width: 300px;
+            width: 200px;
             float: left;
         }
 
@@ -74,6 +74,9 @@
                     </a>
                 </div>
                 <div class="col-lg-1 medium">customer: {{$on_demand_order->c_name}}</div>
+                @if(!$on_demand_order->is_delivered)
+                    <div class="col-lg-1 medium">Received {{ $on_demand_order->timeSinceOrdering() }} mins ago</div>
+                @endif
                 <div class="col-lg-1 medium">
                     Courier: @if(count($on_demand_order->couriers) >= 1) {{$on_demand_order->couriers[0]->name}} @else
                         No
@@ -91,7 +94,7 @@
                 </div>
                 <div class="col-lg-1 large">
                     statuses:
-                    @if($on_demand_order-> is_paid_for)
+                    @if($on_demand_order->is_paid_for)
                         <span style="background: darkgreen; color: white;">
                         Paid
                     </span>

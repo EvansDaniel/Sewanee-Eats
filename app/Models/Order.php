@@ -6,6 +6,7 @@ use App\Contracts\HasItems;
 use App\CustomClasses\ShoppingCart\CartItem;
 use App\CustomClasses\ShoppingCart\ItemType;
 use App\CustomClasses\ShoppingCart\RestaurantOrderCategory;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -109,6 +110,15 @@ class Order extends Model implements HasItems
             }
         }
         return false;
+    }
+
+    /**
+     * @return int the time in minutes since the order was received
+     */
+    public function timeSinceOrdering()
+    {
+        $order_received = new Carbon($this->created_at);
+        return Carbon::now()->diffInMinutes($order_received);
     }
 
     public function showCourierTypes()
