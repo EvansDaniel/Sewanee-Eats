@@ -48,9 +48,9 @@ class Order extends Model implements HasItems
             if ($menu_item->getSellerEntity()->getSellerType() == RestaurantOrderCategory::ON_DEMAND
                 || $menu_item->getSellerEntity()->getSellerType() == RestaurantOrderCategory::WEEKLY_SPECIAL
             ) {
-                $items[] = new CartItem($menu_item, ItemType::RESTAURANT_ITEM);
+                $items[] = new CartItem($menu_item->id, ItemType::RESTAURANT_ITEM);
             } else if ($menu_item->getSellerEntity()->getSellerType() == RestaurantOrderCategory::EVENT) {
-                $items[] = new CartItem($menu_item, ItemType::EVENT_ITEM);
+                $items[] = new CartItem($menu_item->id, ItemType::EVENT_ITEM);
             }
         }
         return $items;
