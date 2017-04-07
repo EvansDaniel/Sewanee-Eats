@@ -132,7 +132,7 @@ class MenuItemController extends Controller
         // don't allow any accessories that already added to this item to be
         // listed on the page
         foreach ($menu_item->accessories as $acc) {
-            $unique_accs[] = $acc;
+            $unique_accs[] = $acc->id;
         }
         $rest = $menu_item->restaurant;
         $accs = [];
