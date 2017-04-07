@@ -73,7 +73,7 @@
 
             </ul>
             <p>
-                The weekly special will be delivered in {{$s_restaurant->time_special}} at {{$s_restaurant->location_special}} in Guerry Auditorium.
+                {{$s_restaurant->location_special}} this {{$s_restaurant->time_special}}
             </p>
                 @endif
              @endforeach
