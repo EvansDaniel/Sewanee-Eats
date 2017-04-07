@@ -29,14 +29,17 @@ class LoginController extends Controller
         $this->middleware('guest', ['except' => 'logout']);
     }
 
+    /**
+     * @return string the route to redirect to
+     */
     protected function redirectTo()
     {
         if (\Auth::user()->hasRole('courier')) {
-            return redirect()->route('courierShowSchedule');
+            return route('courierShowSchedule');
         } else if (\Auth::user()->hasRole('admin') || \Auth::user()->hasRole('manager')) {
-            return redirect()->route('showAdminDashboard');
+            return route('showAdminDashboard');
         } else { // normal user
-            return redirect()->route('home');
+            return route('home');
         }
     }
 }

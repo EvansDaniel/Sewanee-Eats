@@ -124,6 +124,9 @@ class OrderQueueController extends Controller
             // validity of courier checked in the constructor
             $order_queue = new OrderQueue(Auth::user());
         } catch (InvalidArgumentException $e) {
+            if (Auth::user()->courierInfo->is_delivering_order) {
+                return redirect()->route('currentOrder')->with('status_bad', $e->getMessage());
+            }
             return redirect()->route('courierShowSchedule')
                 ->with('status_good', $e->getMessage());
         }

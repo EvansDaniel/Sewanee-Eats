@@ -49,8 +49,8 @@ class OrderQueue
         // check that the courier isn't currently delivering an order
         $courier_info = $this->courier_info->getInfo();
         if ($courier_info->is_delivering_order) {
-            return "You are currently delivering an order. Please finish that one first
-                    before getting more";
+            return "You are currently delivering an order. Please finish this one first or mark it as complete at the bottom
+                    of the page";
         }
         return 0;
     }
