@@ -85,7 +85,11 @@ class   SendOrderRequestEmails implements ShouldQueue
             'venmo_payment_type' => $venmo_payment_type
         ],
             function ($message) {
+                $item = new ItemLister($this->order);
                 \Log::info('sending email to customer ' . $this->order->email_of_customer);
+                \Log::info('sending rest to customer ' . $this->order->menuItemOrders[0]->item->restaurant);
+                \Log::info('special rests ');
+                \Log::info($item->toWeeklySpecialRestBuckets());
                 $message->from('sewaneeeats@gmail.com');
                 $message->to($this->order->email_of_customer)->subject('SewaneeEats Order Confirmation');
             });
