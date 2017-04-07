@@ -143,17 +143,13 @@
                                                 order.
                                             </h4>
                                         @endif
-                                        @if(!$order->hasOrderType($on_demand_order_type))
-                                            <h4>
-                                                Your Order will be delivered to <span style="color:rebeccapurple"> {{ $order->delivery_location }}</span>
-                                            </h4>
-                                        @endif
                                     </td>
                                 </tr>
-                                <tr style="width: 100%">
-                                    @if($order->hasOrderType($on_demand_order_type))
-                                    In case you wanted your order to be delivered to a University dorm after 10pm, the SewaneeEats courier will be waiting outside
-                                    the dorm instead of the room.
+                                @if($order->hasOrderType($on_demand_order_type))
+                                    <tr style="width: 100%">
+                                        In case you wanted your order to be delivered to a University dorm after 10pm,
+                                        the SewaneeEats courier will be waiting outside
+                                        the dorm instead of the room.
                                     @endif
                                 </tr>
                                 <tr style="font-family: 'Lato', sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
@@ -167,6 +163,15 @@
                                                     valign="top">
                                                     <table class="invoice-items" cellpadding="0" cellspacing="0"
                                                            style="font-family: 'Lato', sans-serif; box-sizing: border-box; font-size: 14px; width: 100%; margin: 0;">
+                                                        @foreach($item_lister->toWeeklySpecialRestBuckets() as $items)
+                                                            <h4>
+                                                                Items for {{ $items[0]->getSellerEntity()->name }}
+                                                                <span style="color: rebeccapurple;">
+                                                                (these items will be delivered to you at
+                                                                    {{ $items[0]->getSellerEntity()->location_special }}
+                                                                    on {{ $items[0]->getSellerEntity()->time_special }}
+                                                            </span>
+                                                            </h4>
                                                         <tr style="font-family: 'Lato', sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
                                                             <td style="font-family: 'Lato', sans-serif; font-size: 14px; vertical-align: top; border-bottom-width: 2px; border-bottom-color: black; border-bottom-style: solid; margin: 0; padding: 5px 0;"
                                                                 valign="top">
@@ -175,19 +180,34 @@
                                                             <td class="alignright"
                                                                 style="font-family: 'Lato', sans-serif; border-bottom-width: 2px; border-bottom-color: black; border-bottom-style: solid; font-size: 14px; vertical-align: top; text-align: right; margin: 0; padding: 5px 0;"
                                                                 align="right" valign="top">
-                                                                Restaurant
+                                                                Price
                                                             </td>
                                                         </tr>
-                                                        @foreach($order->menuItemOrders as $item)
+                                                            @foreach($items as $item)
+                                                                <tr style="font-family: 'Lato', sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
+                                                                    <td style="font-family: 'Lato', sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; border-top-width: 1px; border-top-color: #eee; border-top-style: solid; margin: 0; padding: 5px 0;"
+                                                                        valign="top">
+                                                                        {{ $item->getName() }}
+                                                                    </td>
+                                                                    <td class="alignright"
+                                                                        style="font-family: 'Lato', sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; text-align: right; border-top-width: 1px; border-top-color: #eee; border-top-style: solid; margin: 0; padding: 5px 0;"
+                                                                        align="right" valign="top">
+                                                                        {{ $item->getPrice() }}
+                                                                    </td>
+                                                                </tr>
+                                                            @endforeach
+                                                        @endforeach
+                                                        <hr>
+                                                        @foreach($item_lister->getOnDemandOrderItems() as $item)
                                                             <tr style="font-family: 'Lato', sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
                                                                 <td style="font-family: 'Lato', sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; border-top-width: 1px; border-top-color: #eee; border-top-style: solid; margin: 0; padding: 5px 0;"
                                                                     valign="top">
-                                                                    {{ $item->item->name }}
+                                                                    {{ $item->getName() }}
                                                                 </td>
                                                                 <td class="alignright"
                                                                     style="font-family: 'Lato', sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; text-align: right; border-top-width: 1px; border-top-color: #eee; border-top-style: solid; margin: 0; padding: 5px 0;"
                                                                     align="right" valign="top">
-                                                                    {{ $item->item->restaurant->name }}
+                                                                    {{ $item->getSellerEntity()->name }}
                                                                 </td>
                                                             </tr>
                                                         @endforeach

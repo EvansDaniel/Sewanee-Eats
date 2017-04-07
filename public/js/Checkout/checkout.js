@@ -151,6 +151,7 @@ function updateUIAfterDeleteItem(delButton, res) {
   var currentCount = parseInt(counter.text());
   counter.text(--currentCount);
 
+  p('here')
   // give a message to the user if cart empty and hide payment form???
   if (currentCount == 0) {
     $('#main-payment-form').hide(350, function () {
@@ -173,6 +174,7 @@ function updateUIAfterDeleteItem(delButton, res) {
       $(this).hide(350);
     })
   } else { // cart isn't empty
+    p('her eeia am')
     // update the cost
     updatePrices();
   }
@@ -245,7 +247,7 @@ function showExtras(button) {
   $($(button).parent().children()[1]).show();
   $('.cart-review').hide();
   $('.cart-line').each(function () {
-    this.hide();
+    $(this).hide();
   });
 }
 

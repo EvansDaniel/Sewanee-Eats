@@ -137,4 +137,9 @@ class CartItem implements Availability
     {
         return 30; // extra 30 minutes
     }
+
+    public function getItem()
+    {
+        return $this->item;
+    }
 }

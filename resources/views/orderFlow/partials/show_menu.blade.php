@@ -9,6 +9,14 @@
         </div>
     </div>
     <div class="panel panel-default">
+        @if($is_weekly_special)
+            <br>
+            <div class="row" align="center">
+                <p style="color: rebeccapurple">All items on this menu will be delivered to you at
+                    {{ $restaurant->location_special }}
+                    on {{ $restaurant->time_special }}</p>
+            </div>
+        @endif
 
         {{--<h1 align="center">{{ $restaurant->name }}'s Menu</h1>--}}
         @if(empty($menu_items))

@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\CustomClasses\Schedule\Shift;
+use App\CustomClasses\ShoppingCart\ItemLister;
 use App\CustomClasses\ShoppingCart\PaymentType;
 use App\CustomClasses\ShoppingCart\RestaurantOrderCategory;
 use App\Mail\NewOrderToDriver;
@@ -79,6 +80,8 @@ class   SendOrderRequestEmails implements ShouldQueue
         $mailer->send('emails.new_order_to_customer', [
             'order' => $this->order,
             'on_demand_order_type' => $on_demand_order_type,
+            'special_order_type' => RestaurantOrderCategory::WEEKLY_SPECIAL,
+            'item_lister' => new ItemLister($this->order),
             'weekly_order_type' => $weekly_order_type,
             'venmo_payment_type' => $venmo_payment_type
         ],

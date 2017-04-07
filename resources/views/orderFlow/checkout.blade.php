@@ -56,9 +56,18 @@
 
                     @if(!empty($cart->getWeeklySpecialItems()))
                         <h3 class="type-title">Your Weekly Special Items</h3>
-                        <hr class="hr-separator">
-                        @foreach($cart->getWeeklySpecialItems() as $order)
-                            @include('partials.checkout_items')
+                        <br>
+                        @foreach($cart_lister->toWeeklySpecialRestBuckets() as $orders)
+                            <?php $r = $orders[0]->getSellerEntity() ?>
+                            <strong>
+                                <p style="color: rebeccapurple">The following items from {{ $r->name }} will be
+                                    delivered to you {{ $r->location_special }}
+                                    on {{ $r->time_special }}</p>
+                            </strong>
+                            <hr class="hr-separator">
+                            @foreach($orders as $order)
+                                @include('partials.checkout_items')
+                            @endforeach
                         @endforeach
                         <hr class="hr-separator">
                     @endif
@@ -103,7 +112,8 @@
                                     {{-- TODO: change this to use the $cart variable--}}
                                     <div class="delivery-info-wrap">
 
-                                        <label for="location">Where should we deliver your On Demand items? <sup style="color:crimson">*required</sup> </label>
+                                        <label for="location">Where should we deliver your On Demand items? <sup
+                                                    style="color:crimson">*required</sup> </label>
                                         <div class="location-option row">
                                             <label class="radio-inline">
                                                 <input type="radio" name="address_loc" id="loc-university" value="1">University
@@ -148,9 +158,9 @@
                                     </div>
                                     @if( $cart->hasWeeklySpecialItems())
 
-                                    <div class="specials_delivery_loc">
-                                        {{--TODO: put the delivery location--}}
-                                    </div>
+                                        <div class="specials_delivery_loc">
+                                            {{--TODO: put the delivery location--}}
+                                        </div>
                                     @endif
 
                                 @endif
@@ -296,10 +306,10 @@
 
     <!-- Strip payment script -->
     <script>
-        @if(env('APP_ENV') === "production")
-             Stripe.setPublishableKey("{{ env('STRIPE_LIVE_PUBLISHABLE_KEY') }}");
-        @else
-            Stripe.setPublishableKey("{{ env('STRIPE_TEST_PUBLISHABLE_KEY') }}");
+      @if(env('APP_ENV') === "production")
+           Stripe.setPublishableKey("{{ env('STRIPE_LIVE_PUBLISHABLE_KEY') }}");
+      @else
+          Stripe.setPublishableKey("{{ env('STRIPE_TEST_PUBLISHABLE_KEY') }}");
         @endif
 
     </script>

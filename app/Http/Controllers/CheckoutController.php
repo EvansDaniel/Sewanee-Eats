@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\CustomClasses\Orders\CustomerOrder;
 use App\CustomClasses\ShoppingCart\CartBilling;
+use App\CustomClasses\ShoppingCart\ItemLister;
 use App\CustomClasses\ShoppingCart\PaymentType;
 use App\CustomClasses\ShoppingCart\ShoppingCart;
 use App\Events\NewOrderReceived;
@@ -19,7 +20,8 @@ class CheckoutController extends Controller
             \Session::flash('became_unavailable', $items);
         }
         $bill = new CartBilling($cart);
-        return view('orderFlow.checkout', compact('cart', 'bill'));
+        $cart_lister = new ItemLister($cart);
+        return view('orderFlow.checkout', compact('cart', 'bill', 'cart_lister'));
     }
 
     // TODO: acceptance test to assert that the $request object has the correct keys
