@@ -33,7 +33,8 @@ class ItemLister
                 $rest_buckets[$item->getSellerEntity()->id][] = $item;
             }
         }
-        \Log::info('rest buckets ' . $rest_buckets);
+        \Log::info('rest buckets ');
+        \Log::info($rest_buckets);
         return $rest_buckets;
     }
 
