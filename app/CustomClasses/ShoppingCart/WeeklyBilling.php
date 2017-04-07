@@ -64,7 +64,7 @@ class WeeklyBilling
         $cost = 0;
         if (!empty($this->weekly_items)) {
             foreach ($this->weekly_items as $item) {
-                $cost += $item->getPrice() + $this->markup;
+                $cost += $item->getPrice();
             }
         }
         return $cost;
