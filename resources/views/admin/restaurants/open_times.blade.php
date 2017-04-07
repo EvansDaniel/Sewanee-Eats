@@ -12,6 +12,9 @@
 @stop
 
 @section('body')
+    <a href="{{ route('adminListRestaurants') }}">
+        <button class="btn btn-dark" type="button">Back to Restaurant Listing</button>
+    </a>
     <h3>Viewing
         @if($rest->isSellerType($on_demand_seller_type))
             Open Times

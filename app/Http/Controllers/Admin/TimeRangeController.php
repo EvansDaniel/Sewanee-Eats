@@ -61,11 +61,13 @@ class TimeRangeController extends Controller
         foreach ($items as $item) {
             foreach ($time_ranges as $time_range) {
                 $copy = $this->copyTimeRange($time_range);
-                // we need to convert the time range type from restaurant to menu item
-                $copy->time_range_type = TimeRangeType::MENU_ITEM;
-                // and give it the menu item's id
-                $copy->menu_item_id = $item->id;
-                $copy->save();
+                if (empty($err_msg = $this->isValidTimeRangeForMenuItem($item, $copy))) { // if valid time range
+                    // we need to convert the time range type from restaurant to menu item
+                    $copy->time_range_type = TimeRangeType::MENU_ITEM;
+                    // and give it the menu item's id
+                    $copy->menu_item_id = $item->id;
+                    $copy->save();
+                }
             }
         }
         return redirect()->route('adminShowMenu', ['id' => $rest->id])->with('status_good', 'All open times copied to the restaurant\'s menu items');
