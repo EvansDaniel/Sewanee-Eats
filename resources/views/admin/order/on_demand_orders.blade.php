@@ -75,7 +75,8 @@
                 </div>
                 <div class="col-lg-1 medium">customer: {{$on_demand_order->c_name}}</div>
                 <div class="col-lg-1 medium">
-                    Courier: @if(count($on_demand_order->couriers) > 1) {{$on_demand_order->couriers[0]->name}} @else No
+                    Courier: @if(count($on_demand_order->couriers) >= 1) {{$on_demand_order->couriers[0]->name}} @else
+                        No
                     courier assigned yet   @endif</div>
                 <div class="col-lg-1 medium">Deliver to Location: {{$on_demand_order->delivery_location}}</div>
                 <div class="col-lg-1 medium">Customer Email: {{$on_demand_order->email_of_customer}}</div>

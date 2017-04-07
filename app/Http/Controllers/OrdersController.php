@@ -7,14 +7,19 @@ use App\CustomClasses\ShoppingCart\PaymentType;
 use App\CustomClasses\ShoppingCart\RestaurantOrderCategory;
 use App\Models\Order;
 use Auth;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 // TODO: add order change logic to this controller
 class OrdersController extends Controller
 {
-    public function viewOnDemandOpenOrders()
+    public function viewOnDemandOpenOrders(Order $order)
     {
-        $orders = Order::all();
+        $orders = Order::all()->sort(function ($a, $b) {
+            $carbon_a = new Carbon($a->created_at);
+            $carbon_b = new Carbon($b->created_at);
+            return $carbon_a->lessThanOrEqualTo($carbon_b);
+        });
         $on_demand_open_orders = [];
         foreach ($orders as $order) {
             if ($order->hasOrderType(RestaurantOrderCategory::ON_DEMAND)) {
