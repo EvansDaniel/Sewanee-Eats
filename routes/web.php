@@ -366,6 +366,8 @@ Route::group(['prefix' => 'admin',
 
     // TimeRangeController routes
     Route::get('multiAddAvailableTimes/{rest_id}', 'TimeRangeController@showMultiAddItems')->name('showMultiAddItems');
+    Route::post('copyRestTimeRanges', 'TimeRangeController@copyAllRestTimeRangesToMenuItems')
+        ->name('copyAllRestTimeRangesToMenuItems');
     Route::post('multiAddItemsCreate', 'TimeRangeController@createTimeRangeMultiItems')
         ->name('createTimeRangeMultiItems');
 });

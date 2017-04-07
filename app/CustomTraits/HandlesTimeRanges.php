@@ -36,6 +36,28 @@ trait HandlesTimeRanges
     }
 
     /**
+     * @param TimeRange $time_range the time range to copy
+     * @return TimeRange a deep copy of the time range passed as argument
+     * @throws InvalidArgumentException
+     */
+    public function copyTimeRange(TimeRange $time_range)
+    {
+        if (empty($time_range)) {
+            throw new InvalidArgumentException('$time_range is empty');
+        }
+        $copy = new TimeRange;
+        $copy->start_dow = $time_range->start_dow;
+        $copy->start_hour = $time_range->start_hour;
+        $copy->start_min = $time_range->start_min;
+        $copy->end_dow = $time_range->end_dow;
+        $copy->end_hour = $time_range->end_hour;
+        $copy->end_min = $time_range->end_min;
+        // this controller creates shifts and no other type of time range
+        $copy->time_range_type = $time_range->time_range_type;
+        return $copy;
+    }
+
+    /**
      * @param $shift Shift
      * determines if the shift object represents a valid time range
      * @return integer

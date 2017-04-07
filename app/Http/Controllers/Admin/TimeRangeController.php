@@ -52,4 +52,22 @@ class TimeRangeController extends Controller
         }
         return back()->with('status_good', 'All menu items updated to have the time range');
     }
+
+    public function copyAllRestTimeRangesToMenuItems(Restaurant $rest, Request $request)
+    {
+        $rest = $rest->find($request->input('rest_id'));
+        $time_ranges = $rest->getAvailability();
+        $items = $rest->menuItems;
+        foreach ($items as $item) {
+            foreach ($time_ranges as $time_range) {
+                $copy = $this->copyTimeRange($time_range);
+                // we need to convert the time range type from restaurant to menu item
+                $copy->time_range_type = TimeRangeType::MENU_ITEM;
+                // and give it the menu item's id
+                $copy->menu_item_id = $item->id;
+                $copy->save();
+            }
+        }
+        return redirect()->route('adminShowMenu', ['id' => $rest->id])->with('status_good', 'All open times copied to the restaurant\'s menu items');
+    }
 }

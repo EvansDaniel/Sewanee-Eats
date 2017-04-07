@@ -7,6 +7,9 @@
 @stop
 
 @section('body')
+    <a href="{{ route('adminShowMenu',['id' => $menu_item->restaurant->id]) }}">
+        <button class="btn btn-dark" type="button">Back to Menu</button>
+    </a>
     <h3>Viewing availability for {{ $menu_item->name }}</h3>
     @foreach($day_of_week_names as $day_of_week)
         @if(count($menu_item->getResourceTimeRangesByDay($day_of_week)) != 0)
