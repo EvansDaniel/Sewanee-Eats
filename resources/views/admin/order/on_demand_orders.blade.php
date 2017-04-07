@@ -100,12 +100,16 @@
                     </span>
                     @endif
                     @if($on_demand_order->is_being_processed)
+                        <span style="background: yellow; color: white;">
+                        Processing
+                    </span>
+                    @elseif($on_demand_order->is_delivered)
                         <span style="background: darkgreen; color: white;">
-                        Opened
+                        Processing
                     </span>
                     @else
                         <span style="background: crimson; color: white;">
-                        Not open
+                            No Assigned Courier
                     </span>
                     @endif
                     @if($on_demand_order->is_delivered)
