@@ -39,9 +39,9 @@ class ManageRestaurantController extends Controller
             compact('rests', 'on_demand_seller_type'));
     }
 
-    public function changeRestAvailableStatus($rest_id)
+    public function changeRestAvailableStatus(Restaurant $rest, $rest_id)
     {
-        $rest = Restaurant::find($rest_id);
+        $rest = $rest->find($rest_id);
         if ($rest->isSellerType(RestaurantOrderCategory::ON_DEMAND)) {
             $rest->is_available_to_customers = !$rest->is_available_to_customers;
             $rest->save();

@@ -38,16 +38,17 @@
                                 Yes
                                 @if(!$r->isSellerType($on_demand_seller_type))
                                     | Available: {{ $r->getAvailability()->getDayDateTimeString() }} <a
-                                            href="{{ route('changeRestAvailableStatus',['rest_id' => $r->id]) }}">
+                                            href="{{ url()->to(parse_url(route('changeRestAvailableStatus',['rest_id' => $r->id]),PHP_URL_PATH),[],env('APP_ENV') !== 'local') }}">
                                         (Change)
                                     </a>
                                 @else
-                                    <a href="{{ route('changeRestAvailableStatus',['rest_id' => $r->id]) }}">
+                                    <a href="{{ url()->to(parse_url(route('changeRestAvailableStatus',['rest_id' => $r->id]),PHP_URL_PATH),[],env('APP_ENV') !== 'local') }}">
                                         (Change)
                                     </a>
                                 @endif
                             @else
-                                No <a href="{{ route('changeRestAvailableStatus',['rest_id' => $r->id]) }}">
+                                No
+                                <a href="{{ url()->to(parse_url(route('changeRestAvailableStatus',['rest_id' => $r->id]),PHP_URL_PATH),[],env('APP_ENV') !== 'local') }}">
                                     (Change)
                                 </a>
                             @endif
