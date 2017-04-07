@@ -147,7 +147,8 @@
                                                 <br><br>
                                                 @if($order->hasOrderType($special_order_type))
                                                     Since you ordered from a special, once we have your payment
-                                                    payment via venmo, we will mark you down for receiving at the time
+                                                    payment via venmo, we will mark you down for receiving this order at
+                                                    the time
                                                     and place specified below
                                                 @endif
                                             </h4>
@@ -172,8 +173,6 @@
                                                     valign="top">
                                                     <table class="invoice-items" cellpadding="0" cellspacing="0"
                                                            style="font-family: 'Lato', sans-serif; box-sizing: border-box; font-size: 14px; width: 100%; margin: 0;">
-                                                        <h1>Special Rest buckets
-                                                            empty {{ empty($item_lister->toWeeklySpecialRestBuckets()) }}</h1>
                                                         @foreach($item_lister->toWeeklySpecialRestBuckets() as $items)
                                                             <h4>
                                                                 Items for {{ $items[0]->getSellerEntity()->name }}
@@ -194,7 +193,6 @@
                                                                 Price
                                                             </td>
                                                         </tr>
-                                                            <h1>{{ print_r($items) }}</h1>
                                                             @foreach($items as $item)
                                                                 <tr style="font-family: 'Lato', sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
                                                                     <td style="font-family: 'Lato', sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; border-top-width: 1px; border-top-color: #eee; border-top-style: solid; margin: 0; padding: 5px 0;"
@@ -210,10 +208,7 @@
                                                             @endforeach
                                                         @endforeach
                                                         <hr>
-                                                        <h1>empty on demand
-                                                            items {{ empty($item_lister->getOnDemandOrderItems()) }}</h1>
                                                         @foreach($item_lister->getOnDemandOrderItems() as $item)
-                                                            <h1>In On demand</h1>
                                                             <tr style="font-family: 'Lato', sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
                                                                 <td style="font-family: 'Lato', sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; border-top-width: 1px; border-top-color: #eee; border-top-style: solid; margin: 0; padding: 5px 0;"
                                                                     valign="top">

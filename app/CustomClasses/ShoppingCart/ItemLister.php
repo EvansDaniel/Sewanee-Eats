@@ -28,15 +28,10 @@ class ItemLister
     {
         $rest_buckets = [];
         foreach ($this->container->items() as $item) {
-            \Log::info(' the item that has restaurant ' . $item);
-            \Log::info('items retaurant ' . $item->getSellerEntity());
-            \Log::info('restaurant seller type in special rest buckets ' . $item->getSellerEntity()->seller_type);
             if ($item->getSellerEntity()->isSellerType(RestaurantOrderCategory::WEEKLY_SPECIAL)) {
                 $rest_buckets[$item->getSellerEntity()->id][] = $item;
             }
         }
-        \Log::info('rest buckets ');
-        \Log::info($rest_buckets);
         return $rest_buckets;
     }
 
