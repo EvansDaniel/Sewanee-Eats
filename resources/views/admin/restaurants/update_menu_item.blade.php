@@ -27,7 +27,7 @@
             <label for="description">Description</label>
             <input type="text" class="form-control"
                    id="description" name="description" maxlength="200"
-                   required value="{{ $menu_item->description }}">
+                   value="{{ $menu_item->description }}">
 
             <label for="hours-table">Specify the hours during which this menu item is sold by the restaurant. If a menu
                 item is available

@@ -21,7 +21,7 @@
             <input type="number" step=".01" min="0" id="price" class="form-control" name="price" maxlength="6" required>
 
             <label for="description">Description</label>
-            <input type="text" class="form-control" id="description" name="description" maxlength="200" required>
+            <input type="text" class="form-control" id="description" name="description" maxlength="200">
 
             <div class="category-group">
                 <div id="select-category-parent">

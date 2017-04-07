@@ -65,7 +65,7 @@
                                 <img src="{{ $s_restaurant->image_url }}"
                                      id="rest-images" class="img-responsive">
                                 <p class="weekly-status">
-                                    We are taking orders until
+                                    We are taking orders for this special until
                                     {{ $s_restaurant->getAvailability()->getEndTime()}}
                                 </p>
                             </a>
