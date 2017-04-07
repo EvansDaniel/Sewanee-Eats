@@ -75,7 +75,8 @@
                 </div>
                 <div class="col-lg-1 medium">customer: {{$on_demand_order->c_name}}</div>
                 @if(!$on_demand_order->is_delivered)
-                    <div class="col-lg-1 medium">Received {{ $on_demand_order->timeSinceOrdering() }} mins ago</div>
+                    <div class="col-lg-1 medium">Order received {{ $on_demand_order->timeSinceOrdering() }} mins ago
+                    </div>
                 @endif
                 <div class="col-lg-1 medium">
                     Courier: @if(count($on_demand_order->couriers) >= 1) {{$on_demand_order->couriers[0]->name}} @else
