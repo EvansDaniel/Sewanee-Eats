@@ -69,7 +69,7 @@ class RegisterController extends Controller
         event(new Registered($user = $this->create($request->all())));
 
         // don't log the user in if they are already logged in,
-        // the implication is that this is an admin signed in
+        // tthe implication is that this is an admin signed in
         if (!Auth::check()) {
             $this->guard()->login($user);
         }
