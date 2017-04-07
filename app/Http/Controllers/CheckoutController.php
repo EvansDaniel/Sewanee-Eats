@@ -49,7 +49,7 @@ class CheckoutController extends Controller
             }
         } else if ($view_payment_type == 0) { // stripe order
             if (!$new_order->orderValidation($request, PaymentType::STRIPE_PAYMENT)->fails()) {
-                if (!empty($err_msg = $new_order->handleStripeOrder())) {
+                if (!empty($err_msg = $new_order->handleStripeOrder())) {// error with stripe if true
                     return back()->with('status_bad', $err_msg);
                 }
             }

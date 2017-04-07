@@ -26,9 +26,6 @@ class ItemLister
 
     public function toWeeklySpecialRestBuckets()
     {
-        /*if(!empty($this->cart_special_rest_buckets)) {
-            return $this->cart_special_rest_buckets;
-        }*/
         $rest_buckets = [];
         foreach ($this->container->items() as $item) {
             \Log::info($item->getSellerEntity()->seller_type);
@@ -36,8 +33,6 @@ class ItemLister
                 $rest_buckets[$item->getSellerEntity()->id][] = $item;
             }
         }
-
-        /*return $this->cart_special_rest_buckets = $rest_buckets;*/
         return $rest_buckets;
     }
 

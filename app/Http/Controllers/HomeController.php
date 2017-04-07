@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\CustomClasses\ShoppingCart\RestaurantOrderCategory;
 use App\Models\Order;
 
 class HomeController extends Controller
@@ -14,7 +15,8 @@ class HomeController extends Controller
     public function showThankYou()
     {
         $new_order = \Session::get('new_order');
-        return view('orderFlow.thanks', compact('new_order'));
+        $weekly_special_order_type = RestaurantOrderCategory::WEEKLY_SPECIAL;
+        return view('orderFlow.thanks', compact('new_order', 'weekly_special_order_type'));
     }
 
     public function findMyOrder()

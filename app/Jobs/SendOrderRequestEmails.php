@@ -82,7 +82,6 @@ class   SendOrderRequestEmails implements ShouldQueue
             'on_demand_order_type' => $on_demand_order_type,
             'special_order_type' => RestaurantOrderCategory::WEEKLY_SPECIAL,
             'item_lister' => new ItemLister($this->order),
-            'weekly_order_type' => $weekly_order_type,
             'venmo_payment_type' => $venmo_payment_type
         ],
             function ($message) {
