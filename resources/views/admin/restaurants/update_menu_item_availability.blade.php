@@ -23,6 +23,9 @@
 </style>
 
 @section('body')
+    <a href="{{ route('adminShowMenu',['id' => $menu_item->restaurant->id]) }}">
+        <button class="btn btn-dark" type="button">Back to Menu</button>
+    </a>
     <div class="container" id="new-open-time-container">
         <div>
             <p class="heading">

@@ -25,6 +25,9 @@
 @section('body')
     <div class="clearfix"></div>
 
+    <a href="{{ route('adminShowMenu',['id' => $rest->id]) }}">
+        <button class="btn btn-dark" type="button">Back to Menu</button>
+    </a>
     <div class="container" id="new-open-time-container">
         <div>
             <p class="heading">
