@@ -8,6 +8,9 @@
 
     <h1>Update Menu Item</h1>
 
+    <a href="{{ route('adminShowMenu',['id' => $restaurant->id]) }}">
+        <button class="btn btn-dark" type="button">Back to Menu</button>
+    </a>
     {{--<form action="{{ route('updateMenuItem', ['id' => $menu_item->id ]) }}" method="post">--}}
     <form action="{{ url()->to(parse_url(route('updateMenuItem',['id' => $menu_item->id ]),PHP_URL_PATH),[],env('APP_ENV') !== 'local')  }}"
           method="post">

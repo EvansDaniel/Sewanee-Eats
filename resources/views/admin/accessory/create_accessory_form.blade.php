@@ -8,6 +8,9 @@
 
 @section('body')
 
+    <a href="{{ route('adminShowMenu',['id' => $menu_item->restaurant->id]) }}">
+        <button class="btn btn-dark" type="button">Back to Menu</button>
+    </a>
     <h1>Create New Accessory</h1>
     <form action="{{ url()->to(parse_url(route('createAccessory',[]),PHP_URL_PATH),[],env('APP_ENV') !== 'local') }}"
           method="post">

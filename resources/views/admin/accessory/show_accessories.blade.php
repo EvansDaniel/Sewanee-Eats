@@ -6,6 +6,9 @@
 
 @section('body')
 
+    <a href="{{ route('adminShowMenu',['id' => $menu_item->restaurant->id]) }}">
+        <button class="btn btn-dark" type="button">Back to Menu</button>
+    </a>
     <h1>Accessories for {{ $menu_item->name }}</h1>
     <a href="{{ route('showCreateAccessoryForm',['id' => $menu_item->id]) }}">
         <button type="button" style="margin-bottom: 10px" class="btn btn-primary form-control">Add accessory

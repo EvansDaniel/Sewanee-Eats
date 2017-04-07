@@ -10,7 +10,9 @@
         <div>
             @if(empty($accs))
                 <h2>There seems to be no existing accessories that aren't already attached to this menu item. <a
-                            href="{{ route('adminShowMenu',['id' => $menu_item->restaurant->id]) }}">Back to Menu</a>
+                            href="{{ route('adminShowMenu',['id' => $menu_item->restaurant->id]) }}">
+                        <button class="btn btn-dark" type="button">Back to Menu</button>
+                    </a>
                 </h2>
             @else
                 <form action="{{ url()->to(parse_url(route('createMultiAddAccs',[]),PHP_URL_PATH),[],env('APP_ENV') !== 'local') }}"
