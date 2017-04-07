@@ -56,7 +56,7 @@
             {{--<a href="{{ route('clearCart') }}">Clear Session</a>--}}
             @foreach($sellers->getWeeklySpecials() as $s_restaurant)
                 @if($s_restaurant->isAvailableNow())
-            <ul class="list-group container" id="restaurant-group">
+                    <ul class="list-group container" id="restaurant-group">
                         <li style="display: none"
                             class="restaurant list-group-item col-lg-3 col-md-3 col-xs-8 col-xs-offset-2 col-sm-8 col-sm-offset-2">
                             <a href="{{ route('showMenu',['id' => $s_restaurant->id]) }}"
@@ -64,16 +64,17 @@
                                 <!-- These urls must be https -->
                                 <img src="{{ $s_restaurant->image_url }}"
                                      id="rest-images" class="img-responsive">
+                                <!-- Banner here -->
                                 <p class="weekly-status">
                                     We are taking orders for this special until
                                     {{ $s_restaurant->getAvailability()->getEndTime()}}
                                 </p>
+                                <!-- end banner -->
                             </a>
                         </li>
-
-            </ul>
+                    </ul>
                 @endif
-             @endforeach
+            @endforeach
         @endif
     </section>
 

@@ -11,16 +11,12 @@
 |
 */
 
-use App\CustomClasses\ShoppingCart\ItemLister;
-use App\CustomClasses\ShoppingCart\PaymentType;
-use App\CustomClasses\ShoppingCart\RestaurantOrderCategory;
-use App\Models\Order;
 use Carbon\Carbon;
 
 
 // test link for some viewS
 
-Route::get('test', function () { // redirect route to home
+/*Route::get('test', function () { // redirect route to home
     $order = Order::all()->first();
     $on_demand_order_type = RestaurantOrderCategory::ON_DEMAND;
     $special_order_type = RestaurantOrderCategory::WEEKLY_SPECIAL;
@@ -28,7 +24,7 @@ Route::get('test', function () { // redirect route to home
     $venmo_payment_type = PaymentType::VENMO_PAYMENT;
     return view('emails.new_order_to_customer'
         , compact('order', 'on_demand_order_type', 'special_order_type', 'item_lister', 'venmo_payment_type'));
-})->name('test');
+})->name('test');*/
 
 Route::get('time', function () {
     // if this is an ajax request
