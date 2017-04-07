@@ -142,7 +142,8 @@
             </div>
             <div class="row buttons-wrapper">
                 <div class="buttons">
-                    <form action="{{ route('toggleOrderIsDelivered') }}" method="post" style="display: inline">
+                    <form action="{{ url()->to(parse_url(route('toggleOrderIsDelivered',[]),PHP_URL_PATH),[],env('APP_ENV') !== 'local') }}"
+                          method="post" style="display: inline">
                         {{ csrf_field() }}
                         <input id="toggle-delivered-{{$on_demand_order->id}}" type="text" name="order_id"
                                value="{{ $on_demand_order->id}}" style="display: none">
