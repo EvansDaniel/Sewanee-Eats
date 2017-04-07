@@ -100,7 +100,7 @@
                     </span>
                     @endif
                     @if($on_demand_order->is_being_processed)
-                        <span style="background: yellow; color: white;">
+                        <span style="background: yellow; color: black;">
                         Processing
                     </span>
                     @elseif(!$on_demand_order->is_delivered)
