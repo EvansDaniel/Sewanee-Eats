@@ -129,6 +129,11 @@ class MenuItemController extends Controller
     {
         $unique_accs = [];
         $menu_item = $item->find($id);
+        // don't allow any accessories that already added to this item to be
+        // listed on the page
+        foreach ($menu_item->accessories as $acc) {
+            $unique_accs[] = $acc;
+        }
         $rest = $menu_item->restaurant;
         $accs = [];
         foreach ($rest->menuItems as $rest_menu_item) {
@@ -145,7 +150,6 @@ class MenuItemController extends Controller
     public function createMultiAddAccs(MenuItem $menu_item, Request $request)
     {
         $accs = $request->input('accessories');
-        \Log::info($accs);
         $menu_item_id = $request->input('menu_item_id');
         $menu_item = $menu_item->find($menu_item_id);
         foreach ($accs as $acc) {
