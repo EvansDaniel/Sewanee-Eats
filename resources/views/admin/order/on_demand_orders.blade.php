@@ -103,11 +103,7 @@
                         <span style="background: yellow; color: white;">
                         Processing
                     </span>
-                    @elseif($on_demand_order->is_delivered)
-                        <span style="background: darkgreen; color: white;">
-                        Processing
-                    </span>
-                    @else
+                    @elseif(!$on_demand_order->is_delivered)
                         <span style="background: crimson; color: white;">
                             No Assigned Courier
                     </span>
