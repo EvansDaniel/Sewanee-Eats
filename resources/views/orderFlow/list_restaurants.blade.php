@@ -72,9 +72,6 @@
                         </li>
 
             </ul>
-            <p>
-                {{$s_restaurant->location_special}} this {{$s_restaurant->time_special}}
-            </p>
                 @endif
              @endforeach
         @endif
