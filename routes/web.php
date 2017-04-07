@@ -317,6 +317,11 @@ Route::group(['prefix' => 'admin',
     Route::get('menuItemAvailability/{menu_item_id}', 'MenuItemController@showMenuItemAvailability')
         ->name('showMenuItemAvailability');
 
+    Route::get('addMultiExistingAccs/{id}', 'MenuItemController@showAddMultiExistingAccs')
+        ->name('showAddMultiExistingAccs');
+    Route::post('createMultiAddAccs', 'MenuItemController@createMultiAddAccs')
+        ->name('createMultiAddAccs');
+
     Route::get('addMenuItemAvailability/{menu_item_id}', 'MenuItemController@showMenuItemAddAvailability')
         ->name('showMenuItemAddAvailability');
 

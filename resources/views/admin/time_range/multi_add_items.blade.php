@@ -5,7 +5,8 @@
 @stop
 
 @section('body')
-    <form action="{{ route('createTimeRangeMultiItems') }}" id="create-multi-time-range-items-form" method="post">
+    <form action="{{ url()->to(parse_url(route('createTimeRangeMultiItems',[]),PHP_URL_PATH),[],env('APP_ENV') !== 'local') }}"
+          id="create-multi-time-range-items-form" method="post">
         <ul class="list-group">
             <div class="panel panel-default">
 

@@ -125,6 +125,36 @@ class MenuItemController extends Controller
             ->with('status_good', 'Menu item created');
     }
 
+    public function showAddMultiExistingAccs(MenuItem $item, $id)
+    {
+        $unique_accs = [];
+        $menu_item = $item->find($id);
+        $rest = $menu_item->restaurant;
+        $accs = [];
+        foreach ($rest->menuItems as $rest_menu_item) {
+            foreach ($rest_menu_item->accessories as $acc)
+                if (!in_array($acc->id, $unique_accs)) {
+                    $unique_accs[] = $acc->id;
+                    $accs[] = $acc;
+                }
+        }
+        return view('admin.restaurants.add_multi_existing_accs',
+            compact('accs', 'menu_item'));
+    }
+
+    public function createMultiAddAccs(MenuItem $menu_item, Request $request)
+    {
+        $accs = $request->input('accessories');
+        \Log::info($accs);
+        $menu_item_id = $request->input('menu_item_id');
+        $menu_item = $menu_item->find($menu_item_id);
+        foreach ($accs as $acc) {
+            $menu_item->accessories()->attach($acc);
+        }
+        return redirect()->route('adminShowMenu', ['id' => $menu_item->find($menu_item_id)->restaurant->id])
+            ->with('status_good', 'Accessories added to menu item');
+    }
+
     public function deleteMenuItem($id)
     {
         MenuItem::find($id)->delete();
