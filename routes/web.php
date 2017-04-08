@@ -103,12 +103,20 @@ Route::group([
 
 // --------------------------------------------------------------------------------------
 
+if (env('APP_ENV') != 'staging') {
 // Order Flow routes ------------------------------------------------------------------
-Route::post('handleCheckout', 'CheckoutController@handleCheckout')
-    ->name('handleCheckout');
+    Route::post('handleCheckout', 'CheckoutController@handleCheckout')
+        ->name('handleCheckout');
 
-Route::get('checkout', 'CheckoutController@showCheckoutPage')
-    ->name('checkout');
+    Route::get('checkout', 'CheckoutController@showCheckoutPage')
+        ->name('checkout');
+} else {
+    Route::post('handleCheckout', 'CheckoutController@handleCheckout')
+        ->name('handleCheckout')->middleware('role:admin');
+
+    Route::get('checkout', 'CheckoutController@showCheckoutPage')
+        ->name('checkout')->middleware('role:admin');
+}
 
 Route::get('restaurants', 'SellerEntityController@list_restaurants')
     ->name('list_restaurants');

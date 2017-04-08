@@ -31,5 +31,10 @@ class RoleTableSeeder extends Seeder
             'name' => 'courier',
             'description' => 'Can deliver food and view order requests, receives a paycheck'
         ]);
+
+        Role::create([
+            'name' => 'tester',
+            'description' => 'User for testing in staging'
+        ]);
     }
 }

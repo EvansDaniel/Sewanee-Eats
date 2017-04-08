@@ -19,19 +19,19 @@ class UserTableSeeder extends Seeder
         User::create([
             'name' => 'Daniel Evans',
             'email' => 'evansdb0@sewanee.edu',
-            'password' => bcrypt('daniel'),
+            'password' => bcrypt('devans@yeah'),
         ]);
 
         User::create([
             'name' => 'Blaise Iradukunda',
             'email' => 'iradub0@sewanee.edu',
-            'password' => bcrypt('blaise'),
+            'password' => bcrypt('blezzoh@1995'),
         ]);
 
         User::create([
             'name' => 'Tari Kandemiri',
             'email' => 'kandeta0@sewanee.edu',
-            'password' => bcrypt('tariro'),
+            'password' => bcrypt('tari1995'),
         ]);
     }
 }
