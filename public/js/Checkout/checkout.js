@@ -304,3 +304,7 @@ function setLocationInputsRequired(setALocsRequired, uLocInputs, aLocInputs) {
   }
 
 }
+
+$('.pay-input').on('mousedown', function () {
+  $(this).focus();
+});
