@@ -3,7 +3,7 @@
     <title>Sewanee Eats| Thank you!</title>
 @stop
 @section('body')
-    <link rel="stylesheet" href="{{asset('css/thanks.css',env('APP_ENV') === 'production')}}">
+    <link rel="stylesheet" href="{{asset('css/thanks.css',env('APP_ENV') != 'local')}}">
     <div class="container">
         <h3 align="center">Your Order Has Been Confirmed!</h3>
         <hr>

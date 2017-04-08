@@ -2,7 +2,7 @@
 
 @section('head')
 
-    <link rel="stylesheet" href={{ asset('css/menu.css',env('APP_ENV') === 'production') }}>
+    <link rel="stylesheet" href={{ asset('css/menu.css',env('APP_ENV') != 'local') }}>
     <title>{{ $restaurant->name }} | Menu</title>
 @stop
 
@@ -92,5 +92,5 @@
             </div>
         </div>
     </div>
-    <script src="{{ asset('js/menu.js',env('APP_ENV') === 'production') }}"></script>
+    <script src="{{ asset('js/menu.js',env('APP_ENV') != 'local') }}"></script>
 @stop

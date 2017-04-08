@@ -1,4 +1,4 @@
-<link rel="stylesheet" href={{ asset('css/nav_bar.css',env('APP_ENV') === 'production') }}>
+<link rel="stylesheet" href={{ asset('css/nav_bar.css',env('APP_ENV') != 'local') }}>
 {{--<link rel="stylesheet" href="{{asset('css/nav_bar.css')}}">--}}
 <nav class="navbar navbar-default navbar-custom navbar-fixed-top row">
     <button type="button" id="collapse-button" class="navbar-toggle" data-toggle="collapse"

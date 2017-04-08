@@ -4,7 +4,7 @@
 
             {{--<img class="img-circle img-thumbnail" src="{{ $restaurant->image_url }}">--}}
             <img class="img-circle img-thumbnail" id="restaurant-logo"
-                 src="{{ asset('images/branding/brand_tall_logo.png',env('APP_ENV') === 'production') }}">
+                 src="{{ asset('images/branding/brand_tall_logo.png',env('APP_ENV') != 'local') }}">
             <hr id="custom-line">
         </div>
     </div>

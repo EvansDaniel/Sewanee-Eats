@@ -84,4 +84,4 @@
     </tr>
     </tbody>
 </table>
-<script src="{{asset('js/admin/validate_available_days.js',env('APP_ENV') === 'production')}}"></script>
+<script src="{{asset('js/admin/validate_available_days.js',env('APP_ENV') != 'local')}}"></script>

@@ -2,7 +2,7 @@
 
 @section('head')
     <title>Update Restaurant</title>
-    <link rel="stylesheet" href="{{ asset('css/admin/create_update_restaurant.css',env('APP_ENV') === 'production') }}">
+    <link rel="stylesheet" href="{{ asset('css/admin/create_update_restaurant.css',env('APP_ENV') != 'local') }}">
 @stop
 
 @section('body')

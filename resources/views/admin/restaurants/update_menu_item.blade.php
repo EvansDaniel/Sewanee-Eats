@@ -69,5 +69,5 @@
         }
     </style>
 
-    <script src="{{ asset('js/admin/create_update_menu_item.js',env('APP_ENV') === 'production') }}"></script>
+    <script src="{{ asset('js/admin/create_update_menu_item.js',env('APP_ENV') != 'local') }}"></script>
 @stop

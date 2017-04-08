@@ -73,7 +73,7 @@ trait UploadFile
     public function dbStoragePath($sub_dir, $file_name)
     {
         $sep = $this->separator($sub_dir);
-        return asset('app/' . $sub_dir . $sep . $file_name, env('APP_ENV') === 'production');
+        return asset('app/' . $sub_dir . $sep . $file_name, env('APP_ENV') != 'local');
     }
 
     /**

@@ -5,8 +5,8 @@
 @stop
 
 @section('body')
-    <link rel="stylesheet" href={{ asset('css/restaurants.css',env('APP_ENV') === 'production') }}>
-    <script src="{{ asset('js/restaurants.js',env('APP_ENV') === 'production') }}"></script>
+    <link rel="stylesheet" href={{ asset('css/restaurants.css',env('APP_ENV') !== 'local') }}>
+    <script src="{{ asset('js/restaurants.js',env('APP_ENV') !== 'local') }}"></script>
 
     <section class="container header">
         <div class="container-fluid location_wrap">

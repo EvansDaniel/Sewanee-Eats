@@ -10,16 +10,20 @@
     {{-- add uses-main-image for any lighter image--}}
     <div class="carousel-inner">
         <div class="item active ">
-            <img src="{{ asset('images/sushi2.jpg',env('APP_ENV') === 'production') }}" class="img-responsive hidden-sm hidden-xs"  alt="Food is the fuel for the body">
-            <img src="{{ asset('images/sushi.jpg',env('APP_ENV') === 'production') }}" class="img-responsive hidden-md hidden-lg"  alt="Food is the fuel for the body">
+            <img src="{{ asset('images/sushi2.jpg',env('APP_ENV') != 'local') }}"
+                 class="img-responsive hidden-sm hidden-xs" alt="Food is the fuel for the body">
+            <img src="{{ asset('images/sushi.jpg',env('APP_ENV') != 'local') }}"
+                 class="img-responsive hidden-md hidden-lg" alt="Food is the fuel for the body">
             <div class="carousel-caption">
                 <h3><span> SewaneeEats</span> brings <span id="carousel-restaurant">YAMOTO</span> Tuesday for dinner. Are you ready?</h3><br>
                 <a href="{{ route('list_restaurants') }}" class="btn hidden-xs" id="btn">ORDER NOW</a>
             </div>
         </div>
         <div class="item dark-overlay">
-            <img src="{{ asset('images/pie2.jpg',env('APP_ENV') === 'production') }}" class="img-responsive hidden-sm hidden-xs" alt="Food is the fuel for the body">
-            <img src="{{ asset('images/pie.jpg',env('APP_ENV') === 'production') }}" class="img-responsive hidden-lg hidden-md" alt="Food is the fuel for the body">
+            <img src="{{ asset('images/pie2.jpg',env('APP_ENV') != 'local') }}"
+                 class="img-responsive hidden-sm hidden-xs" alt="Food is the fuel for the body">
+            <img src="{{ asset('images/pie.jpg',env('APP_ENV') != 'local') }}"
+                 class="img-responsive hidden-lg hidden-md" alt="Food is the fuel for the body">
             <div class="carousel-caption" id="car-charity">
                 <h3><span> AΔΠ</span> presents <span id="carousel-restaurant">"Pie for Charity"</span> Tuesday.</h3>
                 <p>Buy a pie to support AΔΠ fundraising towards Ronald McDonald house in chattanooga.</p>
@@ -27,8 +31,10 @@
             </div>
         </div>
         <div class="item dark-overlay" id="car-promo">
-            <img src="{{ asset('images/homefront2.jpg',env('APP_ENV') === 'production') }}" class="img-responsive hidden-xs hidden-sm" alt="Food is the fuel for the body">
-            <img src="{{ asset('images/homefront.jpg',env('APP_ENV') === 'production') }}" class="img-responsive hidden-lg hidden-md" alt="Food is the fuel for the body">
+            <img src="{{ asset('images/homefront2.jpg',env('APP_ENV') != 'local') }}"
+                 class="img-responsive hidden-xs hidden-sm" alt="Food is the fuel for the body">
+            <img src="{{ asset('images/homefront.jpg',env('APP_ENV') != 'local') }}"
+                 class="img-responsive hidden-lg hidden-md" alt="Food is the fuel for the body">
             <div class="carousel-caption">
                 <h3>BUY MORE SAVE MORE</h3>
                 <p>Get 20% off delivery fee on anything added to the cart after the first item - UP TO 4 ITEMS.</p>

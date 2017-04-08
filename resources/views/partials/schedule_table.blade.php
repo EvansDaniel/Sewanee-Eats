@@ -1,4 +1,4 @@
-<link rel="stylesheet" href={{ asset('css/schedule_table.css',env('APP_ENV') === 'production') }}>
+<link rel="stylesheet" href={{ asset('css/schedule_table.css',env('APP_ENV') != 'local') }}>
 <table id="schedule-table" class="table table-bordered">
     <thead>
     <tr>
@@ -92,4 +92,4 @@
 
 <span id="courier-id" data-courier-id="{{ $courier->id }}"></span>
 
-<script src="{{ asset('js/courier/schedule.js',env('APP_ENV') === 'production') }}"></script>
+<script src="{{ asset('js/courier/schedule.js',env('APP_ENV') != 'local') }}"></script>
