@@ -48,6 +48,9 @@ class OrderQueueController extends Controller
      */
     public function showOrdersQueue()
     {
+        if (!Auth::user()->hasRole('courier')) {
+            return redirect()->route('showAdminDashboard')->with('status_bad', 'Only couriers can view the courier\'s order queue');
+        }
         try {
             // no need for findOrFail, auth is required for access
             $order_queue = new OrderQueue(User::find(Auth::id()));
@@ -121,6 +124,9 @@ class OrderQueueController extends Controller
 
     public function nextOrderInQueue()
     {
+        if (!Auth::user()->hasRole('courier')) {
+            return redirect()->route('showAdminDashboard')->with('status_bad', 'Only couriers can access the next order in the on demand queue');
+        }
         try {
             // validity of courier checked in the constructor
             $order_queue = new OrderQueue(Auth::user());

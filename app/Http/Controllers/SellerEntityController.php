@@ -44,7 +44,7 @@ class SellerEntityController extends Controller
     {
         $restaurant = $rest->findOrFail($id);
         // if this is an on demand restaurant and we are closed right now
-        if ($restaurant->isSellerType(RestaurantOrderCategory::ON_DEMAND) && empty(Shift::now())) {
+        if ($restaurant->isSellerType(RestaurantOrderCategory::ON_DEMAND) && !Shift::onDemandIsAvailable()) {
             return back()->with('status_bad', 'Sorry we are currently closed and not taking On Demand orders');
         }
         if (!$restaurant->isAvailableNow()) {
@@ -62,9 +62,9 @@ class SellerEntityController extends Controller
 
     public function list_restaurants(Sellers $sellers)
     {
-        $shift_now = Shift::now();
+        $on_demand_is_available = Shift::onDemandIsAvailable();
         return view('orderFlow.list_restaurants',
-            compact('sellers', 'shift_now'));
+            compact('sellers', 'on_demand_is_available'));
     }
 
     public function showEventItems(SpecialEvent $event, $event_id)

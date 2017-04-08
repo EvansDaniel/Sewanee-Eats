@@ -7,7 +7,9 @@ use App\CustomClasses\ShoppingCart\RestaurantOrderCategory;
 use App\CustomClasses\ShoppingCart\ShoppingCart;
 use App\Http\Controllers\SellerEntityController;
 use App\Models\Restaurant;
+use App\Models\Role;
 use App\Models\TimeRange;
+use App\User;
 use Carbon\Carbon;
 use Tests\TestCase;
 
@@ -36,9 +38,11 @@ class SellerEntityControllerTest extends TestCase
     /**
      * @test
      */
-    public function redirectsOnOnDemandRestaurantNonAvailability()
+    public function redirectsOnDemandRestaurantNonAvailability()
     {
-        $this->makeShiftNow();
+        \Artisan::call('migrate');
+        // make a weekly special restaurant not and on demand
+        $this->makeShiftAndRestAvailableNow(RestaurantOrderCategory::WEEKLY_SPECIAL);
         $cart_mock = $this->mock(ShoppingCart::class);
         $cart_mock->shouldReceive('checkMenuItemAndRestaurantAvailabilityAndDelete')
             ->once()->andReturn(null);
@@ -57,19 +61,38 @@ class SellerEntityControllerTest extends TestCase
         self::assertInstanceOf('\Illuminate\Http\RedirectResponse', $showMenuRet);
     }
 
-    private function makeShiftNow()
+    private function makeShiftAndRestAvailableNow($restaurant_type)
     {
-        \Artisan::call('migrate');
+        \Eloquent::unguard();
         // make it so that shift now is true
-        $rest = factory(Restaurant::class)->create(['seller_type' => RestaurantOrderCategory::ON_DEMAND]);
+        $rest = factory(Restaurant::class)->create([
+            'seller_type' => $restaurant_type,
+            'is_available_to_customers' => true
+        ]);
         // make a time_range that is available now
-        $time_range = factory(TimeRange::class)->create([
+        $shift = factory(TimeRange::class)->create([
             'start_dow' => Carbon::now()->subHours(3)->format('l'),
             'end_dow' => Carbon::now()->addHour(4)->format('l'),
             'start_hour' => Carbon::now()->subHours(3)->hour,
             'end_hour' => Carbon::now()->addHours(4)->hour,
             'time_range_type' => TimeRangeType::SHIFT
         ]);
+        $rest_open_time = factory(TimeRange::class)->create([
+            'start_dow' => Carbon::now()->subHours(3)->format('l'),
+            'end_dow' => Carbon::now()->addHour(4)->format('l'),
+            'start_hour' => Carbon::now()->subHours(3)->hour,
+            'end_hour' => Carbon::now()->addHours(4)->hour,
+            'restaurant_id' => $rest->id,
+            'time_range_type' => TimeRangeType::ON_DEMAND
+        ]);
+        $courier = factory(User::class)->create();
+        Role::create([
+            'name' => 'courier'
+        ]);
+        $courier->roles()->attach(Role::ofType('courier')->first()->id);
+        $shift->users()->attach($courier->id);
+        \Eloquent::reguard();
+        return $rest;
     }
 
     /**
@@ -95,10 +118,5 @@ class SellerEntityControllerTest extends TestCase
         $this->assertSessionHas('status_bad', 'Sorry this restaurant is not available right now');
         // expect that we redirect back
         self::assertInstanceOf('\Illuminate\Http\RedirectResponse', $showMenuRet);
-    }
-
-    public function stuff()
-    {
-
     }
 }

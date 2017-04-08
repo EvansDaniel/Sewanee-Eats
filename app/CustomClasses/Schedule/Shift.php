@@ -79,6 +79,13 @@ class Shift
         throw new InvalidArgumentException('Invalid courier type given. Must be a constant from the CourierTypes class');
     }
 
+    public static function onDemandIsAvailable()
+    {
+        $shift_now = Shift::now();
+        $shift = new Shift($shift_now);
+        return !empty($shift_now) && $shift->hasCouriersAssigned();
+    }
+
     /**
      * Gets the current shift
      * @return TimeRange|null
@@ -89,9 +96,15 @@ class Shift
         foreach ($shifts as $shift) {
             if (IsAvailable::nowIsBetweenOrEqualToTimeRange($shift, 0)) {
                 return $shift;
+                return $shift;
             }
         }
         return null;
+    }
+
+    public function hasCouriersAssigned()
+    {
+        return !empty($this->couriers);
     }
 
     public function getCurrentShifts()
@@ -138,11 +151,6 @@ class Shift
     public function isValidShift()
     {
         return $this->validShift($this);
-    }
-
-    public function hasCouriersAssigned()
-    {
-        return !empty($this->couriers);
     }
 
     public function getUnassignedManagers()

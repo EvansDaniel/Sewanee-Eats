@@ -14,7 +14,7 @@
             <h3 id="mountain">ON DEMAND RESTAURANTS</h3>
         </div>
         <ul class="list-group container" id="restaurant-group">
-            @if(!empty($shift_now))
+            @if($on_demand_is_available)
                 @if(empty($sellers->getOnDemandRests()))
                     <h4>There are no restaurants open at this time</h4>
                 @else

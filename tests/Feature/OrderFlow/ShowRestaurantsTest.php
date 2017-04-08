@@ -5,7 +5,9 @@ namespace Tests\Feature\OrderFlow;
 use App\CustomClasses\Availability\TimeRangeType;
 use App\CustomClasses\ShoppingCart\RestaurantOrderCategory;
 use App\Models\Restaurant;
+use App\Models\Role;
 use App\Models\TimeRange;
+use App\User;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
@@ -30,18 +32,44 @@ class ShowMenuTest extends TestCase
      */
     public function itDisplaysOnDemandRestaurantsWhenOpen()
     {
-        $rest = factory(Restaurant::class)->create(['seller_type' => RestaurantOrderCategory::ON_DEMAND]);
+        $rest = $this->makeShiftAndRestAvailableNow(RestaurantOrderCategory::ON_DEMAND);
+        // shows the available restaurants image urls, thus showing the restaurants
+        $this->visit(route('list_restaurants'))
+            ->see($rest->image_url);
+    }
+
+    private function makeShiftAndRestAvailableNow($restaurant_type)
+    {
+        \Eloquent::unguard();
+        // make it so that shift now is true
+        $rest = factory(Restaurant::class)->create([
+            'seller_type' => $restaurant_type,
+            'is_available_to_customers' => true
+        ]);
         // make a time_range that is available now
-        $time_range = factory(TimeRange::class)->create([
+        $shift = factory(TimeRange::class)->create([
             'start_dow' => Carbon::now()->subHours(3)->format('l'),
             'end_dow' => Carbon::now()->addHour(4)->format('l'),
             'start_hour' => Carbon::now()->subHours(3)->hour,
             'end_hour' => Carbon::now()->addHours(4)->hour,
             'time_range_type' => TimeRangeType::SHIFT
         ]);
-        // shows the available restaurants image urls, thus showing the restaurants
-        $this->visit(route('list_restaurants'))
-            ->see($rest->image_url);
+        $rest_open_time = factory(TimeRange::class)->create([
+            'start_dow' => Carbon::now()->subHours(3)->format('l'),
+            'end_dow' => Carbon::now()->addHour(4)->format('l'),
+            'start_hour' => Carbon::now()->subHours(3)->hour,
+            'end_hour' => Carbon::now()->addHours(4)->hour,
+            'restaurant_id' => $rest->id,
+            'time_range_type' => TimeRangeType::ON_DEMAND
+        ]);
+        $courier = factory(User::class)->create();
+        Role::create([
+            'name' => 'courier'
+        ]);
+        $courier->roles()->attach(Role::ofType('courier')->first()->id);
+        $shift->users()->attach($courier->id);
+        \Eloquent::reguard();
+        return $rest;
     }
 
     /**
@@ -50,18 +78,7 @@ class ShowMenuTest extends TestCase
      */
     public function businessIsOpenWhenItIsSupposedToBe()
     {
-        $rest = factory(Restaurant::class)->create(['seller_type' => RestaurantOrderCategory::ON_DEMAND]);
-        // make a time_range that is available now
-        $time_range = factory(TimeRange::class)->create([
-            'start_dow' => Carbon::now()->subHours(3)->format('l'),
-            'end_dow' => Carbon::now()->addHours(4)->format('l'),
-            'start_hour' => Carbon::now()->subHours(3)->hour,
-            'end_hour' => Carbon::now()->addHours(4)->hour,
-            'time_range_type' => TimeRangeType::SHIFT
-        ]);
-        \Log::info($time_range->getStartCarbon());
-        \Log::info($time_range->getEndCarbon());
-        \Log::info(Carbon::now());
+        $this->makeShiftAndRestAvailableNow(RestaurantOrderCategory::ON_DEMAND);
         $this->visit(route('list_restaurants'))
             ->assertViewHas('sellers')->dontSee('Sorry we are closed right now');
     }
