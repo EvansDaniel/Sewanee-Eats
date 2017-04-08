@@ -7,18 +7,10 @@
 $(function () {
     var $form = $('#payment-form');
     $form.submit(function (event) {
+      // immediately disable the pay now button
         $('#pay-now-button').prop('disabled', true);
         if (!$('#pay-with-venmo').is(':checked')) {
             // Disable the submit button to prevent repeated clicks:
-
-            // TODO: see where this fits into the current set up
-            /*var message = validPayForm(true);
-             if (message !== null) { // an error message was returned
-             $('#payment-errors').show().text(message);
-             event.preventDefault();
-             $form.find('.submit').prop('disabled', false);
-             return false;
-             }*/
 
             // Request a token from Stripe:
             Stripe.card.createToken($form, stripeResponseHandler);
@@ -41,7 +33,6 @@ function stripeResponseHandler(status, response) {
         // Show the errors on the form:
         $('#payment-errors-div').show();
         $('#payment-errors').text(response.error.message);
-        p('here');
         $('#pay-now-button').prop('disabled', false); // Re-enable submission
 
     } else { // Token was created!

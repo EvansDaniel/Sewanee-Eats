@@ -46,24 +46,6 @@ var docInit = function () {
       doneEditingForm(url, data);
     });
   });
-  // Validation handlers
-  var payInputs = $('.pay-input');
-  /*payInputs.on('change', function () {
-   var message = validPayForm(false);
-   if (message != null) {
-   $('#payment-errors').show().text(message);
-   } else {
-   $('#payment-errors').hide();
-   }
-   });
-   payInputs.on('keyup', function () {
-   var message = validPayForm(false);
-   if (message != null) {
-   $('#payment-errors').show().text(message);
-   } else {
-   $('#payment-errors').hide();
-   }
-   });*/
 }();
 
 // user is "finished typing," do something
@@ -180,56 +162,10 @@ function updateUIAfterDeleteItem(delButton, res) {
   }
 }
 
-function validPayForm(focus) {
-  var payFormError = $('#payment-form-error');
-  var expMonth = $('#exp-month');
-  var expYear = $('#exp-year');
-  var cvc = $('#cvc');
-  var cardNumber = $('#card-number');
-  var location = $('#location');
-  var phoneNumber = $('#phone-number');
-
-  // Card validation start
-  if (!Stripe.card.validateCardNumber(cardNumber.val())) {
-    if (focus) cardNumber.focus();
-    return 'The card number provided is invalid';
-  } else {
-    payFormError.hide()
-  }
-  if (!Stripe.card.validateExpiry(expMonth.val(), expYear.val())) {
-    if (focus) expMonth.focus();
-    return 'The expiry fields are in correct. Make sure it is of the form MM/YYYY';
-  } else {
-    payFormError.hide()
-  }
-  if (!Stripe.card.validateCVC(cvc.val())) {
-    if (focus) cvc.focus();
-    return 'The CVC field is incorrect. Make sure it is a 3 or 4 digit number';
-  } else {
-    payFormError.hide()
-  } // end of card validation
-
-  if (location.val() == "") {
-    payFormError.show().text('The location field is required');
-    if (focus) location.focus();
-    return 'The location field is required';
-  } else {
-    payFormError.hide()
-  }
-  if (phoneNumber.val() == "" ||
-  phoneNumber.val().length != 10 ||
-  isNaN(parseInt(phoneNumber.val()))) {
-    if (focus) phoneNumber.focus();
-    return 'The phone number field is required and should be a 10 number with the area code';
-  } else {
-    payFormError.hide()
-  }
-  return "Would be null here";
-}
-
 function checkPayNow(event) {
   if (!AJAX_DONE) {
     SUBMIT_FORM = true;
+    // disable button til ajax request for special instructions/extras is done saving
     $('#pay-now-button').prop('disabled', true);
     event.preventDefault();
   }

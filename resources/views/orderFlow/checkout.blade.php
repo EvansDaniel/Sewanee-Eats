@@ -218,28 +218,28 @@
                                                        value="@if(env('APP_ENV') != "production") {{ 4242424242424242 }} @endif"
                                                        placeholder="############">
                                             </label>
-                                            {{--<div class="form-group" id="c-cvc">--}}
                                             <label>
                                                 <span class="row">CVC</span>
                                                 <input class="pay-input" type="text" size="4" maxlength="4" id="cvc"
                                                        data-stripe="cvc" name="cvc" placeholder="###">
                                             </label>
-                                            {{--</div>--}}
                                         </div>
 
                                         <div class="form-group" id="c-date">
-                                            <label>
-                                                <span class="row">Expiration</span>
-                                                <div class="row">
+                                            <div class="row" style="margin-left: 1%; margin-bottom: 15px">
+                                                <label>
+                                                    Expiration
+                                                </label>
+                                            </div>
+                                            <div class="row">
 
-                                                    <input class="pay-input" type="text" size="2" id="exp-month"
-                                                           maxlength="2"
-                                                           data-stripe="exp_month" name="expire_month" placeholder="MM">
-                                                    <input class="pay-input" type="text" size="4" id="exp-year"
-                                                           maxlength="4"
-                                                           data-stripe="exp_year" name="expire_year" placeholder="YYYY">
-                                                </div>
-                                            </label>
+                                                <input class="pay-input" type="text" size="2" id="exp-month"
+                                                       maxlength="2"
+                                                       data-stripe="exp_month" name="expire_month" placeholder="MM">
+                                                <input class="pay-input" type="text" size="4" id="exp-year"
+                                                       maxlength="4"
+                                                       data-stripe="exp_year" name="expire_year" placeholder="YYYY">
+                                            </div>
                                         </div>
                                     </div>
 

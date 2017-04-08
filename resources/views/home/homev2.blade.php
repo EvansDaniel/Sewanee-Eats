@@ -100,7 +100,7 @@
         <div class="row services-wrapper">
             <div class="col-lg-5 col-md-5 col-sm-6 col-xs-10 col-xs-offset-1 ondemand">
                 <div id="demand-wrap" class="row">
-                    <img src="{{ asset('images/branding/demand-logo0.png',env('APP_ENV') != 'production') }}"
+                    <img src="{{ asset('images/branding/demand-logo0.png',env('APP_ENV') !== 'local') }}"
                          class="img-responsive center-block" alt="Smiley face" id="demand-logo">
                     <p id="demand-description"> On-Demand</p>
                 </div>
