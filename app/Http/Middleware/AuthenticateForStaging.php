@@ -16,7 +16,7 @@ class AuthenticateForStaging
     public function handle($request, Closure $next)
     {
         if (!\Auth::check() && env('APP_ENV') === "staging" &&
-            $request->url() != route('login')
+            ($request->url() != route('login') || $request->url() != route('postLogin'))
         ) {
             return redirect()->route('login');
         }
