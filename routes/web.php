@@ -11,6 +11,11 @@
 |
 */
 
+
+Route::get('staging', function () {
+    return 'staging is fun';
+});
+
 // -------------------------------- Home Page Routes ----------------------------------------------------------
 Route::get('/', 'HomeController@showHome')->name('home');
 Route::get('home', function () { // redirect route to home
