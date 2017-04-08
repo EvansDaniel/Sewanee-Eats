@@ -50,7 +50,7 @@ class   SendOrderRequestEmails implements ShouldQueue
         }
         // ONLY RUNS IN PRODUCTION/STAGING
         // SEND TO SewaneeEats
-        if (env('APP_ENV') === "production" || env('APP_ENV') == "staging") {
+        if (env('APP_ENV') === "production") {
             \Log::info('sending email to sewaneeeats@gmail.com');
             \Mail::to('sewaneeeats@gmail.com')->sendNow(new NewOrderToManager($order));
         } else {

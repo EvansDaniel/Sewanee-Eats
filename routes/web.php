@@ -402,6 +402,11 @@ Route::group(['prefix' => 'courier',
 // TODO: add relevant query parameters that tell server how the user would like to receive response for each api endpoint
 Route::group(['prefix' => 'api/v1/',
     'namespace' => 'Api'], function () {
+
+    Route::group(['prefix' => 'codes'], function () {
+
+    });
+
     Route::group(['prefix' => 'couriers'], function () {
         Route::get('getOnlineCouriers/{day}/{time}',
             'CourierController@getOnlineCouriersForDayTime')
