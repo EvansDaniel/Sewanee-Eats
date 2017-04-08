@@ -61,7 +61,7 @@
                             <?php $r = $orders[0]->getSellerEntity() ?>
                             <strong>
                                 <p style="color: rebeccapurple">The following items from {{ $r->name }} will be
-                                    delivered to you {{ $r->location_special }}
+                                    delivered to you at {{ $r->location_special }}
                                     on {{ $r->time_special }}</p>
                             </strong>
                             <hr class="hr-separator">

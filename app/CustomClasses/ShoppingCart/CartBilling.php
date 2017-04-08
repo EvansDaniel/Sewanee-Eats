@@ -6,11 +6,8 @@
  * Time: 3:59 PM
  */
 namespace App\CustomClasses\ShoppingCart;
-use App\CustomClasses\ShoppingCart\WeeklyBilling;
-use App\CustomClasses\ShoppingCart\OnDemandBilling;
-
-
 use App\Models\Accessory;
+
 
 class CartBilling
 {
@@ -56,19 +53,15 @@ class CartBilling
 
     }
 
-    public function onDemandCost()
-    {
-        return $this->on_demand_item->getOnDemandCost();
-    }
     private function weeklyCost(){
 
 
         return $this->weekly_item->getCostOfWeekly();
     }
 
-    private function deliveryFee()
+    public function onDemandCost()
     {
-        return $this->on_demand_item->getFeeAfter() + $this->weekly_item->getFeeAfter();
+        return $this->on_demand_item->getOnDemandCost();
     }
 
     public function costOfFood()
@@ -94,17 +87,14 @@ class CartBilling
         return $cost_of_food + $cost_of_accessories;
     }
 
+    private function deliveryFee()
+    {
+        return $this->on_demand_item->getFeeAfter() + $this->weekly_item->getFeeAfter();
+    }
+
     private function subtotal()
     {
         return $this->getCostOfFood() + $this->deliveryFee();
-    }
-
-    /**
-     * @return int
-     */
-    public function getDeliveryFee()
-    {
-        return $this->delivery_fee;
     }
 
     public function getCostOfFood()
@@ -116,11 +106,6 @@ class CartBilling
     {
 
         return ($this->getSubtotal() * $this->getTaxPercent()) - $this->getSubtotal();
-    }
-
-    private function totalPrice()
-    {
-        return $this->getSubtotal() * $this->getTaxPercent();
     }
 
     /**
@@ -139,10 +124,39 @@ class CartBilling
         return $this->tax_percent;
     }
 
+    private function totalPrice()
+    {
+        return $this->getSubtotal() * $this->getTaxPercent();
+    }
+
     public function stripeFees()
     {
         // stripe charges 30 cents + 2.9% -> .029
         return .3 + $this->getTotal() * .029;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTotal()
+    {
+        return $this->total;
+    }
+
+    public function profit()
+    {
+        // profit per order is the calculated delivery fee
+        // plus the mark up on each item * num items
+        // minus expenses i.e. stripe fees
+        return $this->weekly_item->getWeeklyProfit() + $this->on_demand_item->getOnDemandProfit();
+    }
+
+    /**
+     * @return int
+     */
+    public function getDeliveryFee()
+    {
+        return $this->delivery_fee;
     }
 
     /**
@@ -191,22 +205,6 @@ class CartBilling
     public function getTotalPrice()
     {
         return $this->total_price;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getTotal()
-    {
-        return $this->total;
-    }
-
-    public function profit()
-    {
-        // profit per order is the calculated delivery fee
-        // plus the mark up on each item * num items
-        // minus expenses i.e. stripe fees
-        return $this->weekly_item->getWeeklyProfit() + $this->on_demand_item->getOnDemandCost();
     }
 
     public function getStripeFees($is_stripe_order)

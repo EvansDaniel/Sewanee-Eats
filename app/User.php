@@ -111,6 +111,6 @@ class User extends Authenticatable implements Availability
      */
     public function getExtraTime()
     {
-        return 0; // 0 minutes before end of shift
+        return 30; // 30 minutes before end of shift
     }
 }

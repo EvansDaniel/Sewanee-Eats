@@ -105,7 +105,8 @@
                     <p id="demand-description"> On-Demand</p>
                 </div>
                 <p id="demand-long-description">
-                    On-Demand food deliveries is a daily express food delivery. It covers all the listed <a href="href={{ route('list_restaurants') }}"> restaurants</a>
+                    On-Demand food deliveries is a daily express food delivery. It covers all the listed <a
+                            href="{{ route('list_restaurants') }}"> restaurants</a>
                     that are located on the mountain. After you have ordered the food, the food is delivered at your door in less than 45 minutes.<br>
                     <strong>The On-Demand service is AVAILABLE WEEKDAYS FROM 12PM - 3PM and 5PM - 11PM. During weekends, it is AVAILABLE FROM 12PM - 2AM.</strong>
                 </p>

@@ -25,7 +25,7 @@
                 base delivery prices. Prices are <b>per order</b>.
             </p>
             <p class="on-demand">
-                1. ON DEMANS DELIVERY PRICES
+                1. ON DEMAND DELIVERY PRICES
             </p>
 
             <div class="prices">
