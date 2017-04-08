@@ -12,30 +12,29 @@
     <div>
         <h3>Items:</h3>
         <ul class="list-group">
-            @foreach($next_order->toRestBuckets() as $rest => $items)
+            @foreach($item_lister->onDemandToRestBuckets() as $items)
+                <?php $rest = $items[0]->getSellerEntity() ?>
                 <p style="font-size: 18px; font-family: 'Lato', sans-serif;">
-                    restaurant name: {{ $items[0]->item->restaurant->name }}  <br>
-                    restaurant address: {{ $items[0]->item->restaurant->address  }} <br>
-                    @if($items[0]->item->restaurant->callable)
-                        Phone Number: (call ahead if possible) | {{ $items[0]->item->restaurant->phone_number }}
+                    Restaurant name: {{ $rest->name }} <br>
+                    Restaurant address: {{$rest->adddress}} <br>
+                    @if($rest->callable)
+                        Phone Number: (call ahead if possible) | {{ $rest->phone_number }}
                     @endif</p>
                 <ul>
                     @foreach($items as $item)
                         <li>
                             <div>
                                 <p style="font-size: 18px; font-family: 'Lato', sans-serif;">
-                                    item Name: {{ $item->item->name }}<br>
-                                    item price: ${{ $item->item->price }}<br>
-                                    item instructions: {{$item->special_instructions}}<br>
-
+                                    item Name: {{ $item->getName() }}<br>
+                                    item price: ${{ $item->getPrice() }}<br>
                                 </p>
                                 @if(!empty($item->special_instructions))
                                     <h5 style="font-size: 18px; font-family: 'Lato', sans-serif;">Instructions: {{ $item->special_instructions }}</h5>
                                 @endif
                             </div>
-                            @if(!empty($item->accessories))
+                            @if(!empty($item->getItem()->accessories))
                                 <ul>
-                                    @foreach($item->accessories as $acc)
+                                    @foreach($item->getItem()->accessories as $acc)
                                         <li>
                                             item accessories:   {{ $acc->name }}<br>
                                             accessory price:  {{ $acc->price }} <br>

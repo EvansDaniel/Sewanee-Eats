@@ -35,6 +35,17 @@ class ItemLister
         return $rest_buckets;
     }
 
+    public function onDemandToRestBuckets()
+    {
+        $rest_buckets = [];
+        foreach ($this->container->items() as $item) {
+            if ($item->getSellerEntity()->isSellerType(RestaurantOrderCategory::ON_DEMAND)) {
+                $rest_buckets[$item->getSellerEntity()->id][] = $item;
+            }
+        }
+        return $rest_buckets;
+    }
+
     public function getOnDemandOrderItems()
     {
         $on_demand_items = [];

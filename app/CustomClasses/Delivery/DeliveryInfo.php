@@ -44,7 +44,6 @@ class DeliveryInfo
         $max = -999999;
         foreach ($order->menuItemOrders as $menu_item_order) {
             $courier_payment = $menu_item_order->item->restaurant->delivery_payment_for_courier;
-            \Log::info($courier_payment);
             if ($courier_payment > $max) {
                 $max = $courier_payment;
             }
@@ -65,10 +64,8 @@ class DeliveryInfo
                 $courier_types[] = CourierTypes::WALKER;
             }
         }
-        // driver cannot take the order for inside $this->dist_biker_can_travel (unless all bikers/walkers are busy?)
-        if (empty($courier_types)) {
-            $courier_types[] = CourierTypes::DRIVER;
-        }
+        // Driver can service anything
+        $courier_types[] = CourierTypes::DRIVER;
         return $courier_types;
     }
 

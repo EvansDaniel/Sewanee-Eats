@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\CustomClasses\Delivery\ManageOrder;
+use App\CustomClasses\ShoppingCart\ItemLister;
 use App\CustomClasses\ShoppingCart\PaymentType;
 use App\CustomClasses\ShoppingCart\RestaurantOrderCategory;
 use App\Models\Order;
@@ -117,10 +118,11 @@ class OrdersController extends Controller
 
     }
 
-    public function orderSummaryForAdmin($order_id)
+    public function orderSummaryForAdmin(Order $order, $order_id)
     {
-        $next_order = Order::findOrFail($order_id);
+        $next_order = $order->findOrFail($order_id);
+        $item_lister = new ItemLister($next_order);
         return view('admin.partials.order_summary_for_admin',
-            compact('next_order'));
+            compact('next_order', 'item_lister'));
     }
 }
