@@ -31,23 +31,19 @@ class OrdersController extends Controller
         return view('admin.order.on_demand_orders', compact('on_demand_open_orders', 'venmo_payment_type'));
     }
 
-    public function toggleOrderIsDelivered(Request $request)
+    public function toggleOrderIsDelivered(Order $order,Request $request)
     {
         $order_id = $request->input('order_id');
-        $order = Order::findOrFail($order_id);
+        $order = $order->findOrFail($order_id);
         $order_manager = new ManageOrder($order);
-        if ($delivered = $order->is_delivered) {
-            $order_manager->deliveredStatus(false);
-        } else {
-            $order_manager->deliveredStatus(true);
-        }
-        return back()->with('status_good', 'Order delivery confirmed as ' . (!$delivered ? " not delivered" : "delivered"));
+        $order_manager->deliveredStatus(!$order->is_delivered);
+        return back()->with('status_good', 'Order delivery confirmed as ' . (!$order->is_delivered ? " not delivered" : "delivered"));
     }
 
-    public function togglePaymentConfirmationForVenmo(Request $request)
+    public function togglePaymentConfirmationForVenmo(Order $order,Request $request)
     {
         $order_id = $request->input('order_id');
-        $order = Order::find($order_id);
+        $order = $order->find($order_id);
         $order_manager = new ManageOrder($order);
         if ($is_paid_for = $order->is_paid_for) {
             $order_manager->paidForStatus(false);

@@ -45,6 +45,9 @@ class ManageOrder
         }
         // Update pricing info
         $this->order->was_refunded = $bool;
+        if($bool) { // if we are refunding the order
+            $this->removeAssignedCourier();
+        }
         $this->order->save();
     }
 
@@ -60,15 +63,35 @@ class ManageOrder
         // then subtract the price of this item
     }
 
+    public function removeAssignedCourier()
+    {
+        if($this->order->is_delivered || $this->order->is_being_processed) {
+            // delete the courier order
+            $courier_order = CourierOrder::where('order_id',$this->order->id)->first();
+            if(!empty($courier_order)) { // this shouldn't be empty, but just a sanity check
+                $courier_order->delete();
+            }
+        }
+    }
+
     public function cancellationStatus($bool)
     {
         $this->order->is_cancelled = $bool;
+        $this->deliveredStatus(false);
+        $this->processingStatus(false);
+        if($bool) { // if we are cancelling the order
+            $this->removeAssignedCourier();
+        }
+        $this->paidForStatus(false);
         $this->order->save();
     }
 
     public function deliveredStatus($bool)
     {
         $this->order->is_delivered = $bool;
+        if($bool) { // if is delivered, set it to not being processed
+            $this->processingStatus(false);
+        }
         $this->order->save();
     }
 
