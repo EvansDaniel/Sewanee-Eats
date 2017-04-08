@@ -266,34 +266,36 @@
                                     @endif
                                 </div>
                             </div>
-                            <div class="total">
-                                <p class="summary">Order Summary</p>
-                                <div class="summary-wrap">
+                            <div id="cost-sum-wrapper">
+                                <div class="total" id="total-wrapper">
+                                    <p class="summary">Order Summary</p>
+                                    <div class="summary-wrap">
 
-                                    <div>Cost of Food: <span id="cost-of-food">{{ $bill->getCostOfFood() }}</span></div>
-                                    <div>Delivery Fee:
-                                        @if($bill->getDiscount() != 0)
-                                            <i id="delivery-fee-percentage">you saved {{$bill->getDiscount()}} %!</i>
-                                        @endif
-                                        <span id="delivery-fee">{{ $bill->getDeliveryFee()  }}</span>
+                                        <div>Cost of Food: <span id="cost-of-food">{{ $bill->getCostOfFood() }}</span>
+                                        </div>
+                                        <div>Delivery Fee:
+                                            @if($bill->getDiscount() != 0)
+                                                <i id="delivery-fee-percentage">you saved {{$bill->getDiscount()}}
+                                                    %!</i>
+                                            @endif
+                                            <span id="delivery-fee">{{ $bill->getDeliveryFee()  }}</span>
+                                        </div>
+                                        <div>Subtotal: <span id="subtotal">{{ $bill->getSubtotal() }}</span></div>
+                                        <div>Order Total (subtotal + tax): <span
+                                                    id="total-price">{{ $bill->getTotal() }}</span></div>
+                                        <button type="submit" id="pay-now-button" onclick="checkPayNow(event)"
+                                                class="checkout-btn">Pay Now
+                                        </button>
+                                        <p>
+                                            <i>*By clicking submit, you are agreeing to the Sewanee Eats <a
+                                                        href="{{ route('terms') }}">Terms
+                                                    and
+                                                    Conditions</a>.
+                                            </i>
+                                        </p>
                                     </div>
-                                    <div>Subtotal: <span id="subtotal">{{ $bill->getSubtotal() }}</span></div>
-                                    <div>Order Total (subtotal + tax): <span
-                                                id="total-price">{{ $bill->getTotal() }}</span></div>
-                                    <button type="submit" id="pay-now-button" onclick="checkPayNow(event)"
-                                            class="checkout-btn">Pay Now
-                                    </button>
-                                    <p>
-                                        <i>*By clicking submit, you are agreeing to the Sewanee Eats <a
-                                                    href="{{ route('terms') }}">Terms
-                                                and
-                                                Conditions</a>.
-                                        </i>
-                                    </p>
                                 </div>
                             </div>
-
-
                         </div>
                 @endif
 

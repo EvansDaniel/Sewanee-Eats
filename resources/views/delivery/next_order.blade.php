@@ -2,6 +2,24 @@
 
 @section('body')
 
+    <style>
+        .indent {
+            margin-left: 1%;
+        }
+
+        .indent-p {
+            margin: 0 auto;
+        }
+
+        .items {
+            font-size: 18px;
+        }
+
+        .m-to-courier {
+            font-size: 14px;
+        }
+    </style>
+
     <div class="container">
         <p style="font-size: 22px">Order Summary</p>
         <div>
@@ -9,7 +27,7 @@
             <p>Payment for Order: ${{ $next_order->couriers[0]->pivot->courier_payment }}</p>
             <p>Delivery Location: {{ $next_order->delivery_location }}</p>
         </div>
-        <p style="font-size: 14px">
+        <p class="m-to-courier">
             In the event that you cannot fulfill this order for any reason, press the <strong>Cancel Order Delivery
                 Button</strong> and
             please contact the manager of the
@@ -17,11 +35,11 @@
         </p>
         <div>
             <ul class="list-group">
+                <!-- Array of type MenuItemOrder -->
                 @foreach($next_order->toOnDemandRestBuckets() as $rest => $items)
-                    <div style="margin: 0 auto;">
-
+                    <div class="indent-p">
                         <div>
-                            <p style="font-size: 20px">
+                            <p class="items">
                                 {{ $items[0]->item->restaurant->name }}
                                 | {{ $items[0]->item->restaurant->address  }} |
                                 @if($items[0]->item->restaurant->callable)
@@ -30,32 +48,32 @@
                             </p>
                         </div>
                         <ul class="list-group">
-                            <div style="margin-left: 2%">
+                            <div class="indent">
                                 @foreach($items as $item)
                                     <li class="list-group-item">
                                         <div>
-                                            <h5>
-                                                {{ $item->item->name }}
-                                                | ${{ $item->item->price }}
-                                            </h5>
+                                            <p class="items">{{ $item->item->name }} $ {{ $item->item->price }}</p>
+                                        </div>
+                                        <div class="indent">
                                             @if(!empty($item->special_instructions))
                                                 <h5>Special Instructions for this
                                                     Item: {{ $item->special_instructions }}</h5>
                                             @else
                                                 <h5>No Special Instructions for this item</h5>
                                             @endif
-                                        </div>
-                                        @if(!empty($item->accessories))
+                                            @if(!empty($item->accessories->toArray()))
                                             <p>Buy the below accessories with the item</p>
                                             <ul class="list-group">
                                                 @foreach($item->accessories as $acc)
                                                     <li class="list-group-item">
-                                                        {{ $acc->name }}
-                                                        | {{ $acc->price }}
+                                                        <h4>{{ $acc->name }} {{ $acc->price }}</h4>
                                                     </li>
                                                 @endforeach
                                             </ul>
+                                            @else
+                                                <p>No Accessories for this item</p>
                                         @endif
+                                        </div>
                                     </li>
                                 @endforeach
                             </div>

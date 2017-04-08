@@ -25,7 +25,8 @@ class OrderQueueController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->empty_next_order_msg = 'There are no orders pending at this time';
+        $this->empty_next_order_msg = 'There are no orders pending at this time. Great work! 
+                Chill out and we will send you an email when we next get another order';
     }
 
     public function managerShowOrdersQueue()
@@ -143,7 +144,7 @@ class OrderQueueController extends Controller
                 $order_manager = new ManageOrder($next_order);
                 $order_manager->assignToOrder(Auth::user());
                 \Session::flash('status_good',
-                    'You have now been assigned to this order');
+                    'Woop woop! Here is your next order!');
                 return view('delivery.next_order',
                     compact('next_order', 'order_queue'));
             }

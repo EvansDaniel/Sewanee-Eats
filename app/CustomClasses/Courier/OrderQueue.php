@@ -4,6 +4,7 @@ namespace App\CustomClasses\Courier;
 
 
 use App\CustomClasses\Delivery\ManageOrder;
+use App\CustomTraits\FiltersOrders;
 use App\Models\Order;
 use App\User;
 use Auth;
@@ -15,6 +16,8 @@ class OrderQueue
     protected $courier_info;
     protected $orders_for_courier;
     protected $orders;
+
+    use FiltersOrders;
 
     public function __construct(User $courier = null)
     {
@@ -67,27 +70,11 @@ class OrderQueue
         // not being processed orders
         $potential_orders = Order::pending()->
         orderBy('created_at', 'ASC')->get();
-        $this->orders = $potential_orders;
-        //\Log::info($this->orders);
-        $orders = [];
+        // filter to on demand orders
+        $this->orders = $this->onDemandOrders($potential_orders);
         $courier_type = $this->courier_info->getCourierTypeCurrentShift();
-        // get only orders for this courier type
-        foreach ($potential_orders as $order) {
-            if ($order->hasCourierType($courier_type)) {
-                $orders[] = $order;
-            }
-        }
-        $this->orders_for_courier = $orders;
-    }
-
-    public static function getOrderQueue()
-    {
-        if (!Auth::user()->hasRole('manager') && !Auth::user()->hasRole('admin')) {
-            throw new InvalidArgumentException('You do not have privileges to access this information. Contact your manager or an admin');
-        }
-        $potential_orders = Order::pending()
-            ->orderBy('created_at', 'ASC')->get();
-        return $potential_orders;
+        // filter to orders of this courier type
+        $this->orders_for_courier = $this->ordersOfCourierType($this->orders, $courier_type);
     }
 
     /**
@@ -108,6 +95,16 @@ class OrderQueue
         $order_manager = new ManageOrder($order);
         $order_manager->processingStatus(false);
         // nothing to do if the order is not being delivered and isnt' delivered
+    }
+
+    public function getOrderQueue()
+    {
+        if (!Auth::user()->hasRole('manager') && !Auth::user()->hasRole('admin')) {
+            throw new InvalidArgumentException('You do not have privileges to access this information. Contact your manager or an admin');
+        }
+        $potential_orders = Order::pending()->orderBy('created_at', 'ASC')->get();
+        $on_demand_orders = $this->onDemandOrders($potential_orders);
+        return $on_demand_orders;
     }
 
     /**

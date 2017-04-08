@@ -59,8 +59,8 @@ class   SendOrderRequestEmails implements ShouldQueue
         }
         // send to all couriers
         // Having a shift now MUST imply that ther is couriers on that shift
-        $couriers_online = $this->getCouriersForOrder($order);
         if ($order->hasOrderType(RestaurantOrderCategory::ON_DEMAND)) {
+            $couriers_online = $this->getCouriersForOrder($order);
             \Log::info('on demand order rolling out');
             if (!empty($couriers_online)) {
                 foreach ($couriers_online as $courier_online) {

@@ -127,6 +127,12 @@ class Order extends Model implements HasItems
         \Log::info($courier_types);
     }
 
+    /**
+     * Returns a queury that will retrieve all orders that are pending
+     * WARNING: This includes all weekly special orders too
+     * @param $query
+     * @return mixed
+     */
     public function scopePending($query)
     {
         // must be undelivered, not being processed,
@@ -136,7 +142,7 @@ class Order extends Model implements HasItems
             'is_delivered' => false,
             'is_being_processed' => false,
             'is_paid_for' => true,
-            'is_cancelled' => false
+            'is_cancelled' => false,
         ]);
     }
 
