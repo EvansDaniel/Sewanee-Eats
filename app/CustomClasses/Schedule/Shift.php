@@ -93,8 +93,10 @@ class Shift
     public static function now()
     {
         $shifts = TimeRange::ofType(TimeRangeType::SHIFT)->get();
+        $user = new User();
         foreach ($shifts as $shift) {
-            if (IsAvailable::nowIsBetweenOrEqualToTimeRange($shift, 30)) {
+            // use the extra time before shift ends from the user
+            if (IsAvailable::nowIsBetweenOrEqualToTimeRange($shift, $user->getExtraTime())) {
                 return $shift;
             }
         }

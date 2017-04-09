@@ -2,8 +2,8 @@
 <div class="container">
     <div>
         <p>Total Cost of Food: ${{ $next_order->orderPriceInfo->cost_of_food }}</p>
-        @if(!empty($next_order->couriers) && count($next_order->couriers) >= 1)
-            <p>Payment for Order: {{ $next_order->couriers[0]->pivot->courier_payment }}</p>
+        @if(count($next_order->couriers) >= 1)
+            <p>Payment for Order: {{ $next_order->getCourier()->pivot->courier_payment }}</p>
         @endif
         <p>Delivery Location: {{ $next_order->delivery_location }}</p>
         <p>Phone Number of Customer: {{ $next_order->phone_number }}</p>
@@ -32,9 +32,9 @@
                                     <h5 style="font-size: 18px; font-family: 'Lato', sans-serif;">Instructions: {{ $item->special_instructions }}</h5>
                                 @endif
                             </div>
-                            @if(!empty($item->getItem()->accessories))
+                            @if(!empty($item->accessories))
                                 <ul>
-                                    @foreach($item->getItem()->accessories as $acc)
+                                    @foreach($item->accessories as $acc)
                                         <li>
                                             item accessories:   {{ $acc->name }}<br>
                                             accessory price:  {{ $acc->price }} <br>
