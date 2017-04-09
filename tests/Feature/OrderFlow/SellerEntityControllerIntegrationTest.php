@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\OrderFlow;
 
+use App\CustomClasses\Availability\IsAvailable;
 use App\CustomClasses\Availability\TimeRangeType;
 use App\CustomClasses\ShoppingCart\CartItem;
 use App\CustomClasses\ShoppingCart\ItemType;
@@ -11,17 +12,16 @@ use App\CustomTraits\HandlesTimeRanges;
 use App\Models\ItemCategory;
 use App\Models\MenuItem;
 use App\Models\Restaurant;
-use App\Models\Role;
 use App\Models\TimeRange;
-use App\User;
+use App\TestTraits\AvailabilityMaker;
+use App\TestTraits\HandlesCartItems;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
 class SellerEntityControllerIntegrationTest extends TestCase
 {
-    use DatabaseMigrations;
-    use HandlesTimeRanges;
+    use DatabaseMigrations, HandlesTimeRanges, AvailabilityMaker, HandlesCartItems;
 
     /**
      * A basic test example.
@@ -37,40 +37,6 @@ class SellerEntityControllerIntegrationTest extends TestCase
         $this->visit(route('showMenu', ['id' => $on_demand_rest->id]))
             ->see('My Menu Item')
             ->see('Sandwiches');
-    }
-
-    private function makeShiftAndRestAvailableNow($restaurant_type)
-    {
-        \Eloquent::unguard();
-        // make it so that shift now is true
-        $rest = factory(Restaurant::class)->create([
-            'seller_type' => $restaurant_type,
-            'is_available_to_customers' => true
-        ]);
-        // make a time_range that is available now
-        $shift = factory(TimeRange::class)->create([
-            'start_dow' => Carbon::now()->subHours(3)->format('l'),
-            'end_dow' => Carbon::now()->addHour(4)->format('l'),
-            'start_hour' => Carbon::now()->subHours(3)->hour,
-            'end_hour' => Carbon::now()->addHours(4)->hour,
-            'time_range_type' => TimeRangeType::SHIFT
-        ]);
-        $rest_open_time = factory(TimeRange::class)->create([
-            'start_dow' => Carbon::now()->subHours(3)->format('l'),
-            'end_dow' => Carbon::now()->addHour(4)->format('l'),
-            'start_hour' => Carbon::now()->subHours(3)->hour,
-            'end_hour' => Carbon::now()->addHours(4)->hour,
-            'restaurant_id' => $rest->id,
-            'time_range_type' => TimeRangeType::ON_DEMAND
-        ]);
-        $courier = factory(User::class)->create();
-        Role::create([
-            'name' => 'courier'
-        ]);
-        $courier->roles()->attach(Role::ofType('courier')->first()->id);
-        $shift->users()->attach($courier->id);
-        \Eloquent::reguard();
-        return $rest;
     }
 
     /**
@@ -97,10 +63,12 @@ class SellerEntityControllerIntegrationTest extends TestCase
      */
     public function assertViewContainsMenuItemNamesOfItemsAutoRemoved()
     {
-        $rest = $this->makeShiftAndRestAvailableNow(RestaurantOrderCategory::ON_DEMAND);
-        $on_demand_rest = Restaurant::where('seller_type', RestaurantOrderCategory::ON_DEMAND)->first(); // eloquent is already tested
+        $rest = $this->makeRestaurant(RestaurantOrderCategory::ON_DEMAND, 3);
+        $this->makeResourceAvailable($rest, 'restaurant_id');
+        $is = new IsAvailable($rest);
+        \Log::info($is->isAvailableNow());
         factory(ItemCategory::class)->create(['name' => 'Sandwiches']);
-        $menu_item = factory(MenuItem::class)->create(['name' => 'My Menu Item', 'restaurant_id' => $on_demand_rest->id]);
+        $menu_item = factory(MenuItem::class)->create(['name' => 'My Menu Item', 'restaurant_id' => $rest->id]);
         // make a time range that has expired (is in the past)
         $time_range = factory(TimeRange::class)->create([
             'start_dow' => Carbon::now()->subHours(2)->format('l'),
@@ -114,8 +82,7 @@ class SellerEntityControllerIntegrationTest extends TestCase
         $cart = new ShoppingCart();
         $cart->putItems([$cart_item]);
         $this->visit(route('showMenu', ['id' => $rest->id]))
-            ->see($cart_item->getName() . ' from ' . $cart_item->getSellerEntity()->name)
-            ->assertSessionHas('became_unavailable', [$cart_item]);
+            ->see($cart_item->getName() . ' from ' . $cart_item->getSellerEntity()->name);
     }
 
     /**

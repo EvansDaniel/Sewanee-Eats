@@ -280,23 +280,23 @@ class ShoppingCart implements HasItems
     public function checkMenuItemAndRestaurantAvailabilityAndDelete()
     {
         $n_avail_menu_items = [];
-        if (!empty($this->cart)) {
-            foreach ($this->cart as $item) {
-                if ($item->getSellerEntity()->getSellerType() == RestaurantOrderCategory::WEEKLY_SPECIAL) {
-                    continue; // skip weekly special items
-                }
-                $is_avail = new IsAvailable($item);
-                if (!$is_avail->isAvailableNow()) {
-                    $n_avail_menu_items[] = $item;
-                }
-                $is_avail = new IsAvailable($item->getSellerEntity());
-                if (!$is_avail->isAvailableNow()) {
-                    $n_avail_menu_items = array_merge($this->getRestaurantItemsToRemove($item->getSellerEntity()), $n_avail_menu_items);
-                }
+        if (empty($this->cart)) return [];
+
+        foreach ($this->cart as $item) {
+            if ($item->getSellerEntity()->getSellerType() == RestaurantOrderCategory::WEEKLY_SPECIAL) {
+                continue; // skip weekly special items
             }
-            foreach ($n_avail_menu_items as $item) {
-                $this->deleteItem($item->getCartItemId());
+            $is_avail = new IsAvailable($item);
+            if (!$is_avail->isAvailableNow()) {
+                $n_avail_menu_items[] = $item;
             }
+            $is_avail = new IsAvailable($item->getSellerEntity());
+            if (!$is_avail->isAvailableNow()) {
+                $n_avail_menu_items = array_merge($this->getRestaurantItemsToRemove($item->getSellerEntity()), $n_avail_menu_items);
+            }
+        }
+        foreach ($n_avail_menu_items as $item) {
+            $this->deleteItem($item->getCartItemId());
         }
         return $n_avail_menu_items;
     }

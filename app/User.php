@@ -3,14 +3,16 @@
 namespace App;
 
 use App\Contracts\Availability;
+use App\Contracts\ResourceTimeRange;
 use App\CustomClasses\Availability\IsAvailable;
+use App\CustomClasses\Availability\TimeRangeType;
 use App\CustomClasses\Schedule\Shift;
 use App\Models\Role;
 use Doctrine\Instantiator\Exception\InvalidArgumentException;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-class User extends Authenticatable implements Availability
+class User extends Authenticatable implements Availability, ResourceTimeRange
 {
     use Notifiable;
     /**
@@ -112,5 +114,20 @@ class User extends Authenticatable implements Availability
     public function getExtraTime()
     {
         return 30; // 30 minutes before end of shift
+    }
+
+    public function getResourceTimeRangesByDay($dow)
+    {
+        // TODO: Implement getResourceTimeRangesByDay() method.
+    }
+
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    public function getTimeRangeType()
+    {
+        return TimeRangeType::SHIFT;
     }
 }

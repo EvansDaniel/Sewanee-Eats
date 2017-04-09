@@ -105,7 +105,7 @@ class CustomerOrder
         return $order;
     }
 
-    private function handleDeliveryLocation(Order $order)
+    public function handleDeliveryLocation(Order $order)
     {
         if ($this->cart->hasOnDemandItems()) {
             $building_name = $this->input['building_name'];

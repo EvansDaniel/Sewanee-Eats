@@ -34,9 +34,8 @@ class DeliveryInfo
         $this->starting_loc = '735 University Ave, Sewanee, TN 37383';
         $this->API_KEY = env('GOOGLE_MAPS_KEY');
         $this->mtrs_per_mile = 1609.34;
-        $this->on_campus_delivery_threshold = 4;
-        $this->dist_biker_can_travel = $this->on_campus_delivery_threshold; // miles
-        $this->dist_walker_can_travel = $this->on_campus_delivery_threshold; // miles
+        $this->dist_biker_can_travel = 4; // miles
+        $this->dist_walker_can_travel = $this->dist_biker_can_travel; // miles
     }
 
     public static function getMaxRestaurantCourierPayment(Order $order)
@@ -80,7 +79,6 @@ class DeliveryInfo
                 // if this is an on demand restaurant
                 if ($item->isSellerType(RestaurantOrderCategory::ON_DEMAND)) {
                     $dest_loc = $item->getSellerEntity()->getLocation();
-                    \Log::info($dest_loc);
                     $dist = $this->makeDistanceRequest($starting_loc, $dest_loc);
                     $total_distance += $dist;
                     $starting_loc = $dest_loc;
