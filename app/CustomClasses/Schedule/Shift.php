@@ -94,8 +94,7 @@ class Shift
     {
         $shifts = TimeRange::ofType(TimeRangeType::SHIFT)->get();
         foreach ($shifts as $shift) {
-            if (IsAvailable::nowIsBetweenOrEqualToTimeRange($shift, 0)) {
-                return $shift;
+            if (IsAvailable::nowIsBetweenOrEqualToTimeRange($shift, 30)) {
                 return $shift;
             }
         }
