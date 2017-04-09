@@ -74,6 +74,15 @@ class Order extends Model implements HasItems
             'order_id', 'courier_id')->withPivot('courier_payment')->withTimestamps();
     }
 
+    public function getCourier()
+    {
+        $couriers = $this->couriers;
+        if (count($couriers) >= 1) {
+            return $couriers[0];
+        }
+        return null;
+    }
+
     public function scopeUndelivered($query)
     {
         return $query->where('is_delivered', false);
