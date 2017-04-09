@@ -54,7 +54,7 @@
                         <hr class="hr-separator">
                     @endif
 
-                    @if(!empty($cart->getWeeklySpecialItems()))
+                    @if(!empty($cart->getSpecialItems()))
                         <h3 class="type-title">Your Weekly Special Items</h3>
                         <br>
                         @foreach($cart_lister->toWeeklySpecialRestBuckets() as $orders)

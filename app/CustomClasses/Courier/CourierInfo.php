@@ -52,9 +52,9 @@ class CourierInfo
      * @param $order_id integer the id of the order that the courier
      * is being assigned to right now
      */
-    public function setIsDeliveringOrder($bool, $order_id = null)
+    public function setIsDeliveringOrder($bool, int $order_id = -1)
     {
-        if ($bool && empty($order_id)) {
+        if ($bool && $order_id == -1) {
             throw new InvalidArgumentException('$bool cannot be true and $order_id be null');
         }
         $this->courier_info->is_delivering_order = $bool;

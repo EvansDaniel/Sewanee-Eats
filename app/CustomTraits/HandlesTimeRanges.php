@@ -268,7 +268,7 @@ trait HandlesTimeRanges
      * @param $resource_id_name string The name of the resource id in the DB for this resource
      * @return
      */
-    public function getTimeRangesByDay($dow, $time_range_type, $resource_id_name = null)
+    public function getTimeRangesByDay(string $dow, $time_range_type, $resource_id_name = null)
     {
         // need to order time ranges in chronological order
         // shifts are completely disjoint (this is enforced on creation of shifts)

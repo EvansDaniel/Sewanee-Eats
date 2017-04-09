@@ -20,7 +20,7 @@ class CartItem implements Availability
     protected $item_type;
     protected $cart_item_id;
 
-    public function __construct($item_id, $item_type)
+    public function __construct(int $item_id, int $item_type)
     {
         $this->item_type = $item_type;
         if ($item_type == ItemType::EVENT_ITEM) {
@@ -35,7 +35,7 @@ class CartItem implements Availability
         $this->extras = [];
     }
 
-    public function isSellerType($seller_type)
+    public function isSellerType(int $seller_type)
     {
         return $this->getSellerEntity()->getSellerType() == $seller_type;
     }
@@ -99,7 +99,7 @@ class CartItem implements Availability
         return $this->cart_item_id;
     }
 
-    public function setCartItemId($cart_id)
+    public function setCartItemId(int $cart_id)
     {
         $this->cart_item_id = $cart_id;
     }

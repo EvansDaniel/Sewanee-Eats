@@ -39,7 +39,7 @@ class ShoppingCart implements HasItems
     /**
      * @var array the set of CartItem(s) of Weekly Special items in the cart
      */
-    protected $weekly_special_items;
+    protected $special_items;
     /**
      * @var array the set of CartItem(s) of Event items in the cart
      */
@@ -92,7 +92,7 @@ class ShoppingCart implements HasItems
         if ($this->hasEventItems()) {
             $order_types['event'] = RestaurantOrderCategory::EVENT;
         }
-        if ($this->hasWeeklySpecialItems()) {
+        if ($this->hasSpecialItems()) {
             $order_types['weekly_special'] = RestaurantOrderCategory::WEEKLY_SPECIAL;
         }
         return $order_types;
@@ -121,14 +121,14 @@ class ShoppingCart implements HasItems
         return $this->event_items;
     }
 
-    public function hasWeeklySpecialItems()
+    public function hasSpecialItems()
     {
-        return !empty($this->getWeeklySpecialItems());
+        return !empty($this->getSpecialItems());
     }
 
-    public function getWeeklySpecialItems()
+    public function getSpecialItems()
     {
-        return $this->weekly_special_items;
+        return $this->special_items;
     }
 
     /**
@@ -169,7 +169,7 @@ class ShoppingCart implements HasItems
      * NOTE: the cart stores references to the CartItem(s), so if you add the same exact instance
      * to the cart twice, it will not get a unique id
      */
-    public function putItems($cart_items)
+    public function putItems(array $cart_items)
     {
         $num_on_demand_items = $this->getNumOnDemandItems();
         $curr_quantity = $this->getQuantity();
@@ -216,7 +216,7 @@ class ShoppingCart implements HasItems
         return $this->max_on_demand_items;
     }
 
-    private function countRests($item = null)
+    private function countRests(CartItem $item = null)
     {
         $rest_ids = [];
         if (!empty($this->items())) {
@@ -321,7 +321,7 @@ class ShoppingCart implements HasItems
      * @param $cart_item_id integer the id of the item
      * in the cart to delete permanently
      */
-    public function deleteItem($cart_item_id)
+    public function deleteItem(int $cart_item_id)
     {
         $did_delete = false;
         for ($i = 0; $i < $this->getQuantity(); $i++) {

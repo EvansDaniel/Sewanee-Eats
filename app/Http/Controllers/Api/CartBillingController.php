@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Api;
 
 use App\CustomClasses\ShoppingCart\CartBilling;
+use App\CustomClasses\ShoppingCart\OnDemandBilling;
 use App\CustomClasses\ShoppingCart\ShoppingCart;
+use App\CustomClasses\ShoppingCart\SpecialBilling;
 use App\Http\Controllers\Controller;
 
 class CartBillingController extends Controller
@@ -15,7 +17,7 @@ class CartBillingController extends Controller
     public function getPriceSummary()
     {
         $cart = new ShoppingCart();
-        $bill = new CartBilling($cart);
+        $bill = new CartBilling(new SpecialBilling($cart), new OnDemandBilling($cart));
         $price_summary = [
             'subtotal' => $bill->getSubtotal(),
             'total_price' => $bill->getTotal(),

@@ -151,7 +151,7 @@ class CustomerOrder
         }
     }
 
-    public function saveOrderPriceInfo(Order $order, $is_stripe_order)
+    public function saveOrderPriceInfo(Order $order, bool $is_stripe_order)
     {
         $order_price_info = new OrderPriceInfo;
         $order_price_info->order_id = $order->id;

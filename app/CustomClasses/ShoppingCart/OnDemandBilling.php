@@ -9,16 +9,17 @@
 namespace App\CustomClasses\ShoppingCart;
 
 
+use App\Models\Accessory;
+
 class OnDemandBilling
 {
     protected $cart;
     protected $delivery_fee;
-    protected $extraFee;
-    protected $number_of_items;
-    protected $min_items_without_fee;
-    protected $on_demand_items;
+    protected $extra_fee_per_item;
+    protected $num_on_demand_items;
+    protected $max_num_items_without_extra_fee;
     protected $on_demand_cost;
-    protected $fee_after;
+    protected $extra_fee;
     protected $on_demand_profit;
     protected $courier_payment;
 
@@ -31,13 +32,11 @@ class OnDemandBilling
     {
         $this->cart = $cart;
         $this->delivery_fee = $this->deliveryFee();
-        $this->number_of_items = $cart->countOnDemandItems();
-        $this->extraFee = 0.30;
-        $this->number_without_fee_items = 2;
-        $this->on_demand_items = $cart->getOnDemandItems();
-        $this->on_demand_cost = $this->costOfOnDemand();
-        $this->fee_after = $this->fee();
-        $this->on_demand_profit = $this->demandProfit();
+        $this->num_on_demand_items = count($cart->getOnDemandItems());
+        $this->extra_fee_per_item = 0.30;
+        $this->max_num_items_without_extra_fee = 2;
+        $this->cost_of_food = $this->costOfFood();
+        $this->extra_fee = $this->extraFee();
     }
 
     public function deliveryFee()
@@ -52,33 +51,54 @@ class OnDemandBilling
             }
         }
         $this->courier_payment = $max;
-        return $max + 1;
+        // if there are no on demand items in the cart, then the delivery fee is 0, otherwise the max + 1
+        return $max == 0 ? 0 : $max + 1;
     }
 
-    public function costOfOnDemand()
+    public function costOfFood()
     {
         $cost = 0;
-        if (!empty($this->on_demand_items)) {
-            foreach ($this->on_demand_items as $item) {
+        if (!empty($this->cart->getOnDemandItems())) {
+            foreach ($this->cart->getOnDemandItems() as $item) {
                 $cost += $item->getPrice();
+                if (!empty($item->getExtras())) {
+                    foreach ($item->getExtras() as $acc) {
+                        $cost += Accessory::find($acc)->price;
+                    }
+                }
             }
         }
         return $cost;
     }
 
-    public function fee()
+    public function extraFee()
     {
-        if($this->number_of_items >2){
-            return $this->delivery_fee + (($this->number_of_items - 2)* $this->extraFee);
+        if ($this->num_on_demand_items > $this->max_num_items_without_extra_fee) {
+            return (($this->num_on_demand_items - $this->max_num_items_without_extra_fee) * $this->getExtraFeeCostPerItem());
         }
-        else if($this->number_of_items > 0 && $this->number_of_items <=2){
-            return $this->delivery_fee ;
-        }
-        else
-            return 0;
+        return 0;
     }
 
-    public function demandProfit()
+    public function getExtraFeeCostPerItem()
+    {
+        return $this->extra_fee_per_item;
+    }
+
+    /**
+     * The discount for on demand items as a percentage
+     * @return int
+     */
+    public function getDiscount()
+    {
+        return 0;
+    }
+
+    public function getMaxItemsBeforeExtraFee()
+    {
+        return $this->max_num_items_without_extra_fee;
+    }
+
+    public function getOnDemandProfit()
     {
         return $this->getDeliveryFee() - $this->getCourierPayment();
     }
@@ -88,7 +108,7 @@ class OnDemandBilling
      */
     public function getDeliveryFee()
     {
-        return $this->delivery_fee;
+        return $this->delivery_fee + $this->extra_fee;
     }
 
     public function getCourierPayment()
@@ -99,25 +119,9 @@ class OnDemandBilling
     /**
      * @return int
      */
-    public function getOnDemandProfit()
+    public function getCostOfFood()
     {
-        return $this->on_demand_profit;
-    }
-
-    /**
-     * @return int
-     */
-    public function getOnDemandCost()
-    {
-        return $this->on_demand_cost;
-    }
-
-    /**
-     * @return array
-     */
-    public function getOnDemandItems()
-    {
-        return $this->on_demand_items;
+        return $this->cost_of_food;
     }
 
     /**
@@ -125,23 +129,7 @@ class OnDemandBilling
      */
     public function getFeeAfter()
     {
-        return $this->fee_after;
-    }
-
-    /**
-     * @return int
-     */
-    public function getNumberWithoutFeeItems()
-    {
-        return $this->number_without_fee_items;
-    }
-
-    /**
-     * @return ShoppingCart|null
-     */
-    public function getCart()
-    {
-        return $this->cart;
+        return $this->extra_fee;
     }
 
     /**
@@ -149,23 +137,7 @@ class OnDemandBilling
      */
     public function getExtraFee()
     {
-        return $this->extraFee;
-    }
-
-    /**
-     * @return int
-     */
-    public function getNumberOfItems()
-    {
-        return $this->number_of_items;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getMinItemsWithoutFee()
-    {
-        return $this->min_items_without_fee;
+        return $this->extra_fee;
     }
 
 }

@@ -13,12 +13,12 @@ use App\Models\Order;
 
 trait FiltersOrders
 {
-    public function weeklySpecialOrders($orders)
+    public function weeklySpecialOrders(array $orders)
     {
         return $this->getOrders($orders, RestaurantOrderCategory::WEEKLY_SPECIAL);
     }
 
-    private function getOrders($orders, $of_type)
+    private function getOrders(array $order, int $of_type)
     {
         if (empty($orders)) {
             return [];
@@ -39,12 +39,12 @@ trait FiltersOrders
         return $this->onDemandOrders($pending_orders);
     }
 
-    public function onDemandOrders($orders)
+    public function onDemandOrders(array $orders)
     {
         return $this->getOrders($orders, RestaurantOrderCategory::ON_DEMAND);
     }
 
-    public function ordersOfCourierType($orders, $of_courier_type)
+    public function ordersOfCourierType(array $orders, int $of_courier_type)
     {
         if (empty($orders)) {
             return [];

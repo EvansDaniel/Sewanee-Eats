@@ -10,14 +10,15 @@ use Storage;
 trait UploadFile
 {
 
+    use GeneratesUniqueId;
     /**
      * @param $directory_to_store string Subdirectory from the baseStoragePath()
      * @param $uploaded_file UploadedFile Actual instance of uploaded file i.e. $request->file('my_image');
      * @param $file_name string The name to store the file as
      */
-    public function storeFile($directory_to_store,
-                              $uploaded_file,
-                              $file_name)
+    public function storeFile(string $directory_to_store,
+                              UploadedFile $uploaded_file,
+                              string $file_name)
     {
 
         if (!$uploaded_file || !$file_name)
@@ -41,8 +42,8 @@ trait UploadFile
      * @param $sub_dir string The subdirectory under the base
      * @param $file_name
      */
-    public function deleteFile($sub_dir,
-                               $file_name)
+    public function deleteFile(string $sub_dir,
+                               string $file_name)
     {
         if (!$sub_dir || !$file_name)
             return;
@@ -57,7 +58,7 @@ trait UploadFile
         unlink($path);
     }
 
-    private function separator($dir)
+    private function separator(string $dir)
     {
         // check if sub_dir exists
         $len = strlen($dir);
@@ -70,7 +71,7 @@ trait UploadFile
      * @param $file_name string name of the file that would be saved
      * @return string returns the fully qualified url to be stored in DB
      */
-    public function dbStoragePath($sub_dir, $file_name)
+    public function dbStoragePath(string $sub_dir, string $file_name)
     {
         $sep = $this->separator($sub_dir);
         return asset('app/' . $sub_dir . $sep . $file_name, env('APP_ENV') != 'local');
@@ -82,7 +83,7 @@ trait UploadFile
      * @param $directory_to_store string Directory in which $file will be stored
      * @return string a file name that is unique among all files in $this->baseStoragePath() . $dir
      */
-    public function getFileName($uploaded_file, $directory_to_store)
+    public function getFileName(UploadedFile $uploaded_file, string $directory_to_store)
     {
         $sep = $this->separator($directory_to_store);
         $extension = "." . $uploaded_file->getClientOriginalExtension();
@@ -93,38 +94,6 @@ trait UploadFile
             $file_name = $this->generateUniqueName() . $extension;
         }
         return $file_name;
-    }
-
-    private function generateUniqueName()
-    {
-        $parts = explode('.', uniqid('', true));
-
-        $id = str_pad(base_convert($parts[0], 16, 2), 56, mt_rand(0, 1), STR_PAD_LEFT)
-            . str_pad(base_convert($parts[1], 10, 2), 32, mt_rand(0, 1), STR_PAD_LEFT);
-        $id = str_pad($id, strlen($id) + (8 - (strlen($id) % 8)), mt_rand(0, 1), STR_PAD_BOTH);
-
-        $chunks = str_split($id, 8);
-
-        $id = array();
-        foreach ($chunks as $key => $chunk) {
-            if ($key & 1) {  // odd
-                array_unshift($id, $chunk);
-            } else {         // even
-                array_push($id, $chunk);
-            }
-        }
-
-        // add random seeds
-        $prefix = str_pad(base_convert(mt_rand(), 10, 36), 6, self::_nextChar(), STR_PAD_BOTH);
-        $id = str_pad(base_convert(implode($id), 2, 36), 19, self::_nextChar(), STR_PAD_BOTH);
-        $suffix = str_pad(base_convert(mt_rand(), 10, 36), 6, self::_nextChar(), STR_PAD_BOTH);
-
-        return substr($prefix . self::_nextChar() . $id . $suffix, 0, 7);
-    }
-
-    private function _nextChar()
-    {
-        return base_convert(mt_rand(0, 35), 10, 36);
     }
 
     /**

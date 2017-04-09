@@ -34,11 +34,9 @@ class ShoppingCartTest extends TestCase
         factory(ItemCategory::class)->create();
         factory(MenuItem::class, $num_each)->create();
         factory(MenuItem::class, $num_each)->create();
-        //factory(EventItem::class, $num_each)->create();
         $cart = new ShoppingCart();
         $special_rest = Restaurant::where('seller_type', RestaurantOrderCategory::WEEKLY_SPECIAL)->first();
         $demand_rest = Restaurant::where('seller_type', RestaurantOrderCategory::ON_DEMAND)->first();
-        /*$event_items = EventItem::all();*/
         $special_items = $special_rest->menuItems;
         // make sure that the number of on demand items is less than or equal to the max
         $demand_items = [];
@@ -54,13 +52,9 @@ class ShoppingCartTest extends TestCase
         for ($i = 0; $i < $num_on_demand_items; $i++) {
             $cart_items[] = new CartItem($demand_items[$i]->id, ItemType::RESTAURANT_ITEM);
         }
-        /*for ($i = 0; $i < count($event_items); $i++) {
-            $cart_items[] = new CartItem($event_items[$i]->id, ItemType::EVENT_ITEM);
-        }*/
         $cart->putItems($cart_items);
         self::assertEquals($num_on_demand_items, count($cart->getOnDemandItems()));
-        self::assertEquals(count($special_items), count($cart->getWeeklySpecialItems()));
-        //self::assertEquals(count($event_items), count($cart->getEventItems()));
+        self::assertEquals(count($special_items), count($cart->getSpecialItems()));
     }
 
     /**

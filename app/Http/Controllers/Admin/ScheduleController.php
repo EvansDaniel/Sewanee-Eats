@@ -72,7 +72,7 @@ class ScheduleController extends Controller
         return back()->with('status_good', 'Worker added to shift successfully');
     }
 
-    public function showUpdateShift($shift_id)
+    public function showUpdateShift(int $shift_id)
     {
         $time_range = TimeRange::find($shift_id);
         $shift = new Shift($time_range);

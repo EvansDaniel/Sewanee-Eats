@@ -6,8 +6,10 @@ use App\CustomClasses\Orders\CustomerOrder;
 use App\CustomClasses\ShoppingCart\CartBilling;
 use App\CustomClasses\ShoppingCart\CartItem;
 use App\CustomClasses\ShoppingCart\ItemType;
+use App\CustomClasses\ShoppingCart\OnDemandBilling;
 use App\CustomClasses\ShoppingCart\RestaurantOrderCategory;
 use App\CustomClasses\ShoppingCart\ShoppingCart;
+use App\CustomClasses\ShoppingCart\SpecialBilling;
 use App\Models\EventItem;
 use App\Models\ItemCategory;
 use App\Models\MenuItem;
@@ -27,7 +29,7 @@ class CustomerOrderTest extends TestCase
     {
         $cart = new ShoppingCart();
         $this->putMenuAndEventItemsInDB($cart->getMaxOnDemandItems(), false);
-        $billing = new CartBilling($cart);
+        $billing = new CartBilling(new SpecialBilling($cart), new OnDemandBilling($cart));
         $customer_order = new CustomerOrder($cart, $billing, []);
         $this->assertAttributeNotEmpty('cart', $customer_order);
         $this->assertAttributeNotEmpty('billing', $customer_order);

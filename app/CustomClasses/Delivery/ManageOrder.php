@@ -32,13 +32,13 @@ class ManageOrder
         $courier_order->save();
     }
 
-    public function processingStatus($bool)
+    public function processingStatus(bool $bool)
     {
         $this->order->is_being_processed = $bool;
         $this->order->save();
     }
 
-    public function refundOrder($bool)
+    public function refundOrder(bool $bool)
     {
         if ($this->order->is_cancelled) {
             throw new InvalidArgumentException('Can\'t refund a cancelled order in ' . __FUNCTION__);
@@ -49,18 +49,6 @@ class ManageOrder
             $this->removeAssignedCourier();
         }
         $this->order->save();
-    }
-
-    /**
-     * @param $item_id integer id of item to refund
-     * @param int $refund_amount float the amount to
-     * refund to the customer, if nothing passed this value
-     * will default to the current cost of the item
-     */
-    public function refundItem($item_id, $refund_amount = 0)
-    {
-        // get the cost of food via master pricing class
-        // then subtract the price of this item
     }
 
     public function removeAssignedCourier()
@@ -74,7 +62,19 @@ class ManageOrder
         }
     }
 
-    public function cancellationStatus($bool)
+    /**
+     * @param $item_id integer id of item to refund
+     * @param int $refund_amount float the amount to
+     * refund to the customer, if nothing passed this value
+     * will default to the current cost of the item
+     */
+    public function refundItem(int $item_id, int $refund_amount = 0)
+    {
+        // get the cost of food via master pricing class
+        // then subtract the price of this item
+    }
+
+    public function cancellationStatus(bool $bool)
     {
         $this->order->is_cancelled = $bool;
         $this->deliveredStatus(false);
@@ -86,7 +86,7 @@ class ManageOrder
         $this->order->save();
     }
 
-    public function deliveredStatus($bool)
+    public function deliveredStatus(bool $bool)
     {
         $this->order->is_delivered = $bool;
         if($bool) { // if is delivered, set it to not being processed
