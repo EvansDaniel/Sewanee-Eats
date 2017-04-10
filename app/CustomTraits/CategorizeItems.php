@@ -39,7 +39,7 @@ trait CategorizeItems
             }
         }
         $this->on_demand_items = $items['on_demand'];
-        $this->weekly_special_items = $items["weekly_special"];
+        $this->special_items = $items["weekly_special"];
         $this->event_items = $items['event'];
     }
 

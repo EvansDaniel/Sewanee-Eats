@@ -13,5 +13,6 @@ interface ResourceTimeRange
 {
     public function getResourceTimeRangesByDay($dow);
 
+    public function getId();
     public function getTimeRangeType();
 }

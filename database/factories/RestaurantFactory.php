@@ -42,4 +42,5 @@ $factory->define(Restaurant::class, function (Faker\Generator $faker) {
         'phone_number' => '5555555555',
         'image_url' => $images[0],
     ];
+
 });

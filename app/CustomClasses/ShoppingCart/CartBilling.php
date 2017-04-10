@@ -6,14 +6,13 @@
  * Time: 3:59 PM
  */
 namespace App\CustomClasses\ShoppingCart;
-use App\Models\Accessory;
 
 
 class CartBilling
 {
     protected $cart;
-    protected $weekly_item;
-    protected $on_demand_item;
+    protected $special_billing;
+    protected $on_demand_billing;
     protected $weekly_cost;
     protected $on_demand_cost;
     protected $subtotal;
@@ -23,83 +22,52 @@ class CartBilling
     protected $stripe_fees;
     protected $profit;
     protected $delivery_fee;
-    protected $total_price;
     protected $cost_of_food;
     protected $discount;
 
     /**
      * CartBilling constructor.
-     * @param ShoppingCart|null $cart For displaying business info, like prices, no need to pass a shopping cart
-     * else pass the shopping cart to compute billing information
+     * @param $special_billing SpecialBilling the on demand billing object for the current session's cart
+     * @param $on_demand_billing OnDemandBilling the specials billing object for the current session's cart
      */
-    public function __construct(ShoppingCart $cart = null)
+    public function __construct(SpecialBilling $special_billing, OnDemandBilling $on_demand_billing)
     {
-        $this->cart = $cart;
-        $this->weekly_item = new WeeklyBilling($cart);
-        $this->on_demand_item = new OnDemandBilling($cart);
-        $this->tax_percent = 1.0925;
-        $this->weekly_cost= $this->weeklyCost();
-        $this->on_demand_cost = $this->onDemandCost();
-        $this->cost_of_food = $this->costOfFood();
-        $this->delivery_fee = $this->deliveryFee();
-        $this->subtotal = $this->subtotal();
         // I KNOW YOU WON'T LISTEN BUT...
         // THE ORDER OF THE FUNCTIONS BELOW MATTER, THEY BUILD ON EACH
         // OTHER AND DO NOT PROVIDE ERROR CHECKING
+        $this->on_demand_billing = $on_demand_billing;
+        $this->special_billing = $special_billing;
+        $this->tax_percent = 1.0925;
+        $this->delivery_fee = $this->deliveryFee();
+        $this->subtotal = $this->subtotal();
         $this->tax = $this->tax();
-        $this->total = round($this->totalPrice(), 2);
+        $this->total = round($this->total(), 2);
         $this->stripe_fees = $this->stripeFees();
         $this->profit = $this->profit();
 
     }
 
-    private function weeklyCost(){
-
-
-        return $this->weekly_item->getCostOfWeekly();
-    }
-
-    public function onDemandCost()
-    {
-        return $this->on_demand_item->getOnDemandCost();
-    }
-
-    public function costOfFood()
-    {
-        $cost_of_food = $this->weekly_cost + $this->on_demand_cost;
-        $cost_of_accessories = 0;
-
-        if (!empty($this->cart->items())){
-            foreach ($this->cart->items() as $cart_item) {
-                if (!empty($cart_item->getExtras())) {
-                    foreach ($cart_item->getExtras() as $extra_id) {
-                        $acc = Accessory::find($extra_id);
-                        if (empty($acc)) {
-                            \Log::info('tried to access accessory that didn\'t exist at line: ' . __LINE__ . ' in function ' . __FUNCTION__);
-                            continue;
-                        }
-                        $cost_of_accessories += $acc->price;
-                    }
-                }
-            }
-        }
-
-        return $cost_of_food + $cost_of_accessories;
-    }
-
     private function deliveryFee()
     {
-        return $this->on_demand_item->getFeeAfter() + $this->weekly_item->getFeeAfter();
+        return $this->on_demand_billing->getDeliveryFee() + $this->special_billing->getDeliveryFee();
     }
 
     private function subtotal()
     {
-        return $this->getCostOfFood() + $this->deliveryFee();
+        return $this->getCostOfFood() + $this->getDeliveryFee();
     }
 
     public function getCostOfFood()
     {
-        return $this->cost_of_food;
+        return $this->on_demand_billing->getCostOfFood() + $this->special_billing->getCostOfFood();
+    }
+
+    /**
+     * @return int
+     */
+    public function getDeliveryFee()
+    {
+        return $this->on_demand_billing->getDeliveryFee() + $this->special_billing->getDeliveryFee();
     }
 
     private function tax()
@@ -124,7 +92,7 @@ class CartBilling
         return $this->tax_percent;
     }
 
-    private function totalPrice()
+    private function total()
     {
         return $this->getSubtotal() * $this->getTaxPercent();
     }
@@ -148,63 +116,7 @@ class CartBilling
         // profit per order is the calculated delivery fee
         // plus the mark up on each item * num items
         // minus expenses i.e. stripe fees
-        return $this->weekly_item->getWeeklyProfit() + $this->on_demand_item->getOnDemandProfit();
-    }
-
-    /**
-     * @return int
-     */
-    public function getDeliveryFee()
-    {
-        return $this->delivery_fee;
-    }
-
-    /**
-     * @return ShoppingCart|null
-     */
-    public function getCart()
-    {
-        return $this->cart;
-    }
-
-    /**
-     * @return \App\CustomClasses\ShoppingCart\WeeklyBilling
-     */
-    public function getWeeklyItem()
-    {
-        return $this->weekly_item;
-    }
-
-    /**
-     * @return \App\CustomClasses\ShoppingCart\OnDemandBilling
-     */
-    public function getOnDemandItem()
-    {
-        return $this->on_demand_item;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getWeeklyCost()
-    {
-        return $this->weekly_cost;
-    }
-
-    /**
-     * @return int
-     */
-    public function getOnDemandCost()
-    {
-        return $this->on_demand_cost;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getTotalPrice()
-    {
-        return $this->total_price;
+        return $this->special_billing->getSpecialProfit() + $this->on_demand_billing->getOnDemandProfit();
     }
 
     public function getStripeFees($is_stripe_order)
@@ -228,18 +140,12 @@ class CartBilling
         return $this->profit;
     }
 
-    public function discount()
-    {
-        return $this->weekly_item -> getDiscount();
-    }
-
     /**
-     * @return mixed
+     * The total discount for on demand and special items as a percentage
+     * @return int
      */
     public function getDiscount()
     {
-        return $this->discount;
+        return $this->on_demand_billing->getDiscount() + $this->special_billing->getDiscount();
     }
-
-
 }

@@ -58,7 +58,7 @@ class IsAvailable
      * @param $spare_time_before_ending integer the amount of extra time needed before the resource is unavailable
      * @return bool
      */
-    public function isAvailableNow($spare_time_before_ending = 0)
+    public function isAvailableNow(int $spare_time_before_ending = 0)
     {
         // this should return TimeRange object(s)
         $resource_time_ranges = $this->resource->getAvailability();
@@ -79,7 +79,7 @@ class IsAvailable
         return false;
     }
 
-    public static function nowIsBetweenOrEqualToTimeRange(TimeRange $time_range, $spare_time_before_ending)
+    public static function nowIsBetweenOrEqualToTimeRange(TimeRange $time_range, int $spare_time_before_ending)
     {
         if (empty($time_range)) {
             return false;

@@ -93,9 +93,10 @@ class Shift
     public static function now()
     {
         $shifts = TimeRange::ofType(TimeRangeType::SHIFT)->get();
+        $user = new User();
         foreach ($shifts as $shift) {
-            if (IsAvailable::nowIsBetweenOrEqualToTimeRange($shift, 0)) {
-                return $shift;
+            // use the extra time before shift ends from the user
+            if (IsAvailable::nowIsBetweenOrEqualToTimeRange($shift, $user->getExtraTime())) {
                 return $shift;
             }
         }
@@ -129,7 +130,7 @@ class Shift
         $this->shift->users()->detach($courier_id);
     }
 
-    public function getShifts($dow)
+    public function getShifts(string $dow)
     {
         $shift_time_ranges = $this->getTimeRangesByDay($dow, TimeRangeType::SHIFT);
         return $this->convertTimeRangeToShifts($shift_time_ranges);
@@ -201,14 +202,13 @@ class Shift
      * for this shift
      * @return int
      */
-    public function assignWorker($user_id, $courier_type)
+    public function assignWorker(int $user_id, int $courier_type)
     {
         $user = User::find($user_id);
         // shift has a manager and only one manager for a shift
         if ($this->hasManager() && $user->hasRole('manager')) {
             return -1;
         }
-        \Log::info($courier_type);
         $this->shift->users()->save($user, ['courier_type' => $courier_type]);
         return 0;
     }

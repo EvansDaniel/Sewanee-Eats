@@ -40,7 +40,7 @@ class SellerEntityController extends Controller
      * @param $id
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\View\View
      */
-    public function showMenu(Restaurant $rest, $id)
+    public function showMenu(Restaurant $rest, int $id)
     {
         $restaurant = $rest->findOrFail($id);
         // if this is an on demand restaurant and we are closed right now
@@ -67,7 +67,7 @@ class SellerEntityController extends Controller
             compact('sellers', 'on_demand_is_available'));
     }
 
-    public function showEventItems(SpecialEvent $event, $event_id)
+    public function showEventItems(SpecialEvent $event, int $event_id)
     {
         $event = $event->findOrFail($event_id);
         $item_type = ItemType::EVENT_ITEM;

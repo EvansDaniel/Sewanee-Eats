@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\CustomClasses\Orders\CustomerOrder;
 use App\CustomClasses\ShoppingCart\CartBilling;
 use App\CustomClasses\ShoppingCart\ItemLister;
+use App\CustomClasses\ShoppingCart\OnDemandBilling;
 use App\CustomClasses\ShoppingCart\PaymentType;
 use App\CustomClasses\ShoppingCart\ShoppingCart;
+use App\CustomClasses\ShoppingCart\SpecialBilling;
 use App\Events\NewOrderReceived;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Event;
@@ -19,7 +21,7 @@ class CheckoutController extends Controller
         if (!empty($items = $cart->checkMenuItemAndRestaurantAvailabilityAndDelete())) {
             \Session::flash('became_unavailable', $items);
         }
-        $bill = new CartBilling($cart);
+        $bill = new CartBilling(new SpecialBilling($cart), new OnDemandBilling($cart));
         $cart_lister = new ItemLister($cart);
         return view('orderFlow.checkout', compact('cart', 'bill', 'cart_lister'));
     }
@@ -35,7 +37,7 @@ class CheckoutController extends Controller
             \Session::flash('became_unavailable', $items);
             return redirect()->route('checkout');
         }
-        $bill = new CartBilling($cart);
+        $bill = new CartBilling(new SpecialBilling($cart), new OnDemandBilling($cart));
         $view_payment_type = $request->input('payment_type');
         if (empty($view_payment_type)) {
             $view_payment_type = 0;
