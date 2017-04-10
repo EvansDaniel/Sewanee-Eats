@@ -150,7 +150,6 @@ class Order extends Model implements HasItems
         return $query->where([
             'is_delivered' => false,
             'is_being_processed' => false,
-            'is_paid_for' => true,
             'is_cancelled' => false,
         ]);
     }

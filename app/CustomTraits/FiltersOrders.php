@@ -18,7 +18,7 @@ trait FiltersOrders
         return $this->getOrders($orders, RestaurantOrderCategory::WEEKLY_SPECIAL);
     }
 
-    private function getOrders(array $order, int $of_type)
+    private function getOrders($ordersg, int $of_type)
     {
         if (empty($orders)) {
             return [];
@@ -36,10 +36,10 @@ trait FiltersOrders
     public function pendingOnDemandOrders()
     {
         $pending_orders = Order::pending()->get();
-        return $this->onDemandOrders($pending_orders);
+        return $this->onDemandOrders($pending_orders->toArray());
     }
 
-    public function onDemandOrders(array $orders)
+    public function onDemandOrders($orders)
     {
         return $this->getOrders($orders, RestaurantOrderCategory::ON_DEMAND);
     }

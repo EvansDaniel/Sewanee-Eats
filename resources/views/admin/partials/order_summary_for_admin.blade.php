@@ -1,7 +1,7 @@
 
 <div class="container">
     <div>
-        <p>Total Cost of Food: ${{ $next_order->orderPriceInfo->cost_of_food }}</p>
+        <p>Total To Charge Customer: ${{ $next_order->orderPriceInfo->total_price }}</p>
         @if(count($next_order->couriers) >= 1)
             <p>Payment for Order: {{ $next_order->getCourier()->pivot->courier_payment }}</p>
         @endif
