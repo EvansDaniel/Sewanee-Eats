@@ -47,7 +47,8 @@
             <h3 id="mountain">WEEKLY SPECIALS</h3>
         </div>
         @if(empty($sellers->getWeeklySpecials()))
-            <h5 class="restaurant-cat-header">Sorry we are currently closed and not taking on demand orders</h5>
+            <h5 class="restaurant-cat-header">Sorry we are currently closed and not taking on deman
+                d orders</h5>
         @else
         <!-- TODO: change the hardcoded chick fil a to the names of the weekly special restaurants -->
             <h5 id="no-specials" class="restaurant-cat-header"><a
