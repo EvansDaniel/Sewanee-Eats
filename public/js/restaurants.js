@@ -47,9 +47,10 @@ function disable_link(link) {
     var status = $(link).data("open");
     if (!status) {
         change_rest_status_color(link);
-        $(link).click(function () {
-            return false;
-        });
+
+        // $(link).click(function () {
+        //     return false;
+        // });
 
     }
 }
