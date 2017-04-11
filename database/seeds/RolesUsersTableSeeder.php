@@ -21,7 +21,9 @@ class RolesUsersTableSeeder extends Seeder
         $danny = User::where('email', 'evansdb0@sewanee.edu')->first();
         $blaise = User::where('email', 'iradub0@sewanee.edu')->first();
         $tari = User::where('email', 'kandeta0@sewanee.edu')->first();
+        $seats_tester = User::where('email','seatstest17@gmail.com')->first();
 
+        $seats_tester->roles()->attach($courier_role->id);
         $danny->roles()->attach([$admin_role->id, $manager_role->id]);
         $blaise->roles()->attach([$admin_role->id, $manager_role->id]);
         $tari->roles()->attach([$admin_role->id, $manager_role->id]);

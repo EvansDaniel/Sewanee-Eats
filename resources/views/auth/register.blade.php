@@ -87,7 +87,7 @@
 
                             <div style="display: none;" id="courier-phone-number-wrapper">
                                 <label for="courier-phone-number">Please input the courier's phone number</label>
-                                <input type="number" required name="phone_number" id="courier-phone-number">
+                                <input type="number" name="phone_number" id="courier-phone-number">
                             </div>
                             <div class="form-group">
                                 <div class="col-md-6 col-md-offset-4">

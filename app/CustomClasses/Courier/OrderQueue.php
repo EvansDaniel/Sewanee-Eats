@@ -32,6 +32,7 @@ class OrderQueue
         }
         // $this->orders and $this->orders_for_courier set in retrieveOrders()
         $this->retrieveOrders();
+        \Log::info($this->orders_for_courier);
     }
 
     /**

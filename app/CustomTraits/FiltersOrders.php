@@ -18,7 +18,7 @@ trait FiltersOrders
         return $this->getOrders($orders, RestaurantOrderCategory::WEEKLY_SPECIAL);
     }
 
-    private function getOrders($ordersg, int $of_type)
+    private function getOrders($orders, int $of_type)
     {
         if (empty($orders)) {
             return [];

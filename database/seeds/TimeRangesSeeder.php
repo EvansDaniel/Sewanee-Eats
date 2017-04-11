@@ -1,14 +1,22 @@
 <?php
 
 use App\CustomClasses\Availability\TimeRangeType;
+use App\CustomClasses\Courier\CourierTypes;
+use App\CustomClasses\Schedule\Shift;
+use App\Http\Controllers\Admin\TimeRangeController;
 use App\Models\MenuItem;
 use App\Models\Restaurant;
 use App\Models\Role;
 use App\Models\TimeRange;
+use App\User;
+use Carbon\Carbon;
 use Illuminate\Database\Seeder;
+use App\CustomTraits\HandlesTimeRanges;
 
 class TimeRangesSeeder extends Seeder
 {
+    use HandlesTimeRanges;
+
     /**
      * Run the database seeds.
      *
@@ -16,27 +24,22 @@ class TimeRangesSeeder extends Seeder
      */
     public function run()
     {
-        $role = Role::ofType('courier')->first();
-        if (!empty($role)) {
-
+        $courier_test = User::where('email','seatstest17@gmail.com')->first();
+        $time_range = factory(TimeRange::class)->create([
+            'start_dow' => Carbon::now()->format('l'),
+            'end_dow' => Carbon::now()->addDay()->format('l'),
+            'start_hour' => 0,
+            'end_hour' => 23,
+            'time_range_type' => TimeRangeType::SHIFT
+        ]);
+        if ($courier_test->hasRole('courier')) {
+            $shift = new Shift($time_range);
+            $shift->assignWorker($courier_test->id, CourierTypes::DRIVER);
         }
-        $restaurants = Restaurant::all();
+        $restaurants = Restaurant::onDemand()->get();
         if (!empty($restaurants)) {
             foreach ($restaurants as $restaurant) {
-                /*factory(TimeRange::class, 1)->create([
-                    'restaurant_id' => $restaurant->id,
-                    'time_range_type' => $restaurant->getSellerType() == RestaurantOrderCategory::ON_DEMAND ?
-                        TimeRangeType::ON_DEMAND : TimeRangeType::WEEKLY_SPECIAL
-                ]);*/
-            }
-        }
-        $menu_items = MenuItem::all();
-        if (!empty($menu_items)) {
-            foreach ($menu_items as $menu_item) {
-                factory(TimeRange::class, 1)->create([
-                    'menu_item_id' => $menu_item->id,
-                    'time_range_type' => TimeRangeType::MENU_ITEM
-                ]);
+                $this->copyRestTimeRangesToMenuItems($restaurant);
             }
         }
     }

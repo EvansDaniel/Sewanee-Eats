@@ -17,7 +17,7 @@ use App\Models\TimeRange;
 use Carbon\Carbon;
 use Doctrine\Instantiator\Exception\InvalidArgumentException;
 use Illuminate\Http\Request;
-
+use App\CustomClasses\Availability\TimeRangeType;
 trait HandlesTimeRanges
 {
     // TODO: validate input
@@ -34,6 +34,8 @@ trait HandlesTimeRanges
 
         return $time_range;
     }
+
+
 
     /**
      * @param TimeRange $time_range the time range to copy
@@ -55,6 +57,27 @@ trait HandlesTimeRanges
         // this controller creates shifts and no other type of time range
         $copy->time_range_type = $time_range->time_range_type;
         return $copy;
+    }
+
+    public function copyRestTimeRangesToMenuItems(Restaurant $rest)
+    {
+        if(empty($rest)) {
+            return;
+        }
+        $time_ranges = $rest->getAvailability();
+        $items = $rest->menuItems;
+        foreach ($items as $item) {
+            foreach ($time_ranges as $time_range) {
+                $copy = $this->copyTimeRange($time_range);
+                if (empty($err_msg = $this->isValidTimeRangeForMenuItem($item, $copy))) { // if valid time range
+                    // we need to convert the time range type from restaurant to menu item
+                    $copy->time_range_type = TimeRangeType::MENU_ITEM;
+                    // and give it the menu item's id
+                    $copy->menu_item_id = $item->id;
+                    $copy->save();
+                }
+            }
+        }
     }
 
     /**

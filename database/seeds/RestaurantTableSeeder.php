@@ -1,5 +1,6 @@
 <?php
 
+use App\CustomClasses\Availability\TimeRangeType;
 use App\CustomClasses\ShoppingCart\RestaurantOrderCategory;
 use App\Models\Restaurant;
 use App\Models\TimeRange;
@@ -32,17 +33,23 @@ class RestaurantTableSeeder extends Seeder
             'seller_type' => RestaurantOrderCategory::ON_DEMAND,
             'is_available_to_customers' => true
         ]);
+        $restaurants = Restaurant::onDemand()->get();
+        foreach ($restaurants as $restaurant) {
+            $time_range = $this->makeTimeRange(TimeRangeType::ON_DEMAND);
+            $time_range->restaurant_id = $restaurant->id;
+            $time_range->save();
+        }
     }
 
     private function makeTimeRange($time_range_type)
     {
         $time_range = new TimeRange;
         $time_range->start_dow = 'Monday';
-        $time_range->end_dow = 'Wednesday';
+        $time_range->end_dow = 'Sunday';
         $time_range->start_hour = 0;
         $time_range->start_min = 0;
-        $time_range->end_hour = 17;
-        $time_range->end_min = 55;
+        $time_range->end_hour = 23;
+        $time_range->end_min = 59;
         $time_range->time_range_type = $time_range_type;
         return $time_range;
     }

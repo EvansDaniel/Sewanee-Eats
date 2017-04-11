@@ -2,6 +2,7 @@
 
 use App\User;
 use Illuminate\Database\Seeder;
+use App\Models\CourierInfo;
 
 class UserTableSeeder extends Seeder
 {
@@ -32,6 +33,21 @@ class UserTableSeeder extends Seeder
             'name' => 'Tari Kandemiri',
             'email' => 'kandeta0@sewanee.edu',
             'password' => bcrypt('tari1995'),
+        ]);
+
+        // create test courier
+        User::create([
+            'name' => 'Seats Tester',
+            'email' => 'seatstest17@gmail.com',
+            'password' => bcrypt('temp12'),
+        ]);
+
+        // create test courier info
+        CourierInfo::create([
+            'is_delivering_order' => false,
+            'phone_number' => '3039840394',
+            'current_order_id' => null,
+            'user_id' => User::where('email','seatstest17@gmail.com')->first()->id
         ]);
     }
 }
