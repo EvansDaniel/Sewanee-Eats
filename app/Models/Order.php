@@ -44,12 +44,15 @@ class Order extends Model implements HasItems
     public function items()
     {
         $items = [];
+        $i = 0;
         foreach ($this->menuItemOrders as $menu_item_order) {
             $menu_item = $menu_item_order->item;
             if ($menu_item->getSellerEntity()->getSellerType() == RestaurantOrderCategory::ON_DEMAND
                 || $menu_item->getSellerEntity()->getSellerType() == RestaurantOrderCategory::WEEKLY_SPECIAL
             ) {
                 $items[] = new CartItem($menu_item->id, ItemType::RESTAURANT_ITEM);
+                $items[$i]->setExtras($menu_item_order->accessories);
+                $items[$i]->setInstructions($menu_item_order->special_instructions);
             } else if ($menu_item->getSellerEntity()->getSellerType() == RestaurantOrderCategory::EVENT) {
                 $items[] = new CartItem($menu_item->id, ItemType::EVENT_ITEM);
             }
@@ -150,6 +153,7 @@ class Order extends Model implements HasItems
         return $query->where([
             'is_delivered' => false,
             'is_being_processed' => false,
+            'was_refunded' => false,
             'is_cancelled' => false,
         ]);
     }

@@ -7,6 +7,7 @@ use App\CustomClasses\Schedule\Shift;
 use App\CustomClasses\ShoppingCart\ItemType;
 use App\CustomClasses\ShoppingCart\RestaurantOrderCategory;
 use App\CustomClasses\ShoppingCart\ShoppingCart;
+use App\CustomTraits\HandlesTimeRanges;
 use App\CustomTraits\IsAvailable;
 use App\Models\Restaurant;
 use App\Models\SpecialEvent;
@@ -18,7 +19,7 @@ use App\Models\SpecialEvent;
  */
 class SellerEntityController extends Controller
 {
-
+    use HandlesTimeRanges;
     protected $cart;
 
     /**
@@ -43,13 +44,6 @@ class SellerEntityController extends Controller
     public function showMenu(Restaurant $rest, int $id)
     {
         $restaurant = $rest->findOrFail($id);
-        // if this is an on demand restaurant and we are closed right now
-        if ($restaurant->isSellerType(RestaurantOrderCategory::ON_DEMAND) && !Shift::onDemandIsAvailable()) {
-            return back()->with('status_bad', 'Sorry we are currently closed and not taking On Demand orders');
-        }
-        if (!$restaurant->isAvailableNow()) {
-            return redirect()->route('list_restaurants')->with('status_bad', 'Sorry this restaurant is not available right now');
-        }
         $menu_items = null;
         foreach ($restaurant->menuItems as $item) {
             $menu_items[$item->itemCategory->name][] = $item;
@@ -63,8 +57,10 @@ class SellerEntityController extends Controller
     public function list_restaurants(Sellers $sellers)
     {
         $on_demand_is_available = Shift::onDemandIsAvailable();
+        $time_till_next_shift = Shift::diffBetweenNowAndNextShift();
+        $on_demand_not_available_msg = $this->onDemandNotAvailableMsg($time_till_next_shift);
         return view('orderFlow.list_restaurants',
-            compact('sellers', 'on_demand_is_available'));
+            compact('sellers', 'on_demand_is_available', 'on_demand_not_available_msg'));
     }
 
     public function showEventItems(SpecialEvent $event, int $event_id)

@@ -9,12 +9,18 @@
         </div>
     </div>
     <div class="panel panel-default">
-        @if($is_weekly_special)
+        @if($is_weekly_special && $restaurant->isAvailableNow())
             <br>
             <div class="row" align="center">
                 <p style="color: rebeccapurple">All items on this menu will be delivered to you at
                     {{ $restaurant->location_special }}
                     on {{ $restaurant->time_special }}</p>
+            </div>
+        @endif
+        @if(!$restaurant->isAvailableNow())
+            <br>
+            <div class="row" align="center">
+                <p style="color: rebeccapurple">This restaurant is not available right now</p>
             </div>
         @endif
 

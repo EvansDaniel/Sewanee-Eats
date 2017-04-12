@@ -14,8 +14,9 @@ class Sellers
     public function __construct()
     {
         $this->events = SpecialEvent::all();
-        $this->weekly_specials = Restaurant::weeklySpecials()->get();
-        $this->on_demand_rests = Restaurant::onDemand()->get();
+        // will retrieve all weekly specials and on demand rests, even if not available
+        $this->weekly_specials = Restaurant::availableToCWeeklySpecial()->get();
+        $this->on_demand_rests = Restaurant::availableToCOnDemand()->get();
     }
 
     /**

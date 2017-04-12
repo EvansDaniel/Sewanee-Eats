@@ -7,7 +7,6 @@ use App\CustomClasses\Delivery\ManageOrder;
 use App\CustomTraits\FiltersOrders;
 use App\Models\Order;
 use App\User;
-use Auth;
 use Doctrine\Instantiator\Exception\InvalidArgumentException;
 
 class OrderQueue
@@ -19,6 +18,7 @@ class OrderQueue
 
     use FiltersOrders;
 
+    // TODO: ???subclass this class and make a ManagerOrderQueue and a CourierOrderQueue that handles each user's specific logic???
     public function __construct(User $courier = null)
     {
         if (!empty($courier) && !$courier->hasRole('courier')) {
@@ -32,7 +32,6 @@ class OrderQueue
         }
         // $this->orders and $this->orders_for_courier set in retrieveOrders()
         $this->retrieveOrders();
-        \Log::info($this->orders_for_courier);
     }
 
     /**
@@ -96,16 +95,6 @@ class OrderQueue
         $order_manager = new ManageOrder($order);
         $order_manager->processingStatus(false);
         // nothing to do if the order is not being delivered and isnt' delivered
-    }
-
-    public function getOrderQueue()
-    {
-        if (!Auth::user()->hasRole('manager') && !Auth::user()->hasRole('admin')) {
-            throw new InvalidArgumentException('You do not have privileges to access this information. Contact your manager or an admin');
-        }
-        $potential_orders = Order::pending()->orderBy('created_at', 'ASC')->get();
-        $on_demand_orders = $this->onDemandOrders($potential_orders);
-        return $on_demand_orders;
     }
 
     /**

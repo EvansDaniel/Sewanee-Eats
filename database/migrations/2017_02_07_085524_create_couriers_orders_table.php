@@ -14,6 +14,7 @@ class CreateCouriersOrdersTable extends Migration
     public function up()
     {
         Schema::create('couriers_orders', function (Blueprint $table) {
+            $table->increments('id');
             $table->integer('courier_id')->unsigned();
             $table->integer('order_id')->unsigned();
             $table->integer('courier_payment');

@@ -131,7 +131,7 @@ class SellerEntityControllerIntegrationTest extends TestCase
     /**
      * @test
      */
-    public function assertThatUnavailableSpecialRestsAreHidden()
+    public function assertThatUnavailableSpecialRestsAreSeen()
     {
         // MAKE A weekly special restaurant that is available now
         $rest = factory(Restaurant::class)->create([
@@ -148,7 +148,7 @@ class SellerEntityControllerIntegrationTest extends TestCase
             'time_range_type' => TimeRangeType::WEEKLY_SPECIAL
         ]);
         $this->visit(route('list_restaurants'))
-            ->dontSee($rest->image_url);
+            ->see($rest->image_url);
     }
 
     /**

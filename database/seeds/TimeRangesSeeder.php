@@ -3,15 +3,12 @@
 use App\CustomClasses\Availability\TimeRangeType;
 use App\CustomClasses\Courier\CourierTypes;
 use App\CustomClasses\Schedule\Shift;
-use App\Http\Controllers\Admin\TimeRangeController;
-use App\Models\MenuItem;
+use App\CustomTraits\HandlesTimeRanges;
 use App\Models\Restaurant;
-use App\Models\Role;
 use App\Models\TimeRange;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
-use App\CustomTraits\HandlesTimeRanges;
 
 class TimeRangesSeeder extends Seeder
 {
@@ -36,7 +33,7 @@ class TimeRangesSeeder extends Seeder
             $shift = new Shift($time_range);
             $shift->assignWorker($courier_test->id, CourierTypes::DRIVER);
         }
-        $restaurants = Restaurant::onDemand()->get();
+        $restaurants = Restaurant::availableToCOnDemand()->get();
         if (!empty($restaurants)) {
             foreach ($restaurants as $restaurant) {
                 $this->copyRestTimeRangesToMenuItems($restaurant);

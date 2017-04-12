@@ -7,8 +7,8 @@ use App\CustomClasses\Schedule\Shift;
 use App\CustomTraits\HandlesTimeRanges;
 use App\Models\MenuItem;
 use App\Models\Restaurant;
-use App\Models\Role;
 use App\Models\TimeRange;
+use App\TestTraits\AvailabilityMaker;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use ItemCategoryTableSeeder;
 use MenuItemTableSeeder;
@@ -24,19 +24,20 @@ class IsAvailableTest extends TestCase
 
     use HandlesTimeRanges;
     use DatabaseMigrations;
+    use AvailabilityMaker;
 
     /**
      * A basic test example.
-     *
+     * @test
      * @return void
      */
     public function itCorrectlyDeterminesAvailabilityForCouriers()
     {
         $this->populateRolesAndUsers();
-        // check that this works for couriers
-        $couriers = Role::ofType('courier')->first()->users;
-        $isAvail = new IsAvailable($couriers[0]);
-        \Log::info($isAvail->isAvailableNow(0));
+        $this->makeShiftForNow();
+        $s_n = $this->makeShiftNext();
+        $s = Shift::next();
+        self::assertEquals($s_n->id, $s->id);
     }
 
     private function populateRolesAndUsers()

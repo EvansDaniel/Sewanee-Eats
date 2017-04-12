@@ -23,22 +23,29 @@
     <div class="container">
         <p style="font-size: 22px">Order Summary</p>
         <div>
+            <p>Customer: {{ $next_order->c_name }}</p>
             <p>Total Cost of Food: ${{ $next_order->orderPriceInfo->cost_of_food }}</p>
-            <p>Payment for Order: ${{ $next_order->couriers[0]->pivot->courier_payment }}</p>
+            <p>Your Payment for this Order: ${{ $next_order->getCourier()->pivot->courier_payment }}</p>
             <p>Delivery Location: {{ $next_order->delivery_location }}</p>
+            <!-- Message to driver about the order not being paid for. Asks them to ask customer to pay for order -->
+            @if(!$next_order->is_paid_for)
+                <p>
+                    <strong>
+                        This order has not been currently not been paid for yet.
+                        Please refresh this page just before delivering and if this message is still here,
+                        ask the customer to pay for the order via Venmo before giving him/her the food (they
+                        were sent an @SewaneeEats venmo payment request for his/her food).
+                    </strong>
+                </p>
+            @endif
         </div>
-        <p class="m-to-courier">
-            In the event that you cannot fulfill this order for any reason, press the <strong>Cancel Order Delivery
-                Button</strong> and
-            please contact the manager of the
-            shift at sewaneeeats@gmail.com or at (931) 313-1670
-        </p>
         <div>
             <ul class="list-group">
                 <!-- Array of type MenuItemOrder -->
                 @foreach($next_order->toOnDemandRestBuckets() as $rest => $items)
                     <div class="indent-p">
                         <div>
+                            <!-- Instructions about the restaurant -->
                             <p class="items">
                                 {{ $items[0]->item->restaurant->name }}
                                 | {{ $items[0]->item->restaurant->address  }} |
@@ -50,6 +57,7 @@
                         <ul class="list-group">
                             <div class="indent">
                                 @foreach($items as $item)
+                                    <!-- Instructions for each item bought -->
                                     <li class="list-group-item">
                                         <div>
                                             <p class="items">{{ $item->item->name }} $ {{ $item->item->price }}</p>
@@ -61,6 +69,7 @@
                                             @else
                                                 <h5>No Special Instructions for this item</h5>
                                             @endif
+                                        <!-- Lists order accessories for $item if present, gives no accessories for item if not -->
                                             @if(!empty($item->accessories->toArray()))
                                             <p>Buy the below accessories with the item</p>
                                             <ul class="list-group">
@@ -82,6 +91,7 @@
                 @endforeach
             </ul>
         </div>
+        <!-- Links/buttons to mark order as delivered and to cancel this courier delivery of this order -->
         <a href="{{ route('markAsDelivered') }}">
             <button id="delivery-button" class="btn btn-dark">Mark Order as Delivered and Start Next Order</button>
         </a>

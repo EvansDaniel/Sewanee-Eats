@@ -13,12 +13,13 @@
 
 @section('body')
     <script src="{{ asset('js/Checkout/checkout_animations.js',env('APP_ENV') != 'local') }}"></script>
+
     <div class="container-fluid cart-container" id="cart-container">
         <form action="{{ url()->to(parse_url(route('handleCheckout',[]),PHP_URL_PATH),[],env('APP_ENV') !== 'local') }}"
               method="post" id="payment-form">
             {{--<form action="{{ route('handleCheckout') }}" method="POST" id="payment-form">--}}
             {{ csrf_field() }}
-            @if(empty(Session::get('cart')) || Session::get('cart') == null)
+            @if($cart->getQuantity() == 0)
                 <h2>Your Food</h2>
                 <hr style="color: rebeccapurple">
                 <div id="cart-title" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -40,9 +41,7 @@
                     <hr class="cart-sep sep1">
                 </div>
 
-
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="orders">
-
                     @if(!empty($cart->getOnDemandItems()))
                         <h3 class="type-title">Your On Demand Items</h3>
                         <h4 class="estimated-time"><i>Estimated Delivery Time: <span
@@ -53,9 +52,8 @@
                         @endforeach
                         <hr class="hr-separator">
                     @endif
-
-                    @if(!empty($cart->getSpecialItems()))
-                        <h3 class="type-title">Your Weekly Special Items</h3>
+                    @if($cart->hasSpecialItems())
+                        <h3 class="type-title">Your Specials Items</h3>
                         <br>
                         @foreach($cart_lister->toWeeklySpecialRestBuckets() as $orders)
                             <?php $r = $orders[0]->getSellerEntity() ?>
@@ -77,7 +75,6 @@
                         <!-- Loop through all menu items in the cart -->
                         @if(!empty($cart->getEventItems()))
                             <h3>Your Event Items</h3>
-                            <h3>Your Event Items </h3>
                             <hr class="hr-separator">
                             @foreach($cart->getEventItems() as $order)
                                 @include('partials.checkout_items')
@@ -287,7 +284,7 @@
                                                 class="checkout-btn">Pay Now
                                         </button>
                                         <p>
-                                            <i>*By clicking submit, you are agreeing to the Sewanee Eats <a
+                                            <i>*By clicking Pay Now, you are agreeing to the Sewanee Eats <a
                                                         href="{{ route('terms') }}">Terms
                                                     and
                                                     Conditions</a>.

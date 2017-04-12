@@ -15,6 +15,7 @@ use App\CustomClasses\Courier\CourierTypes;
 use App\CustomTraits\HandlesTimeRanges;
 use App\Models\TimeRange;
 use App\User;
+use Carbon\Carbon;
 use Doctrine\Instantiator\Exception\InvalidArgumentException;
 
 class Shift
@@ -45,8 +46,6 @@ class Shift
         return $manager;
     }
 
-    // prints the internal TimeRange
-
     public function couriers()
     {
         $couriers = [];
@@ -60,6 +59,8 @@ class Shift
         }
         return $couriers;
     }
+
+    // prints the internal TimeRange
 
     /**
      * @param $courier_type integer CourierTypes constant
@@ -77,6 +78,35 @@ class Shift
             return 'Walker';
         }
         throw new InvalidArgumentException('Invalid courier type given. Must be a constant from the CourierTypes class');
+    }
+
+    public static function diffBetweenNowAndNextShift()
+    {
+        $now = Carbon::now();
+        $next_shift = Shift::next();
+        if (empty($next_shift)) {
+            return Carbon::MINUTES_PER_HOUR * 168; // num minutes in a week
+        }
+        $start = $next_shift->getStartCarbon();
+        return $now->diffInMinutes($start);
+    }
+
+    public static function next()
+    {
+        $now = Carbon::now();
+        $shift_time_ranges = TimeRange::where('time_range_type', TimeRangeType::SHIFT)
+            ->orderBy('start_dow', 'ASC')->orderBy('start_hour', 'ASC')
+            ->orderBy('start_min', 'ASC')->get();
+        $next = null;
+        $next_time_range = null;
+        foreach ($shift_time_ranges as $shift) {
+            $start = $shift->getStartCarbon();
+            if ($start->greaterThan($now) && (empty($next) || $start->lessThan($next))) {
+                $next = $start;
+                $next_time_range = $shift;
+            }
+        }
+        return $next_time_range;
     }
 
     public static function onDemandIsAvailable()

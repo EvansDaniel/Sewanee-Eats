@@ -12,9 +12,10 @@
 */
 
 
-Route::get('staging', function () {
-    return 'staging is fun';
-});
+/*Route::get('clearSession', function () {
+    Session::flush();
+    return back();
+})->name('clearSession');*/
 
 // -------------------------------- Home Page Routes ----------------------------------------------------------
 Route::get('/', 'HomeController@showHome')->name('home');

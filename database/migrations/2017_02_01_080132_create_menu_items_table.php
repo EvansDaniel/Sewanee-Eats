@@ -8,7 +8,7 @@ class CreateMenuItemsTable extends Migration
 {
     /**
      * Run the migrations.
-     *
+     * TODO: add soft deletes
      * @return void
      */
     public function up()

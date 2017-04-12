@@ -26,7 +26,7 @@ class CustomerOrderTest extends TestCase
     {
         $cart = new ShoppingCart();
         $billing = new CartBilling(new SpecialBilling($cart), new OnDemandBilling($cart));
-        $customer_order = new CustomerOrder($cart, $billing, []);
+        $customer_order = CustomerOrder::withInput($cart, $billing, []);
         $this->assertAttributeNotEmpty('cart', $customer_order);
         $this->assertAttributeNotEmpty('billing', $customer_order);
         $this->assertAttributeEmpty('input', $customer_order);
@@ -44,7 +44,7 @@ class CustomerOrderTest extends TestCase
         // empty input for building name, so addresss should be used
         $input = ['building_name' => '', 'area_type' => '', 'room_number' => '', 'address' => 'address'];
         $billing = $this->mock(CartBilling::class);
-        $c_order = new CustomerOrder($cart, $billing, $input);
+        $c_order = CustomerOrder::withInput($cart, $billing, $input);
         $order = $c_order->handleDeliveryLocation($order);
         self::assertEquals($input['address'], $order->delivery_location);
     }
@@ -67,7 +67,7 @@ class CustomerOrderTest extends TestCase
             'room_number' => 'room_number'
         ];
         $billing = $this->mock(CartBilling::class);
-        $c_order = new CustomerOrder($cart, $billing, $input);
+        $c_order = CustomerOrder::withInput($cart, $billing, $input);
         $order = $c_order->handleDeliveryLocation($order);
         self::assertContains($input['building_name'], $order->delivery_location);
         self::assertContains($input['area_type'], $order->delivery_location);
@@ -90,7 +90,7 @@ class CustomerOrderTest extends TestCase
             'payment_type' => PaymentType::STRIPE_PAYMENT,
             'order_types' => json_encode(['on_demand' => RestaurantOrderCategory::ON_DEMAND])
         ]);
-        $c_order = new CustomerOrder(new ShoppingCart(), $b, []);
+        $c_order = CustomerOrder::withInput(new ShoppingCart(), $b, []);
         $c_order->saveOrderPriceInfo($order, true); // true that it is a stripe order
         $this->seeInDatabase('order_price_info', [
             'total_price' => 1, 'subtotal' => 2, 'stripe_fees' => 3, 'profit' => 4,
@@ -114,7 +114,7 @@ class CustomerOrderTest extends TestCase
             'payment_type' => PaymentType::VENMO_PAYMENT,
             'order_types' => json_encode(['on_demand' => RestaurantOrderCategory::ON_DEMAND])
         ]);
-        $c_order = new CustomerOrder(new ShoppingCart(), $b, []);
+        $c_order = CustomerOrder::withInput(new ShoppingCart(), $b, []);
         $c_order->saveOrderPriceInfo($order, true); // true that it is a stripe order
         $this->seeInDatabase('order_price_info', [
             'total_price' => 1,

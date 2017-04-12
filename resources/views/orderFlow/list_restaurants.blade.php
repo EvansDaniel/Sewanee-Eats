@@ -7,38 +7,49 @@
 @section('body')
     <link rel="stylesheet" href={{ asset('css/restaurants.css',env('APP_ENV') !== 'local') }}>
     <script src="{{ asset('js/restaurants.js',env('APP_ENV') !== 'local') }}"></script>
-
     <section class="container header">
         <div class="container-fluid location_wrap">
             <hr>
             <h3 id="mountain">ON DEMAND RESTAURANTS</h3>
         </div>
         <ul class="list-group container" id="restaurant-group">
-            @if($on_demand_is_available)
-                @if(empty($sellers->getOnDemandRests()))
-                    <h4>There are no restaurants open at this time</h4>
-                @else
-                    @foreach($sellers->getOnDemandRests() as $restaurant)
-                        <li style="display: none"
-                            class="restaurant list-group-item col-lg-3 col-md-3 col-xs-8 col-xs-offset-2 col-sm-8 col-sm-offset-2">
-                            <a href="{{ route('showMenu',['id' => $restaurant->id]) }}"
-                               data-open="{{$restaurant->isAvailableNow(30)}}" class="on-demand-links">
-                                <!-- These urls must be https -->
-                                <img src="{{ $restaurant->image_url }}"
-                                     id="rest-images" class="img-responsive">
-                                <p class="restaurant-status">
-                                    open
-                                </p>
-                            </a>
-                            {{--{{ $restaurant->address }}--}}
-                        </li>
-                    @endforeach
-                @endif
-            @else
+            @if(!$on_demand_is_available)
                 <div class="container">
-                    <h4>Sorry we are closed right now and are not taking On Demand orders</h4>
+                    {{--@if($time_till_next_shift <= 60) <!-- If open in less than an hour -->
+                        <h4>We are closed right now but we will be open in {{ $time_till_next_shift }} minutes! In the mean time, feel free to browse our menus!</h4>
+                    @elseif($time_till_next_shift <= 3 * 60) <!-- IF we are open in 3 hours -->
+                        <h4>We are closed right now but we will be open in a couple hours! In the mean time, feel free to browse our menus!</h4>
+                    @elseif(!empty($next_shift)) <!-- If we have another shift -->
+                        <h4>Sorry we are closed right now. We will be open at {{ $next_shift->toDayDateTimeString }}</h4>
+                    @else <!-- We are closed and we don't have anoter shift at the moment -->
+                        <h4>Sorry we are closed right now. In the mean time, feel free to browse our menus!</h4>
+                    @endif--}}
+                    <h4>{{ $on_demand_not_available_msg }}</h4>
                 </div>
             @endif
+            @if(empty($sellers->getOnDemandRests()))
+                <h4>There are no restaurants open at this time</h4>
+            @else
+                @foreach($sellers->getOnDemandRests() as $restaurant)
+                    <li style="display: none"
+                        class="restaurant list-group-item col-lg-3 col-md-3 col-xs-8 col-xs-offset-2 col-sm-8 col-sm-offset-2">
+                        @if(env('APP_ENV') == ($type = "local"))
+                            {{ $restaurant->name . " This only shows up on " . $type}}
+                        @endif
+                        <a href="{{ route('showMenu',['id' => $restaurant->id]) }}"
+                           data-open="{{$restaurant->isAvailableNow()}}" class="on-demand-links">
+                            <!-- These urls must be https -->
+                            <img src="{{ $restaurant->image_url }}"
+                                 id="rest-images" class="img-responsive">
+                            <p class="restaurant-status">
+                                open
+                            </p>
+                        </a>
+                        {{--{{ $restaurant->address }}--}}
+                    </li>
+                @endforeach
+            @endif
+
         </ul>
     </section>
     <section class="container header">
@@ -56,25 +67,23 @@
             <hr>
             {{--<a href="{{ route('clearCart') }}">Clear Session</a>--}}
             @foreach($sellers->getWeeklySpecials() as $s_restaurant)
-                @if($s_restaurant->isAvailableNow())
-                    <ul class="list-group container" id="restaurant-group">
-                        <li style="display: none"
-                            class="restaurant list-group-item col-lg-3 col-md-3 col-xs-8 col-xs-offset-2 col-sm-8 col-sm-offset-2">
-                            <a href="{{ route('showMenu',['id' => $s_restaurant->id]) }}"
-                               data-open="{{$s_restaurant->isAvailableNow()}}" class="weekly-specials-link">
-                                <!-- These urls must be https -->
-                                <img src="{{ $s_restaurant->image_url }}"
-                                     id="rest-images" class="img-responsive">
-                                <!-- Banner here -->
-                                <p class="weekly-status">
-                                    We are taking orders for this special until
-                                    {{ $s_restaurant->getAvailability()->getEndTime()}}
-                                </p>
-                                <!-- end banner -->
-                            </a>
-                        </li>
-                    </ul>
-                @endif
+                <ul class="list-group container" id="restaurant-group">
+                    <li style="display: none"
+                        class="restaurant list-group-item col-lg-3 col-md-3 col-xs-8 col-xs-offset-2 col-sm-8 col-sm-offset-2">
+                        <a href="{{ route('showMenu',['id' => $s_restaurant->id]) }}"
+                           data-open="{{$s_restaurant->isAvailableNow()}}" class="weekly-specials-link">
+                            <!-- These urls must be https -->
+                            <img src="{{ $s_restaurant->image_url }}"
+                                 id="rest-images" class="img-responsive">
+                            <!-- Banner here -->
+                            <p class="weekly-status">
+                                We are taking orders for this special until
+                                {{ $s_restaurant->getAvailability()->getEndTime()}}
+                            </p>
+                            <!-- end banner -->
+                        </a>
+                    </li>
+                </ul>
             @endforeach
         @endif
     </section>

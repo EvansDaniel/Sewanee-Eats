@@ -9,6 +9,7 @@ use App\CustomClasses\ShoppingCart\RestaurantOrderCategory;
 use App\Models\Order;
 use Auth;
 use Carbon\Carbon;
+use Doctrine\Instantiator\Exception\InvalidArgumentException;
 use Illuminate\Http\Request;
 
 // TODO: add order change logic to this controller
@@ -68,10 +69,14 @@ class OrdersController extends Controller
         $order_id = $request->input('order_id');
         $order = Order::findOrFail($order_id);
         $order_manager = new ManageOrder($order);
-        if ($is_refunded = $order->was_refunded) { // undo refund
-            $order_manager->refundOrder(false);
-        } else { // refund
-            $order_manager->refundOrder(true);
+        try {
+            if ($is_refunded = $order->was_refunded) { // undo refund
+                $order_manager->refundOrder(false);
+            } else { // refund
+                $order_manager->refundOrder(true);
+            }
+        } catch (InvalidArgumentException $e) {
+            return back()->with('status_bad', 'The order has been cancelled and thus can\'t be refunded');
         }
         return back()->with('status_good', 'Order refund status confirmed as ' . (!$is_refunded ? " not refunded" : "refunded"));
     }
@@ -114,7 +119,7 @@ class OrdersController extends Controller
 
     }
 
-    public function orderSummaryForAdmin(Order $order, $order_id)
+    public function orderSummaryForAdmin(Order $order, int $order_id)
     {
         $next_order = $order->findOrFail($order_id);
         $item_lister = new ItemLister($next_order);

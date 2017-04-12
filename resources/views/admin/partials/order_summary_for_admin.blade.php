@@ -28,13 +28,13 @@
                                     item Name: {{ $item->getName() }}<br>
                                     item price: ${{ $item->getPrice() }}<br>
                                 </p>
-                                @if(!empty($item->special_instructions))
-                                    <h5 style="font-size: 18px; font-family: 'Lato', sans-serif;">Instructions: {{ $item->special_instructions }}</h5>
+                                @if(!empty($item->getSi()))
+                                    <h5 style="font-size: 14px;">Instructions: {{ $item->getSi() }}</h5>
                                 @endif
                             </div>
-                            @if(!empty($item->accessories))
+                            @if(!empty($item->getExtras()))
                                 <ul>
-                                    @foreach($item->accessories as $acc)
+                                    @foreach($item->getExtras() as $acc)
                                         <li>
                                             item accessories:   {{ $acc->name }}<br>
                                             accessory price:  {{ $acc->price }} <br>

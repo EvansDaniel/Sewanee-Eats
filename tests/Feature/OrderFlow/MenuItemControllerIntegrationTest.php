@@ -9,5 +9,8 @@ class MenuItemControllerIntegrationTest extends TestCase
 {
     use DatabaseMigrations;
 
-
+    public function testTemp()
+    {
+        self::assertEquals(true, true);
+    }
 }

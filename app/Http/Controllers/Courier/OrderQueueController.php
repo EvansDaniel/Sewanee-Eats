@@ -80,20 +80,34 @@ class OrderQueueController extends Controller
         }
     }
 
-    public function cancelOrderDelivery()
+    public function cancelOrderDelivery(Order $order)
     {
         $user = Auth::user();
-        $order = Order::find($user->courierInfo->current_order_id);
+        $order = $order->find($user->courierInfo->current_order_id);
+        // send email to manager that the courier cancelled the order delivery
+        $this->sendOrderDeliveryCancellationEmail($user, $order);
+        // mark courier as not delivering an order
+        $courier_info = new CourierInfo($user);
+        $courier_info->setIsDeliveringOrder(false);
+        // remove the assigned courier from order and his/her payment for order
+        $order_manager = new ManageOrder($order);
+        $order_manager->removeAssignedCourier();
+        // reinsert order into the queue
         OrderQueue::reinsertOrder($order);
+        return redirect()->route('courierShowSchedule')->with('status_good', 'An email has been sent to the on shift manager informing
+            him/her of the situation and should contact you shortly.');
+    }
+
+    public function sendOrderDeliveryCancellationEmail($user, $order)
+    {
+        if (empty($user) || empty($order)) {
+            throw new InvalidArgumentException('$user or $order is null, neither can be null');
+        }
         $diff_in_minutes = Carbon::now()->diffInMinutes($order->created_at);
         Mail::send('emails.order_delivery_cancellation', compact('user', 'order', 'diff_in_minutes'), function ($message) use ($user) {
             $message->from('sewaneeeats@gmail.com');
             $message->to('sewaneeeats@gmail.com')->subject($user->name . ' has cancelled the delivery of his/her order');
         });
-        $user->courierInfo->is_delivering_order = false;
-        $user->courierInfo->save();
-        return redirect()->route('courierShowSchedule')->with('status_good', 'An email has been sent to the on shift manager informing
-            him/her of the situation and should contact you shortly.');
     }
 
     // TODO: notify the assigned courier that an order has been cancelled or refunded
@@ -117,8 +131,10 @@ class OrderQueueController extends Controller
         // no longer processing and is delivered
         $order_manager->processingStatus(false);
         $order_manager->deliveredStatus(true);
+        // set courier who is delivering to not be delivering anymore
         $courier_info = new CourierInfo($user);
         $courier_info->setIsDeliveringOrder(false);
+        // redirect them to the next order in the queue
         return redirect()->route('nextOrderInQueue');
     }
 
@@ -131,28 +147,33 @@ class OrderQueueController extends Controller
             // validity of courier checked in the constructor
             $order_queue = new OrderQueue(Auth::user());
         } catch (InvalidArgumentException $e) {
+            // if user is delivering order, redirect to currentOrder with msg
             if (Auth::user()->courierInfo->is_delivering_order) {
                 return redirect()->route('currentOrder')->with('status_bad', $e->getMessage());
             }
+            // courier might not be on shift, or some other reason so redirect to schedule
+            // with error message
             return redirect()->route('courierShowSchedule')
                 ->with('status_good', $e->getMessage());
         }
+
         $next_order = $order_queue->nextOrder();
         if (empty($err_msg = $order_queue->validateCourier())) {
             // check order return, if empty no orders pending
+            // pending orders now include ones that haven't been paid for
             if (empty($next_order)) {
-                \Log::info($next_order . ' ' . ' here');
+                // no order pending so redirect to schedule with msg
                 return redirect()->route('courierShowSchedule')
                     ->with('status_good', $this->empty_next_order_msg);
             } else {
-
-                // return deets of next order in queue
+                // valid courier and there is at least one pending order
+                // assign next to courier and show message
                 $order_manager = new ManageOrder($next_order);
                 $order_manager->assignToOrder(Auth::user());
                 \Session::flash('status_good',
                     'Woop woop! Here is your next order!');
-                return view('delivery.next_order',
-                    compact('next_order', 'order_queue'));
+                // redirect to the current order route
+                return redirect()->route('currentOrder');
             }
         } else { // courier error
             return $err_msg;

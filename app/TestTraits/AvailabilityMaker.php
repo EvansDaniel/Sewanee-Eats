@@ -65,6 +65,18 @@ trait AvailabilityMaker
         ]);
     }
 
+    public function makeShiftNext()
+    {
+        // make a time_range that is available now
+        return $time_range = factory(TimeRange::class)->create([
+            'start_dow' => Carbon::now()->addHours(6)->format('l'),
+            'end_dow' => Carbon::now()->addHour(12)->format('l'),
+            'start_hour' => Carbon::now()->addHours(6)->hour,
+            'end_hour' => Carbon::now()->addHours(6)->hour,
+            'time_range_type' => TimeRangeType::SHIFT
+        ]);
+    }
+
     public function makeShiftForNow()
     {
         // make a time_range that is available now

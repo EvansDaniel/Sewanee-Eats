@@ -26,7 +26,23 @@ class CustomerOrder
     protected $input;
     protected $order;
 
-    public function __construct(ShoppingCart $cart, CartBilling $billing, $input)
+    public function __construct()
+    {
+    }
+
+    public static function withRequest(ShoppingCart $cart, CartBilling $billing, Request $request)
+    {
+        return self::withInput($cart, $billing, $request->all());
+    }
+
+    public static function withInput(ShoppingCart $cart, CartBilling $billing, array $input)
+    {
+        $instance = new self();
+        $instance->loadByInput($cart, $billing, $input);
+        return $instance;
+    }
+
+    protected function loadByInput(ShoppingCart $cart, CartBilling $billing, array $input)
     {
         $this->cart = $cart;
         $this->billing = $billing;
@@ -34,6 +50,7 @@ class CustomerOrder
     }
 
     // returns the order model instance
+
     public function getOrder()
     {
         return $this->order;
@@ -43,7 +60,7 @@ class CustomerOrder
      * @param $payment_type integer One of the PaymentType const integer literals
      * @return \Illuminate\Validation\Validator
      */
-    public function orderValidation(Request $request, $payment_type)
+    public function orderValidation($payment_type)
     {
         // TODO: handle validation for location if on demand order request
         $rules = null;
@@ -59,7 +76,7 @@ class CustomerOrder
                 'email_address' => 'email|required'
             );
         }
-        return Validator::make($request->all(), $rules);
+        return Validator::make($this->input, $rules);
     }
 
     /**
