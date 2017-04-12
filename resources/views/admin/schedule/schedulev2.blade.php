@@ -15,6 +15,9 @@
     <div class="clearfix"></div>
 
     <div class="container" id="new-shift-container">
+        <a href="{{ route('showCreateShift')  }}">
+            <button class="btn btn-dark" type="button">Add a New Shift</button>
+        </a>
         <div>
             <p class="heading">
                 @if(empty($shift))

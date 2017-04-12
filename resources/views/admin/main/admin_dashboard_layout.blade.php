@@ -65,7 +65,6 @@
         <div class="container" style="margin-left: 16%">
             <div class="clearfix"></div>
             @yield('body')
-
         </div>
     </div>
 </div>

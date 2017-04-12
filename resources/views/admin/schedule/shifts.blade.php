@@ -25,6 +25,9 @@
 @section('body')
     <div class="clearfix"></div>
 
+    <a href="{{ route('showSchedule') }}">
+        <button class="btn btn-dark" type="button">Go to Schedule</button>
+    </a>
     <div class="container" id="new-shift-container">
         <div>
             <p class="heading">
