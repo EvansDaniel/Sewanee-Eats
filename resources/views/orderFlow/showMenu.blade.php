@@ -45,7 +45,7 @@
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                                 aria-hidden="true">&times</span></button>
-                    <h4 class="modal-title" style="color: black;" id="show-item-name"></h4>
+                    <h4 class="modal-title" style="color: black; margin-left: 5%" id="show-item-name"></h4>
                     <strong><span id="max-items-exceeded-error" style="display: none"></span></strong>
                 </div>
                 <div class="modal-body">
@@ -53,22 +53,22 @@
                           method="post">
                         {{ csrf_field() }}
                         <div class="form-group">
-                            <div class="pull-right">Price: $<span id="show-item-price"></span></div>
-                            <div id="show-item-description"></div>
+                            <div class="display-right" style="margin-right: 7%">Price: $<span
+                                        id="show-item-price"></span></div>
 
                             <input type="hidden" id="to-cart-item-id" name="item_id" value="">
                             <input type="hidden" id="item_type" name="item_type" value="{{ $item_type }}">
-                            <div class="row q-head col-lg-offset-1 col-md-offset-1 col-sm-offset-1 col-xs-offset-1">
+                            {{--<div class="row q-head col-lg-offset-1 col-md-offset-1 col-sm-offset-1 col-xs-offset-1">
                                 QUANTITY:
-                            </div>
+                            </div>--}}
                             <div class="row">
                                 <button type="button" id="minus"
-                                        class="glyphicon glyphicon-minus col-lg-1 col-lg-offset-1 col-md-1 col-md-offset-1 col-sm-2 col-sm-offset-1 col-xs-1 col-xs-offset-1 sign"></button>
-                                <input class="form-control col-lg-2 col-md-2 col-sm-2 col-xs-2" type="number" min="1"
+                                        class="glyphicon glyphicon-minus quantity-fix sign"></button>
+                                <input class="form-control" style="margin-top: 1%" type="number" min="1"
                                        max="10" name="quantity"
                                        id="quantity">
                                 <button id="plus" type="button"
-                                        class="glyphicon glyphicon-plus col-lg-1 col-md-1 col-sm-2 col-xs-2 sign"></button>
+                                        class="glyphicon glyphicon-plus sign"></button>
                             </div>
                             <div class="westside" id="westside">
 

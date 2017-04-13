@@ -6,6 +6,38 @@
     font-weight: bold;
 }
 
+/* Put the modal lower on the screen so that it doesn't overlap the picture/logo */
+.modal {
+    top: 15%;
+}
+
+@media only screen and (min-width: 600px) and (max-width: 768px) {
+    .modal {
+        top: 15%;
+        width: 600px;
+        margin: 30px auto;
+    }
+}
+
+@media only screen and (min-width: 600px) {
+    .quantity-fix {
+        margin-left: 7.25%;
+    }
+}
+
+@media only screen and (max-width: 400px) {
+    .quantity-fix {
+        margin-left: 9%;
+    }
+}
+
+@media only screen and (min-width: 400px) and (max-width: 600px) {
+    .quantity-fix {
+        margin-left: 8%;
+    }
+}
+
+
 .menu-item-price {
     color: rebeccapurple;
 }
@@ -164,8 +196,17 @@ textarea {
     font-weight: bold;
 }
 
+.display-right {
+    display: inline;
+    float: right;
+}
+
+.display-left {
+    display: inline;
+}
+
 .special_instr_p {
-    margin-left: 5%;
+    margin-left: 3%;
     width: 90%;
 }
 .free_toppings_d, .n_free_toppings_d{
@@ -190,7 +231,7 @@ textarea {
     /*border-radius: 5px;*/
     padding: 2px;
     height: 25px;
-    width: 7%;
+    width: 50px;
     color: white;
 }
 
@@ -244,14 +285,20 @@ input::-webkit-inner-spin-button {
     .q-head{
         margin-left: 5%;
     }
-    .sign, #quantity{
+
+    #quantity {
         width: 10%;
     }
 }
-@media only screen and (min-width:480px) and (max-width: 768px)  {
+
+@media only screen and (min-width: 480px) {
     #add-to-cart-button{
-        width: 33%;
+        width: 135px;
     }
+}
+
+@media only screen and (min-width: 480px) and (max-width: 768px) {
+
     #md-rmv{
         width: 15%;
         margin-left: 40%;

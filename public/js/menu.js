@@ -11,11 +11,11 @@ function saveAjaxResult(result) {
 
 function getCartQuantity() {
   $.ajax({
-    url: API_URL + 'cart/totalQuantity',
+    url: API_URL + 'cart/quantity',
     context: document.body,
     dataType: 'json'
   }).done(function (result) {
-    saveCartQuantity(result.num_items);
+    saveCartQuantity(result);
   });
 }
 
@@ -61,7 +61,7 @@ function showOptions(i) {
         pricyDiv.append
         (
         '<label class="col-lg-9 col-md-9 col-sm-8 col-xs-8">' +
-        '<input type="checkbox" id="p_ex-' + i + pricy[j].id + '" onclick="saveCheck(this,' + i + ',' + pricy[j].id + ',true)" value="' + pricy[j].id + '">' +
+        '<input type="checkbox" id="p_ex-' + i + pricy[j].id + '" onclick="saveCheck(this,' + j + ',' + pricy[j].id + ',true)" value="' + pricy[j].id + '">' +
         pricy[j].name + '</label><p id="check-price-' + j + '" class="f_price col-lg-3 col-md-3 col-sm-4 col-xs-4">' + pricy[j].price + '</p>'
         );
       }
@@ -70,7 +70,6 @@ function showOptions(i) {
       // fill the free div
       // only show the free toppings header if there are free toppings to show
       if (free.length == 0) {
-        p('in the free time');
         $('#free_toppings_d' + i).hide();
       }
       for (j = 0; j < free.length; j++) {
@@ -132,7 +131,6 @@ function saveCheck(checkbox_input, i, acc_id, pricy) {
   // get current price and price of toppings
   var price = parseFloat(priceObj.text());
   var checkPrice = parseFloat($('#check-price-' + i).text());
-  p(checkPrice);
 
   if (checkbox.prop('checked')) { // checkbox was originally not checked
     if (pricy) {
@@ -188,7 +186,6 @@ function retreiveAccessories(item_id) {
     dataType: 'json'
   }).done(function (result) {
 
-    p(result);
     // AJAX SUCCESS
     // save the current item's accessories
     saveAjaxResult(result);
@@ -228,9 +225,11 @@ $(function () {
       // send message to popstate
       ADDED_TO_CART = true;
     });
-
+    var numSelected = (MAX_ITEMS - CART_QUANTITY);
     // load text for a potential error message to user about the max items in the cart
-    error_msg.text('The max allowable items in the cart is ' + MAX_ITEMS + ". You have " + CART_QUANTITY + " items right now");
+    error_msg.text('The max allowable items in the cart is ' + MAX_ITEMS + ". You have " + CART_QUANTITY
+    + (CART_QUANTITY > 1 ? " items" : " item") + " in your cart right now and "
+    + numSelected + (numSelected == 1 ? " item" : "items") + " selected");
 
 
     // disable/lock click events on each menu item until
@@ -328,13 +327,15 @@ $(function () {
       '</div>',
       '</div>',
       '<div>',
-      '<p class="row col-lg-12 col-md-12 col-sm-12 col-xs-12 special_instr_p" id="special_instr_p' + i + '"> Any special instructions? Make sure to write instructions for each item you purchase if you order more than one: </p>',
+      '<p class="row col-lg-12 col-md-12 col-sm-12 col-xs-12 special_instr_p" id="special_instr_p' + i + '"></p>',
       '<textarea id="spe-' + i + '" class="form-control message-text message-text" onkeyup="saveSpecialInstructions(this,' + i + ')" ' +
-      'placeholder="Any special instructions? Make sure to write instructions for each item you purchase if you order more than one" id="message-text' + i + '"> </textarea>',
+      'placeholder="Any special instructions? Make sure to write instructions for each item you purchase if you order more than one" id="message-text' + i + '"></textarea>',
 
       '</div>',
       '</div>'
     ];
+    // empty the text area foreach text area
+    $('#message-text' + i).val("");
 
     westside.html(content + itemArray.join(""));
     // add the price of the item b/c they want another one
