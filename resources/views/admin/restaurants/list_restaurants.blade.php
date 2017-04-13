@@ -96,7 +96,7 @@
                                   method="post" style="display: inline">
                                 {{ csrf_field() }}
 
-                                <button class="btn btn-danger" id="delete-restaurant-button" type="submit">Delete
+                                <button class="btn btn-danger delete-restaurant-button" type="submit">Delete
                                     restaurant
                                 </button>
                             </form>
@@ -110,6 +110,6 @@
     </div>
     <script src="{{ asset('js/helpers.js',env('APP_ENV') !== 'local')  }}"></script>
     <script>
-      setWindowConfirmation('delete-restaurant-button', 'Are you sure you want to delete the restaurant?');
+      setWindowConfirmation('.delete-restaurant-button', 'Are you sure you want to delete the restaurant?');
     </script>
 @stop

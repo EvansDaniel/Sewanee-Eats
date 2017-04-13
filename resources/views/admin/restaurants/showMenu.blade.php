@@ -96,9 +96,9 @@
 
     <script src="{{ asset('js/helpers.js',env('APP_ENV') !== 'local')  }}"></script>
     <script>
-      setWindowConfirmation('copy-rest-time-range-button',
+      setWindowConfirmation('#copy-rest-time-range-button',
       'Are you absolutely sure you want to copy ALL restaurant open times to ALL of its menu items? ' +
       'This operation cannot be undone and if the time ranges already exists for the menu item they will not be attached');
-      setWindowConfirmation('delete-menu-item-button', 'Are you sure you want to delete this menu item?');
+      setWindowConfirmation('#delete-menu-item-button', 'Are you sure you want to delete this menu item?');
     </script>
 @stop

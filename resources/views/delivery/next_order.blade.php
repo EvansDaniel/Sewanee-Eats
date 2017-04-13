@@ -102,8 +102,8 @@
 
     <script src="{{ asset('js/helpers.js',env('APP_ENV') !== 'local')  }}"></script>
     <script>
-      setWindowConfirmation('delivery-button', 'Are you sure that this order has been delivered?');
-      setWindowConfirmation('cancel-order-delivery-button', 'Are you certain you wish to cancel your delivery of this order?');
+      setWindowConfirmation('#delivery-button', 'Are you sure that this order has been delivered?');
+      setWindowConfirmation('#cancel-order-delivery-button', 'Are you certain you wish to cancel your delivery of this order?');
     </script>
 
 @stop

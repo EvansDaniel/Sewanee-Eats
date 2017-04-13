@@ -61,7 +61,7 @@ function showOptions(i) {
         pricyDiv.append
         (
         '<label class="col-lg-9 col-md-9 col-sm-8 col-xs-8">' +
-        '<input type="checkbox" id="p_ex-' + i + pricy[j].id + '" onclick="saveCheck(this,' + j + ',' + pricy[j].id + ',true)" value="' + pricy[j].id + '">' +
+        '<input type="checkbox" id="p_ex-' + i + pricy[j].id + '" onclick="saveCheck(this,' + i + ',' + j + ',' + pricy[j].id + ',true)" value="' + pricy[j].id + '">' +
         pricy[j].name + '</label><p class="col-lg-3 col-md-3 col-sm-4 col-xs-4">$<span class="f_price" id="check-price-' + j + '">' + pricy[j].price.toFixed(2) + '</span></p>'
         );
       }
@@ -122,7 +122,7 @@ function saveSpecialInstructions(textarea, i) {
   }
 }
 
-function saveCheck(checkbox_input, i, acc_id, pricy) {
+function saveCheck(checkbox_input, i, j, acc_id, pricy) {
   var priceObj = $('#show-item-price');
   var checkbox = $(checkbox_input);
   // either finds and returns the input with the acc_id or returns null
@@ -130,7 +130,7 @@ function saveCheck(checkbox_input, i, acc_id, pricy) {
   var input = $('#' + otherId);
   // get current price and price of toppings
   var price = parseFloat(priceObj.text());
-  var checkPrice = parseFloat(parseFloat($('#check-price-' + i).text()).toFixed(2));
+  var checkPrice = parseFloat(parseFloat($('#check-price-' + j).text()).toFixed(2));
 
   if (checkbox.prop('checked')) { // checkbox was originally not checked
     if (pricy) {

@@ -73,6 +73,7 @@ class ShoppingCartController extends Controller
         if ($error_val == -1) {
             // on demand overflow
         }
+        \Session::flash('user_added_item', 1);
         return back()->with('status_good', 'Item added to the cart');
     }
 

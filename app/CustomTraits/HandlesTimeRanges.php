@@ -283,6 +283,9 @@ trait HandlesTimeRanges
 
     public function getDisplayTextOfStartDay(TimeRange $time_range)
     {
+        if (Carbon::today()->format('l') == $time_range->getStartCarbon()->format('l')) {
+            return "later today";
+        }
         if (Carbon::tomorrow()->format('l') == $time_range->getStartCarbon()->format('l')) {
             return "tomorrow";
         } else {
