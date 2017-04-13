@@ -46,7 +46,7 @@
                                         <div class="hidden">
                                             <hr id="menu-item-line">
                                         </div>
-                                        <div class="menu-item-price col-lg-2 col-md-2 col-sm-3 col-xs-3">{{ $item->price }}</div>
+                                        <div class="menu-item-price col-lg-2 col-md-2 col-sm-3 col-xs-3">{{ toTwoDecimals($item->price) }}</div>
                                     </div>
                                     <div class="row divider-row"></div>
                                     <div class="row menu-item-description">

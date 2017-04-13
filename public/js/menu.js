@@ -62,7 +62,7 @@ function showOptions(i) {
         (
         '<label class="col-lg-9 col-md-9 col-sm-8 col-xs-8">' +
         '<input type="checkbox" id="p_ex-' + i + pricy[j].id + '" onclick="saveCheck(this,' + j + ',' + pricy[j].id + ',true)" value="' + pricy[j].id + '">' +
-        pricy[j].name + '</label><p id="check-price-' + j + '" class="f_price col-lg-3 col-md-3 col-sm-4 col-xs-4">' + pricy[j].price + '</p>'
+        pricy[j].name + '</label><p class="col-lg-3 col-md-3 col-sm-4 col-xs-4">$<span class="f_price" id="check-price-' + j + '">' + pricy[j].price.toFixed(2) + '</span></p>'
         );
       }
 
@@ -130,12 +130,12 @@ function saveCheck(checkbox_input, i, acc_id, pricy) {
   var input = $('#' + otherId);
   // get current price and price of toppings
   var price = parseFloat(priceObj.text());
-  var checkPrice = parseFloat($('#check-price-' + i).text());
+  var checkPrice = parseFloat(parseFloat($('#check-price-' + i).text()).toFixed(2));
 
   if (checkbox.prop('checked')) { // checkbox was originally not checked
     if (pricy) {
       // add price of extra
-      priceObj.text(Math.round((price + checkPrice) * 100) / 100);
+      priceObj.text((Math.round((price + checkPrice) * 100) / 100).toFixed(2));
     }
     $('#extras-inputs').append
     (
@@ -149,7 +149,7 @@ function saveCheck(checkbox_input, i, acc_id, pricy) {
     input.remove();
     if (pricy) {
       // subtract price of extra
-      priceObj.text(Math.round((price - checkPrice) * 100) / 100);
+      priceObj.text((Math.round((price - checkPrice) * 100) / 100).toFixed(2));
     }
   }
 }
@@ -164,7 +164,7 @@ function loadModal(div) {
 
   // Set the divs to show item details to user
   itemPrice = parseFloat(price);
-  $("#show-item-price").text(price);
+  $("#show-item-price").text(itemPrice.toFixed(2));
   $("#show-item-name").text(name);
   $("#show-item-description").text(description);
 
@@ -350,9 +350,9 @@ $(function () {
     //p(parseFloat(price.text()) + itemPrice);
     if (price.text()) {
       if (str === '-') {
-        price.text(Math.round((parseFloat(price.text()) - itemPrice) * 100) / 100);
+        price.text((Math.round((parseFloat(price.text()) - itemPrice) * 100) / 100).toFixed(2));
       } else if (str === '+') {
-        price.text(Math.round((parseFloat(price.text()) + itemPrice) * 100) / 100);
+        price.text((Math.round((parseFloat(price.text()) + itemPrice) * 100) / 100).toFixed(2));
       }
     }
   }
