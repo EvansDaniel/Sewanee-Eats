@@ -543,7 +543,8 @@ input[type="tel"]:focus {
     border-radius: 0;
     font-family: "Lato", sans-serif;
     color: rgb(100, 100, 100);
-    width: 250px;
+    width: 200px;
+    resize: none;
 }
 
 .si:focus {

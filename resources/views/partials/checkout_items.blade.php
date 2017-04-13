@@ -20,9 +20,7 @@
             <div class="container row">
                 <textarea id="si-id-{{$order->getCartItemId()}}" class="si"
                           data-cart-item-id="{{$order->getCartItemId() }}"
-                          name="special_instructions">
-                    {{ $order->getSi() }}
-                </textarea>
+                          name="special_instructions">{{ $order->getSi() }}</textarea>
             </div>
             <input name="special_instructions" type="hidden"
                    value="{{ $order->getSi() }}">

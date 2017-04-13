@@ -156,7 +156,6 @@ function updateUIAfterDeleteItem(delButton, res) {
       $(this).hide(350);
     })
   } else { // cart isn't empty
-    p('her eeia am')
     // update the cost
     updatePrices();
   }
