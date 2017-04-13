@@ -39,13 +39,14 @@ class ShoppingCartController extends Controller
             return back()->with('status_bad', $this->invalid_view_paramater_msg);
         }
         $item = $item_type == ItemType::EVENT_ITEM ? EventItem::find($item_id) : MenuItem::find($item_id);
-        if ((!($item->restaurant->isSellerType(RestaurantOrderCategory::ON_DEMAND) && $item->isAvailableNow())) ||
-            !$item->restaurant->isAvailableNow()
-        ) {
+        $rest_is_on_demand = $item->restaurant->isSellerType(RestaurantOrderCategory::ON_DEMAND);
+        // if the item is not available (only for on demand) or the rest is not available
+        if (($rest_is_on_demand && !$item->isAvailableNow()) || !$item->restaurant->isAvailableNow()) {
             return back()->with('status_bad',
                 'Sorry, the item could not be added. Either this restaurant or this item is not available right now');
         }
-        if (!Shift::onDemandIsAvailable()) {
+        // if the there is no shift right now (only for on demand)
+        if ($rest_is_on_demand && !Shift::onDemandIsAvailable()) {
             return back()->with('status_bad', $this->onDemandNotAvailableMsg());
         }
         $cart = new ShoppingCart();
