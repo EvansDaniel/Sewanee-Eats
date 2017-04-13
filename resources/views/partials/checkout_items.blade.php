@@ -3,7 +3,7 @@
     <div class="col-lg-2 col-md-2 order-name"><p>{{ $order->getName() }}</p>
     </div>
     <div class="col-lg-2 col-md-2 order-price">
-        $ {{ $order->getPrice() }}</div>
+        $ {{ toTwoDecimals($order->getPrice()) }}</div>
     <div class="col-lg-2 col-md-2 order-descr">{{ $order->getDesc() }}</div>
 
     <input type="hidden" name="cart_item_id" value="{{ $order->getCartItemId() }}">
@@ -44,7 +44,7 @@
             @foreach($order->itemExtras() as $acc)
                 <!-- if the order has some extras and this acc has already been checked -->
                     @if(!empty($order->getExtras()) && in_array($acc->id,$order->getExtras()))
-                        <div class="checkbox">
+                        <div class="checkbox container">
                             <label for="acc">
                                 <input id="acc-{{$order->getCartItemId()}}-{{$acc->id}}"
                                        name="extras{{$order->getCartItemId()}}[]"
@@ -52,11 +52,12 @@
                                        data-cart-item-id="{{$order->getCartItemId()}}"
                                        checked class="acc-check"
                                        value="{{ $acc->id }}">
-                                {{ $acc->name . "  $" . $acc->price }}
+                                <span class="display-left">{{ $acc->name }}</span> - <span
+                                        class="display-right">$ {{ toTwoDecimals($acc->price) }}</span>
                             </label>
                         </div>
                     @else <!-- acc has not been checked yet -->
-                    <div class="checkbox">
+                    <div class="checkbox container">
                         <label for="acc">
                             <input id="acc-{{$order->getCartItemId()}}-{{$acc->id}}"
                                    name="extras{{$order->getCartItemId()}}[]"
@@ -64,7 +65,8 @@
                                    data-cart-item-id="{{$order->getCartItemId()}}"
                                    class="acc-check"
                                    value="{{ $acc->id }}">
-                            {{ $acc->name . "  $" . $acc->price }}
+                            <span class="display-left">{{ $acc->name }}</span> - <span
+                                    class="display-right">$ {{ toTwoDecimals($acc->price) }}</span>
                         </label>
                     </div>
                     @endif
