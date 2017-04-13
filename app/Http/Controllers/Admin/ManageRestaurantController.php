@@ -208,7 +208,7 @@ class ManageRestaurantController extends Controller
             $restaurant->location_special = $request->input('location_special');
         }
 
-        \Log::info($this->dbStoragePath($this->restImageDir, $file_name));
+        $this->dbStoragePath($this->restImageDir, $file_name);
         $restaurant->save();
         if ($is_weekly_special) {
             return back()->with('status_good',

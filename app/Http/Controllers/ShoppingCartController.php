@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\CustomClasses\Schedule\Shift;
 use App\CustomClasses\ShoppingCart\CartItem;
 use App\CustomClasses\ShoppingCart\ItemType;
+use App\CustomClasses\ShoppingCart\RestaurantOrderCategory;
 use App\CustomClasses\ShoppingCart\ShoppingCart;
 use App\CustomTraits\HandlesTimeRanges;
 use App\Models\Accessory;
@@ -38,7 +39,9 @@ class ShoppingCartController extends Controller
             return back()->with('status_bad', $this->invalid_view_paramater_msg);
         }
         $item = $item_type == ItemType::EVENT_ITEM ? EventItem::find($item_id) : MenuItem::find($item_id);
-        if (!$item->isAvailableNow() || !$item->restaurant->isAvailableNow()) {
+        if ((!($item->restaurant->isSellerType(RestaurantOrderCategory::ON_DEMAND) && $item->isAvailableNow())) ||
+            !$item->restaurant->isAvailableNow()
+        ) {
             return back()->with('status_bad',
                 'Sorry, the item could not be added. Either this restaurant or this item is not available right now');
         }

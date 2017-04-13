@@ -5,6 +5,9 @@
 @stop
 
 @section('body')
+    <a href="{{ route('adminListRestaurants') }}">
+        <button type="button" class="btn btn-dark">Back to restaurant listing</button>
+    </a>
     <form action="{{ url()->to(parse_url(route('createTimeRangeMultiItems',[]),PHP_URL_PATH),[],env('APP_ENV') !== 'local') }}"
           id="create-multi-time-range-items-form" method="post">
         <ul class="list-group">

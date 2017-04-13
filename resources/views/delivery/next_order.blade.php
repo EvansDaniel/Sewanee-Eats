@@ -60,7 +60,7 @@
                                     <!-- Instructions for each item bought -->
                                     <li class="list-group-item">
                                         <div>
-                                            <p class="items">{{ $item->item->name }} $ {{ $item->item->price }}</p>
+                                            <p class="items">{{ $item->item->name }}</p>
                                         </div>
                                         <div class="indent">
                                             @if(!empty($item->special_instructions))
@@ -75,7 +75,7 @@
                                             <ul class="list-group">
                                                 @foreach($item->accessories as $acc)
                                                     <li class="list-group-item">
-                                                        <h4>{{ $acc->name }} {{ $acc->price }}</h4>
+                                                        <h4>{{ $acc->name }}</h4>
                                                     </li>
                                                 @endforeach
                                             </ul>

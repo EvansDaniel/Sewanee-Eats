@@ -7,6 +7,9 @@
 
 @section('body')
     <div class="container">
+        <a href="{{ route('adminListRestaurants') }}">
+            <button type="button" class="btn btn-dark">Back to restaurant listing</button>
+        </a>
         <h1>Update Restaurant</h1>
         <form action="{{ url()->to(parse_url(route('updateRestaurant',[]),PHP_URL_PATH),[],env('APP_ENV') !== 'local') }}"
               method="post" enctype="multipart/form-data"

@@ -64,6 +64,9 @@ class ScheduleController extends Controller
         $shift = new Shift($time_range);
         $worker_id = $request->input('worker_id');
         $courier_type = $request->input('courier_type');
+        if (empty($courier_type)) {
+            $courier_type = 0; // converted to null if 0 so fix this here
+        }
         $ret_val = $shift->assignWorker($worker_id, $courier_type);
         if ($ret_val == -1) {
             return back()->with('status_bad', 'This shift already has manager');
