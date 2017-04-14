@@ -76,7 +76,7 @@ function showOptions(i) {
         freeDiv.append
         (
         '<label class="col-lg-9 col-md-9 col-sm-8 col-xs-8">' +
-        '<input type="checkbox" id="f_ex-' + i + free[j].id + '" onclick="saveCheck(this,' + i + ',' + free[j].id + ',false)" name="extras' + i + '[]" value="' + free[j].id + '">' +
+        '<input type="checkbox" id="f_ex-' + i + free[j].id + '" onclick="saveCheck(this,' + i + ',' + j + ',' + free[j].id + ',false)" name="extras' + i + '[]" value="' + free[j].id + '">' +
         free[j].name + '</label>'
         );
       }
@@ -136,6 +136,7 @@ function saveCheck(checkbox_input, i, j, acc_id, pricy) {
     if (pricy) {
       // add price of extra
       priceObj.text((Math.round((price + checkPrice) * 100) / 100).toFixed(2));
+      p(acc_id);
     }
     $('#extras-inputs').append
     (
@@ -309,7 +310,7 @@ $(function () {
     var itemArray = [
       '<div class="west_div" id="west_div' + i + ' ">',
       '<div onclick="showOptions(' + i + ')" id="item-extras-manipulation' + i + '" class="row item-extras-manipulation">',
-      '<p class="add-extra" id="add-extra' + i + '"> Customize order number ' + i + '</p>',
+      '<p class="add-extra" id="add-extra' + i + '"> Customize <span id="num-to-name-' + i + '"></span> item &#x25BC;</p>',
       '</div>',
       '<div class="item-extra" style="display: none" id="item-extra' + i + '">',
       '<div class="checkbox row topings" id="topings' + i + '">',
@@ -336,8 +337,8 @@ $(function () {
     ];
     // empty the text area foreach text area
     $('#message-text' + i).val("");
-
     westside.html(content + itemArray.join(""));
+    $('#num-to-name-' + i).text(numberMap(i));
     // add the price of the item b/c they want another one
     updateTotalForItem('+');
   }
@@ -355,6 +356,14 @@ $(function () {
         price.text((Math.round((parseFloat(price.text()) + itemPrice) * 100) / 100).toFixed(2));
       }
     }
+  }
+
+  function numberMap(i) {
+    var numNames = ['zeroth', 'first', 'second', 'third', 'fourth', 'fifth', 'sixth', 'seventh', 'eighth', 'ninth', 'tenth', 'eleventh', 'twelfth', 'thirteenth', 'fourteenth', 'fifteenth', 'sixteenth', 'seventeenth', 'eighteenth', 'nineteenth', 'twentieth']
+    if (i < numNames.length) {
+      return numNames[i];
+    }
+    throw new Error;
   }
 
   function removeAnotherButton(i) {
