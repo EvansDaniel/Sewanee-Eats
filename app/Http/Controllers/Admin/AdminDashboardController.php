@@ -16,7 +16,6 @@ class AdminDashboardController extends Controller
     public function showDashboard()
     {
         $stats = new OrderStats();
-        \Log::info($stats->getStats());
         return view('admin.main.dashboard2', compact(/*'closed_orders', 'open_n_venmo_orders', 'open_venmo_orders',*/
             'admins', 'couriers', 'stats'));
     }
