@@ -26,7 +26,7 @@ class ShoppingCartControllerTest extends TestCase
         $rest = $this->makeRestaurant(RestaurantOrderCategory::ON_DEMAND, 3);
         $this->makeResourceAvailable($rest, 'restaurant_id');
         factory(ItemCategory::class)->create();
-        $item = factory(MenuItem::class)->create();
+        $item = factory(MenuItem::class)->create(['restaurant_id' => $rest->id]);
         $req = $this->mock(Request::class);
         $req->shouldReceive('input')
             ->with('item_id')->andReturn($item->id);
