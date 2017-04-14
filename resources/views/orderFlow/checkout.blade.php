@@ -44,7 +44,7 @@
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="orders">
                     @if(!empty($cart->getOnDemandItems()))
                         <h3 class="type-title">Your On Demand Items</h3>
-                        <h4 class="estimated-time"><i>Estimated Delivery Time: <span
+                        <h4 class="estimated-time"><i>Estimated Delivery Time: 30 - 45<span
                                         id="on-demand-delivery-time"></span> mins</i></h4>
                         <hr class="hr-separator">
                         @foreach($cart->getOnDemandItems() as $order)

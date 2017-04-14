@@ -36,9 +36,15 @@
                 <div class="panel-body" id="mountain-menu">
                     <ul class="list-group  row">
                         @foreach($items as $item)
+
                             <li class="menu-li clickable is-available list-group-item col-lg-4 col-md-4 col-sm-12 col-xs-12"
                                 data-is-available="{{ $item->isAvailableNow() }}"
                                 data-is-weekly-special="{{ $is_weekly_special }}">
+                                @if(!$is_weekly_special)
+                                    <div>
+                                        {{ $item->isAvailableNow() == 1 ? "" : "This item is not available right now" }}
+                                    </div>
+                                @endif
                                 <div class="menu-item">
                                     <!-- IF YOU TOUCH THIS HTML, MAKE SURE TO UPDATE THE loadModal FUNCTION WITH NEW STRUCTURE -->
                                     <div class="row" id="menu-item-top">
@@ -57,11 +63,6 @@
                                 <div class="hidden-hr hidden-lg hidden-md row">
                                     <hr class="col-sm-offset-1 col-sm-8 col-xs-offset-1 col-xs-8">
                                 </div>
-                                @if(!$is_weekly_special)
-                                    <div>
-                                        {{ $item->isAvailableNow() == 1 ? "" : "This item is not available right now" }}
-                                    </div>
-                                @endif
                             </li>
                         @endforeach
                     </ul>

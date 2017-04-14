@@ -33,7 +33,8 @@
         var isWeeklySpecial = $(this).data('is-weekly-special');
         if (!isAvail && !isWeeklySpecial) {
           $(this).on('click', function () {
-            return false;
+            // user can click on the item, shopping cart controller takes care of availableness
+            //return false;
           })
         }
       });
