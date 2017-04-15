@@ -30,7 +30,7 @@
             <div class="collapse navbar-collapse" id="navbar">
                 <ul class="nav navbar-nav navbar-right">
                     <li><a class="nav-links" href="{{ route('home') }}">HOME</a></li>
-                    <li><a class="nav-links" href="{{ route('list_restaurants') }}">ORDER NOW</a></li>
+                    <li><a class="nav-links" href="{{ route('list_restaurants') }}">RESTAURANTS</a></li>
                     <li><a class="nav-links" href="{{ route('howItWorks') }}">HOW IT WORKS</a></li>
                     <li><a class="nav-links" href="{{ route('pricing') }}">PRICING</a></li>
                     <li><a class="nav-links" href="{{ route('support') }}">CONTACT</a></li>

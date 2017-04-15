@@ -4,12 +4,17 @@ namespace App\Http\Controllers;
 
 use App\CustomClasses\ShoppingCart\RestaurantOrderCategory;
 use App\Models\Order;
+use App\Models\Restaurant;
 
 class HomeController extends Controller
 {
     public function showHome()
     {
-        return view('home.homev2');
+        if (empty(Restaurant::where('name', 'Zaxby\'s')->first())) {
+            factory(Restaurant::class)->create(['name' => 'Zaxby\'s']);
+        }
+        $zaxbys = Restaurant::where('name', 'Zaxby\'s')->first();
+        return view('home.homev2', compact('zaxbys'));
     }
 
     public function showThankYou()

@@ -1,7 +1,12 @@
+div.container li {
+    color: black;
+}
+
+/* big screen */
 @media only screen and (min-width: 769px) {
     .home-header .row {
-        background: url("../images/pizza_top.jpg") no-repeat center;
-        height: 600px;
+        background: url("../images/branding/laptop-food.jpeg") no-repeat center;
+        height: 350px;
         background-size: cover;
     }
     .my-wrap {
@@ -14,19 +19,15 @@
         background: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.01) 50%, rgba(0,0,0,0.25) 62%, rgba(0,0,0,0.5)100%);
     }
     .subheading{
+        margin-top: 4%;
         text-align: center;
         text-transform: capitalize;
-        font-family: 'Vollkorn', serif;
-        font-size: 40px;
+        font-size: 32px;
         font-weight: 900;
         color: white;
     }
-    .subheading span{
-        font-size: 45px;
-        /*text-transform: capitalize;*/
-    }
     .site-heading{
-        padding-top: 400px;
+        padding-top: 50px;
     }
     #more{
         color: white;
@@ -41,24 +42,41 @@
     }
     #btn{
         background: linear-gradient(90deg, #240a54 10%, #7459a5 90%);
+        position: absolute;
+        top: calc(38%);
         color: white;
         text-align: center;
-        padding: 7px 10px;
+        padding: 6px 10px;
         text-decoration: none;
-        font-size: 18px;
+        font-size: 16px;
         font-weight: bolder;
+        left: -5px;
         border: solid rebeccapurple 2px;
-        vertical-align: middle;
     }
+
 }
+
+/* small to medium screen */
 @media only screen and (max-width: 1199px) and (min-width: 769px){
     #btn-wrap{
         padding-left: 75px;
     }
+
+    .subheading {
+        margin-top: 6%;
+        font-size: 32px;
+    }
+
+    #btn {
+        margin-top: 3%;
+    }
+
 }
+
+/* extra small screen */
 @media only screen and (max-width: 768px) {
     .home-header .row {
-        background: url("../images/pizza_top.jpg") no-repeat center;
+        background: url("../images/branding/laptop-food.jpeg") no-repeat center;
         height: 300px;
         background-size: cover;
     }
@@ -75,30 +93,27 @@
         padding-top: 180px;
         width: 100%;
     }
-    .subheading span{
-        font-size: 22px;
-        /*text-transform: capitalize;*/
-    }
+
     #btn{
         background: linear-gradient(90deg, #240a54 10%, #7459a5 90%);
         color: white;
         text-align: center;
-        padding: 7px 10px;
         text-decoration: none;
-        font-size: 11px;
+        padding: 5px 10px;
+        font-size: 12px;
         font-weight: bolder;
         border: solid rebeccapurple 2px;
-        vertical-align: middle;
     }
     .subheading{
         text-align: center;
         text-transform: capitalize;
-        font-family: 'Vollkorn', serif;
         font-size: 20px;
         font-weight: 900;
         color: white;
     }
 }
+
+/* iphone 5 fix */
 @media only screen and (max-width: 330px) {
     .subheading{
         font-size: 18px;
@@ -108,5 +123,6 @@
     }
 }
 #btn:hover{
+    cursor: pointer;
     background: linear-gradient(90deg, #7459a5 10%, #240a54 90%);
 }
