@@ -13,17 +13,9 @@
             <h3 id="mountain">ON DEMAND RESTAURANTS</h3>
         </div>
         <ul class="list-group container" id="restaurant-group">
+            <!-- If on demand is not available right now, display a message to the user -->
             @if(!$on_demand_is_available)
                 <div class="container">
-                    {{--@if($time_till_next_shift <= 60) <!-- If open in less than an hour -->
-                        <h4>We are closed right now but we will be open in {{ $time_till_next_shift }} minutes! In the mean time, feel free to browse our menus!</h4>
-                    @elseif($time_till_next_shift <= 3 * 60) <!-- IF we are open in 3 hours -->
-                        <h4>We are closed right now but we will be open in a couple hours! In the mean time, feel free to browse our menus!</h4>
-                    @elseif(!empty($next_shift)) <!-- If we have another shift -->
-                        <h4>Sorry we are closed right now. We will be open at {{ $next_shift->toDayDateTimeString }}</h4>
-                    @else <!-- We are closed and we don't have anoter shift at the moment -->
-                        <h4>Sorry we are closed right now. In the mean time, feel free to browse our menus!</h4>
-                    @endif--}}
                     <h4>{{ $on_demand_not_available_msg }}</h4>
                 </div>
             @endif
