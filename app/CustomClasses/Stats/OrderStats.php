@@ -34,13 +34,13 @@ class OrderStats extends Stats
 
     public function countOrders()
     {
-        return count(Order::delivered()->get());
+        return count(Order::countable()->get());
     }
 
     public function totalProfit()
     {
         $profit = 0;
-        $orders = Order::where(['is_cancelled' => false, 'was_refunded' => false])->get();
+        $orders = Order::countable()->get();
         foreach ($orders as $order) {
             $profit += $order->orderPriceInfo->profit;
         }
@@ -49,7 +49,7 @@ class OrderStats extends Stats
 
     public function numberOfUsers()
     {
-        $orders = Order::where(['is_cancelled' => false, 'was_refunded' => false])->get();
+        $orders = Order::countable()->get();
         $emails = [];
         $num_unique_users = 0;
         foreach ($orders as $order) {
@@ -64,8 +64,8 @@ class OrderStats extends Stats
     public function totalFoodSales()
     {
         $food_sales = 0;
-        $delivered_orders = Order::delivered()->get();
-        foreach ($delivered_orders as $order) {
+        $orders = Order::countable()->get();
+        foreach ($orders as $order) {
             $food_sales += $order->orderPriceInfo->cost_of_food;
         }
         return '$' . number_format((float)$food_sales, 2, '.', '');;

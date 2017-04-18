@@ -199,6 +199,11 @@ class Order extends Model implements HasItems
         return false;
     }
 
+    public function scopeCountable($query)
+    {
+        return $query->where(['is_cancelled' => false, 'was_refunded' => false]);
+    }
+
     public function getWeeklySpecialOrders()
     {
 
