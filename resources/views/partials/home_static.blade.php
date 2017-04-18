@@ -9,9 +9,11 @@
                 <div class="site-heading">
                     <p class="subheading">Celebrate this Easter Sunday with a Special Delivery from Zaxby's!</p>
                     <div class="container-fluid" id="btn-wrap">
-                        <a href="{{ route('showMenu',['id' => $zaxbys->id]) }}"
+                        <a href="{{ route('list_restaurants') }}"
                            class="col-lg-2 col-lg-offset-5 col-md-4 col-md-offset-4 col-sm-offset-4 col-sm-4 col-xs-6 col-xs-offset-3"
-                           id="btn">ORDER NOW</a>
+                           id="btn">
+                            ORDER NOW
+                        </a>
                     </div>
                 </div>
         </div>

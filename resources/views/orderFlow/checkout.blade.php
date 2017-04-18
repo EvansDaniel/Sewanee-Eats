@@ -99,7 +99,9 @@
                             </div>
                             <div class="form-group row buyer-info">
 
-                                <label for="full-name">Name</label>
+                                <label for="full-name">Name (if you are ordering a special for Sparty enter the location
+                                    you
+                                    would like it delivered as well. Ex: Sarah - Smith 207)</label>
                                 <input class="form-control pay-input" maxlength="100"
                                        type="text"
                                        value="@if(env('APP_ENV') !== 'production') {{ 'Daniel Evans' }} @endif"
@@ -154,7 +156,6 @@
                                         </div>
                                     </div>
                                     @if( $cart->hasSpecialItems())
-
                                         <div class="specials_delivery_loc">
                                             {{--TODO: put the delivery location--}}
                                         </div>
