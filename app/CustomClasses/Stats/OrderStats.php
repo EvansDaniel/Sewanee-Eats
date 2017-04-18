@@ -40,8 +40,8 @@ class OrderStats extends Stats
     public function totalProfit()
     {
         $profit = 0;
-        $delivered_orders = Order::delivered()->get();
-        foreach ($delivered_orders as $order) {
+        $orders = Order::where(['is_cancelled' => false, 'was_refunded' => false])->get();
+        foreach ($orders as $order) {
             $profit += $order->orderPriceInfo->profit;
         }
         return '$' . number_format((float)$profit, 2, '.', '');
@@ -49,7 +49,7 @@ class OrderStats extends Stats
 
     public function numberOfUsers()
     {
-        $delivered_orders = Order::delivered()->get();
+        $orders = Order::where(['is_cancelled' => false, 'was_refunded' => false])->get();
         $emails = [];
         $num_unique_users = 0;
         foreach ($delivered_orders as $order) {
