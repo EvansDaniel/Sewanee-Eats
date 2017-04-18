@@ -30,7 +30,7 @@ class SpecialBilling
         $this->cost_of_food = $this->costOfFood();
         $this->delivery_fee = $this->deliveryFee();
         $this->special_profit = $this->specialProfit();
-        $this->discount = $this->countItemsWithDiscount() * $this->discount_value;
+        $this->discount = $this->discount();
 
     }
 
@@ -95,6 +95,11 @@ class SpecialBilling
         return $this->num_weekly_special_items;
     }
 
+    public function discount()
+    {
+        return $this->countItemsWithDiscount() * $this->discount_value;
+    }
+
     /**
      * @return int
      */
@@ -133,10 +138,5 @@ class SpecialBilling
     public function getSpecialProfit()
     {
         return $this->special_profit;
-    }
-
-    public function discount()
-    {
-        return $this->countItemsWithDiscount() * $this->discount_value;
     }
 }

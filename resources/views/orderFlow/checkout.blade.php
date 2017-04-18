@@ -275,8 +275,7 @@
                                         <div>Delivery Fee:
                                             @if($bill->getDiscount() != 0)
                                                 <i id="delivery-fee-percentage">you
-                                                    saved {{toTwoDecimals($bill->getDiscount())}}
-                                                    %!</i>
+                                                    saved {{ $bill->getDiscountString() }}!</i>
                                             @endif
                                             <span id="delivery-fee">{{ toTwoDecimals($bill->getDeliveryFee())  }}</span>
                                         </div>

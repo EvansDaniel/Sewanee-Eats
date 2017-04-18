@@ -140,6 +140,14 @@ class CartBilling
         return $this->profit;
     }
 
+    public function getDiscountString()
+    {
+        if ($this->getDiscount() < 1) {
+            return $this->getDiscount() * 100 . " cents";
+        }
+        return $this->getDiscount() * 100 . " dollars";
+    }
+
     /**
      * The total discount for on demand and special items as a percentage
      * @return int
