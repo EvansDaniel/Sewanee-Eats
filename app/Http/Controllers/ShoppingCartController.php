@@ -34,16 +34,16 @@ class ShoppingCartController extends Controller
         $item_id = $request->input('item_id');
         $item_type = $request->input('item_type');
         if ($this->isInvalidItemTypeOrItemId($item_id, $item_type)) {
-            return back()->with('status_bad', $this->invalid_view_paramater_msg);
+            return $this->getRedirectToMenu('status_bad', $this->invalid_view_paramater_msg);
         }
         if ($this->requestHasInvalidQuantityExtrasOrSi($request)) {
-            return back()->with('status_bad', $this->invalid_view_paramater_msg);
+            return $this->getRedirectToMenu($item_id, 'status_bad', $this->invalid_view_paramater_msg);
         }
         $item = $item_type == ItemType::EVENT_ITEM ? EventItem::find($item_id) : MenuItem::find($item_id);
         $rest_is_on_demand = $item->restaurant->isSellerType(RestaurantOrderCategory::ON_DEMAND);
         // if the item is not available (only for on demand) or the rest is not available
         if (($rest_is_on_demand && !$item->isAvailableNow()) || !$item->restaurant->isAvailableNow()) {
-            return back()->with('status_bad',
+            return $this->getRedirectToMenu($item_id, 'status_bad',
                 'Sorry, the item could not be added. Either this restaurant or this item is not available right now');
         }
         // if the there is no shift right now (only for on demand)
@@ -64,19 +64,20 @@ class ShoppingCartController extends Controller
             $cart_item->setExtras($extra);
         }
         if ($cart->hasOnDemandOverflow($cart_items)) {
-            return back()->with('status_bad',
+            return $this->getRedirectToMenu($item_id, 'status_bad',
                 'Unable to add item to the cart because you have added the max number of on demand items for this order ' . $cart->getMaxOnDemandItems());
         }
         $error_val = $cart->putItems($cart_items);
         if ($error_val == -3) { // tried to add item with too many diff restaurants
-            return back()->with('status_bad',
+            return $this->getRedirectToMenu($item_id, 'status_bad',
                 'Adding the item would cause you to order from three different On Demand restaurants. The max we are capable of at this time is two different restaurants. Sorry for the inconvenience!');
+
         }
         if ($error_val == -1) {
             // on demand overflow
         }
         \Event::fire(new ItemAddedToCart($cart, $cart_items));
-        return redirect(route('showMenu', ['name' => cleanseRestName(MenuItem::find($item_id)->restaurant->name), 'MenuItem' => $item_id]));
+        return $this->getRedirectToMenu($item_id);
     }
 
     public function isInvalidItemTypeOrItemId(int $item_id, int $item_type)
@@ -87,6 +88,14 @@ class ShoppingCartController extends Controller
             return EventItem::find($item_id) == null;
         }
         return true;
+    }
+
+    private function getRedirectToMenu($item_id, $key = null, $value = null)
+    {
+        if (!empty($key))
+            return redirect(route('showMenu', ['name' => cleanseRestName(MenuItem::find($item_id)->restaurant->name), 'MenuItem' => $item_id]))
+                ->with($key, $value);
+        return redirect(route('showMenu', ['name' => cleanseRestName(MenuItem::find($item_id)->restaurant->name), 'MenuItem' => $item_id]));
     }
 
     public function requestHasInvalidQuantityExtrasOrSi(Request $request)

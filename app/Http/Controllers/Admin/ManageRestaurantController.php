@@ -271,9 +271,9 @@ class ManageRestaurantController extends Controller
             compact('rest', 'weekly_special_seller_type'));
     }
 
-    public function deleteRestaurant($id)
+    public function deleteRestaurant(Restaurant $rest, $id)
     {
-        $restaurant = Restaurant::find($id);
+        $restaurant = $rest->find($id);
         // delete restaurant image from file system
         $image_file_name = $this->getFileNameFromDB($restaurant->image_url);
         $this->deleteFile($this->restImageDir, $image_file_name);

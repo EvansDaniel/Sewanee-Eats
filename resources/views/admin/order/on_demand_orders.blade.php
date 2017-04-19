@@ -52,9 +52,11 @@
                     <span style="background: darkgreen; color: white; display: inline-block; margin: 2px 0;">
                         @if($on_demand_order->is_paid_for) Paid @else Not paid @endif
                     </span>
-                    <span style="background: yellow; color: black; display: inline-block; margin: 2px 0;">
-                        @if($on_demand_order->is_being_processed) Processing @else No Assigned Courier @endif
-                    </span>
+                    @if(!$on_demand_order->is_delivered)
+                        <span style="background: yellow; color: black; display: inline-block; margin: 2px 0;">
+                            @if($on_demand_order->is_being_processed) Processing @else No Assigned Courier @endif
+                        </span>
+                    @endif
                     <span style="background: darkgreen; color: white; display: inline-block; margin: 2px 0;">
                         @if($on_demand_order->is_delivered) Delivered @else Not delivered @endif
                     </span>
@@ -114,7 +116,8 @@
                             <input id="confirm-payment-{{$on_demand_order->id}}" type="text" name="order_id"
                                    value="{{ $on_demand_order->id}}" style="display: none">
                             <button class="btn btn-primary confirm-payment">
-                                @if($on_demand_order->is_paid_for) Undo Payment Confirmation @else ConfirmPayment @endif
+                                @if($on_demand_order->is_paid_for) Undo Payment Confirmation @else Confirm
+                                Payment @endif
                             </button>
                         </form>
                     @endif
