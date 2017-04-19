@@ -9,7 +9,7 @@
             <a href="{{ route('showUpdateShift',['shift_id' => $s->getId()]) }}">
                 <button class="btn btn-dark">Change Shift</button>
             </a>
-            <form action="{{ url()->to(parse_url(route('deleteShift',[]),PHP_URL_PATH),[],env('APP_ENV') !== 'local') }}"
+            <form action="{{ formUrl('deleteShift') }}"
                   method="post" style="display: inline;">
                 {{ csrf_field() }}
                 <input name="shift_id" type="hidden" value="{{ $s->getId() }}">
@@ -23,7 +23,7 @@
             {{ $s->getManager()->name }} | {{ $s->getManager()->email }} |
             @if(Auth::user()->hasRole('manager') || Auth::user()->hasRole('admin'))
             <!-- Only managers and admins can change shifts and couriers/managers for shifts -->
-                <form action="{{ url()->to(parse_url(route('removeWorkerFromShift',[]),PHP_URL_PATH),[],env('APP_ENV') !== 'local') }}"
+                <form action="{{ formUrl('removeWorkerFromShift') }}"
                       style="display: inline" method="post">
                     <input name="worker_id" type="hidden" value="{{ $s->getManager()->id }}">
                     <input name="shift_id" type="hidden" value="{{ $s->getId() }}">
@@ -42,10 +42,11 @@
         @else
             @foreach($s->getCouriers() as $courier)
                 <li>
-                    <h4>{{ $courier->name }} as a {{ $courier->getCourierType() }} | {{ $courier->email  }} |
+                    <h4>{{ $courier->name }} as a {{ $courier->getCourierType() }} | {{ $courier->email  }}
+                        | {{ convertToPhoneNumber((int)$courier->courierInfo->phone_number) }}
                         @if(Auth::user()->hasRole('manager') || Auth::user()->hasRole('admin'))
                         <!-- Only managers and admins can change shifts and couriers/managers for shifts -->
-                            <form action="{{ url()->to(parse_url(route('removeWorkerFromShift',[]),PHP_URL_PATH),[],env('APP_ENV') !== 'local') }}"
+                            <form action="{{ formUrl('removeWorkerFromShift') }}"
                                   style="display: inline" method="post">
                                 <input name="worker_id" type="hidden" value="{{ $courier->id }}">
                                 <input name="shift_id" type="hidden" value="{{ $s->getId() }}">
@@ -60,7 +61,6 @@
     </ul>
     <!-- only managers and admin can modify the schedule -->
     @if(Auth::user()->hasRole('admin') || Auth::user()->hasRole('manager'))
-    {{--<a href="{{ route('getNonAssignedWorkers',['shift_id' => $s->getId()]) }}"></a>--}}
     <button class="btn btn-dark btn-assign-workers" data-shift-id="{{ $s->getId() }}">Add Workers To
         Shift
     </button>
@@ -75,7 +75,7 @@
                             {{ $unassigned_manager->name }} |
                             @if(Auth::user()->hasRole('manager') || Auth::user()->hasRole('admin'))
                             <!-- Only managers and admins can change shifts and couriers/managers for shifts -->
-                                <form action="{{ url()->to(parse_url(route('assignWorkerToShift',[]),PHP_URL_PATH),[],env('APP_ENV') !== 'local') }}"
+                                <form action="{{ formUrl('assignWorkerToShift') }}"
                                       method="post" style="display: inline">
                                     {{ csrf_field() }}
                                     <input name="shift_id" type="hidden" value="{{ $s->getId() }}">
@@ -96,7 +96,7 @@
                     {{ $courier->name }}
                     @if(Auth::user()->hasRole('manager') || Auth::user()->hasRole('admin'))
                         <!-- Only managers and admins can change shifts and couriers/managers for shifts -->
-                            <form action="{{ url()->to(parse_url(route('assignWorkerToShift',[]),PHP_URL_PATH),[],env('APP_ENV') !== 'local') }}"
+                            <form action="{{ formUrl('assignWorkerToShift') }}"
                                   method="post" style="display: inline">
                                 {{ csrf_field() }}
                                 <input name="shift_id" type="hidden" value="{{ $s->getId() }}">

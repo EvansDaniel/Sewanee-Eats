@@ -130,7 +130,7 @@ class ScheduleController extends Controller
             $time_range->save();
             return redirect()->route('showSchedule')->with('status_good', 'Shift updated!');
         } else {
-            return back()->with('status_good', $valid_shift_message);
+            return back()->with('status_bad', $valid_shift_message);
         }
     }
 }

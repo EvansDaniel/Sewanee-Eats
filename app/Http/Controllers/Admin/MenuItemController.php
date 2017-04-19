@@ -24,15 +24,17 @@ class MenuItemController extends Controller
 
     use HandlesTimeRanges;
 
-    public function showMenu(Restaurant $restaurant, $id)
+    public function showMenu(Request $request, Restaurant $restaurant, $id)
     {
         $restaurant = $restaurant->find($id);
         foreach ($restaurant->menuItems as $item) {
             $menu_items[$item->itemCategory->name][] = $item;
         }
+        $scroll_to_item_id = $request->query('MenuItem');
         $on_demand_seller_type = RestaurantOrderCategory::ON_DEMAND;
         return view('admin.restaurants.showMenu',
-            compact('restaurant', 'menu_items', 'on_demand_seller_type'));
+            compact('restaurant', 'menu_items',
+                'on_demand_seller_type', 'scroll_to_item_id'));
     }
 
     public function showMenuItemCreateForm($r_id)

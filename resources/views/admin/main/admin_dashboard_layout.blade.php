@@ -106,5 +106,6 @@
 
 <!-- Custom Theme Scripts -->
 <script src="{{ asset('js/admin/gentella_custom.min.js',env('APP_ENV') !== 'local')  }}"></script>
+<script src="{{ assetUrl('js/Misc/backend_msg_attach.js') }}"></script>
 </body>
 </html>

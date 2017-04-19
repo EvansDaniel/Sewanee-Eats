@@ -6,200 +6,116 @@
 
 @section('body')
     <link href={{ asset('css/admin_on_demand.css',env('APP_ENV') !== 'local')  }}>
-    <style>
-        .demand_container {
-            background: white;
-            font-family: "Lato", sans-serif;
-            color: black;
-        }
-
-        .buttons-wrapper {
-            margin-bottom: 30px;
-            border-bottom: 2px solid rgba(0, 0, 128, .2);
-        }
-
-        .clearfix {
-            background: white;
-        }
-
-        .profile {
-            background: #5A738E;
-        }
-
-        span {
-            padding: 2px;
-            margin-right: 2px;
-        }
-
-        .small {
-            width: 40px;
-            display: block;
-            float: left;
-            margin-right: 5px;
-        }
-
-        .medium {
-            width: 140px;
-            float: left;
-            margin-right: 1px;
-        }
-
-        .large {
-            width: 200px;
-            float: left;
-        }
-
-        .main-main-container, body {
-            background: white;
-        }
-
-        .buttons {
-
-        }
-
-    </style>
+    <link rel="stylesheet" href="{{ asset('css/admin/order_listing.css',env('APP_ENV') !== 'local')  }}">
+    <link rel="stylesheet" href="{{ asset('css/admin/general_admin.css',env('APP_ENV') !== 'local')  }}">
     <section class="container-fluid demand_container">
-    @foreach($on_demand_open_orders as $on_demand_order)
-
-        <!--
-         TODO: for Blaise
-          Make it possible for a manager/admin to assert that a venmo order was paid for, cancel an order, refund an order, etc.
-          Later on we will make it so that you can refund individual items, also link to an order summary page
-
-        -->
-            <div class="row">
+        @foreach($on_demand_open_orders as $on_demand_order)
+            <div class="row" id="{{ $on_demand_order->id }}">
                 <div class="col-lg-1 small">
                     <a href="{{ route('orderSummaryForAdmin',['order_id' => $on_demand_order->id]) }}">
                         ID: {{$on_demand_order->id}}
                     </a>
+                    {{ generateScrollTo($scroll_to_item_id) }}
                 </div>
-                <div class="col-lg-1 medium">customer: {{$on_demand_order->c_name}}</div>
-                @if(!$on_demand_order->is_delivered)
+                <div class="col-lg-1 medium">Customer: {{$on_demand_order->c_name}}</div>
+                @if(!$on_demand_order->is_delivered && !$on_demand_order->is_cancelled && !$on_demand_order->was_refunded)
                     <div class="col-lg-1 medium">Order received {{ $on_demand_order->timeSinceOrdering() }} mins ago
                     </div>
                 @endif
                 <div class="col-lg-1 medium">
-                    Courier: @if(count($on_demand_order->couriers) >= 1) {{$on_demand_order->couriers[0]->name}} @else
-                        No
-                    courier assigned yet   @endif</div>
+                    <form action="{{ route('changeCourierForOrder') }}" method="post">
+                        Courier:
+                        @if($on_demand_order->hasCourier()) {{$on_demand_order->getCourier()->name}} @else No
+                        courier assigned yet @endif
+                        {{ csrf_field() }}
+                        <input name="order_id" type="hidden" value="{{ $on_demand_order->id }}">
+                        <select name="courier_id" id="courier-select">
+                            @foreach($couriers as $courier)
+                                @if($on_demand_order->hasCourier() && $on_demand_order->getCourier()->id == $courier->id)
+                                    <option selected value="{{ $courier->id }}">{{ $courier->name }}</option>
+                                @else
+                                    <option value="{{ $courier->id }}">{{ $courier->name }}</option>
+                                @endif
+                            @endforeach
+                        </select>
+                        <button class="btn btn-dark courier-button" type="submit">Change Courier</button>
+                    </form>
+                </div>
                 <div class="col-lg-1 medium">Deliver to Location: {{$on_demand_order->delivery_location}}</div>
                 <div class="col-lg-1 medium">Customer Email: {{$on_demand_order->email_of_customer}}</div>
                 <div class="col-lg-1 medium">Customer Phone Number: {{$on_demand_order->phone_number}}</div>
                 <div class="col-lg-1 medium">Payment type:
-                    @if($on_demand_order->payment_type == $venmo_payment_type)
-                        Venmo
-                    @else
-                        Card
-                    @endif
-
+                    @if($on_demand_order->payment_type == $venmo_payment_type) Venmo @else Card @endif
                 </div>
                 <div class="col-lg-1 large">
                     statuses:
-                    @if($on_demand_order->is_paid_for)
-                        <span style="background: darkgreen; color: white;">
-                        Paid
+                    <span style="background: darkgreen; color: white; display: inline-block; margin: 2px 0;">
+                        @if($on_demand_order->is_paid_for) Paid @else Not paid @endif
                     </span>
-                    @else
-                        <span style="background: crimson; color: white;">
-                        Not paid
+                    <span style="background: yellow; color: black; display: inline-block; margin: 2px 0;">
+                        @if($on_demand_order->is_being_processed) Processing @else No Assigned Courier @endif
                     </span>
-                    @endif
-                    @if($on_demand_order->is_being_processed)
-                        <span style="background: yellow; color: black;">
-                        Processing
+                    <span style="background: darkgreen; color: white; display: inline-block; margin: 2px 0;">
+                        @if($on_demand_order->is_delivered) Delivered @else Not delivered @endif
                     </span>
-                    @elseif(!$on_demand_order->is_delivered)
-                        <span style="background: crimson; color: white;">
-                            No Assigned Courier
+                    <span style="background: crimson; color: white; display: inline-block; margin: 2px 0;">
+                        @if($on_demand_order->was_refunded) Refunded @else Not refunded @endif
                     </span>
-                    @endif
-                    @if($on_demand_order->is_delivered)
-                        <span style="background: darkgreen; color: white;">
-                        Delivered
+                    <span style="background: crimson; color: white; display: inline-block; margin: 2px 0;">
+                        @if($on_demand_order->is_cancelled) Canceled @else Not Canceled @endif
                     </span>
-                    @else
-                        <span style="background: crimson; color: white;">
-                        Not delivered
-                    </span>
-                    @endif
-                    @if($on_demand_order->was_refunded)
-                        <span style="background: crimson; color: white;">
-                        Refunded
-                    </span>
-                    @else
-                        <span style="background: darkgreen; color: white;">
-                        Not refunded
-                    </span>
-                    @endif
-                    @if($on_demand_order->is_cancelled)
-                        <span style="background: crimson; color: white;">Canceled
-                        </span>
-                    @else
-                        <span style="background: darkgreen; color: white;">
-                        Not Canceled
-                    </span>
-                    @endif
-                </div>
-                <div class="col-lg-1 medium">
-
                 </div>
 
             </div>
             <div class="row buttons-wrapper">
                 <div class="buttons">
-                    <form action="{{ url()->to(parse_url(route('toggleOrderIsDelivered',[]),PHP_URL_PATH),[],env('APP_ENV') !== 'local') }}"
-                          method="post" style="display: inline">
+                    <form class="manage-order-form" action="{{ formUrl('toggleOrderIsDelivered')  }}"
+                          method="post">
                         {{ csrf_field() }}
                         <input id="toggle-delivered-{{$on_demand_order->id}}" type="text" name="order_id"
                                value="{{ $on_demand_order->id}}" style="display: none">
                         @if($on_demand_order->is_delivered)
-                            <button onclick="" class="btn btn-primary toggle-delivered" style="display: inline">Undo
+                            <button onclick="" class="btn btn-primary toggle-delivered">Undo
                                 Mark Order as Delivered
                             </button>
                         @else
-                            <button onclick="" class="btn btn-primary toggle-delivered" style="display: inline">Mark
+                            <button onclick="" class="btn btn-primary toggle-delivered">Mark
                                 Order as Delivered
                             </button>
                         @endif
                     </form>
-                    <form class="cancel"
-                          action="{{ url()->to(parse_url(route('toggleOrderCancellation',[]),PHP_URL_PATH),[],env('APP_ENV') !== 'local') }}"
-                          method="post" style="display: inline">
+                    <form class="cancel manage-order-form"
+                          action="{{ formUrl('toggleOrderCancellation') }}"
+                          method="post">
                         {{ csrf_field() }}
-                        <input id="cancel-order-{{$on_demand_order->id}}" type="text" name="order_id"
-                               value="{{ $on_demand_order->id}}" style="display: none">
-                        @if($on_demand_order->is_cancelled)
-                            <button onclick="" class="btn btn-primary cancel-order">Undo Order Cancellation</button>
-                        @else
-                            <button onclick="" class="btn btn-primary cancel-order">Cancel Order</button>
-                        @endif
+                        <input id="cancel-order-{{$on_demand_order->id}}" type="hidden" name="order_id"
+                               value="{{ $on_demand_order->id}}">
+                        <button onclick="" class="btn btn-primary cancel-order">
+                            @if($on_demand_order->is_cancelled) Undo Order Cancellation @else Cancel Order @endif
+                        </button>
                     </form>
                 @if(!$on_demand_order->is_cancelled) <!-- Can't refund if it is cancelled -->
-                    <form class="refund"
-                          action="{{ url()->to(parse_url(route('toggleRefundOrder',[]),PHP_URL_PATH),[],env('APP_ENV') !== 'local') }}"
-                          method="post" style="display: inline">
+                    <form class="manage-order-form"
+                          action="{{ formUrl('toggleRefundOrder') }}"
+                          method="post">
                         {{ csrf_field() }}
-                        <input id="refund-order-{{$on_demand_order->id}}" type="text" name="order_id"
-                               value="{{ $on_demand_order->id}}" style="display: none">
-                        @if($on_demand_order->was_refunded)
-                            <button class="btn btn-primary refund">Undo Order Refund</button>
-                        @else
-                            <button class="btn btn-primary refund">Refund Order</button>
-                        @endif
+                        <input id="refund-order-{{$on_demand_order->id}}" type="hidden" name="order_id"
+                               value="{{ $on_demand_order->id}}">
+                        <button class="btn btn-primary refund">
+                            @if($on_demand_order->was_refunded) Undo Order Refund @else Refund Order @endif
+                        </button>
                     </form>
                     @endif
                     @if($on_demand_order->payment_type == $venmo_payment_type)
-                        <form class="cancel change-status"
-                              action="{{url()->to(parse_url(route('togglePaymentConfirmationForVenmo',[]),PHP_URL_PATH),[],env('APP_ENV') !== 'local') }}"
-                              method="post" style="display: inline">
+                        <form class="cancel change-status manage-order-form"
+                              action="{{ formUrl('togglePaymentConfirmationForVenmo') }}"
+                              method="post">
                             {{ csrf_field() }}
                             <input id="confirm-payment-{{$on_demand_order->id}}" type="text" name="order_id"
                                    value="{{ $on_demand_order->id}}" style="display: none">
-                            @if($on_demand_order->is_paid_for)
-                                <button class="btn btn-primary confirm-payment">Undo Payment Confirmation</button>
-                            @else
-                                <button class="btn btn-primary confirm-payment">Confirm Payment</button>
-                            @endif
+                            <button class="btn btn-primary confirm-payment">
+                                @if($on_demand_order->is_paid_for) Undo Payment Confirmation @else ConfirmPayment @endif
+                            </button>
                         </form>
                     @endif
                 </div>
@@ -208,15 +124,19 @@
 
     </section>
 
+    <script src="{{ assetUrl('js/helpers.js')  }}"></script>
     <script>
+      // scrolls to the item given by the generateScrollTo php view function
+      scrollToItem(1000);
 
+      // window checks for manipulating orders
       $(document).ready(function () {
         $(".confirm-payment").click(changeStatus(".confirm-payment", "Are you sure you want to change this order's payment status?"));
         $(".cancel-order").click(changeStatus(".cancel-order", "Are you sure you want to change the cancellation status of this order?"));
         $(".refund").click(changeStatus(".refund", ".Are you sure you want to change the refund status?"));
         $(".toggle-delivered").click(changeStatus(".toggle-delivered", ".Are you sure you want to change the delivery status?"));
-
       });
+      // function to change the status of an order
       function changeStatus(button, text) {
         $(button).each(function () {
           $(this).on('click', function () {
@@ -229,5 +149,9 @@
           });
         });
       }
+    </script>
+    <script src="{{ assetUrl('js/Misc/backend_msg_attach.js') }}"></script>
+    <script>
+      msgTimeout(7500);
     </script>
 @stop

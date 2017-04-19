@@ -9,6 +9,7 @@ use App\User;
 use Auth;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Foundation\Auth\RedirectsUsers;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -60,16 +61,19 @@ class RegisterController extends Controller
      * Handle a registration request for the application.
      *
      * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\Response|RedirectResponse
      */
     public function register(Request $request)
     {
-        $this->validator($request->all())->validate();
+        $validator = $this->validator($request->all());
+        if ($validator->fails()) {
+            return back()->withInput()->withErrors($validator);
+        }
 
         event(new Registered($user = $this->create($request->all())));
 
         // don't log the user in if they are already logged in,
-        // tthe implication is that this is an admin signed in
+        // the implication is that this is an admin signed in
         if (!Auth::check()) {
             $this->guard()->login($user);
         }
@@ -91,6 +95,7 @@ class RegisterController extends Controller
         return Validator::make($data, [
             'name' => 'required|max:255',
             'email' => 'required|email|max:255|unique:users',
+            'phone_number' => 'digits:10|integer',
             'password' => 'required|min:6|confirmed',
         ]);
     }

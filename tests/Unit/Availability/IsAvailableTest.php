@@ -57,7 +57,6 @@ class IsAvailableTest extends TestCase
     public function testShortestDistSecondFromFirst()
     {
         $time_range = $this->makeTimeRange();
-        \Log::info($this->shortestDistSecondFromFirst($time_range->end_dow, $time_range->start_dow));
     }
 
     private function makeTimeRange()
@@ -74,8 +73,6 @@ class IsAvailableTest extends TestCase
 
     public function testDistanceFromDay()
     {
-        \Log::info($this->distanceFromDay('Sunday', 'Monday'));
-        \Log::info($this->distanceFromDay('Monday', 'Thursday'));
     }
 
     public function testEndCarbon()
@@ -87,7 +84,6 @@ class IsAvailableTest extends TestCase
     public function testStartCarbon()
     {
         $time_range = $this->makeTimeRange();
-        \Log::info($time_range->getStartCarbon()->toDayDateTimeString());
     }
 
     /**
@@ -100,7 +96,6 @@ class IsAvailableTest extends TestCase
         $this->populateRestaurants();
         $r = Restaurant::all()->first();
         $shift = new Shift();
-        \Log::info(count($shift->getCurrentShifts()));
     }
 
     private function populateRestaurants()
@@ -121,7 +116,6 @@ class IsAvailableTest extends TestCase
         $this->populateMenuItems();
         $menu_item = MenuItem::all()->first();
         $isAvail = new IsAvailable($menu_item);
-        \Log::info($isAvail->isAvailableNow(0));
     }
 
     private function populateMenuItems()

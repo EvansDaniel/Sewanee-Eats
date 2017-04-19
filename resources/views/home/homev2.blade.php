@@ -25,7 +25,9 @@
                      src="{{ asset('images/branding/purple-fast-delivery-truck.png',env('APP_ENV') !== 'local') }}">
                 <ul>
                     <li>Delivery to any location on the mountain</li>
-                    <li>Food delivery within 45 minutes guaranteed</li>
+                    <li>Check out our <a href="{{ route('list_restaurants') }}#special-rests">special restaurant</a>
+                        deliveries for this week
+                    </li>
                 </ul>
             </div>
             <div class="col-lg-3 col-md-3 col-sm-5 col-xs-8 pay" id="pay">

@@ -7,7 +7,7 @@
 @stop
 
 @section('body')
-    <a href="{{ route('adminShowMenu',['id' => $menu_item->restaurant->id]) }}">
+    <a href="{{ route('adminShowMenu',['id' => $menu_item->restaurant->id,'MenuItem' => $menu_item->id]) }}">
         <button class="btn btn-dark" type="button">Back to Menu</button>
     </a>
     <h3>Viewing availability for {{ $menu_item->name }}</h3>

@@ -1,0 +1,49 @@
+.demand_container {
+    background: white;
+    font-family: "Lato", sans-serif;
+    color: black;
+}
+
+.buttons-wrapper {
+    margin-bottom: 30px;
+    border-bottom: 2px solid rgba(0, 0, 128, .2);
+}
+
+.clearfix {
+    background: white;
+}
+
+.profile {
+    background: #5A738E;
+}
+
+span {
+    padding: 2px;
+    margin-right: 2px;
+}
+
+.small {
+    width: 40px;
+    display: block;
+    float: left;
+    margin-right: 5px;
+}
+
+.medium {
+    width: 140px;
+    float: left;
+    margin-right: 1px;
+}
+
+.large {
+    width: 200px;
+    float: left;
+}
+
+.main-main-container, body {
+    background: white;
+}
+
+.buttons {
+
+}

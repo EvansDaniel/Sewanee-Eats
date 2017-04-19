@@ -25,6 +25,7 @@
     <link rel="stylesheet" href={{ asset('css/customPlaces/yamato.css',env('APP_ENV') !== 'local')  }}>
     <input name="item_type" id="item-type" type="hidden" value="{{ $item_type }}">
     <!-- TODO: get rid of this; it is for debugging, add a restaurant image logo as the head of evrypage -->
+    {{ generateScrollTo($scroll_to_menu_item_id) }}
     @include('orderFlow.partials.show_menu')
 
     <script>
@@ -82,9 +83,15 @@
                             </div>
                             <div class="modal-footer">
                                 <div class="row">
-                                    <button type="button" class="itembtn col-lg-2 col-lg-offset-4 col-md-2 col-md-offset-4 col-sm-3 col-sm-offset-2 col-xs-3 col-xs-offset-2"  data-dismiss="modal">Close</button>
+                                    <button type="button"
+                                            class="itembtn col-lg-2 col-lg-offset-4 col-md-2 col-md-offset-4 col-sm-3 col-sm-offset-2 col-xs-3 col-xs-offset-2"
+                                            data-dismiss="modal">Close
+                                    </button>
 
-                                    <button type="submit" class="itembtn col-lg-3 col-lg-offset-1 col-md-3 col-md-offset-1 col-sm-4 col-sm-offset-1 col-xs-6 col-xs-offset-1" id="add-to-cart-button">Add To Cart</button>
+                                    <button type="submit"
+                                            class="itembtn col-lg-3 col-lg-offset-1 col-md-3 col-md-offset-1 col-sm-4 col-sm-offset-1 col-xs-6 col-xs-offset-1"
+                                            id="add-to-cart-button">Add To Cart
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -94,4 +101,10 @@
         </div>
     </div>
     <script src="{{ asset('js/menu.js',env('APP_ENV') != 'local') }}"></script>
+    <script src="{{ asset('js/helpers.js',env('APP_ENV') !== 'local')  }}"></script>
+    <script>
+      // scroll time is 1 second
+      scrollToItem(1000);
+    </script>
+    <script src="{{ assetUrl('js/Misc/backend_msg_attach.js') }}"></script>
 @stop

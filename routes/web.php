@@ -85,18 +85,28 @@ Route::group([
     'middleware' => 'role:admin',
     'prefix' => 'admin'], function () {
 
-    Route::get('weeklyOrders', 'OrdersController@listWeeklyOrders')->name('listWeeklyOrders');
+    // view special orders
+    Route::get('specialOrders', 'OrdersController@viewSpecialOrders')->name('viewSpecialOrders');
+    // view on demand orders
     Route::get('openOnDemandOrders', 'OrdersController@viewOnDemandOpenOrders')->name('viewOnDemandOpenOrders');
+    // order summary for admin
     Route::get('orderSummaryForAdmin/{order_id}','OrdersController@orderSummaryForAdmin')->name('orderSummaryForAdmin');
+    // toggle the order cancellation
     Route::post('toggleOrderCancellation', 'OrdersController@toggleOrderCancellation')
         ->name('toggleOrderCancellation');
+    // toggle payment confirmed for venmo
     Route::post('togglePaymentConfirmationForVenmo', 'OrdersController@togglePaymentConfirmationForVenmo')
         ->name('togglePaymentConfirmationForVenmo');
+    // toggle the refund status
     Route::post('toggleRefundOrder', 'OrdersController@toggleRefundOrder')
         ->name('toggleRefundOrder');
+    // toggle delivery status
     Route::post('toggleOrderIsDelivered', 'OrdersController@toggleOrderIsDelivered')
         ->name('toggleOrderIsDelivered');
-
+    // Change the courier for an order
+    Route::post('changeCourierForOrder', 'OrdersController@changeCourierForOrder')
+        ->name('changeCourierForOrder');
+    // all the orders we received
     Route::get('', function () {
         return view('admin.order.orders');
     })->name('orders');
@@ -132,7 +142,7 @@ Route::get('event/{event_id}/items', 'SellerEntityController@showEventItems')
 
 // ------------------------------------------------------------------------------
 
-Route::get('restaurants/{id}', 'SellerEntityController@showMenu')
+Route::get('restaurants/{name}', 'SellerEntityController@showMenu')
     ->name('showMenu');
 
 Route::post('cart/store', 'ShoppingCartController@loadItemIntoShoppingCart')

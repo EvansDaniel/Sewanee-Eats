@@ -170,6 +170,7 @@ class OrderQueueController extends Controller
                 // assign next to courier and show message
                 $order_manager = new ManageOrder($next_order);
                 $order_manager->assignToOrder(Auth::user());
+                $order_manager->setDeliveringNow();
                 \Session::flash('status_good',
                     'Woop woop! Here is your next order!');
                 // redirect to the current order route

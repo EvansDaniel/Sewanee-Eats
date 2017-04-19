@@ -7,10 +7,11 @@
 
 @section('body')
     <div class="container" id="show-menu">
-        <a href="{{ route('adminListRestaurants') }}">
+        <a href="{{ route('adminListRestaurants',['RestaurantId' => $restaurant->id]) }}">
             <button class="btn btn-dark" type="button">Back to Restaurant Listing</button>
         </a>
         <br>
+        {{ generateScrollTo($scroll_to_item_id) }}
         <a href="{{ route('showMenuItemCreateForm',['r_id' => $restaurant->id]) }}">
             <button class="btn btn-primary form-control" type="button">Add item to {{ $restaurant->name }} menu</button>
         </a>
@@ -38,7 +39,7 @@
                         <!-- TODO: Add proper link to accessories -->
                         <ul class="list-group">
                             @foreach($items as $item)
-                                <li class="list-group-item">
+                                <li class="list-group-item" id="{{ $item->id }}">
                                     <div class="menu-item">
                                         <div>
                                             <div class="menuList">{{ $item->name }}</div>
@@ -96,6 +97,7 @@
 
     <script src="{{ asset('js/helpers.js',env('APP_ENV') !== 'local')  }}"></script>
     <script>
+      scrollToItem(1000);
       setWindowConfirmation('#copy-rest-time-range-button',
       'Are you absolutely sure you want to copy ALL restaurant open times to ALL of its menu items? ' +
       'This operation cannot be undone and if the time ranges already exists for the menu item they will not be attached');

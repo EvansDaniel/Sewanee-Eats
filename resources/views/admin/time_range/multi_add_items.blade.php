@@ -5,15 +5,14 @@
 @stop
 
 @section('body')
-    <a href="{{ route('adminListRestaurants') }}">
+    <a href="{{ route('adminListRestaurants',['RestaurantId' => $restaurant->id]) }}">
         <button type="button" class="btn btn-dark">Back to restaurant listing</button>
     </a>
-    <form action="{{ url()->to(parse_url(route('createTimeRangeMultiItems',[]),PHP_URL_PATH),[],env('APP_ENV') !== 'local') }}"
+    <form action="{{ formUrl('createTimeRangeMultiItems') }}"
           id="create-multi-time-range-items-form" method="post">
         <ul class="list-group">
             <div class="panel panel-default">
 
-                {{--<h1 align="center">{{ $restaurant->name }}'s Menu</h1>--}}
                 <div>
                     @include('admin.restaurants.create_time_range')
                 </div>

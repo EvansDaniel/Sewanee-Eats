@@ -40,7 +40,7 @@
                     </li>
                     <li><a><i class="fa fa-desktop"></i> Orders <span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
-                            <li><a href="{{ route('listWeeklyOrders') }}">Weekly Special Orders</a></li>
+                            <li><a href="{{ route('viewSpecialOrders') }}">Weekly Special Orders</a></li>
                             <li><a href="#">Special Event Orders</a></li>
                             <li><a href="#">Store Orders</a></li>
                         </ul>

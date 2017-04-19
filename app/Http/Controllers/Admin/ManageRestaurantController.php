@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\CustomClasses\Availability\TimeRangeType;
+use App\CustomClasses\Helpers\UniqueName;
 use App\CustomClasses\ShoppingCart\RestaurantOrderCategory;
 use App\CustomTraits\HandlesTimeRanges;
 use App\CustomTraits\UploadFile;
@@ -29,14 +30,14 @@ class ManageRestaurantController extends Controller
         $this->restImageDir = 'restaurants/';
     }
 
-    public function showRestaurants()
+    public function showRestaurants(Request $request)
     {
         // where id != null b/c is a workaround to retrieve all and still order them
         $rests = Restaurant::where('id', '!=', 'null')->orderBy('name', 'desc')->get();
         $on_demand_seller_type = RestaurantOrderCategory::ON_DEMAND;
-        //$weekly_special_seller_type = RestaurantOrderCategory::WEEKLY_SPECIAL;
+        $scroll_to_rest_id = $request->query('RestaurantId');
         return view('admin.restaurants.list_restaurants',
-            compact('rests', 'on_demand_seller_type'));
+            compact('rests', 'on_demand_seller_type', 'scroll_to_rest_id'));
     }
 
     public function changeRestAvailableStatus(Restaurant $rest, $rest_id)
@@ -161,6 +162,11 @@ class ManageRestaurantController extends Controller
         // get request info
         $location = $request->input('address'); // for on demand rest
         $name = $request->input('name');
+        if (!empty($msg = $this->invalidRestName($name))) {
+            return back()->with('status_bad', $msg);
+        }
+        $u_name = new UniqueName($this->getArrayOfRestNames(), $name);
+        $unique_name = $u_name->getUniqueName();
         $image = $request->file('image');
         if (empty($request->input('is_weekly_special'))) {
             $is_weekly_special = 0;
@@ -181,7 +187,9 @@ class ManageRestaurantController extends Controller
         $restaurant = new Restaurant;
 
         // Store restaurant info to database
-        $restaurant->name = $name;
+        // we need a unique name because we use it to find restaurants
+        // on the user facing side of site
+        $restaurant->name = $unique_name;
         $restaurant->image_url = $this->dbStoragePath($this->restImageDir, $file_name);
         if ($is_weekly_special) {
             $restaurant->seller_type = RestaurantOrderCategory::WEEKLY_SPECIAL;
@@ -219,6 +227,24 @@ class ManageRestaurantController extends Controller
             return redirect()->route('showAddOpenTimes',
                 ['r_id' => $restaurant->id]);
         }
+    }
+
+    public function invalidRestName($name)
+    {
+        if (strpos($name, '-') !== false) {
+            return "Invalid Restaurant Name: The name cannot contain hyphens";
+        }
+        return "";
+    }
+
+    private function getArrayOfRestNames()
+    {
+        $rests = Restaurant::all();
+        $names = [];
+        foreach ($rests as $rest) {
+            $names[] = $rest->name;
+        }
+        return $names;
     }
 
     private function imageUploadValidator($request)
@@ -260,6 +286,10 @@ class ManageRestaurantController extends Controller
     {
         $address = $request->input('address');
         $name = $request->input('name');
+        if (!empty($msg = $this->invalidRestName($name))) {
+            return back()->with('status_bad', $msg);
+        }
+        $u_name = new UniqueName($this->getArrayOfRestNames(), $name);
         $image = $request->file('image');
         $callable = $request->input('callable');
         $phone_number = $request->input('phone_number');
@@ -286,7 +316,9 @@ class ManageRestaurantController extends Controller
             $restaurant->image_url = $this->dbStoragePath($this->restImageDir, $file_name);
         }
 
-        $restaurant->name = $name;
+        // we need a unique name because we use it to find restaurants
+        // on the user facing side of site
+        $restaurant->name = $u_name->getUniqueName();
         if ($restaurant->isSellerType(RestaurantOrderCategory::ON_DEMAND)) {
             if (empty($callable)) {
                 $restaurant->callable = false;

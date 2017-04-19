@@ -6,7 +6,7 @@
 
 @section('body')
 
-    <a href="{{ route('adminShowMenu',['id' => $menu_item->restaurant->id]) }}">
+    <a href="{{ route('adminShowMenu',['id' => $menu_item->restaurant->id,'MenuItem' => $menu_item->id]) }}#{{ $menu_item->id }}">
         <button class="btn btn-dark" type="button">Back to Menu</button>
     </a>
     <h1>Accessories for {{ $menu_item->name }}</h1>
@@ -40,4 +40,6 @@
         @endforeach
 
     </ul>
+
+
 @stop

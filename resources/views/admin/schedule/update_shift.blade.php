@@ -33,7 +33,7 @@
         </div>
         @include('admin.schedule.shifts_create_update')
         <div>
-            <form action="{{ url()->to(parse_url(route('updateShift',[]),PHP_URL_PATH),[],env('APP_ENV') !== 'local')  }}"
+            <form action="{{ formUrl('updateShift')  }}"
                   method="post">
                 <div class="form-group">
                     {{ csrf_field() }}

@@ -25,16 +25,12 @@
 
 {{--</div>--}}
 @include('main.main_nav_bar_new')
+@include('partials.backend_messages')
 <div id="main-container" class="container-fluid main-main-container">
-    {{--@include('main.countdown')--}}
 
     @if(url()->current() != route("home"))
-        {{--<div style="margin-top: 35px"></div>--}}
         <script src={{ asset('js/resize.js',env('APP_ENV') !== 'local') }}></script>
     @endif
-
-<!-- Status messages to user about what they are doing -->
-    @include('partials.backend_messages')
 
     @yield('body')
 
@@ -44,9 +40,9 @@
     <hr>
     <br>
     <p>COPYRIGHT © SEWANEE EATS - ALL PAYMENTS ARE PROCESSED SECURELY THROUGH VENMO AND <a
-                href="https://www.stripe.com">STRIPE</a>. | <a href="{{ route('login') }}">Login</a></p>
-    {{--<h3><a style="float: right" href="{{ route('login') }}">Login</a></h3>--}}
-    {{--<a href="{{ route('findMyOrder') }}">Find My Order</a>--}}
+                href="https://www.stripe.com">STRIPE</a>.
+        | <a href="{{ route('login') }}">Login</a>
+    </p>
 </footer>
 </body>
 </html>

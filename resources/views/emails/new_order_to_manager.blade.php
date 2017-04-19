@@ -140,7 +140,8 @@
                                             </h4>
                                         @endif
                                         <h4>
-                                            <a href="{{ route('showAdminDashboard') }}">View in Admin Dashboard</a>
+                                            <a href="{{ route('viewOnDemandOpenOrders',['OrderId' => $order->id]) }}">View
+                                                in Admin Dashboard</a>
                                         </h4>
                                     </td>
                                 </tr>

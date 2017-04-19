@@ -7,29 +7,46 @@ use App\Models\CourierOrder;
 use App\Models\Order;
 use App\User;
 use Doctrine\Instantiator\Exception\InvalidArgumentException;
+use Symfony\Component\Console\Exception\RuntimeException;
 
 class ManageOrder
 {
     protected $order;
+    protected $courier;
 
     public function __construct(Order $order)
     {
         $this->order = $order;
+        $this->courier = $this->order->getCourier();
     }
 
     public function assignToOrder(User $user)
     {
+        if (!empty($this->courier)) {
+            throw new InvalidArgumentException('Courier already assigned to order, remove the courier first');
+        }
+        $this->courier = $user;
         // call master pricing func
         $courier_order = new CourierOrder;
+        // determine courier payment
         $courier_order->courier_payment =
             DeliveryInfo::getMaxRestaurantCourierPayment($this->order);
+
+        // set up the courier order relation to know this courier did this order
         $courier_order->order_id = $this->order->id;
         $courier_order->courier_id = $user->id;
-        // order is being processed
-        $this->processingStatus(true);
-        $courier_info = new CourierInfo($user);
-        $courier_info->setIsDeliveringOrder(true, $this->order->id);
         $courier_order->save();
+    }
+
+    public function setDeliveringNow()
+    {
+        if (empty($this->courier)) {
+            throw new RuntimeException('No courier has been assigned to the order, assign a courier first via $this->assignToOrder(User)');
+        }
+        // order is being processed now
+        $this->processingStatus(true);
+        $courier_info = new CourierInfo($this->courier);
+        $courier_info->setIsDeliveringOrder(true, $this->order->id);
     }
 
     public function processingStatus(bool $bool)
@@ -54,11 +71,8 @@ class ManageOrder
 
     public function removeAssignedCourier()
     {
-        // delete the courier order if there is a courier assigned
-        $courier_order = CourierOrder::where('order_id', $this->order->id)->first();
-        if (!empty($courier_order)) { // this shouldn't be empty, but just a sanity check
-            $courier_order->delete();
-        }
+        $this->order->couriers()->detach();
+        $this->courier = null; // null out the courier object for this OrderManger
     }
 
     /**

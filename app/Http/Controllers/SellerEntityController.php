@@ -11,6 +11,8 @@ use App\CustomTraits\HandlesTimeRanges;
 use App\CustomTraits\IsAvailable;
 use App\Models\Restaurant;
 use App\Models\SpecialEvent;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\Request;
 
 /**
  * @test Tests\Unit\Controllers\OrderFlow\SellerEntityControllerTest
@@ -38,20 +40,26 @@ class SellerEntityController extends Controller
 
     /**
      * @param Restaurant $rest
-     * @param $id
+     * @param $name string the CLEANSED version of the name of the restaurant, which is ensured to be unique
+     * @param \Illuminate\Http\Request $request The request object, possible containing meaningful query paramters
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\View\View
      */
-    public function showMenu(Restaurant $rest, int $id)
+    public function showMenu(Restaurant $rest, $name, Request $request)
     {
-        $restaurant = $rest->findOrFail($id);
+        $name = decleanseRestaurant($name);
+        $restaurant = $rest->where('name', $name)->first();
+        if (empty($restaurant)) {
+            throw new ModelNotFoundException();
+        }
         $menu_items = null;
         foreach ($restaurant->menuItems as $item) {
             $menu_items[$item->itemCategory->name][] = $item;
         }
         $item_type = ItemType::RESTAURANT_ITEM;
         $is_weekly_special = $restaurant->isSellerType(RestaurantOrderCategory::WEEKLY_SPECIAL);
+        $scroll_to_menu_item_id = $request->query('MenuItem');
         return view('orderFlow.showMenu',
-            compact('restaurant', 'menu_items', 'item_type', 'is_weekly_special'));
+            compact('restaurant', 'menu_items', 'item_type', 'is_weekly_special', 'scroll_to_menu_item_id'));
     }
 
     public function list_restaurants(Sellers $sellers)

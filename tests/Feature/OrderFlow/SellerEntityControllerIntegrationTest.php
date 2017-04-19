@@ -34,7 +34,7 @@ class SellerEntityControllerIntegrationTest extends TestCase
         $on_demand_rest = Restaurant::where('seller_type', RestaurantOrderCategory::ON_DEMAND)->first(); // eloquent is already tested
         factory(ItemCategory::class)->create(['name' => 'Sandwiches']);
         factory(MenuItem::class)->create(['name' => 'My Menu Item', 'restaurant_id' => $on_demand_rest->id]);
-        $this->visit(route('showMenu', ['id' => $on_demand_rest->id]))
+        $this->visit(route('showMenu', ['name' => cleanseRestName($on_demand_rest->name)]))
             ->see('My Menu Item')
             ->see('Sandwiches');
     }
@@ -50,7 +50,7 @@ class SellerEntityControllerIntegrationTest extends TestCase
         $on_demand_rest = Restaurant::where('seller_type', RestaurantOrderCategory::ON_DEMAND)->first(); // eloquent is already tested
         factory(ItemCategory::class)->create(['name' => 'Sandwiches']);
         factory(MenuItem::class)->create(['name' => 'My Menu Item', 'restaurant_id' => $on_demand_rest->id]);
-        $this->visit(route('showMenu', ['id' => $on_demand_rest->id]))
+        $this->visit(route('showMenu', ['name' => cleanseRestName($on_demand_rest->name)]))
             ->assertViewHas('is_weekly_special', false)
             ->assertViewHas('item_type');
     }
@@ -66,7 +66,6 @@ class SellerEntityControllerIntegrationTest extends TestCase
         $rest = $this->makeRestaurant(RestaurantOrderCategory::ON_DEMAND, 3);
         $this->makeResourceAvailable($rest, 'restaurant_id');
         $is = new IsAvailable($rest);
-        \Log::info($is->isAvailableNow());
         factory(ItemCategory::class)->create(['name' => 'Sandwiches']);
         $menu_item = factory(MenuItem::class)->create(['name' => 'My Menu Item', 'restaurant_id' => $rest->id]);
         // make a time range that has expired (is in the past)
@@ -81,7 +80,7 @@ class SellerEntityControllerIntegrationTest extends TestCase
         $cart_item = new CartItem($menu_item->id, ItemType::RESTAURANT_ITEM);
         $cart = new ShoppingCart();
         $cart->putItems([$cart_item]);
-        $this->visit(route('showMenu', ['id' => $rest->id]))
+        $this->visit(route('showMenu', ['name' => cleanseRestName($rest->name)]))
             ->see($cart_item->getName() . ' from ' . $cart_item->getSellerEntity()->name);
     }
 
@@ -124,7 +123,7 @@ class SellerEntityControllerIntegrationTest extends TestCase
         // IS NOT available right now
 
         // this asserts that the view shows the menu item as not available
-        $this->visit(route('showMenu', ['id' => $rest->id]))
+        $this->visit(route('showMenu', ['name' => cleanseRestName($rest->name)]))
             ->see('This item is not available right now');
     }
 

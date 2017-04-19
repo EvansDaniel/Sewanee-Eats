@@ -6,3 +6,14 @@ function setWindowConfirmation(buttonIdentifier, confirmationText) {
     }
   });
 }
+
+function scrollToItem(scrollTime) {
+  var itemId = $('#scroll-to-id').data('scroll-to');
+  if (itemId == null) {
+    return null;
+  }
+  var item = $('#' + itemId);
+  $('html, body').animate({
+    scrollTop: item.offset().top - 300
+  }, scrollTime);
+}

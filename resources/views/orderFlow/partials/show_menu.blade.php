@@ -2,9 +2,8 @@
     <div class="row" id="restaurant-logo">
         <div class="col-lg-offset-5 col-lg-2 col-md-2 col-md-offset-5 col-sm-4 col-sm-offset-4 col-xs-offset-4 col-xs-4">
 
-            {{--<img class="img-circle img-thumbnail" src="{{ $restaurant->image_url }}">--}}
             <img class="img-circle img-thumbnail" id="restaurant-logo"
-                 src="{{ asset('images/branding/brand_tall_logo.png',env('APP_ENV') != 'local') }}">
+                 src="{{ asset($restaurant->image_url,env('APP_ENV') != 'local') }}">
             <hr id="custom-line">
         </div>
     </div>
@@ -24,7 +23,6 @@
             </div>
         @endif
 
-        {{--<h1 align="center">{{ $restaurant->name }}'s Menu</h1>--}}
         @if(empty($menu_items))
             <h1>No menu items exist yet... Coming soon</h1>
         @else
@@ -39,7 +37,7 @@
 
                             <li class="menu-li clickable is-available list-group-item col-lg-4 col-md-4 col-sm-12 col-xs-12"
                                 data-is-available="{{ $item->isAvailableNow() }}"
-                                data-is-weekly-special="{{ $is_weekly_special }}">
+                                data-is-weekly-special="{{ $is_weekly_special }}" id="{{ $item->id }}">
                                 @if(!$is_weekly_special)
                                     <div>
                                         {{ $item->isAvailableNow() == 1 ? "" : "This item is not available right now" }}

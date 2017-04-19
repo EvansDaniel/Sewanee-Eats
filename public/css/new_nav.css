@@ -39,16 +39,6 @@
     }
 }
 @media only screen and (min-width: 768px){
-    .navbar-logo {
-        background: url('../images/branding/brand-tall-cropped.png') no-repeat center center;
-        width: 320px;
-        height: 99px;
-        background-size: cover;
-        position: absolute;
-        top: -12px;
-        left: 10px;
-        z-index: 1051;
-    }
     .brand-wrap{
         position: absolute;
         /*border: 1px solid grey;*/
@@ -64,10 +54,26 @@
         margin-left: 5px;
     }
 }
-@media only screen and (max-width: 767px) {
+
+/* big screen */
+@media only screen and (min-width: 1001px) {
+    .navbar-logo {
+        background: url('../images/branding/brand-tall-cropped.png') no-repeat center center;
+        width: 150%;
+        height: 99px;
+        background-size: cover;
+        position: absolute;
+        top: -12px;
+        left: 10px;
+        z-index: 1051;
+    }
+}
+
+/* small screen */
+@media only screen and (max-width: 1000px) {
     .navbar-logo {
         background: url('../images/branding/brand_tall_logo.png') no-repeat center center;
-        width: 150px;
+        width: 185px;
         height: 75px;
         background-size: cover;
         position: absolute;
@@ -76,6 +82,9 @@
         z-index: 1051;
 
     }
+}
+
+@media only screen and (max-width: 767px) {
     .brand-wrap{
         position: absolute;
         width:210px;

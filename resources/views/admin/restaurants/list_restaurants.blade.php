@@ -17,11 +17,12 @@
                 <button class="btn btn-primary form-control" type="button">Add a restaurant</button>
             </a>
             <br><br>
+            {{ generateScrollTo($scroll_to_rest_id) }}
             @if(count($rests) == 0)
                 <h1>No restaurants in database</h1>
             @else
                 @foreach($rests as $r)
-                    <li class="list-group-item">
+                    <li class="list-group-item" id="{{ $r->id }}">
                         <div class="row">
                             <img height="100"
                                  src="{{ $r->image_url }}"
@@ -110,6 +111,7 @@
     </div>
     <script src="{{ asset('js/helpers.js',env('APP_ENV') !== 'local')  }}"></script>
     <script>
+      scrollToItem(1000);
       setWindowConfirmation('.delete-restaurant-button', 'Are you sure you want to delete the restaurant?');
     </script>
 @stop

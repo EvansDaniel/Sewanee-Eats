@@ -7,7 +7,7 @@
 
 @section('body')
     <div class="container">
-        <a href="{{ route('adminListRestaurants') }}">
+        <a href="{{ route('adminListRestaurants',['RestaurantId' => $rest->id]) }}">
             <button type="button" class="btn btn-dark">Back to restaurant listing</button>
         </a>
         <h1>Update Restaurant</h1>

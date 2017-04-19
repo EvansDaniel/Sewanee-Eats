@@ -8,7 +8,7 @@
     <link rel="stylesheet" href={{ asset('css/restaurants.css',env('APP_ENV') !== 'local') }}>
     <script src="{{ asset('js/restaurants.js',env('APP_ENV') !== 'local') }}"></script>
     <section class="container header">
-        <div class="container-fluid location_wrap">
+        <div class="container-fluid location_wrap" id="on-demand-rests">
             <hr>
             <h3 id="mountain">ON DEMAND RESTAURANTS</h3>
         </div>
@@ -28,7 +28,7 @@
                         @if(env('APP_ENV') == ($type = "local"))
                             {{ $restaurant->name . " This only shows up on " . $type}}
                         @endif
-                        <a href="{{ route('showMenu',['id' => $restaurant->id]) }}"
+                        <a href="{{ route('showMenu',['name' => cleanseRestName($restaurant->name)]) }}"
                            data-open="{{$restaurant->isAvailableNow()}}" class="on-demand-links">
                             <!-- These urls must be https -->
                             <img src="{{ $restaurant->image_url }}"
@@ -37,39 +37,36 @@
                                 open
                             </p>
                         </a>
-                        {{--{{ $restaurant->address }}--}}
                     </li>
                 @endforeach
             @endif
 
         </ul>
     </section>
-    <section class="container header">
+    <section class="container header" id="special-rests">
         <div class="container-fluid  location_wrap">
             <hr>
-            <h3 id="mountain">WEEKLY SPECIALS</h3>
-        </div>
-        @if(empty($sellers->getWeeklySpecials()))
-            <h5 class="restaurant-cat-header">Sorry we are currently closed and not taking on deman
-                d orders</h5>
-        @else
-        <!-- TODO: change the hardcoded chick fil a to the names of the weekly special restaurants -->
+            <h3 id="mountain">SPECIAL DELIVERIES</h3>
             <h5 id="no-specials" class="restaurant-cat-header"><a
                         href="{{ route('howItWorks') }}#specials">Learn more about weekly specials</a></h5>
-            <hr>
+        </div>
+        @if(empty($sellers->getWeeklySpecials()))
+            <h5 class="restaurant-cat-header">Sorry we are currently closed and not taking on demand orders</h5>
+        @else
+        <!-- TODO: change the hardcoded chick fil a to the names of the weekly special restaurants -->
             {{--<a href="{{ route('clearCart') }}">Clear Session</a>--}}
             @foreach($sellers->getWeeklySpecials() as $s_restaurant)
                 <ul class="list-group container" id="restaurant-group">
                     <li style="display: none"
                         class="restaurant list-group-item col-lg-3 col-md-3 col-xs-8 col-xs-offset-2 col-sm-8 col-sm-offset-2">
-                        <a href="{{ route('showMenu',['id' => $s_restaurant->id]) }}"
+                        <a href="{{ route('showMenu',['name' => cleanseRestName($s_restaurant->name)]) }}"
                            data-open="{{$s_restaurant->isAvailableNow()}}" class="weekly-specials-link">
                             <!-- These urls must be https -->
                             <img src="{{ $s_restaurant->image_url }}"
                                  id="rest-images" class="img-responsive">
                             <!-- Banner here -->
                             <p class="weekly-status">
-                                We are taking orders for this special until
+                                We are taking orders for {{ $s_restaurant->name }} until
                                 {{ $s_restaurant->getAvailability()->getEndTime()}}
                             </p>
                             <!-- end banner -->

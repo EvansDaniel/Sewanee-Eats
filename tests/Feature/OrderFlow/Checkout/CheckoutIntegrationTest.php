@@ -39,7 +39,6 @@ class CheckoutIntegrationTest extends TestCase
         $cart = new ShoppingCart();
         $cart_item = new CartItem($menu_item->id, ItemType::RESTAURANT_ITEM);
         $cart->putItems([$cart_item]);
-        \Log::info($cart->hasSpecialItems());
         $this->visit(route('checkout'))
             ->seePageIs(route('checkout'))
             ->see('Your Specials Items')// see the weekly special category

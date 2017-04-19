@@ -1,4 +1,14 @@
+@extends('admin.main.admin_dashboard_layout')
 
+@section('head')
+    <title>Order Summary for Order {{ $next_order->id }}</title>
+@stop
+
+@section('body')
+    <!-- Go back to the order the user was previously looking at -->
+    <a href="{{ route('viewOnDemandOpenOrders',['OrderId' => $next_order->id]) }}">
+        <button class="btn btn-dark" type="button">Back to on Demand Orders</button>
+    </a>
 <div class="container">
     <div>
         <p>Total To Charge Customer: ${{ $next_order->orderPriceInfo->total_price }}</p>
@@ -49,7 +59,7 @@
         </ul>
     </div>
     {{--<a href="{{ route('openOnDemandOrders') }}">--}}
-        {{--<button class="btn btn-primary">back</button>--}}
+    {{--<button class="btn btn-primary">back</button>--}}
     {{--</a>--}}
     <style>
         body{
@@ -58,4 +68,5 @@
         }
     </style>
 </div>
-p
+
+@stop

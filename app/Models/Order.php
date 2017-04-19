@@ -106,6 +106,11 @@ class Order extends Model implements HasItems
         return $query->where('is_cancelled', true);
     }
 
+    public function hasCourier()
+    {
+        return count($this->couriers) == 1;
+    }
+
     /**
      * @param $courier_type integer constant from class CourierTypes
      * @return boolean returns true if the order has the given $courier_type

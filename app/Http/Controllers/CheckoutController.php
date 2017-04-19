@@ -49,6 +49,10 @@ class CheckoutController extends Controller
         // TODO: integrations tests with CustomerOrder to assert valid DB state after this controller method is called
         // TODO: or find a better way to mock CustomerOrder
         $new_order = CustomerOrder::withRequest($cart, $bill, $request);
+        $validator = $new_order->orderValidation($view_payment_type);
+        if ($validator->fails()) { // check we have a valid entry
+            return back()->withErrors($validator);
+        }
         $new_order = $this->handleNewOrder($new_order, $view_payment_type);
         Event::fire(new NewOrderReceived($new_order->getOrder()));
         \Session::forget('cart');
@@ -60,20 +64,17 @@ class CheckoutController extends Controller
 
     public function handleNewOrder(CustomerOrder $new_order, int $view_payment_type)
     {
-        if ($view_payment_type != 1 && $view_payment_type != 0) {
-            throw new InvalidArgumentException('$view_payment_type is invalid value: must be 0 or 1');
+        if ($view_payment_type != PaymentType::STRIPE_PAYMENT && $view_payment_type != PaymentType::VENMO_PAYMENT) {
+            throw new InvalidArgumentException('$view_payment_type is invalid value: 
+            must be' . PaymentType::STRIPE_PAYMENT . ' or ' . PaymentType::VENMO_PAYMENT . '');
         }
         // handle the new order based on the view parameter attached that
         // was ultimately attached to the Request object
         if ($view_payment_type == 1) { // venmo order
-            if (!$new_order->orderValidation(PaymentType::VENMO_PAYMENT)->fails()) {
-                $new_order->handleVenmoOrder();
-            }
+            $new_order->handleVenmoOrder();
         } else if ($view_payment_type == 0) { // stripe order
-            if (!$new_order->orderValidation(PaymentType::STRIPE_PAYMENT)->fails()) {
-                if (!empty($err_msg = $new_order->handleStripeOrder())) {// error with stripe if true
-                    return back()->with('status_bad', $err_msg);
-                }
+            if (!empty($err_msg = $new_order->handleStripeOrder())) {// error with stripe if true
+                return back()->with('status_bad', $err_msg);
             }
         }
         return $new_order;

@@ -5,6 +5,9 @@
 @stop
 @section('body')
     <div class="clearfix"></div>
+    <a href="{{ route('adminShowMenu',['id' => $menu_item->restaurant->id,'MenuItem' => $menu_item->id]) }}">
+        <button type="button" class="btn btn-dark">Back to Menu</button>
+    </a>
     <div class="container" id="new-open-time-container">
         <p>Add Multiple Accessories to {{ $menu_item->name }}</p>
         <div>

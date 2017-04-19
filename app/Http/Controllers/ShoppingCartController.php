@@ -8,6 +8,7 @@ use App\CustomClasses\ShoppingCart\ItemType;
 use App\CustomClasses\ShoppingCart\RestaurantOrderCategory;
 use App\CustomClasses\ShoppingCart\ShoppingCart;
 use App\CustomTraits\HandlesTimeRanges;
+use App\Events\ItemAddedToCart;
 use App\Models\Accessory;
 use App\Models\EventItem;
 use App\Models\MenuItem;
@@ -68,13 +69,14 @@ class ShoppingCartController extends Controller
         }
         $error_val = $cart->putItems($cart_items);
         if ($error_val == -3) { // tried to add item with too many diff restaurants
-            return back()->with('status_bad', 'Adding the item would cause you to order from too many different on demand restaurants. The max is two different on demand restaurants.');
+            return back()->with('status_bad',
+                'Adding the item would cause you to order from three different On Demand restaurants. The max we are capable of at this time is two different restaurants. Sorry for the inconvenience!');
         }
         if ($error_val == -1) {
             // on demand overflow
         }
-        \Session::flash('user_added_item', 1);
-        return back()->with('status_good', 'Item added to the cart');
+        \Event::fire(new ItemAddedToCart($cart, $cart_items));
+        return redirect(route('showMenu', ['name' => cleanseRestName(MenuItem::find($item_id)->restaurant->name), 'MenuItem' => $item_id]));
     }
 
     public function isInvalidItemTypeOrItemId(int $item_id, int $item_type)

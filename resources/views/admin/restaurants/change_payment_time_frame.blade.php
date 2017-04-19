@@ -24,8 +24,11 @@
 
 </style>
 @section('body')
+    <a href="{{ route('adminListRestaurants',['RestaurantId' => $rest->id]) }}">
+        <button class="btn btn-dark" type="button">Back to restaurant listing</button>
+    </a>
     <div class="container" id="new-open-time-container">
-        <form action="{{ url()->to(parse_url(route('updateOpenTime',[]),PHP_URL_PATH),[],env('APP_ENV') !== 'local') }}"
+        <form action="{{ formUrl('updateOpenTime') }}"
               method="post">
             <div>
                 <div class="checkbox checkbox-primary">

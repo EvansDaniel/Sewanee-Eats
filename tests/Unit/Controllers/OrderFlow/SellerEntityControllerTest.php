@@ -8,6 +8,7 @@ use App\Http\Controllers\SellerEntityController;
 use App\Models\Restaurant;
 use App\TestTraits\AvailabilityMaker;
 use App\TestTraits\HandlesCartItems;
+use Illuminate\Http\Request;
 use Tests\TestCase;
 
 class SellerEntityControllerTest extends TestCase
@@ -41,9 +42,10 @@ class SellerEntityControllerTest extends TestCase
             ->andReturn(false);
         $seller_entity_controller = new SellerEntityController($cart_mock);
         $rest_mock = $this->mock(Restaurant::class);
-        $rest_mock->shouldReceive('findOrFail')
-            ->once()->andReturn($rest);
-        $showMenuRet = $seller_entity_controller->showMenu($rest_mock, $rest->id);
+        $rest_mock->shouldReceive(['where' => $rest]);
+        $request = $this->mock(Request::class);
+        $request->shouldReceive('query')->andReturn(null);
+        $showMenuRet = $seller_entity_controller->showMenu($rest_mock, cleanseRestName($rest->name), $request);
         self::assertNotInstanceOf('\Illuminate\Http\RedirectResponse', $showMenuRet);
     }
 
@@ -59,7 +61,9 @@ class SellerEntityControllerTest extends TestCase
         $cart_mock->shouldReceive('checkMenuItemAndRestaurantAvailabilityAndDelete')
             ->andReturn(false);
         $seller_entity_controller = new SellerEntityController($cart_mock);
-        $showMenuRet = $seller_entity_controller->showMenu($rest, $rest->id);
+        $request = $this->mock(Request::class);
+        $request->shouldReceive('query')->andReturn(null);
+        $showMenuRet = $seller_entity_controller->showMenu($rest, cleanseRestName($rest->name), $request);
         // expect that we redirect back
         self::assertNotInstanceOf('\Illuminate\Http\RedirectResponse', $showMenuRet);
     }
@@ -76,7 +80,9 @@ class SellerEntityControllerTest extends TestCase
         $cart_mock->shouldReceive('checkMenuItemAndRestaurantAvailabilityAndDelete')
             ->once()->andReturn(['blah']);
         $seller_entity_controller = new SellerEntityController($cart_mock);
-        $showMenuRet = $seller_entity_controller->showMenu($rest, $rest->id);
+        $request = $this->mock(Request::class);
+        $request->shouldReceive('query')->andReturn(null);
+        $showMenuRet = $seller_entity_controller->showMenu($rest, cleanseRestName($rest->name), $request);
         self::assertNotInstanceOf('\Illuminate\Http\RedirectResponse', $showMenuRet);
     }
 }

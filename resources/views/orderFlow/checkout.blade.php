@@ -105,7 +105,7 @@
                                 <input class="form-control pay-input" maxlength="100"
                                        type="text"
                                        value="@if(env('APP_ENV') !== 'production') {{ 'Daniel Evans' }} @endif"
-                                       name="name" id="full-name" placeholder="Full Name">
+                                       name="name" id="full-name" placeholder="Full Name" required>
                                 <br>
                                 @if(!empty($cart->getOnDemandItems()))
                                     {{-- TODO: change this to use the $cart variable--}}
@@ -320,6 +320,5 @@
             src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCRzYmXWGvA4FPHffiFUMyTCWLVSlYL04s&libraries=geometry,places"></script>
     <script src="{{ asset('js/Checkout/delivery_time_estimation.js',env('APP_ENV') != 'local') }}"></script>
     <script src="{{ asset('js/Checkout/checkout.js',env('APP_ENV') != 'local') }}"></script>
-
 
 @stop

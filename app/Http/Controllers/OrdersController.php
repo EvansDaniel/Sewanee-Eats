@@ -7,6 +7,7 @@ use App\CustomClasses\ShoppingCart\ItemLister;
 use App\CustomClasses\ShoppingCart\PaymentType;
 use App\CustomClasses\ShoppingCart\RestaurantOrderCategory;
 use App\Models\Order;
+use App\User;
 use Auth;
 use Carbon\Carbon;
 use Doctrine\Instantiator\Exception\InvalidArgumentException;
@@ -15,7 +16,7 @@ use Illuminate\Http\Request;
 // TODO: add order change logic to this controller
 class OrdersController extends Controller
 {
-    public function viewOnDemandOpenOrders(Order $order)
+    public function viewOnDemandOpenOrders(Order $order, Request $request)
     {
         $orders = Order::all()->sort(function ($a, $b) {
             $carbon_a = new Carbon($a->created_at);
@@ -29,7 +30,9 @@ class OrdersController extends Controller
             }
         }
         $venmo_payment_type = PaymentType::VENMO_PAYMENT;
-        return view('admin.order.on_demand_orders', compact('on_demand_open_orders', 'venmo_payment_type'));
+        $couriers = User::ofType('courier');
+        $scroll_to_item_id = $request->query('OrderId');
+        return view('admin.order.on_demand_orders', compact('on_demand_open_orders', 'venmo_payment_type', 'couriers', 'scroll_to_item_id'));
     }
 
     public function toggleOrderIsDelivered(Order $order,Request $request)
@@ -54,14 +57,31 @@ class OrdersController extends Controller
         return back()->with("status_good", "Order payment status confirmed as " . (!$is_paid_for ? "not " : "" . "paid for"));
     }
 
+    public function changeCourierForOrder(User $user, Order $order, Request $request)
+    {
+        $courier_id = $request->input('courier_id');
+        $order_id = $request->input('order_id');
+        $order = $order->find($order_id);
+        $courier = $user->find($courier_id);
+        $is_delivered = $order->is_delivered;
+        $msg = "";
+        if (!$is_delivered && !$courier->isOnShift()) {
+            $msg = "Warning: The courier you selected is not on the current shift and the order hasn't been delivered yet!";
+        }
+        $order_manager = new ManageOrder($order);
+        $order_manager->removeAssignedCourier();
+        // if the order is delivered, set is processing to false
+        $order_manager->assignToOrder($courier);
+        if (!$is_delivered) { // if the order is not delivered, set it to being delivered by the assigned courier
+            $order_manager->setDeliveringNow();
+        }
+        return redirect(route('viewOnDemandOpenOrders', ['OrderId' => $order_id]))
+            ->with('status_good', $msg . ' Courier updated.');
+    }
+
     public function inputExtraOrder()
     {
         // TODO: make it so that a manager/admin can add order not filled on site
-    }
-
-    public function undoCloseVenmoOrder(Request $request)
-    {
-
     }
 
     public function toggleRefundOrder(Request $request)
@@ -114,7 +134,7 @@ class OrdersController extends Controller
         }
     }
 
-    public function listWeeklyOrders()
+    public function viewSpecialOrders()
     {
 
     }

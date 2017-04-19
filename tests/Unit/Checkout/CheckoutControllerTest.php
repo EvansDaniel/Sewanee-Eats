@@ -16,7 +16,6 @@ use App\TestTraits\AvailabilityMaker;
 use App\TestTraits\HandlesCartItems;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Validator;
 use Tests\TestCase;
 
 class CheckoutControllerTest extends TestCase
@@ -66,14 +65,8 @@ class CheckoutControllerTest extends TestCase
     {
         $cc = new CheckoutController();
         $customer_order = $this->mock(CustomerOrder::class);
-        $validator = $this->mock(Validator::class);
-        // get through validation
-        $validator->shouldReceive('fails')->andReturn(false);
-        $customer_order->shouldReceive('orderValidation')
-            ->with(PaymentType::VENMO_PAYMENT)
-            ->andReturn($validator);
         $customer_order->shouldReceive('handleVenmoOrder')->once();
-        $customer_order = $cc->handleNewOrder($customer_order, 1); // this is a venmo order
+        $customer_order = $cc->handleNewOrder($customer_order, PaymentType::VENMO_PAYMENT); // this is a venmo order
         self::assertInstanceOf(CustomerOrder::class, $customer_order);
     }
 
@@ -87,15 +80,9 @@ class CheckoutControllerTest extends TestCase
     {
         $cc = new CheckoutController();
         $customer_order = $this->mock(CustomerOrder::class);
-        $validator = $this->mock(Validator::class);
-        // get through validation
-        $validator->shouldReceive('fails')->andReturn(false);
-        $customer_order->shouldReceive('orderValidation')->once()
-            ->with(PaymentType::STRIPE_PAYMENT)
-            ->andReturn($validator);
         $customer_order->shouldReceive('handleStripeOrder')->once()
             ->andReturn(null); // no error message from stripe
-        $customer_order = $cc->handleNewOrder($customer_order, 0); // this is a venmo order
+        $customer_order = $cc->handleNewOrder($customer_order, PaymentType::STRIPE_PAYMENT); // this is a stripe order
         self::assertInstanceOf(CustomerOrder::class, $customer_order);
     }
 
@@ -120,12 +107,6 @@ class CheckoutControllerTest extends TestCase
         $cart->putItems([$cart_item]);
         $cc = new CheckoutController();
         $customer_order = $this->mock(CustomerOrder::class);
-        $validator = $this->mock(Validator::class);
-        // get through validation
-        $validator->shouldReceive('fails')->andReturn(false);
-        $customer_order->shouldReceive('orderValidation')->once()
-            ->with(PaymentType::STRIPE_PAYMENT)
-            ->andReturn($validator);
         $customer_order->shouldReceive('handleStripeOrder')->once()
             ->andReturn($blah = 'blah'); // no error message from stripe
         // simulate visiting the checkout prior to being redirected
