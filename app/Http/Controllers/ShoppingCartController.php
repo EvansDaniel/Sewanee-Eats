@@ -48,7 +48,7 @@ class ShoppingCartController extends Controller
         }
         // if the there is no shift right now (only for on demand)
         if ($rest_is_on_demand && !Shift::onDemandIsAvailable()) {
-            return back()->with('status_bad', $this->onDemandNotAvailableMsg());
+            return $this->getRedirectToMenu('status_bad', $this->onDemandNotAvailableMsg());
         }
         $cart = new ShoppingCart();
         $cart_items = [];
