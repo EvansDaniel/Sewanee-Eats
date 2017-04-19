@@ -9,7 +9,6 @@
 namespace App\CustomClasses\Advertisements;
 
 
-use App\CustomClasses\Schedule\Shift;
 use App\CustomClasses\ShoppingCart\ShoppingCart;
 use App\Models\Restaurant;
 
@@ -42,7 +41,7 @@ class OnDemandAdvertisement
     {
         if (!$this->cart->hasSpecialItems() && Restaurant::availableToCWeeklySpecial()->count() > 0) {
             return $this->linkToSpecials() . '<br>' . $this->getCheckoutButton();
-        } else if (!$this->cart->hasOnDemandItems() && Shift::onDemandIsAvailable()) {
+        } else if (!$this->cart->hasOnDemandItems()) {
             return $this->linkToOnDemand() . '<br>' . $this->getCheckoutButton();
         }
         return $this->getCheckoutButton();
@@ -67,7 +66,7 @@ class OnDemandAdvertisement
 
     private function linkToOnDemand()
     {
-        return "Feeling hungry now? We'll deliver for you! Check out our <a href='" . route('list_restaurants') . "#on-demand'>On-Demand service</a>";
+        return "Feeling hungry? We'll deliver for you! Check out our <a href='" . route('list_restaurants') . "#on-demand'>On-Demand service</a>";
     }
 
     private function genericAddedMessage()
