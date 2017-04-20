@@ -124,6 +124,7 @@ Route::get('fixDB', function () {
                 $order->orderPriceInfo->profit += .75;
             }
         }
+        $order->orderPriceInfo->save();
     }
 });
 
