@@ -18,8 +18,6 @@
 })->name('clearSession');*/
 
 // -------------------------------- Home Page Routes ----------------------------------------------------------
-use App\CustomClasses\ShoppingCart\RestaurantOrderCategory;
-use App\Models\Order;
 
 Route::get('/', 'HomeController@showHome')->name('home');
 Route::get('home', function () { // redirect route to home
@@ -114,7 +112,7 @@ Route::group([
         return view('admin.order.orders');
     })->name('orders');
 });
-
+/*
 Route::get('fixDB', function () {
     $orders = Order::all();
     foreach ($orders as $order) {
@@ -126,7 +124,7 @@ Route::get('fixDB', function () {
         }
         $order->orderPriceInfo->save();
     }
-});
+});*/
 
 /**
  * Income and expense related routes
