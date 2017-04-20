@@ -83,7 +83,8 @@ class SpecialBilling
         if ($this->getNumberOfWeeklySpecialItems() == 0) {
             return 0;
         } else {
-            return $this->getBaseDeliveryFee() - ($this->countItemsWithDiscount() * $this->getDiscountValue());
+            return $this->getBaseDeliveryFee() - ($this->countItemsWithDiscount() * $this->getDiscountValue())
+                + $this->markup * $this->num_weekly_special_items;
         }
     }
 

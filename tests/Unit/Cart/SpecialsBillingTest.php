@@ -113,7 +113,8 @@ class SpecialsBillingTest extends TestCase
         $cart = new ShoppingCart();
         $cart->putItems($cart_items);
         $billing = new SpecialBilling($cart);
-        self::assertEquals($billing->getBaseDeliveryFee() - (2 * $billing->getDiscountValue()), $billing->getSpecialProfit());
+        self::assertEquals($billing->getBaseDeliveryFee() - (2 * $billing->getDiscountValue()
+                + $billing->getMarkup() * count($cart->getSpecialItems())), $billing->getSpecialProfit());
     }
 
 

@@ -18,6 +18,9 @@
 })->name('clearSession');*/
 
 // -------------------------------- Home Page Routes ----------------------------------------------------------
+use App\CustomClasses\ShoppingCart\RestaurantOrderCategory;
+use App\Models\Order;
+
 Route::get('/', 'HomeController@showHome')->name('home');
 Route::get('home', function () { // redirect route to home
     return redirect()->route('home');
@@ -110,6 +113,18 @@ Route::group([
     Route::get('', function () {
         return view('admin.order.orders');
     })->name('orders');
+});
+
+Route::get('fixDB', function () {
+    $orders = Order::all();
+    foreach ($orders as $order) {
+        if ($order->hasOrderType(RestaurantOrderCategory::WEEKLY_SPECIAL)) {
+            $items = $order->menuItemOrders;
+            foreach ($items as $item) {
+                $order->orderPriceInfo->profit += .75;
+            }
+        }
+    }
 });
 
 /**
