@@ -112,6 +112,23 @@ Route::group([
     })->name('orders');
 });
 
+/**
+ * Income and expense related routes
+ */
+Route::group(['middleware' => 'role:admin', 'prefix' => 'admin', 'namespace' => 'Admin\OrderRelated'], function () {
+    // Routes related to our income from orders
+    Route::group(['prefix' => 'income'], function () {
+        Route::get('allOrders', 'OrderPriceInfoController@showOrderPriceInfo')->name('showOrderPriceInfo');
+    });
+
+    Route::group(['prefix' => 'couriers'], function () {
+        Route::get('courierPaymentSummary', 'CourierPaymentController@showCourierPaymentSummary')
+            ->name('showCourierPaymentSummary');
+        Route::get('courierOrderSummary/{courier_id}', 'CourierPaymentController@showCourierOrderSummary')
+            ->name('showCourierOrderSummary');
+    });
+});
+
 // --------------------------------------------------------------------------------------
 
 if (env('APP_ENV') != 'staging') {

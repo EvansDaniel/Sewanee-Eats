@@ -41,6 +41,12 @@ class User extends Authenticatable implements Availability, ResourceTimeRange
         return $role_type->users;
     }
 
+    public function orders()
+    {
+        return $this->belongsToMany('App\Models\Order', 'couriers_orders',
+            'courier_id', 'order_id')->withPivot('courier_payment')->withTimestamps();
+    }
+
     public function courierInfo()
     {
         if ($this->hasRole('courier')) {

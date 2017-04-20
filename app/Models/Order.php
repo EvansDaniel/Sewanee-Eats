@@ -66,6 +66,31 @@ class Order extends Model implements HasItems
             'order_id', 'restaurant_id');
     }
 
+    public function orderRestsToString()
+    {
+        $rests = $this->getRestaurants();
+        $str = "";
+        $rest_len = count($rests);
+        for ($i = 0; $i < $rest_len; $i++) {
+            $str .= ($i != $rest_len - 1) ? $rests[$i] . "," : $rests[$i];
+        }
+        return $str;
+    }
+
+    public function getRestaurants()
+    {
+        $rest_ids = [];
+        $restaurants = [];
+        foreach ($this->menuItemOrders as $item_order) {
+            $rest = $item_order->item->restaurant;
+            if (!in_array($rest->id, $rest_ids)) {
+                $restaurants[] = $rest;
+                $rest_ids[] = $rest->id;
+            }
+        }
+        return $restaurants;
+    }
+
     public function orderPriceInfo()
     {
         return $this->hasOne('App\Models\OrderPriceInfo', 'order_id');

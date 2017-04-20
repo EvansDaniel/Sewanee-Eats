@@ -24,17 +24,20 @@ class CartBilling
     protected $delivery_fee;
     protected $cost_of_food;
     protected $discount;
+    protected $is_stripe_order;
 
     /**
      * CartBilling constructor.
      * @param $special_billing SpecialBilling the on demand billing object for the current session's cart
      * @param $on_demand_billing OnDemandBilling the specials billing object for the current session's cart
+     * @param $is_stripe_order bool whether or not this is a stripe order
      */
-    public function __construct(SpecialBilling $special_billing, OnDemandBilling $on_demand_billing)
+    public function __construct(SpecialBilling $special_billing, OnDemandBilling $on_demand_billing, $is_stripe_order = false)
     {
         // I KNOW YOU WON'T LISTEN BUT...
         // THE ORDER OF THE FUNCTIONS BELOW MATTER, THEY BUILD ON EACH
         // OTHER AND DO NOT PROVIDE ERROR CHECKING
+        $this->is_stripe_order = $is_stripe_order;
         $this->on_demand_billing = $on_demand_billing;
         $this->special_billing = $special_billing;
         $this->tax_percent = 1.0925;
@@ -116,12 +119,13 @@ class CartBilling
         // profit per order is the calculated delivery fee
         // plus the mark up on each item * num items
         // minus expenses i.e. stripe fees
-        return $this->special_billing->getSpecialProfit() + $this->on_demand_billing->getOnDemandProfit();
+        $total_profit = $this->special_billing->getSpecialProfit() + $this->on_demand_billing->getOnDemandProfit();
+        return $total_profit == 0 ? $total_profit : ($total_profit - $this->getStripeFees());
     }
 
-    public function getStripeFees($is_stripe_order)
+    public function getStripeFees()
     {
-        if ($is_stripe_order) {
+        if ($this->is_stripe_order) {
             return $this->stripe_fees;
         }
         return 0;

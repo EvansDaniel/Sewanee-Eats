@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\CustomClasses\Orders\CustomerOrder;
 use App\CustomClasses\ShoppingCart\CartBilling;
 use App\CustomClasses\ShoppingCart\ItemLister;
+use App\CustomClasses\ShoppingCart\OnDemandBilling;
 use App\CustomClasses\ShoppingCart\PaymentType;
 use App\CustomClasses\ShoppingCart\ShoppingCart;
+use App\CustomClasses\ShoppingCart\SpecialBilling;
 use App\Events\NewOrderReceived;
 use Doctrine\Instantiator\Exception\InvalidArgumentException;
 use Illuminate\Http\Request;
@@ -40,14 +42,16 @@ class CheckoutController extends Controller
         }
         $view_payment_type = $request->input('payment_type');
         if (empty($view_payment_type)) {
-            $view_payment_type = 0;
-        } else if ($view_payment_type != 1) {
+            $view_payment_type = 0; // is stripe order
+        } else if ($view_payment_type != PaymentType::VENMO_PAYMENT) { // if not venmo order
             // if given an invalid view payment parameter, return back to checkout
             return back()->with('status_bad',
                 'Sorry there was a problem processing your order. Please try again');
         }
         // TODO: integrations tests with CustomerOrder to assert valid DB state after this controller method is called
         // TODO: or find a better way to mock CustomerOrder
+        // we need to tell the cart billing if this is or is not a stripe order
+        $bill = new CartBilling(new SpecialBilling($cart), new OnDemandBilling($cart), $view_payment_type == PaymentType::STRIPE_PAYMENT);
         $new_order = CustomerOrder::withRequest($cart, $bill, $request);
         $validator = $new_order->orderValidation($view_payment_type);
         if ($validator->fails()) { // check we have a valid entry

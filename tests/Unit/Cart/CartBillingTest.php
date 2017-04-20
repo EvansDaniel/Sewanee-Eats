@@ -129,4 +129,24 @@ class CartBillingTest extends TestCase
         $bill = new CartBilling($s = new SpecialBilling($cart), $d = new OnDemandBilling($cart));
         self::assertEquals($s->getCostOfFood() + $s->getDeliveryFee() + $d->getCostOfFood() + $d->getDeliveryFee(), $bill->getSubtotal());
     }
+
+    /**
+     * @test
+     * It calculates the profit correctly for stripe orders
+     */
+    public function profitForStripeOrders()
+    {
+        $cart = new ShoppingCart();
+        $bill = new CartBilling(new SpecialBilling($cart), new OnDemandBilling($cart), true); // is a stripe order
+        self::assertEquals(0, $bill->getProfit());
+        $rest = $this->makeRestaurant(RestaurantOrderCategory::ON_DEMAND, 3);
+        $m1 = $this->makeMenuItem(3, $rest->id);
+        $cart_items = $this->toCartItems([$m1]);
+        $cart->putItems($cart_items);
+        $on_demand_bill = new OnDemandBilling($cart);
+        $bill = new CartBilling(new SpecialBilling($cart), new OnDemandBilling($cart), true);
+        // we use just the demand_bill profit b/c we only have an on demand restaurant
+        // and we should subtract the stripe fees from that since it is a stripe order
+        self::assertEquals($on_demand_bill->getOnDemandProfit() - $bill->getStripeFees(), $bill->getProfit());
+    }
 }

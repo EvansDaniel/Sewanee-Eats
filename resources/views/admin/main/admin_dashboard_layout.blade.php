@@ -6,6 +6,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="{{ assetUrl('images/branding/brand_title_logo.ico') }}"/>
 
 
     <!-- Bootstrap -->
@@ -51,7 +52,7 @@
     @yield('head')
 </head>
 
-<body class="nav-md">
+<body class="nav-md" style="color: black; background: white;">
 
 @include('admin.main.admin_nav_bar')
 <br><br><br>
