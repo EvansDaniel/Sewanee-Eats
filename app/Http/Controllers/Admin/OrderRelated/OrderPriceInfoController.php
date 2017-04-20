@@ -28,7 +28,7 @@ class OrderPriceInfoController extends Controller
 
     public function showOrderPriceInfo(Order $order)
     {
-        $orders = $order->all();
+        $orders = $order->countable()->get();
         $order_calc = new OrderCalculation($orders);
         return view('admin.order.price_info.all_order_price_info',
             compact('orders', 'order_calc'));

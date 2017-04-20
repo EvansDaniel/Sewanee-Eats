@@ -12,11 +12,6 @@
 */
 
 
-/*Route::get('clearSession', function () {
-    Session::flush();
-    return back();
-})->name('clearSession');*/
-
 // -------------------------------- Home Page Routes ----------------------------------------------------------
 
 Route::get('/', 'HomeController@showHome')->name('home');
@@ -112,19 +107,6 @@ Route::group([
         return view('admin.order.orders');
     })->name('orders');
 });
-/*
-Route::get('fixDB', function () {
-    $orders = Order::all();
-    foreach ($orders as $order) {
-        if ($order->hasOrderType(RestaurantOrderCategory::WEEKLY_SPECIAL)) {
-            $items = $order->menuItemOrders;
-            foreach ($items as $item) {
-                $order->orderPriceInfo->profit += .75;
-            }
-        }
-        $order->orderPriceInfo->save();
-    }
-});*/
 
 /**
  * Income and expense related routes
