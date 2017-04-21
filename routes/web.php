@@ -82,7 +82,11 @@ Route::group([
     'prefix' => 'admin'], function () {
 
     // view special orders
-    Route::get('specialOrders', 'OrdersController@viewSpecialOrders')->name('viewSpecialOrders');
+    Route::get('specials', 'OrdersController@viewSpecials')->name('viewSpecials');
+    Route::get('specialOrders/{rest_id}/breakdown', 'OrdersController@itemBreakdown')
+        ->name('itemBreakdown');
+    Route::get('specialOrders/{rest_id}', 'OrdersController@viewSpecialOrders')
+        ->name('viewSpecialOrders');
     // view on demand orders
     Route::get('openOnDemandOrders', 'OrdersController@viewOnDemandOpenOrders')->name('viewOnDemandOpenOrders');
     // order summary for admin
@@ -167,20 +171,6 @@ Route::group([
     'prefix' => 'courierOrderOps', 'middleware:courier'], function () {
 
 });
-
-Route::group([
-    'prefix' => 'adminOrderOps', 'middleware:admin'], function () {
-
-    Route::post('closeVenmoOrder', 'OrdersController@closeVenmoOrder')
-        ->name('closeVenmoOrder');
-
-    Route::post('removeCancelledOrder', 'OrdersController@cancelOrder')
-        ->name('removeCancelledOrder');
-
-    Route::get('tempOnDemandOrders', 'OrdersController@showOpenOnDemandOrders')
-        ->name('openOnDemandOrders');
-});
-
 
 // Admin Routes
 Route::group(['prefix' => 'admin',

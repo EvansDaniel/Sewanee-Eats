@@ -9,7 +9,7 @@
     @include('partials.time_frames',
     ['viewing' => $viewing, 'route_name' => 'showCourierOrderSummary','route_array' => ['courier_id' => $courier->id]])
     <div>
-        <table class="table table-bordered">
+        <table class="table table-bordered table-hover">
             <tr>
                 <th>Customer Name</th>
                 <th>Courier Payment</th>

@@ -18,8 +18,8 @@ class CreateOrderPriceInfoTable extends Migration
             $table->integer('order_id')->unsigned();
             $table->float('total_price')->unsigned();
             $table->float('subtotal')->unsigned();
-            $table->float('profit')->unsigned();
-            $table->float('cost_of_food');
+            $table->float('profit');
+            $table->double('cost_of_food');
             $table->float('stripe_fees');
             $table->float('delivery_fee');
             // used to be state_tax_charged

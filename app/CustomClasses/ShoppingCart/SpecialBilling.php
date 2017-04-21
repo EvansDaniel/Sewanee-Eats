@@ -25,7 +25,7 @@ class SpecialBilling
         $this->cart = $cart;
         $this->base_delivery_fee = 3;
         $this->discount_value = .6;
-        $this->num_weekly_special_items = count($this->cart->getSpecialItems());
+        $this->num_weekly_special_items = empty($this->cart) ? 0 : count($this->cart->getSpecialItems());
         $this->markup = 0.75;
         $this->cost_of_food = $this->costOfFood();
         $this->delivery_fee = $this->deliveryFee();
@@ -37,7 +37,7 @@ class SpecialBilling
     public function costOfFood()
     {
         $cost = 0;
-        if (!empty($this->cart->getSpecialItems())) {
+        if (!empty($this->cart) && !empty($this->cart->getSpecialItems())) {
             foreach ($this->cart->getSpecialItems() as $item) {
                 $cost += $item->getPrice();
                 if (!empty($item->getExtras())) {
@@ -52,7 +52,7 @@ class SpecialBilling
 
     public function deliveryFee()
     {
-        if (empty($this->cart->getSpecialItems())) {
+        if (empty($this->cart) || empty($this->cart->getSpecialItems())) {
             return 0;
         } else {
             return $this->getBaseDeliveryFee() - ($this->countItemsWithDiscount() * $this->getDiscountValue());

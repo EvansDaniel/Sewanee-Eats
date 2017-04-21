@@ -8,7 +8,7 @@
     <div>
         Averages done on a per order basis
     </div>
-    <table class="table table-bordered">
+    <table class="table table-striped table-hover">
         <tr>
             <th>Total for Order Total/Avg</th>
             <th>Subtotal Total/Avg</th>
@@ -29,7 +29,7 @@
             <td>{{ $order_calc->sum('tax_charged') }} / {{ $order_calc->avg('tax_charged') }}</td>
         </tr>
     </table>
-    <table class="table table-condensed">
+    <table class="table table-striped table-hover">
         <tr>
             <!-- 7 columns -->
             <th>Total for Order</th>

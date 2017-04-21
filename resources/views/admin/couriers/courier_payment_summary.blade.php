@@ -9,6 +9,8 @@
     <div class="container">
         <?php $viewing = 'Viewing payment summary for ' . strtolower($time_frame) ?>
         @include('partials.time_frames',['viewing' => $viewing, 'route_name' => 'showCourierPaymentSummary','route_array' => []])
+
+        TODO: Add a sum of the total payment to all the couriers... maybe an average too
         <table class="table table-bordered">
             <tr>
                 <th>Name</th>

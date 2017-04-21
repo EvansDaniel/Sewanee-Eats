@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\CustomClasses\Delivery\ManageOrder;
+use App\CustomClasses\Orders\OrderItemContainer;
+use App\CustomClasses\Orders\OrderItemsMapping;
 use App\CustomClasses\ShoppingCart\ItemLister;
 use App\CustomClasses\ShoppingCart\PaymentType;
 use App\CustomClasses\ShoppingCart\RestaurantOrderCategory;
 use App\Models\Order;
+use App\Models\Restaurant;
 use App\User;
-use Auth;
 use Carbon\Carbon;
 use Doctrine\Instantiator\Exception\InvalidArgumentException;
 use Illuminate\Http\Request;
@@ -32,7 +34,7 @@ class OrdersController extends Controller
         $venmo_payment_type = PaymentType::VENMO_PAYMENT;
         $couriers = User::ofType('courier');
         $scroll_to_item_id = $request->query('OrderId');
-        return view('admin.order.on_demand_orders', compact('on_demand_open_orders', 'venmo_payment_type', 'couriers', 'scroll_to_item_id'));
+        return view('admin.order.summaries.on_demand_orders', compact('on_demand_open_orders', 'venmo_payment_type', 'couriers', 'scroll_to_item_id'));
     }
 
     public function toggleOrderIsDelivered(Order $order,Request $request)
@@ -115,28 +117,48 @@ class OrdersController extends Controller
 
     }
 
-    // temporary thing
-    public function showOpenOnDemandOrders()
+    public function viewSpecialOrders($rest_id)
     {
-        if (Auth::user()->hasRole('admin') || Auth::user()->hasRole('manager')) {
-            $orders = Order::all();
-            $pending_orders = [];
-            foreach ($orders as $order) {
-                if ($order->hasOrderType(RestaurantOrderCategory::ON_DEMAND)) {
-                    $on_demand_open_orders[] = $order;
-                }
-            }
-            return view('admin.order.temp_on_demand_orders',
-                compact('pending_orders'));
-        } else {
-            return back()->with('status_bad', 'You don\'t have the necessary privileges 
-            to access that information');
-        }
+        $rest = Restaurant::find($rest_id);
+        $order_items_container = $this->buildSpecialOrderContainer($rest);
+        return view('admin.order.summaries.special_orders', compact('order_items_container', 'rest'));
     }
 
-    public function viewSpecialOrders()
+    private function buildSpecialOrderContainer($rest)
     {
+        $potential_orders = Order::getWeeklySpecialOrders();
+        $order_items_mappings = [];
+        foreach ($potential_orders as $order) {
+            $mio = $order->menuItemOrders;
+            $items_to_record = [];
+            $found_item = false;
+            foreach ($mio as $item) {
+                $r = $item->item->restaurant;
+                if ($r->id == $rest->id) { // record the menu item order if it matches this restaurant
+                    $found_item = true;
+                    $items_to_record[] = $item;
+                }
+            }
+            if ($found_item) {
+                $order_items_mappings[] = new OrderItemsMapping($order, $items_to_record);
+            }
+        }
+        return new OrderItemContainer($order_items_mappings);
+    }
 
+    public function viewSpecials()
+    {
+        $rests = Restaurant::weeklySpecials()->orderBy('created_at', 'DESC')->get();
+        return view('admin.order.summaries.list_specials', compact('rests'));
+    }
+
+    public function itemBreakdown(Restaurant $rest, $rest_id)
+    {
+        $rest = $rest->find($rest_id);
+        $order_items_container = $this->buildSpecialOrderContainer($rest);
+        // This will be so subject to change but here we go anyway
+        // find the MenuItemOrders that we ordered in within the time frame given by the current TimeRange for the restaurant
+        return view('admin.order.summaries.item_breakdown', compact('order_items_container', 'rest'));
     }
 
     public function orderSummaryForAdmin(Order $order, int $order_id)

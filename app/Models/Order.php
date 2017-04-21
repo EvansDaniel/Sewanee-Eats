@@ -19,10 +19,41 @@ class Order extends Model implements HasItems
 
 
     // gets the courier types that can deliver this order
+
+    public static function getWeeklySpecialOrders()
+    {
+        $orders = Order::all();
+        $ret_orders = [];
+        foreach ($orders as $order) {
+            if ($order->hasOrderType(RestaurantOrderCategory::WEEKLY_SPECIAL)) {
+                $ret_orders[] = $order;
+            }
+        }
+        return $ret_orders;
+    }
+
+    /**
+     * @param $order_type integer constant from class RestaurantOrderCategory
+     * @return boolean returns true if the order has the given $order_type
+     * false otherwise
+     */
+    public function hasOrderType($order_type)
+    {
+        $order_types = json_decode($this->order_types, true);
+        foreach ($order_types as $ot) {
+            if ($ot == $order_type) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public function getCourierTypes()
     {
         return json_decode($this->courier_types, true);
     }
+
+    // returns array of CartItem that contains the menu items for this order
 
     public function menuItemOrders()
     {
@@ -40,7 +71,6 @@ class Order extends Model implements HasItems
         return $items;
     }
 
-    // returns array of CartItem that contains the menu items for this order
     public function items()
     {
         $items = [];
@@ -213,29 +243,8 @@ class Order extends Model implements HasItems
         return $query->where('is_paid_for', true);
     }
 
-    /**
-     * @param $order_type integer constant from class RestaurantOrderCategory
-     * @return boolean returns true if the order has the given $order_type
-     * false otherwise
-     */
-    public function hasOrderType($order_type)
-    {
-        $order_types = json_decode($this->order_types, true);
-        foreach ($order_types as $ot) {
-            if ($ot == $order_type) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     public function scopeCountable($query)
     {
         return $query->where(['is_cancelled' => false, 'was_refunded' => false]);
-    }
-
-    public function getWeeklySpecialOrders()
-    {
-
     }
 }
