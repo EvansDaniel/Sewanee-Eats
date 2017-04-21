@@ -117,14 +117,19 @@ class OrdersController extends Controller
 
     }
 
-    public function viewSpecialOrders($rest_id)
+    public function viewSpecialOrders($rest_id, Request $request)
     {
         $rest = Restaurant::find($rest_id);
         $order_items_container = $this->buildSpecialOrderContainer($rest);
-        return view('admin.order.summaries.special_orders', compact('order_items_container', 'rest'));
+        $start_l = $request->query('StartLetter');
+        $end_l = $request->query('EndLetter');
+        $order_items_container->getOrdersByFirstNameLetters($start_l, $end_l);
+        $letters = OrderItemContainer::getLetters();
+        return view('admin.order.summaries.special_orders',
+            compact('order_items_container', 'rest', 'letters'));
     }
 
-    private function buildSpecialOrderContainer($rest)
+    private function buildSpecialOrderContainer($rest): OrderItemContainer
     {
         $potential_orders = Order::getWeeklySpecialOrders();
         $order_items_mappings = [];

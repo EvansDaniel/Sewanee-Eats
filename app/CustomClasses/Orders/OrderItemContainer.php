@@ -13,13 +13,64 @@ use App\CustomClasses\ShoppingCart\SpecialBilling;
 
 class OrderItemContainer
 {
+    private static $letters;
     private $order_items_mappings;
     private $all_items;
 
     public function __construct($order_items_mappings)
     {
-
+        $this->genAlphabetCap();
         $this->order_items_mappings = $order_items_mappings;
+        $this->sortItemMappings();
+    }
+
+    private function genAlphabetCap()
+    {
+        for ($i = 65; $i <= 90; $i++) { // Ascii captials: A - Z
+            OrderItemContainer::$letters[] = chr($i);
+        }
+    }
+
+    private function sortItemMappings()
+    {
+        // returns a A -> Z ordering
+        usort($this->order_items_mappings, function ($map_a, $map_b) {
+            return strcmp($map_a->getOrder()->c_name, $map_b->getOrder()->c_name);
+        });
+    }
+
+    public static function getLetters()
+    {
+        return OrderItemContainer::$letters;
+    }
+
+    public function getOrdersByFirstNameLetters($start_letter, $end_letter)
+    {
+        if (empty($start_letter) || empty($end_letter)) {
+            return;
+        }
+        if (ord($start_letter) > ord($end_letter)) { // swap if in opposite order
+            $temp = $start_letter;
+            $start_letter = $end_letter;
+            $end_letter = $temp;
+        }
+        $new_order_items_mapping = [];
+        foreach ($this->order_items_mappings as $items_mapping) {
+            $name = $items_mapping->getOrder()->c_name;
+            // names are guaranteed to not be empty
+            if ($this->charsBetween($name[0], $start_letter, $end_letter)) {
+                $new_order_items_mapping[] = $items_mapping;
+            }
+        }
+        $this->order_items_mappings = $new_order_items_mapping;
+    }
+
+    private function charsBetween($char, $start_char, $end_char)
+    {
+        $char = strtoupper($char);
+        $start_char = strtoupper($start_char);
+        $end_char = strtoupper($end_char);
+        return ord($char) >= ord($start_char) && ord($char) <= ord($end_char);
     }
 
     public function getItemOrderMapping()

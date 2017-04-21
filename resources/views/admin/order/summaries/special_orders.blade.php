@@ -5,7 +5,31 @@
 @stop
 
 @section('body')
+    <div>
+        <label for="">Choose a the start and end letters of the first names of the people whose order you'd like to
+            view</label>
+        <form action="{{ route('viewSpecialOrders',['rest_id' => $rest->id]) }}" method="get">
+            <div>
+                <select name="StartLetter" id="EndLetter">
+                    @foreach($letters as $letter)
+                        <option value="{{ $letter }}">{{ $letter }}</option>
+                    @endforeach
+                </select>
+                <select name="EndLetter" id="EndLetter">
+                    @foreach($letters as $letter)
+                        <option value="{{ $letter }}">{{ $letter }}</option>
+                    @endforeach
+                </select>
+                <button class="btn btn-dark" type="submit">Submit</button>
+            </div>
+        </form>
+        <a href="{{ route('viewSpecialOrders',['rest_id' => $rest->id]) }}">
+            <button class="btn btn-dark">View All</button>
+        </a>
+    </div>
+    <script>
 
+    </script>
     <ul class="list-group">
         @foreach($order_items_container->getItemOrderMapping() as $items_mapping)
             <li class="list-group-item col-xs-5 col-sm-4 col-md-3 col-lg-5"
