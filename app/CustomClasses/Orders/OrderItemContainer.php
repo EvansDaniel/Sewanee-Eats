@@ -29,11 +29,12 @@ class OrderItemContainer
 
     public function getEstimatedCost()
     {
+        $tax = 1.0925; // TODO: make this more general
         $cost = 0;
         $special_billing = new SpecialBilling();
         foreach ($this->getAllItems() as $item) {
             // TODO: save the amount of markup for the weekly special in the database since it is subject to change
-            $cost += (($item->item->price - $special_billing->getMarkup()) * $this->getCount($item->menu_item_id));
+            $cost += (($item->item->price - $special_billing->getMarkup()) * $this->getCount($item->menu_item_id)) * $tax;
             foreach ($item->accessories as $acc) {
                 $cost += $acc->price;
             }
