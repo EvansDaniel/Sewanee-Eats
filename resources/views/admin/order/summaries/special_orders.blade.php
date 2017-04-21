@@ -12,6 +12,7 @@
                 style="background-color: #2A3F54; color: white">
                 <p>Order for {{ $items_mapping->getOrder()->c_name }}</p>
                 <p>Email: {{ $items_mapping->getOrder()->email_of_customer }}</p>
+                <p>Paid with: {{ $items_mapping->getPaidWith() }}</p>
                 <ul class="list-group" style="color: black">
                     @foreach($items_mapping->getMenuItemOrders() as $item_order)
                         <li class="list-group-item col-xs-6 col-sm-4 col-md-3 col-lg-6">

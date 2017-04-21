@@ -9,10 +9,12 @@
 namespace App\CustomClasses\Orders;
 
 
+use App\CustomClasses\ShoppingCart\PaymentType;
 use App\Models\Order;
 
 class OrderItemsMapping
 {
+    private static $payment_types;
     private $order;
     private $menu_item_orders;
 
@@ -21,6 +23,7 @@ class OrderItemsMapping
 
         $this->order = $order;
         $this->menu_item_orders = $menu_item_orders;
+        OrderItemsMapping::$payment_types = [PaymentType::STRIPE_PAYMENT => "Card", PaymentType::VENMO_PAYMENT => "Venmo"];
     }
 
     public function __toString()
@@ -42,6 +45,11 @@ class OrderItemsMapping
     public function getMenuItemOrders()
     {
         return $this->menu_item_orders;
+    }
+
+    public function getPaidWith()
+    {
+        return OrderItemsMapping::$payment_types[$this->getOrder()->payment_type];
     }
 
 }
