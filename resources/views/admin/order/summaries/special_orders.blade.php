@@ -31,6 +31,7 @@
                 <a href="{{ route('viewSpecialOrders',['rest_id' => $rest->id]) }}">
                     <button class="btn btn-dark" type="button">View All Orders</button>
                 </a>
+                <h4 style="display: inline">Number of Orders: {{ $order_items_container->getNumOrders() }}</h4>
             </div>
         </form>
     </div>

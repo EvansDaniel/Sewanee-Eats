@@ -69,6 +69,11 @@ class OrderItemContainer
         $this->order_items_mappings = $new_order_items_mapping;
     }
 
+    public function getNumOrders()
+    {
+        return count($this->order_items_mappings);
+    }
+
     public function getOrdersByFirstNameLetters($start_letter, $end_letter)
     {
         if (empty($start_letter) || empty($end_letter)) {
