@@ -11,21 +11,28 @@
         <form action="{{ route('viewSpecialOrders',['rest_id' => $rest->id]) }}" method="get">
             <div>
                 <select name="StartLetter" id="EndLetter">
+                    <option value=""></option>
                     @foreach($letters as $letter)
                         <option value="{{ $letter }}">{{ $letter }}</option>
                     @endforeach
                 </select>
                 <select name="EndLetter" id="EndLetter">
+                    <option value=""></option>
                     @foreach($letters as $letter)
                         <option value="{{ $letter }}">{{ $letter }}</option>
                     @endforeach
                 </select>
-                <button class="btn btn-dark" type="submit">Submit</button>
+                <div class="form-group">
+                    <label for="SearchLocation">and/or search based on location or orderer's name</label>
+                    <input type="search" name="SearchLocation" id="SearchLocation" class="form-control">
+                </div>
+                <button class="btn btn-dark" type="submit">Find orders</button>
+                <!-- This is inside the form so it is displayed inline  -->
+                <a href="{{ route('viewSpecialOrders',['rest_id' => $rest->id]) }}">
+                    <button class="btn btn-dark" type="button">View All Orders</button>
+                </a>
             </div>
         </form>
-        <a href="{{ route('viewSpecialOrders',['rest_id' => $rest->id]) }}">
-            <button class="btn btn-dark">View All</button>
-        </a>
     </div>
     <script>
 

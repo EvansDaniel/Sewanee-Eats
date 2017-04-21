@@ -44,6 +44,31 @@ class OrderItemContainer
         return OrderItemContainer::$letters;
     }
 
+    public function searchOrdersByDeliveryLocation($query)
+    {
+        if (empty($query)) {
+            return;
+        }
+        $query = strtolower($query);
+        $query_pieces = explode(' ', $query);
+        $new_order_items_mapping = [];
+        foreach ($this->order_items_mappings as $items_mapping) {
+            $name = $items_mapping->getOrder()->c_name; // The delivery location is in the name for now
+            $name = strtolower($name);
+            $found = false;
+            foreach ($query_pieces as $query_piece) {
+                if (strpos($name, $query_piece) !== false) {
+                    $found = true;  // we found a query piece that is in the string
+                    break;
+                }
+            }
+            if ($found) { // if this order has a piece of the query in it
+                $new_order_items_mapping[] = $items_mapping;
+            }
+        }
+        $this->order_items_mappings = $new_order_items_mapping;
+    }
+
     public function getOrdersByFirstNameLetters($start_letter, $end_letter)
     {
         if (empty($start_letter) || empty($end_letter)) {

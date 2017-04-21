@@ -114,7 +114,6 @@ class OrdersController extends Controller
             $order_manager->cancellationStatus(true);
         }
         return back()->with("status_good", "Order confirmed as " . (!$is_cancelled ? "not cancelled" : "cancelled"));
-
     }
 
     public function viewSpecialOrders($rest_id, Request $request)
@@ -124,6 +123,8 @@ class OrdersController extends Controller
         $start_l = $request->query('StartLetter');
         $end_l = $request->query('EndLetter');
         $order_items_container->getOrdersByFirstNameLetters($start_l, $end_l);
+        $search_string = $request->query('SearchLocation');
+        $order_items_container->searchOrdersByDeliveryLocation($search_string);
         $letters = OrderItemContainer::getLetters();
         return view('admin.order.summaries.special_orders',
             compact('order_items_container', 'rest', 'letters'));
