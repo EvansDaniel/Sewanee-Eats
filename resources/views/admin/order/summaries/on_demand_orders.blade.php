@@ -5,7 +5,7 @@
 @stop
 
 @section('body')
-    <link href={{ asset('css/admin_on_demand.css',env('APP_ENV') !== 'local')  }}>
+    <link rel="stylesheet" href="{{ assetUrl('css/admin/orders/on_demand_orders.css') }}">
     <link rel="stylesheet" href="{{ asset('css/admin/order_listing.css',env('APP_ENV') !== 'local')  }}">
     <link rel="stylesheet" href="{{ asset('css/admin/general_admin.css',env('APP_ENV') !== 'local')  }}">
     <section class="container-fluid demand_container">
@@ -48,23 +48,25 @@
                     @if($on_demand_order->payment_type == $venmo_payment_type) Venmo @else Card @endif
                 </div>
                 <div class="col-lg-1 large">
-                    statuses:
-                    <span style="background: darkgreen; color: white; display: inline-block; margin: 2px 0;">
-                        @if($on_demand_order->is_paid_for) Paid @else Not paid @endif
+
+                    <span class="od-order-status is-paid" data-is-paid="{{ $on_demand_order->is_paid_for }}">
+                        @if($on_demand_order->is_paid_for) Paid @else Not Paid @endif
                     </span>
                     @if(!$on_demand_order->is_delivered)
-                        <span style="background: yellow; color: black; display: inline-block; margin: 2px 0;">
+                        <span class="od-order-status is-being-processed"
+                              data-is-being-processed="{{ $on_demand_order->is_being_processed }}">
                             @if($on_demand_order->is_being_processed) Processing @else No Assigned Courier @endif
                         </span>
                     @endif
-                    <span style="background: darkgreen; color: white; display: inline-block; margin: 2px 0;">
-                        @if($on_demand_order->is_delivered) Delivered @else Not delivered @endif
+                    <span class="od-order-status is-delivered" data-is-delivered="{{ $on_demand_order->is_delivered }}">
+                        @if($on_demand_order->is_delivered) Delivered @else Not Delivered @endif
                     </span>
-                    <span style="background: crimson; color: white; display: inline-block; margin: 2px 0;">
-                        @if($on_demand_order->was_refunded) Refunded @else Not refunded @endif
+                    <span class="od-order-status is-refunded" data-is-refunded="{{ !$on_demand_order->was_refunded }}">
+                        @if($on_demand_order->was_refunded) Refunded @else Not Refunded @endif
                     </span>
-                    <span style="background: crimson; color: white; display: inline-block; margin: 2px 0;">
-                        @if($on_demand_order->is_cancelled) Canceled @else Not Canceled @endif
+                    <span class="od-order-status is-cancelled"
+                          data-is-cancelled="{{ !$on_demand_order->is_cancelled }}">
+                        @if($on_demand_order->is_cancelled) Cancelled @else Not Cancelled @endif
                     </span>
                 </div>
 
@@ -128,33 +130,6 @@
     </section>
 
     <script src="{{ assetUrl('js/helpers.js')  }}"></script>
-    <script>
-      // scrolls to the item given by the generateScrollTo php view function
-      scrollToItem(1000);
-
-      // window checks for manipulating orders
-      $(document).ready(function () {
-        $(".confirm-payment").click(changeStatus(".confirm-payment", "Are you sure you want to change this order's payment status?"));
-        $(".cancel-order").click(changeStatus(".cancel-order", "Are you sure you want to change the cancellation status of this order?"));
-        $(".refund").click(changeStatus(".refund", ".Are you sure you want to change the refund status?"));
-        $(".toggle-delivered").click(changeStatus(".toggle-delivered", ".Are you sure you want to change the delivery status?"));
-      });
-      // function to change the status of an order
-      function changeStatus(button, text) {
-        $(button).each(function () {
-          $(this).on('click', function () {
-            if (window.confirm(text)) {
-            }
-            else {
-              return false;
-            }
-
-          });
-        });
-      }
-    </script>
     <script src="{{ assetUrl('js/Misc/backend_msg_attach.js') }}"></script>
-    <script>
-      msgTimeout(7500);
-    </script>
+    <script src="{{ assetUrl('js/admin/orders/on_demand_orders.js') }}"></script>
 @stop

@@ -35,6 +35,7 @@
     <script src="{{ asset('vendors/jquery/dist/jquery.min.js',env('APP_ENV') !== 'local')  }}"></script>
     <!-- Bootstrap -->
     <script src="{{ asset('vendors/bootstrap/dist/js/bootstrap.min.js',env('APP_ENV') !== 'local')  }}"></script>
+    <link rel="stylesheet" href="{{ assetUrl('css/lib/lib.css') }}">
     <script>
       function getBaseUrl() {
 
@@ -53,17 +54,15 @@
 </head>
 
 <body class="nav-md" style="color: black; background: white;">
-
-@include('admin.main.admin_nav_bar')
-<br><br><br>
 <!-- Status messages to admin about what they are doing -->
 @include('partials.backend_messages')
 <div class="container body">
     <div class="main_container">
         <!-- Sidebar -->
     @include('admin.partials.admin_sidebar')
+    @include('admin.main.admin_nav_bar')
     <!-- /top tiles -->
-        <div class="container" style="margin-left: 16%">
+        <div class="x_panel right_col" role="main" style="width: 83%; margin-left: 16%;">
             <div class="clearfix"></div>
             @yield('body')
         </div>

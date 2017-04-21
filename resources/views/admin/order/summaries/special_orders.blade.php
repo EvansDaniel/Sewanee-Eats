@@ -2,6 +2,7 @@
 
 @section('head')
     <title>Orders for {{ $rest->name }}</title>
+    <link rel="stylesheet" href="{{ assetUrl('css/admin/orders/special_orders.css') }}">
 @stop
 
 @section('body')
@@ -11,13 +12,13 @@
         <form action="{{ route('viewSpecialOrders',['rest_id' => $rest->id]) }}" method="get">
             <div>
                 <select name="StartLetter" id="EndLetter">
-                    <option value=""></option>
+                    <option selected value=""></option> <!-- Empty option -->
                     @foreach($letters as $letter)
                         <option value="{{ $letter }}">{{ $letter }}</option>
                     @endforeach
                 </select>
                 <select name="EndLetter" id="EndLetter">
-                    <option value=""></option>
+                    <option selected value=""></option> <!-- Empty option -->
                     @foreach($letters as $letter)
                         <option value="{{ $letter }}">{{ $letter }}</option>
                     @endforeach
@@ -31,37 +32,32 @@
                 <a href="{{ route('viewSpecialOrders',['rest_id' => $rest->id]) }}">
                     <button class="btn btn-dark" type="button">View All Orders</button>
                 </a>
-                <h4 style="display: inline">Number of Orders: {{ $order_items_container->getNumOrders() }}</h4>
+                <h4 class="num-special-orders">Number of Orders: {{ $order_items_container->getNumOrders() }}</h4>
             </div>
         </form>
     </div>
-    <script>
-
-    </script>
     <ul class="list-group">
         @foreach($order_items_container->getItemOrderMapping() as $items_mapping)
-            <li class="list-group-item col-xs-5 col-sm-4 col-md-3 col-lg-5"
-                style="background-color: #2A3F54; color: white">
-                <p>Order for {{ $items_mapping->getOrder()->c_name }}</p>
-                <p>Email: {{ $items_mapping->getOrder()->email_of_customer }}</p>
-                <p>Paid with: {{ $items_mapping->getPaidWith() }}</p>
-                <ul class="list-group" style="color: black">
+            <li class="list-group-item order-mappings-li">
+                <div>
+                    <p class="special-order-title"><strong>Order for {{ $items_mapping->getOrder()->c_name }}</strong> |
+                        Email: {{ $items_mapping->getOrder()->email_of_customer }} |
+                        Paid with: {{ $items_mapping->getPaidWith() }}
+                    </p>
+                </div>
+                <ul class="x_panel">
                     @foreach($items_mapping->getMenuItemOrders() as $item_order)
-                        <li class="list-group-item col-xs-6 col-sm-4 col-md-3 col-lg-6">
-                            <p>Item: {{ $item_order->item->name }}</p>
-                            <p>
+                        <li class="list-group-item">
+                            <div>Item: {{ $item_order->item->name }}</div>
+                            <div style="word-break: break-all">
                                 Instructions: {{ empty($item_order->special_instructions) ? "None" : $item_order->special_instructions }}
-                            </p>
+                            </div>
                             <p>
                                 Accessories: @if(count($item_order->accessories) == 0) None @endif
-                            </p>
-                            <ul>
                                 @foreach($item_order->accessories as $acc)
-                                    <li>
-                                        {{ $acc->name }}
-                                    </li>
+                                    @if(!$loop->last) {{ $acc->name .", " }} @else {{ $acc->name }} @endif
                                 @endforeach
-                            </ul>
+                            </p>
                         </li>
                     @endforeach
                 </ul>

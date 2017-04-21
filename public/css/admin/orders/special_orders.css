@@ -1,0 +1,46 @@
+.num-special-orders {
+    display: inline;
+}
+
+ul.list-group:after {
+    clear: both;
+    display: block;
+    content: "";
+}
+
+.order-mappings-li {
+    background-color: #2A3F54;
+    color: white;
+    width: 100%;
+    margin-bottom: 5px
+}
+
+.list-group-item {
+    float: left;
+}
+
+div, p, h1, h2, h3, h4, h5, h6 {
+    word-break: break-all;
+}
+
+div.x_panel {
+    margin: 5px
+}
+
+ul.x_panel {
+    background-color: #2a3f54;
+    border: none;
+    color: black;
+}
+
+ul.x_panel li {
+    width: auto;
+    max-width: 220px;
+    margin: 5px
+}
+
+.special-order-title {
+    margin-left: 20px;
+    font-size: 16px;
+    text-align: center;
+}
