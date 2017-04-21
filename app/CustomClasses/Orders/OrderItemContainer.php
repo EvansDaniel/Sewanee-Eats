@@ -33,7 +33,7 @@ class OrderItemContainer
         $special_billing = new SpecialBilling();
         foreach ($this->getAllItems() as $item) {
             // TODO: save the amount of markup for the weekly special in the database since it is subject to change
-            $cost += ($item->item->price * $this->getCount($item->menu_item_id)) - $special_billing->getMarkup();
+            $cost += (($item->item->price - $special_billing->getMarkup()) * $this->getCount($item->menu_item_id));
             foreach ($item->accessories as $acc) {
                 $cost += $acc->price;
             }
