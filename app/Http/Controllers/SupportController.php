@@ -145,17 +145,17 @@ class SupportController extends Controller
             $issue->not_viewed = false;
             $issue->is_corresponding = true;
             $issue->save();
-            Session::flash('status_good', 'You are now responsible for all communication between SewaneeEats and ' . $issue->c_name);
+            Session::flash('status_good', 'You are now responsible for all communication between Sewanee Eats and ' . $issue->c_name);
         }
         // tell this admin that he/she is responsible for resolving this issue
         if ($issue->admin_id === Auth::id() && $viewing) {
             Session::flash('status_good', 'You are responsible for resolving this issue');
         } else if ($viewing && $issue->admin_id !== Auth::id()) { // tell this admin that another admin is responsible for the issue
             Session::flash('status_bad', User::find($issue->admin_id)->name . " is responsible for resolving this issue. 
-            Contact this admin if the issue hasn't been resolved after a couple days.");
+                    Contact this admin if the issue hasn't been resolved after a couple days.");
         }
-        $issue_created = new Carbon($issue->created_at, $this->tz());
-        $now = Carbon::now($this->tz());
+        $issue_created = new Carbon($issue->created_at);
+        $now = Carbon::now();
         $issue_created_diff = $issue_created->diffForHumans($now);
         return view('admin.support.issue', compact('issue', 'issue_created_diff', 'issue_created'));
     }

@@ -55,12 +55,12 @@
 
 <body class="nav-md" style="color: black; background: white;">
 <!-- Status messages to admin about what they are doing -->
-@include('partials.backend_messages')
 <div class="container body">
     <div class="main_container">
         <!-- Sidebar -->
     @include('admin.partials.admin_sidebar')
     @include('admin.main.admin_nav_bar')
+    @include('partials.backend_messages')
     <!-- /top tiles -->
         <div class="x_panel right_col" role="main" style="width: 83%; margin-left: 16%;">
             <div class="clearfix"></div>

@@ -1,4 +1,4 @@
-@extends('admin.support.support_layout')
+@extends('admin.main.admin_dashboard_layout')
 @section('head')
     <title>Issue | {{ $issue->id }}</title>
 @stop
