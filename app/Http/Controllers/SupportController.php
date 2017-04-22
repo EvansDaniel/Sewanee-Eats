@@ -111,7 +111,8 @@ class SupportController extends Controller
     public function listClosedIssues()
     {
         $closed_issues = Issue::where('is_resolved', true)->orderBy('created_at', 'ASC')->get();
-        return view('admin.support.closed_issues', compact('closed_issues'));
+        $open_issues = Issue::where('is_resolved', false)->orderBy('created_at', 'ASC')->get();
+        return view('admin.support.closed_issues', compact('closed_issues', 'open_issues'));
     }
 
     public function listCorrespondingIssues()
@@ -184,15 +185,18 @@ class SupportController extends Controller
 
     public function markAsResolved(Request $request)
     {
-
+        $issue = Issue::find($request->input('issue_id'));
+        $issue->is_corresponding = false;
+        $issue->not_viewed = false;
+        $issue->is_resolved = true;
+        $issue->save();
+        return redirect()->route('listOpenIssues')->with('status_good', 'Issue #' . $issue->id . ' marked as resolved');
     }
 
     // move issue to resolved issues
-
     private function sendIssueConfirmationEmail()
     {
 
     }
-
 
 }

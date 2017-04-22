@@ -18,7 +18,9 @@
                 </div>
                 <div>
                     <h4 class="issue-header">Customer Email:</h4>
-                    <h3 class="indent">{{ $issue->c_email }}</h3>
+                    <h3 class="indent">
+                        <a href="mailto:{{ $issue->c_email }}">{{ $issue->c_email }}</a>
+                    </h3>
                 </div>
                 <div>
                     @if(!empty($issue->order_id))
@@ -44,6 +46,11 @@
                 </h3>
             </div>
         </div>
+        <form action="{{ route('markAsResolved') }}" method="post">
+            {{ csrf_field() }}
+            <input name="issue_id" type="hidden" value="{{ $issue->id }}">
+            <button class="btn btn-dark">Mark as Resolved</button>
+        </form>
     </div>
 
     <style>
