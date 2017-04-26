@@ -1,4 +1,4 @@
-<div class="col-md-3 left_col se-fixed">
+<div class="col-md-3 left_col">
     <!-- Sidebar -->
     <div class="left_col scroll-view">
         <div class="navbar nav_title" style="border: 0;">
