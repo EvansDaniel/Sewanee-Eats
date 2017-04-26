@@ -1,4 +1,6 @@
-@extends('employee.layout')
+<!-- Deprecated -->
+
+@extends('employee.partials.layout')
 
 @section('body')
 

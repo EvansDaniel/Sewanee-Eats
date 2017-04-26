@@ -1,3 +1,5 @@
+<!-- Deprecated: Both will use the order_queue.blade.php -->
+
 Where the manager/admin can view and manager orders
 
 Current Pending Orders: {{ count($pending_orders) }}

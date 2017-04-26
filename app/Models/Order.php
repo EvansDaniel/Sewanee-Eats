@@ -6,6 +6,7 @@ use App\Contracts\HasItems;
 use App\CustomClasses\ShoppingCart\CartItem;
 use App\CustomClasses\ShoppingCart\ItemType;
 use App\CustomClasses\ShoppingCart\RestaurantOrderCategory;
+use App\CustomTraits\Timing;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -13,7 +14,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Order extends Model implements HasItems
 {
 
-    use SoftDeletes;
+    use SoftDeletes, Timing;
     protected $dates = ['deleted_at'];
     protected $table = "orders";
 
@@ -90,19 +91,13 @@ class Order extends Model implements HasItems
         return $items;
     }
 
-    public function restaurants()
-    {
-        return $this->belongsToMany('App\Models\Restaurant', 'restaurants_orders',
-            'order_id', 'restaurant_id');
-    }
-
     public function orderRestsToString()
     {
         $rests = $this->getRestaurants();
         $str = "";
         $rest_len = count($rests);
         for ($i = 0; $i < $rest_len; $i++) {
-            $str .= ($i != $rest_len - 1) ? $rests[$i] . "," : $rests[$i];
+            $str .= ($i != $rest_len - 1) ? $rests[$i]->name . "," : $rests[$i]->name;
         }
         return $str;
     }
@@ -126,7 +121,7 @@ class Order extends Model implements HasItems
         return $this->hasOne('App\Models\OrderPriceInfo', 'order_id');
     }
 
-    public function couriers()
+    public function courier()
     {
         return $this->belongsToMany('App\User', 'couriers_orders',
             'order_id', 'courier_id')->withPivot('courier_payment')->withTimestamps();
@@ -136,6 +131,7 @@ class Order extends Model implements HasItems
     {
         $couriers = $this->couriers;
         if (count($couriers) >= 1) {
+            // we are only supporting one to many (courier to orders) right now
             return $couriers[0];
         }
         return null;

@@ -1,43 +1,45 @@
-@extends('employee.layout')
+@extends('employee.partials.layout')
+
+@section('head')
+    <title>Order Queue</title>
+@stop
 
 @section('body')
 
+    <a href="#">
+        <button class="btn btn-dark">Go to Current Orders Summary</button>
+    </a>
     <h2>Number of Pending Orders: {{ $order_queue->numberOfOrdersPendingForCourier() }}</h2>
-    @if(!empty($next_order))
-    <h2>Next order: {{ $next_order->created_at }}</h2>
-    @endif
 
-    <ul>
-
-        <ul class="list-group">
-            @foreach($orders as $order)
-
-                <li class="list-group-item order">
-                    Customer Name: <h3>{{ $order->c_name }}</h3>
-                    Customer Email: <h3>{{ $order->email_of_customer }}</h3>
-                    <span class="order-price-before-fees">{{ $order->sumPriceBeforeFees() }}</span>
-                    <ul>
-                        @foreach($order->menuItemOrders as $menuItemOrder)
-                            <li class="item">
-                                Name: {{ $menuItemOrder->menuItem->name }}
-                                <br>
-                                Price: {{ $menuItemOrder->menuItem->price }}
-                                <br>
-                                Special Instructions for this item: {{ $menuItemOrder->special_instructions }}
-                                <ul>
-                                    @foreach($menuItemOrder->accessories() as $acc)
-                                        Acc name: {{ $acc->name }}
-                                        <br>
-                                        Acc price: {{ $acc->price }}
-                                    @endforeach
-                                </ul>
-                            </li>
-                        @endforeach
-                    </ul>
-                </li>
-
-            @endforeach
-        </ul>
-
-    </ul>
+    <table class="table table-condensed">
+        <thead>
+        <tr>
+            <th>View Order Info</th>
+            <th>Time Since Received</th>
+            <th>Restaurant(s)</th>
+            <th>Delivery Loc</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach($orders as $order)
+            <tr>
+                <td>
+                    <a href="{{ route('showQueuedOrder',['order_id' => $order->id]) }}">
+                        <!-- Needs implementation for db and controller -->
+                        <button class="btn btn-dark">Go to Order Info</button>
+                    </a>
+                </td>
+                <td>{{ $order->timeSinceCreated() }}</td> <!-- Diff since created -->
+                <td>{{ $order->orderRestsToString() }}</td> <!-- Restaurants -->
+                <td>{{ $order->delivery_location }}</td> <!-- Delivery Location -->
+                <td>
+                    <form action="{{ formUrl('assignCourierToOrder')  }}" method="post">
+                        <input name="order_id" type="hidden" value="{{ $order->id }}">
+                        <button class="btn btn-dark">Start Delivering Order</button>
+                    </form>
+                </td>
+            </tr>
+        @endforeach
+        </tbody>
+    </table>
 @stop

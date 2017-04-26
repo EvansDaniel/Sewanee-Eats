@@ -68,8 +68,7 @@ class OrderQueue
     {
         // order oldest to newest and only undelivered and
         // not being processed orders
-        $potential_orders = Order::pending()->
-        orderBy('created_at', 'ASC')->get();
+        $potential_orders = Order::pending()->orderBy('created_at', 'ASC')->get();
         // filter to on demand orders
         $this->orders = $this->onDemandOrders($potential_orders);
         $courier_type = $this->courier_info->getCourierTypeCurrentShift();

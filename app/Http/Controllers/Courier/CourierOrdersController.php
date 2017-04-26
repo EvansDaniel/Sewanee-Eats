@@ -6,17 +6,14 @@ use App\Http\Controllers\Controller;
 
 class CourierOrdersController extends Controller
 {
-    public function showUndeliveredOrders()
+    public function showCurrentOrders()
     {
-        // depending on the courier type of the logged in courier, we show
-        // certain orders
+
     }
 
-    public function orderDelivered()
+    public function showPastDeliveredOrders()
     {
-        // this is the method that will set an order as having been delivered
-    }
 
-    // TODO: extend with functionality to track orders???
+    }
 
 }

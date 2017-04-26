@@ -70,7 +70,7 @@ class ShoppingCartController extends Controller
         $error_val = $cart->putItems($cart_items);
         if ($error_val == -3) { // tried to add item with too many diff restaurants
             return $this->getRedirectToMenu($item_id, 'status_bad',
-                'Adding the item would cause you to order from three different On Demand restaurants. The max we are capable of at this time is two different restaurants. Sorry for the inconvenience!');
+                'At this time you may only add items from a single restaurant per order. Sorry for the inconvenience');
 
         }
         if ($error_val == -1) {

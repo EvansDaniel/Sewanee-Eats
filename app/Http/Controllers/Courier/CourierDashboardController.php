@@ -13,6 +13,9 @@ class CourierDashboardController extends Controller
     // TODO: show a employee's payment
     public function showDashboard()
     {
+        // if the courier is on the current shift, show the current orders
+        // if the user is on the current shift and has a set of orders, show the current order summary
+        // if the courier is not on the current shift, then show the schedule
         return view('employee.dashboard');
     }
 

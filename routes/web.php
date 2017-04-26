@@ -33,11 +33,6 @@ Route::get('clear', function () {
 Route::get('eventsInfo', 'HomeController@eventsInfo')
     ->name('eventsInfo');
 
-Route::get('find-my-order/', 'HomeController@findMyOrder')
-    ->name('findMyOrder');
-Route::get('orderSummary/{order_id}', 'HomeController@orderSummary')
-    ->name('orderSummary');
-
 Route::get('terms', function () {
     return view('terms');
 })->name('terms');
@@ -392,8 +387,24 @@ Route::group(['prefix' => 'queue',
     function () {
         Route::get('managerQueue', 'OrderQueueController@managerShowOrdersQueue')
             ->name('managerShowOrdersQueue');
+
+        // Shows the currently selected orders for the authenticated courier
+        Route::get('currentOrderSummary', 'CourierOrdersController@showCurrentOrders')
+            ->name('showCurrentOrders');
+
+        // Assign the authenticated user to the order
+        Route::post('assignCourierToOrder', 'OrderQueueController@assignCourierToOrder')
+            ->name('assignCourierToOrder');
+        // Show a queued order to anyone
+        Route::get('queuedOrder/{order_id}', 'OrderQueueController@showQueuedOrder')
+            ->name('showQueuedOrder');
+
+        // Show the queued orders to the drivers
         Route::get('orders', 'OrderQueueController@showOrdersQueue')->name('showOrdersQueue');
+        // deprecated action
         Route::get('nextOrderInQueue', 'OrderQueueController@nextOrderInQueue')->name('nextOrderInQueue');
+
+        // order operations, delivery, cancellation,
         Route::get('markAsDelivered', 'OrderQueueController@markAsDelivered')
             ->name('markAsDelivered');
         Route::get('cancelOrderDelivery', 'OrderQueueController@cancelOrderDelivery')

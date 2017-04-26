@@ -70,7 +70,7 @@ class ShoppingCart implements HasItems
         $this->categorizedItems();
         $this->quantity = $this->quantity();
         $this->num_on_demand_items = $this->countOnDemandItems();
-        $this->max_num_on_demand_rests = 2;
+        $this->max_num_on_demand_rests = 1;
     }
 
     private function quantity()
@@ -175,6 +175,7 @@ class ShoppingCart implements HasItems
         $curr_quantity = $this->getQuantity();
         // TODO: check prior to adding items if adding the items will overflow cart and/or overflow the max on demand items
         // iterate through the items to add checking if adding them will cause a max item cart overflow or max on demand item cart overflow
+        \Log::info($cart_items);
         foreach ($cart_items as $cart_item) {
             if ($num_on_demand_items == $this->getMaxOnDemandItems() && $cart_item->isSellerType(RestaurantOrderCategory::ON_DEMAND)) {
                 return -1;
@@ -229,10 +230,12 @@ class ShoppingCart implements HasItems
                     }
                 }
             }
-            if (!empty($item)) {
-                if (in_array($item->getSellerEntity()->id, $rest_ids)) {
-                    return count($rest_ids) + 1;
-                }
+        }
+        if (!empty($item)) {
+            // if the given items seller entity id is not in the
+            // rest ids array, we need to increment the would be restaurant count
+            if (in_array($item->getSellerEntity()->id, $rest_ids)) {
+                return count($rest_ids) + 1;
             }
         }
         return count($rest_ids);

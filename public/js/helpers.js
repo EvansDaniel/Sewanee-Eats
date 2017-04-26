@@ -10,7 +10,7 @@ function setWindowConfirmation(buttonIdentifier, confirmationText) {
 // extend jquery to include and exists function for after selecting some elements
 $.fn.exists = function () {
   return this.length != 0;
-}
+};
 
 function scrollToItem(scrollTime) {
   var scrollItem = $('#scroll-to-id');
