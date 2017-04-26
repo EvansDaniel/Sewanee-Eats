@@ -7,9 +7,16 @@ function setWindowConfirmation(buttonIdentifier, confirmationText) {
   });
 }
 
+// extend jquery to include and exists function for after selecting some elements
+$.fn.exists = function () {
+  return this.length != 0;
+}
+
 function scrollToItem(scrollTime) {
-  var itemId = $('#scroll-to-id').data('scroll-to');
-  if (itemId == null) {
+  var scrollItem = $('#scroll-to-id');
+  if (scrollItem.length == 0) return false; // scroll item does not exist
+  var itemId = scrollItem.data('scroll-to');
+  if (!itemId) {
     return null;
   }
   var item = $('#' + itemId);

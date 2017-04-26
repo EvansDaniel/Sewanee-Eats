@@ -1,4 +1,4 @@
-function fixDiv() {
+function posFixDiv() {
   var $div = $("#backend-msg");
   if ($(window).scrollTop() > $div.data("top")) {
     $div.css({'position': 'fixed', 'top': '0', 'width': '100%'});
@@ -7,13 +7,21 @@ function fixDiv() {
     $div.css({'position': 'static', 'top': 'auto', 'width': '100%'});
   }
 }
-$div = $("#backend-msg");
-// extra offset of 20 to stop scrolling problem for smaller menus
-$div.data("top", $div.offset().top + 20); // set original position on load
-$(window).scroll(fixDiv);
+
+function setUpAttach() {
+  var div = $("#backend-msg");
+  if (div.length == 0) return false;
+  div.data("top", div.offset().top + 20); // set original position on load
+  $(window).scroll(posFixDiv);
+}
+
+// Handles the attachment
+setUpAttach();
 
 function msgTimeout(time) {
   setTimeout(function () {
-    $('#backend-msg').hide(1000);
+    var backendMsg = $('#backend-msg');
+    if (backendMsg.length == 0) return false;
+    backendMsg.hide(1000);
   }, time);
 }
