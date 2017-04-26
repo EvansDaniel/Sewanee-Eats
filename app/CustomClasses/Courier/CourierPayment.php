@@ -25,7 +25,20 @@ class CourierPayment
         $this->time_frame = $time_frame;
     }
 
-    public function getPaymentSummary($time_frame)
+    /**
+     * @return float total amount to pay all workers (couriers) within the $this->time_frame
+     */
+    public function getTotalPayment()
+    {
+        $payment_summary = $this->getPaymentSummary();
+        $sum = 0;
+        foreach ($payment_summary as $ps) {
+            $sum += $ps->getPayment();
+        }
+        return round($sum, 3);
+    }
+
+    public function getPaymentSummary()
     {
         if (!empty($this->payment_summary)) {
             return $this->payment_summary;

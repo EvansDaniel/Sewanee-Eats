@@ -1,13 +1,13 @@
 @extends('admin.main.admin_dashboard_layout')
 
 @section('head')
-    Issues
+    <title>Issues</title>
 @stop
 
 @section('body')
-    <h2 class="issues">Open Issues</h2>
     <div id="issues-table-container">
         @if(!empty($open_issues))
+            <h2 class="issues">Open Issues</h2>
             <table id="issues-table" class="table table-responsive">
                 <thead>
                 <!-- TODO: add expected completion time in <th> -->
@@ -59,7 +59,7 @@
                 </tbody>
             </table>
         @else
-            <h1>Woop Woop! No Open Issues at this time</h1>
+            <h4>Woop Woop! No open Issues at this time</h4>
     @endif <!--- End of Open Issues Table --->
     </div>
 @stop

@@ -124,15 +124,28 @@ Route::group(['middleware' => 'role:admin', 'prefix' => 'admin', 'namespace' => 
     Route::group(['prefix' => 'couriers'], function () {
         Route::get('courierPaymentSummary', 'CourierPaymentController@showCourierPaymentSummary')
             ->name('showCourierPaymentSummary');
-        Route::get('courierOrderSummary/{courier_id}', 'CourierPaymentController@showCourierOrderSummary')
-            ->name('showCourierOrderSummary');
+        Route::get('courierOrderSummary/{courier_id}', 'CourierPaymentController@showCourierWorkSummary')
+            ->name('showCourierWorkSummary');
+
+        // the backend for the form that submits courier work hours outside of on demand
+        Route::post('updateOrCreateHoursWorked', 'CourierPaymentController@updateOrCreateHoursWorked')
+            ->name('updateOrCreateHoursWorked');
+        // shows the form to add the hours a courier has worked outside of on demand
+        Route::get('hoursWorked/{worker_id}', 'CourierPaymentController@showAddHoursWorked')
+            ->name('showAddHoursWorked');
+        // backend for removing the hours worked outside of on demand
+        Route::post('removeHoursWorked', 'CourierPaymentController@removeHoursWorked')
+            ->name('removeHoursWorked');
+        // Updates/shows work details for hours worked outside of on demand
+        Route::get('updateWorkDetails/{worker_earnings_id}', 'CourierPaymentController@showUpdateWorkDetails')
+            ->name('showUpdateWorkDetails');
     });
 });
 
 // --------------------------------------------------------------------------------------
 
 if (env('APP_ENV') != 'staging') {
-// Order Flow routes ------------------------------------------------------------------
+    // Order Flow routes ------------------------------------------------------------------
     Route::post('handleCheckout', 'CheckoutController@handleCheckout')
         ->name('handleCheckout');
 
@@ -165,12 +178,6 @@ Route::get('restaurants/{name}', 'SellerEntityController@showMenu')
 Route::post('cart/store', 'ShoppingCartController@loadItemIntoShoppingCart')
     ->name('addToCart');
 
-
-// Admin and Courier Order operation endpoints ------------------------------------------------
-Route::group([
-    'prefix' => 'courierOrderOps', 'middleware:courier'], function () {
-
-});
 
 // Admin Routes
 Route::group(['prefix' => 'admin',
@@ -377,10 +384,6 @@ Route::group(['prefix' => 'admin',
         ->name('copyAllRestTimeRangesToMenuItems');
     Route::post('multiAddItemsCreate', 'TimeRangeController@createTimeRangeMultiItems')
         ->name('createTimeRangeMultiItems');
-});
-
-Route::get('next', function () {
-    return view('emails.link_to_next_order');
 });
 
 // TODO: make other middleware role routes use auth as well, and figure out role:courier problem

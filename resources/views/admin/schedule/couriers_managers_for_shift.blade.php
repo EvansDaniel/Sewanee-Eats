@@ -18,6 +18,7 @@
         @endif
     </h2>
     <h3>
+        <!-- Manager Information -->
         Manager:
         @if($s->hasManager())
             {{ $s->getManager()->name }} | {{ $s->getManager()->email }} |
@@ -35,6 +36,7 @@
             No manager assigned to this shift
         @endif
     </h3>
+    <!-- Assigned Couriers -->
     <h3>Couriers:</h3>
     <ul>
         @if(!$s->hasCouriersAssigned())

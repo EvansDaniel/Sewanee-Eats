@@ -41,6 +41,11 @@ class User extends Authenticatable implements Availability, ResourceTimeRange
         return $role_type->users;
     }
 
+    public function workerEarnings()
+    {
+        return $this->hasMany('App\Models\MoneyRelated\WorkerExtraEarnings', 'worker_id', 'id');
+    }
+
     public function orders()
     {
         return $this->belongsToMany('App\Models\Order', 'couriers_orders',

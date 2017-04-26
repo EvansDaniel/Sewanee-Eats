@@ -6,9 +6,9 @@
 
 @section('body')
 
-    <h2 class="issues">Closed Issues</h2>
     <div id="issues-table-container">
         @if(!empty($closed_issues))
+            <h2 class="issues">In-Process Issues</h2>
             <table id="issues-table" class="table table-responsive">
                 <thead>
                 <!-- TODO: add expected completion time in <th> -->
@@ -53,9 +53,10 @@
                 @endforeach <!-- Ends a new row in the open issues table -->
                 </tbody>
             </table>
-        @elseif(!empty($open_issues))
-            <h1>There are no closed issues, but there are unresolved <a href="{{ route('listOpenIssues') }}">issues</a>
-            </h1>
+        @elseif(count($open_issues) != 0)
+            <h4>You have no in-process issues, but there are unresolved <a
+                        href="{{ route('listOpenIssues') }}">issues</a> pending
+            </h4>
     @endif <!--- End of Open Issues Table --->
     </div>
 

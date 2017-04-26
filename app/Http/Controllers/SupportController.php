@@ -118,7 +118,8 @@ class SupportController extends Controller
     public function listCorrespondingIssues()
     {
         $admin_specific_issues = Issue::where('admin_id', Auth::id())->orderBy('created_at', 'ASC')->get();
-        return view('admin.support.corresponding_issues', compact('admin_specific_issues'));
+        $open_issues = Issue::where('is_resolved', false)->orderBy('created_at', 'ASC')->get();
+        return view('admin.support.corresponding_issues', compact('admin_specific_issues', 'open_issues'));
     }
 
     public function updateIssueOrderId(Request $request)

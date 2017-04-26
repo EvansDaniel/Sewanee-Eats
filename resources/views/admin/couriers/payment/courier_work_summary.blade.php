@@ -11,17 +11,25 @@
     <div>
         <table class="table table-bordered table-hover">
             <tr>
-                <th>Customer Name</th>
                 <th>Courier Payment</th>
-                <th>View Order Summary</th>
+                <th>View Work Summary</th>
             </tr>
             @foreach($courier->orders as $order)
                 <tr>
-                    <td>{{ $order->c_name }}</td>
                     <td>{{ $order->pivot->courier_payment }}</td>
                     <td>
                         <a href="{{ route('orderSummaryForAdmin',['order_id' => $order->id]) }}">
                             <button class="btn btn-dark" type="button">Go to Summary</button>
+                        </a>
+                    </td>
+                </tr>
+            @endforeach
+            @foreach($courier->workerEarnings as $earning)
+                <tr>
+                    <td>{{ $earning->hours_worked * $earning->pay_per_hour }}</td>
+                    <td>
+                        <a href="{{ route('showUpdateWorkDetails',['courier_id' => $courier->id]) }}">
+                            <button class="btn btn-dark">View/Update work details</button>
                         </a>
                     </td>
                 </tr>
