@@ -23,7 +23,7 @@
                     </div>
                 @endif
                 <div class="col-lg-1 medium">
-                    <form action="{{ route('changeCourierForOrder') }}" method="post">
+                    <form action="{{ formUrl('changeCourierForOrder') }}" method="post">
                         Courier:
                         @if($on_demand_order->hasCourier()) {{$on_demand_order->getCourier()->name}} @else No
                         courier assigned yet @endif
