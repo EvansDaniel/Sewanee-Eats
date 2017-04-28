@@ -52,6 +52,11 @@ class User extends Authenticatable implements Availability, ResourceTimeRange
             'courier_id', 'order_id')->withPivot('courier_payment')->withTimestamps();
     }
 
+    public function isDeliveringOrders()
+    {
+        return count($this->currentOrders) != 0;
+    }
+
     public function courierInfo()
     {
         if ($this->hasRole('courier')) {
@@ -81,7 +86,7 @@ class User extends Authenticatable implements Availability, ResourceTimeRange
         if ($this->hasRole('admin') || $this->hasRole('courier') || $this->hasRole('manager')) {
             return $this->belongsToMany('App\Models\TimeRange',
                 'time_ranges_users', 'user_id', 'time_range_id')
-                ->withPivot('courier_type');
+                ->withPivot('courier_type')->withTimestamps();
         }
         return null;
     }
@@ -89,7 +94,7 @@ class User extends Authenticatable implements Availability, ResourceTimeRange
     public function roles()
     {
         return $this->belongsToMany('App\Models\Role', 'roles_users',
-            'user_id', 'role_id');
+            'user_id', 'role_id')->withTimestamps();
     }
 
     public function getAvailability()
@@ -125,6 +130,13 @@ class User extends Authenticatable implements Availability, ResourceTimeRange
     public function getExtraTime()
     {
         return 30; // 30 minutes before end of shift
+    }
+
+    public function currentOrders()
+    {
+        return $this->belongsToMany('App\Models\Order',
+            'courier_current_orders', 'courier_id', 'order_id')
+            ->withTimestamps();
     }
 
     public function getResourceTimeRangesByDay($dow)

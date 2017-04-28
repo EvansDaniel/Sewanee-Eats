@@ -36,6 +36,7 @@
                         <a><i class="fa fa-table"></i> Orders <span class="fa fa-chevron-down"></span></a>
 
                         <ul class="nav child_menu">
+                            <li><a href="{{ route('showCurrentOrders') }}">In Process Orders</a></li>
                             <li><a href="{{ route('showOrdersQueue') }}">Open On Demand Orders</a></li>
                             <li><a href="{{ route('showShifts') }}">Past Orders</a></li>
                             <li><a href="{{ route('showCreateShift') }}">Past Special Orders</a></li>

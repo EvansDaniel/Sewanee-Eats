@@ -70,7 +70,7 @@ class ShoppingCart implements HasItems
         $this->categorizedItems();
         $this->quantity = $this->quantity();
         $this->num_on_demand_items = $this->countOnDemandItems();
-        $this->max_num_on_demand_rests = 1;
+        $this->max_num_on_demand_rests = 2;
     }
 
     private function quantity()

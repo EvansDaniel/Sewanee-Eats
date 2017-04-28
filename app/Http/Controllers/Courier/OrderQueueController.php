@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Courier;
 
-use App\CustomClasses\Courier\CourierInfo;
 use App\CustomClasses\Courier\OrderQueue;
+use App\CustomClasses\Delivery\DeliveryInfo;
 use App\CustomClasses\Delivery\ManageOrder;
 use App\CustomClasses\Orders\RestaurantsOrdersCategorizer;
+use App\Exceptions\InvalidUserTypeException;
+use App\Exceptions\ResourceNotAvailableException;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\User;
@@ -35,8 +37,9 @@ class OrderQueueController extends Controller
     {
         $order = $order->find($order_id);
         $rest_order_categorizer = new RestaurantsOrdersCategorizer([$order]);
+        $interactive = false;
         return view('employee.orders.show_order',
-            compact('rest_order_categorizer', 'order'));
+            compact('rest_order_categorizer', 'order', 'interactive'));
     }
 
     /**
@@ -52,58 +55,60 @@ class OrderQueueController extends Controller
         try {
             // no need for findOrFail, auth is required for access
             $order_queue = new OrderQueue(User::find(Auth::id()));
-        } catch (InvalidArgumentException $e) {
-            // TODO: return a nice view with the given message
-            return redirect()->route('courierShowSchedule')
-                ->with('status_good', $e->getMessage());
-        }
 
-        if (empty($err_msg = $order_queue->validateCourier())) {
-            $next_order = $order_queue->nextOrder();
-            // check order return, if empty no orders pending
-            if ($order_queue->hasOrders() && empty($next_order)) {
-                return redirect()->route('courierShowSchedule')
-                    ->with('status_good', 'There are no orders pending that can be service by you at this time');
-            } else if (empty($next_order)) {
-                return redirect()->route('courierShowSchedule')
-                    ->with('status_good', $this->empty_next_order_msg);
-            } else {
-                $orders = $order_queue->getPendingOrdersForCourier();
-                return view('delivery.order_queue',
-                    compact('orders', 'next_order', 'order_queue'));
-            }
-        } else { // courier error
-            return redirect()->route('courierShowSchedule')
-                ->with('status_good', $err_msg);
+            // the user passed is not a courier
+        } catch (InvalidUserTypeException $e) {
+            return back()->with('status_bad', $e->getMessage());
+
+            // the courier is unavailable for some reason
+        } catch (ResourceNotAvailableException $e) {
+            return back()->with('status_bad', $e->getMessage());
         }
+        // No need to call validate courier here
+        // because the courier is validated by the OrderQueue constructor
+
+        /*// if orders pending but no orders for this courier
+        if ($order_queue->hasOrders() && !$order_queue->hasOrdersForCourierType()) {
+            return redirect()->route('courierShowSchedule')
+                ->with('status_good', 'There are no orders pending that can be service by you at this time');
+            // there are no orders pending AT ALL
+        } else if (!$order_queue->hasOrders()) {
+            return redirect()->route('courierShowSchedule')
+                ->with('status_good', $this->empty_next_order_msg);
+        } else {*/
+        // there are orders that can be serviced by this courier
+        $courier = Auth::user();
+        return view('delivery.order_queue',
+            compact('order_queue', 'courier'));
+        //}
     }
 
-    public function assignCourierToOrder(Request $request, Order $order, Auth $auth)
+    public function assignCourierToOrder(Request $request, Order $order)
     {
         $order_id = $request->input('order_id');
         // get models
-        $courier = $auth->user();
+        $courier = Auth::user();
         $order = $order->find($order_id);
         //
         $order_manager = new ManageOrder($order);
         $order_manager->assignToOrder($courier);
-        return back()->with('status_good', 'Order #' . $order_id . ' assigned');
+        $order_manager->processingStatus(true);
+        return back()->with('status_good', 'Order #' . $order_id . ' assigned in your current orders summary');
     }
 
-    public function cancelOrderDelivery(Order $order)
+    public function cancelOrderDelivery(Request $request, Order $order)
     {
+        $order_id = $request->input('order_id');
         $user = Auth::user();
-        $order = $order->find($user->courierInfo->current_order_id);
+        $order_to_cancel = $order->find($order_id);
         // send email to manager that the courier cancelled the order delivery
-        $this->sendOrderDeliveryCancellationEmail($user, $order);
-        // mark courier as not delivering an order
-        $courier_info = new CourierInfo($user);
-        $courier_info->setIsDeliveringOrder(false);
+        $this->sendOrderDeliveryCancellationEmail($user, $order_to_cancel);
         // remove the assigned courier from order and his/her payment for order
-        $order_manager = new ManageOrder($order);
+        $order_manager = new ManageOrder($order_to_cancel);
         $order_manager->removeAssignedCourier();
         // reinsert order into the queue
-        OrderQueue::reinsertOrder($order);
+        OrderQueue::reinsertOrder($order_to_cancel);
+
         return redirect()->route('courierShowSchedule')->with('status_good', 'An email has been sent to the on shift manager informing
             him/her of the situation and should contact you shortly.');
     }
@@ -120,18 +125,38 @@ class OrderQueueController extends Controller
         });
     }
 
-    public function markAsDelivered()
+    public function markAsDelivered(Request $request)
     {
         $user = Auth::user();
-        $order = Order::find($user->courierInfo->current_order_id);
+        $order_id = $request->input('order_id');
+        $order = Order::find($order_id);
         $order_manager = new ManageOrder($order);
-        // no longer processing and is delivered
+        // remove current courier
+        // it is important to remove the courier before
+        // changing the delivered status
+        $assigned_courier = $order_manager->removeAssignedCourier();
+        // order no longer processing and is delivered
+        // remove the currently assigne courier
         $order_manager->processingStatus(false);
         $order_manager->deliveredStatus(true);
-        // set courier who is delivering to not be delivering anymore
-        $courier_info = new CourierInfo($user);
-        $courier_info->setIsDeliveringOrder(false);
+
+
+        // Save the courier/order relationship for the courier who delivered this order
+        $courier_payment = DeliveryInfo::getMaxRestaurantCourierPayment($order);
+        $order->courier()->attach($assigned_courier->id,
+            [
+                'courier_payment' => $courier_payment,
+                'time_to_complete_order' => Carbon::now()->diffInMinutes($order->created_at)
+            ]);
+
         // redirect them to the next order in the queue
-        return redirect()->route('nextOrderInQueue');
+        if ($user->isDeliveringOrders()) {
+            // redirect to courier's current orders
+            return redirect()->route('showCurrentOrders')
+                ->with('status_good', 'Order marked as delivered');
+        }
+        // redirect to pending orders
+        return redirect()->route('showOrdersQueue')
+            ->with('status_good', 'Order marked as delivered');
     }
 }

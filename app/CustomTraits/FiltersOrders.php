@@ -9,6 +9,7 @@
 namespace App\CustomTraits;
 
 use App\CustomClasses\ShoppingCart\RestaurantOrderCategory;
+use App\Models\CourierRelated\Orders\CourierCurrentOrder;
 use App\Models\Order;
 
 trait FiltersOrders
@@ -42,6 +43,22 @@ trait FiltersOrders
     public function onDemandOrders($orders)
     {
         return $this->getOrders($orders, RestaurantOrderCategory::ON_DEMAND);
+    }
+
+    public function filterInProcessOrders($orders)
+    {
+        $in_process_order_ids = CourierCurrentOrder::all(['order_id'])->toArray();
+        if (count($in_process_order_ids) == 0)
+            return $orders;
+        $in_process_order_ids = $in_process_order_ids[0];
+        $ret_orders = [];
+        foreach ($orders as $order) {
+            if (!in_array($order->id, $in_process_order_ids)) {
+                $ret_orders[] = $order;
+                $in_process_order_ids[] = $order->id;
+            }
+        }
+        return $ret_orders;
     }
 
     public function ordersOfCourierType(array $orders, int $of_courier_type)

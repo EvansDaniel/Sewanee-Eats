@@ -30,11 +30,6 @@
                         to {{ $new_order->email_of_customer }}</p>
                 @endif
             </div>
-            <a href="{{ route('orderSummary',['order_id' => $new_order->id]) }}">
-
-                {{--<button class="btn btn-primary">View Your Order Summary</button>--}}
-
-            </a>
 
         </div>
 
@@ -68,9 +63,4 @@
                 To place another order, start <a href="{{ route('list_restaurants') }}">here</a>
             </h4>
         </div>
-
-
-        <style>
-
-        </style>
 @stop

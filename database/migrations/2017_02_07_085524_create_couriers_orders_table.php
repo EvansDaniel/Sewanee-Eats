@@ -17,6 +17,9 @@ class CreateCouriersOrdersTable extends Migration
             $table->increments('id');
             $table->integer('courier_id')->unsigned();
             $table->integer('order_id')->unsigned();
+            // the diff in minutes of the order->created_at field and
+            // now at the time of the order being marked as delivered
+            $table->integer('time_to_complete_order')->nullable();
             $table->integer('courier_payment');
 
 

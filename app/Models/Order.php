@@ -7,6 +7,7 @@ use App\CustomClasses\ShoppingCart\CartItem;
 use App\CustomClasses\ShoppingCart\ItemType;
 use App\CustomClasses\ShoppingCart\RestaurantOrderCategory;
 use App\CustomTraits\Timing;
+use App\User;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -61,6 +62,16 @@ class Order extends Model implements HasItems
         return $this->hasMany('App\Models\MenuItemOrder', 'order_id', 'id');
     }
 
+    public function onDemandItems()
+    {
+        $items = $this->toOnDemandRestBuckets();
+        $on_demand_items = [];
+        foreach ($items as $rest_items) {
+            $on_demand_items = array_merge($rest_items, $on_demand_items);
+        }
+        return $on_demand_items;
+    }
+
     public function toOnDemandRestBuckets()
     {
         $items = [];
@@ -70,6 +81,27 @@ class Order extends Model implements HasItems
             }
         }
         return $items;
+    }
+
+    /**
+     * Returns the currently assigned courier for the order
+     * The order has not been delivered yet and thus is not persisted
+     * in the couriers_orders table
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function currentCourier()
+    {
+        return $this->belongsToMany('App\User',
+            'courier_current_orders', 'order_id', 'courier_id')
+            ->withTimestamps();
+    }
+
+    // Only one courier can deliver an order
+    public function getCurrentCourier()
+    {
+        if (count($this->currentCourier) > 0)
+            return $this->currentCourier[0];
+        return null;
     }
 
     public function items()
@@ -97,7 +129,7 @@ class Order extends Model implements HasItems
         $str = "";
         $rest_len = count($rests);
         for ($i = 0; $i < $rest_len; $i++) {
-            $str .= ($i != $rest_len - 1) ? $rests[$i]->name . "," : $rests[$i]->name;
+            $str .= ($i != $rest_len - 1) ? $rests[$i]->name . ", " : $rests[$i]->name;
         }
         return $str;
     }
@@ -124,12 +156,21 @@ class Order extends Model implements HasItems
     public function courier()
     {
         return $this->belongsToMany('App\User', 'couriers_orders',
-            'order_id', 'courier_id')->withPivot('courier_payment')->withTimestamps();
+            'order_id', 'courier_id')
+            ->withPivot(['courier_payment', 'time_to_complete_order'])
+            ->withTimestamps();
     }
 
+    /**
+     * Returns the courier attached to this order
+     * Whether it be a current courier (temporary) or a courier
+     * who has already delivered the order
+     * @return null|User
+     */
     public function getCourier()
     {
-        $couriers = $this->couriers;
+        // check to see if this order already has a courier that has delivered it
+        $couriers = $this->courier;
         if (count($couriers) >= 1) {
             // we are only supporting one to many (courier to orders) right now
             return $couriers[0];
@@ -192,7 +233,6 @@ class Order extends Model implements HasItems
     public function showCourierTypes()
     {
         $courier_types = json_decode($this->courier_types);
-        \Log::info($courier_types);
     }
 
     /**

@@ -46,27 +46,6 @@ class CourierInfo
         return $this->courier_info;
     }
 
-    /**
-     * @param $bool bool represents whether the user is delivering the
-     * an order right now or not
-     * @param $order_id integer the id of the order that the courier
-     * is being assigned to right now
-     */
-    public function setIsDeliveringOrder($bool, int $order_id = -1)
-    {
-        if ($bool && $order_id == -1) {
-            throw new InvalidArgumentException('$bool cannot be true and $order_id be null');
-        }
-        $this->courier_info->is_delivering_order = $bool;
-        if ($bool) {
-            $this->courier_info->current_order_id = $order_id;
-        } else {
-            // set current_order_id to invalid order
-            $this->courier_info->current_order_id = null;
-        }
-        $this->persist();
-    }
-
     public function persist()
     {
         $this->courier_info->save();

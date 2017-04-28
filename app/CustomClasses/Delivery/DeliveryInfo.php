@@ -7,7 +7,9 @@ use App\CustomClasses\Courier\CourierTypes;
 use App\CustomClasses\Helpers\HttpRequest;
 use App\CustomClasses\Helpers\UrlBuilder;
 use App\CustomClasses\ShoppingCart\RestaurantOrderCategory;
+use App\Exceptions\Orders\AddressNotFoundException;
 use App\Models\Order;
+use ErrorException;
 
 class DeliveryInfo
 {
@@ -56,7 +58,14 @@ class DeliveryInfo
     public function getCourierTypesForItems()
     {
         $courier_types = [];
-        $rest_distance = $this->sumRestDistances();
+        try {
+            $rest_distance = $this->sumRestDistances();
+        } catch (AddressNotFoundException $e) {
+            // this implies that a restaurant was given an invalid address
+            \Log::info('Restaurant address not found. Assigning only drivers to service order');
+            $courier_types[] = CourierTypes::DRIVER;
+            return $courier_types;
+        }
         if ($rest_distance < $this->dist_biker_can_travel) {
             $courier_types[] = CourierTypes::BIKER;
             if ($rest_distance < $this->dist_walker_can_travel) {
@@ -79,8 +88,16 @@ class DeliveryInfo
                 // if this is an on demand restaurant
                 if ($item->isSellerType(RestaurantOrderCategory::ON_DEMAND)) {
                     $dest_loc = $item->getSellerEntity()->getLocation();
-                    $dist = $this->makeDistanceRequest($starting_loc, $dest_loc);
+                    try {
+                        $dist = $this->makeDistanceRequest($starting_loc, $dest_loc);
+                    } catch (AddressNotFoundException $e) {
+                        throw $e;
+                    }
                     $total_distance += $dist;
+                    // return early if order is only serviceable by drivers
+                    if ($total_distance > $this->dist_biker_can_travel) {
+                        return round($total_distance, 2);
+                    }
                     $starting_loc = $dest_loc;
                 }
             }
@@ -103,7 +120,12 @@ class DeliveryInfo
         $builder->addParams($data);
         $http = new HttpRequest($builder);
         $res = json_decode($http->get(), true);
-        return $this->getDistance($res);
+        try {
+            return $this->getDistance($res);
+        } catch (ErrorException $e) {
+            \Log::info('Log the restaurant address ' . $dest_loc . ' was not found');
+            throw $e;
+        }
     }
 
 
@@ -114,6 +136,13 @@ class DeliveryInfo
      */
     private function getDistance($res)
     {
-        return $res['rows'][0]['elements'][0]['distance']['value'] / $this->mtrs_per_mile;
+        // try to access the distnace to the restaurant
+        // if it fails throw address not found
+        try {
+            $dist = $res['rows'][0]['elements'][0]['distance']['value'] / $this->mtrs_per_mile;
+        } catch (ErrorException $e) {
+            throw new AddressNotFoundException('The given address was not found');
+        }
+        return $dist;
     }
 }

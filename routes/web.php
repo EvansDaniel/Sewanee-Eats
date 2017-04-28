@@ -405,9 +405,9 @@ Route::group(['prefix' => 'queue',
         Route::get('nextOrderInQueue', 'OrderQueueController@nextOrderInQueue')->name('nextOrderInQueue');
 
         // order operations, delivery, cancellation,
-        Route::get('markAsDelivered', 'OrderQueueController@markAsDelivered')
+        Route::post('markAsDelivered', 'OrderQueueController@markAsDelivered')
             ->name('markAsDelivered');
-        Route::get('cancelOrderDelivery', 'OrderQueueController@cancelOrderDelivery')
+        Route::post('cancelOrderDelivery', 'OrderQueueController@cancelOrderDelivery')
             ->name('cancelOrderDelivery');
         Route::get('currentOrder', 'OrderQueueController@currentOrder')
             ->name('currentOrder');

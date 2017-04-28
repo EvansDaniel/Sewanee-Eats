@@ -65,18 +65,17 @@ class OrdersController extends Controller
         $order_id = $request->input('order_id');
         $order = $order->find($order_id);
         $courier = $user->find($courier_id);
+
         $is_delivered = $order->is_delivered;
         $msg = "";
         if (!$is_delivered && !$courier->isOnShift()) {
             $msg = "Warning: The courier you selected is not on the current shift and the order hasn't been delivered yet!";
         }
         $order_manager = new ManageOrder($order);
-        $order_manager->removeAssignedCourier();
+
         // if the order is delivered, set is processing to false
-        $order_manager->assignToOrder($courier);
-        if (!$is_delivered) { // if the order is not delivered, set it to being delivered by the assigned courier
-            $order_manager->setDeliveringNow();
-        }
+        $order_manager->removeAssignedCourier();
+        $order_manager->assignToOrder($user);
         return redirect(route('viewOnDemandOpenOrders', ['OrderId' => $order_id]))
             ->with('status_good', $msg . ' Courier updated.');
     }

@@ -5,6 +5,8 @@ namespace App\CustomClasses\Courier;
 
 use App\CustomClasses\Delivery\ManageOrder;
 use App\CustomTraits\FiltersOrders;
+use App\Exceptions\InvalidUserTypeException;
+use App\Exceptions\ResourceNotAvailableException;
 use App\Models\Order;
 use App\User;
 use Doctrine\Instantiator\Exception\InvalidArgumentException;
@@ -22,13 +24,13 @@ class OrderQueue
     public function __construct(User $courier = null)
     {
         if (!empty($courier) && !$courier->hasRole('courier')) {
-            throw new InvalidArgumentException('The User type passed must have the role of courier');
+            throw new InvalidUserTypeException('The User type passed must have the role of courier');
         }
         $this->courier = $courier;
         $this->courier_info = new CourierInfo($this->courier);
         // check they are on shift, etc.
         if (!empty($err_msg = $this->validateCourier())) {
-            throw new InvalidArgumentException($err_msg);
+            throw new ResourceNotAvailableException($err_msg);
         }
         // $this->orders and $this->orders_for_courier set in retrieveOrders()
         $this->retrieveOrders();
@@ -46,14 +48,9 @@ class OrderQueue
     public function validateCourier()
     {
         if (!$this->courier->isOnShift()) {
-            return "You are not on the current shift and 
-                    therefore cannot view the orders queue";
-        }
-        // check that the courier isn't currently delivering an order
-        $courier_info = $this->courier_info->getInfo();
-        if ($courier_info->is_delivering_order) {
-            return "You are currently delivering an order. Please finish this one first or mark it as complete at the bottom
-                    of the page";
+            throw new ResourceNotAvailableException(
+                $this->courier->name . ' is not on the current shift, and therefore cannot view the orders queue'
+            );
         }
         return 0;
     }
@@ -70,7 +67,10 @@ class OrderQueue
         // not being processed orders
         $potential_orders = Order::pending()->orderBy('created_at', 'ASC')->get();
         // filter to on demand orders
-        $this->orders = $this->onDemandOrders($potential_orders);
+        $potential_orders = $this->onDemandOrders($potential_orders);
+        $potential_orders = $this->filterInProcessOrders($potential_orders);
+        $this->orders = $potential_orders;
+
         $courier_type = $this->courier_info->getCourierTypeCurrentShift();
         // filter to orders of this courier type
         $this->orders_for_courier = $this->ordersOfCourierType($this->orders, $courier_type);
@@ -113,20 +113,6 @@ class OrderQueue
     public function numberOfOrdersPending()
     {
         return count($this->orders);
-    }
-
-    /**
-     * This method will be used to retrieve and assign the next
-     * order in the queue to the given courier
-     * @return Order|null the next order out of the queue
-     * or null if the queue is empty
-     */
-    public function nextOrder()
-    {
-        if (!$this->hasOrdersForCourierType()) {
-            return null;
-        }
-        return $this->orders_for_courier[0];
     }
 
     /**
