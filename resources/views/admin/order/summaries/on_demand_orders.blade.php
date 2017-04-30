@@ -17,6 +17,9 @@
                     </a>
                     {{ generateScrollTo($scroll_to_item_id) }}
                 </div>
+                <div class="col-lg-small">
+                    Received: {{ $on_demand_order->created_at }}
+                </div>
                 <div class="col-lg-1 medium">Customer: {{$on_demand_order->c_name}}</div>
                 @if(!$on_demand_order->is_delivered && !$on_demand_order->is_cancelled && !$on_demand_order->was_refunded)
                     <div class="col-lg-1 medium">Order received {{ $on_demand_order->timeSinceOrdering() }} mins ago
