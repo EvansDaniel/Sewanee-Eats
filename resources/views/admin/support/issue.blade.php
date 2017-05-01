@@ -46,7 +46,7 @@
                 </h3>
             </div>
         </div>
-        <form action="{{ route('markAsResolved') }}" method="post">
+        <form action="{{ formUrl('markAsResolved') }}" method="post">
             {{ csrf_field() }}
             <input name="issue_id" type="hidden" value="{{ $issue->id }}">
             <button class="btn btn-dark">Mark as Resolved</button>
