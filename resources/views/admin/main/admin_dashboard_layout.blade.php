@@ -36,20 +36,7 @@
     <!-- Bootstrap -->
     <script src="{{ asset('vendors/bootstrap/dist/js/bootstrap.min.js',env('APP_ENV') !== 'local')  }}"></script>
     <link rel="stylesheet" href="{{ assetUrl('css/lib/lib.css') }}">
-    <script>
-      function getBaseUrl() {
-
-        var pathArray = location.href.split('/');
-        var protocol = pathArray[0];
-        var host = pathArray[2];
-        return protocol + '//' + host;
-      }
-      API_URL = getBaseUrl() + "/api/v1/";
-      // debugging helper function
-      function p($obj) {
-        console.log($obj);
-      }
-    </script>
+    <script src="{{ assetUrl('js/api/api_setup.js') }}"></script>
     @yield('head')
 </head>
 

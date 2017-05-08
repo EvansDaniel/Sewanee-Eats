@@ -2,11 +2,12 @@ div.container li {
     color: black;
 }
 
+
 /* big screen */
 @media only screen and (min-width: 769px) {
     .home-header .row {
-        background: url("../images/branding/laptop-food.jpeg") no-repeat center;
         height: 350px;
+        background: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)), url("../images/branding/laptop-food.jpeg") no-repeat center;
         background-size: cover;
     }
     .my-wrap {

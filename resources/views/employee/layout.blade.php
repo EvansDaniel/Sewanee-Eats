@@ -5,6 +5,7 @@
     <link rel="icon" href="{{ asset('images/mtneats.png',env('APP_ENV') !== 'local') }} ">
     <link href="https://fonts.googleapis.com/css?family=Lato:300,400,900,900i" rel="stylesheet">
     <link rel="shortcut icon" href="{{ assetUrl('images/branding/brand_title_logo.ico') }}"/>
+    <script src="{{ assetUrl('js/api/api_setup.js') }}"></script>
     @yield('head')
 </head>
 <body>

@@ -19,16 +19,6 @@
     @yield('head')
 </head>
 <body>
-{{--preloader animation stuff
-  --if you don't need the preloader, use display none and change the big animation function on the home_animations.js
-  --}}
-{{--<div class="container prld">--}}
-    {{--<div class="crl-1"></div>--}}
-    {{--<div class="crl-2"></div>--}}
-    {{--<div class="crl-3"></div>--}}
-    {{--<div class="crl-4"></div>--}}
-
-{{--</div>--}}
 @include('main.main_nav_bar_new')
 @include('partials.backend_messages')
 <div id="main-container" class="container-fluid main-main-container">

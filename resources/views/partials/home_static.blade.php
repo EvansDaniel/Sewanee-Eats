@@ -6,16 +6,16 @@
 <header class="home-header">
     <div class="row my-wrap0">
         <div class="container-fluid my-wrap">
-                <div class="site-heading">
-                    <p class="subheading">Finish Finals Strong with a Delivery from Sewanee Eats!</p>
-                    <div class="container-fluid" id="btn-wrap">
-                        <a href="{{ route('list_restaurants') }}"
-                           class="col-lg-2 col-lg-offset-5 col-md-4 col-md-offset-4 col-sm-offset-4 col-sm-4 col-xs-6 col-xs-offset-3"
-                           id="btn">
-                            ORDER NOW
-                        </a>
-                    </div>
+            <div class="site-heading">
+                <p class="subheading">Finish Finals Strong with a Delivery from Sewanee Eats!</p>
+                <div class="container-fluid" id="btn-wrap">
+                    <a href="{{ route('list_restaurants') }}"
+                       class="col-lg-2 col-lg-offset-5 col-md-4 col-md-offset-4 col-sm-offset-4 col-sm-4 col-xs-6 col-xs-offset-3"
+                       id="btn">
+                        ORDER NOW
+                    </a>
                 </div>
+            </div>
         </div>
     </div>
 </header>

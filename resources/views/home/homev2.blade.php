@@ -20,13 +20,13 @@
                 </ul>
             </div>
             <div class="col-lg-3 col-md-3 col-sm-5 col-sm-offset-3 col-xs-8 col-xs-offset-2 delivery" id="delivery">
-                <h6 class="feature-desc-heading">Delivery in 45 minutes or less</h6>
+                <h6 class="feature-desc-heading">Delivery in 1 hour or less</h6>
                 <img class="img-responsive center-block" id="delivery-logo"
                      src="{{ asset('images/branding/purple-fast-delivery-truck.png',env('APP_ENV') !== 'local') }}">
                 <ul>
                     <li>Delivery to any location on the mountain</li>
-                    <li>Check out our <a href="{{ route('list_restaurants') }}#special-rests">special restaurant</a>
-                        deliveries for this week
+                    <li>Check out our <a href="{{ route('list_restaurants') }}#special-rests">special restaurant
+                            deliveries</a> for this week
                     </li>
                 </ul>
             </div>

@@ -9,19 +9,6 @@
 <!-- Latest compiled and minified CSS -->
 <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">-->
 
-<script>
-  function getBaseUrl() {
-
-    var pathArray = location.href.split('/');
-    var protocol = pathArray[0];
-    var host = pathArray[2];
-    return protocol + '//' + host;
-  }
-  API_URL = getBaseUrl() + "/api/v1/";
-  // debugging helper function
-  function p($obj) {
-    console.log($obj);
-  }
-</script>
+<script src="{{ assetUrl('js/api/api_setup.js') }}"></script>
 
 <meta name="viewport" content="width=device-width, initial-scale=1">

@@ -48,7 +48,7 @@
             <hr>
             <h3 id="mountain">SPECIAL DELIVERIES</h3>
             <h5 id="no-specials" class="restaurant-cat-header"><a
-                        href="{{ route('howItWorks') }}#specials">Learn more about weekly specials</a></h5>
+                        href="{{ route('howItWorks') }}#specials">Learn more about specials</a></h5>
         </div>
         @if(empty($sellers->getWeeklySpecials()))
             <h5 class="restaurant-cat-header">Sorry we are currently closed and not taking on demand orders</h5>

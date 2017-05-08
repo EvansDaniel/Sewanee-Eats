@@ -61,9 +61,7 @@
 
 
         <p class="works">Once you've added food to your cart, click the Checkout link in the top right corner and you
-            will be
-            directed to
-            a page where you can pay for your order. You can pay the following ways:
+            will be directed to a page where you can pay for your order. You can pay the following ways:
         <p>
 
         <h3>a. Paying With Venmo</h3>
@@ -96,24 +94,16 @@
             we will fix the issue.
         </p>
 
-        <h2>4. What are weekly specials?</h2>
-        {{--<p class="works"><a id="specials"></a>Each week, we will have food specials from--}}
-            {{--establishments that might be a little farther from--}}
-            {{--campus than our usuals! For example, we'll deliver Chick-fil-a or Zaxby's to your doorstep! Every Monday--}}
-            {{--morning, we will--}}
-            {{--post what the weekly special restaurant is for the week! You can then place your order for that restaurant,--}}
-            {{--and--}}
-            {{--we'll send you an email to confirm. Then, we will deliver your order this Tuesday in the BC!--}}
-        {{--</p>--}}
+        <h2>4. What are specials?</h2>
         <p class="works"><a id="specials"></a>
         Each week, SewaneeEats will have food specials from establishments that might be a little farther
         from campus than our usuals!
         For example, we'll deliver Chick-fil-a, Zaxby's, Chicken Itza, ...!
-        Every Monday morning, we will post what the weekly special restaurant is for the week! You can then
-        place your order for
-        that restaurant, and we'll send you an email to confirm.
-        Then, we will deliver your order Sunday at the BC or Tuesday at the BC if the restaurant is not open
-        on Sunday.
+            Every Monday morning, we will post what the special restaurant delivery is for the week! You can then
+            place your order for that restaurant, and we'll send you an email to confirm. Your order will be delivered
+            to the location specified during checkout and in the email. If you have any issues, don't hesitate to
+            contact us
+            via the <a href="{{ route('support') }}">support</a> page
         </p>
     </div>
 
