@@ -13,9 +13,9 @@
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^ index.php [L]
 
-    # Rewrite non-www requests to www 
+    # Rewrite non-www requests to www
     RewriteCond %{HTTP_HOST} !^$
     RewriteCond %{HTTP_HOST} !^www\. [NC]
     RewriteCond %{HTTPS}s ^on(s)|
-    RewriteRule ^ http%1://www.%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+    RewriteRule ^ http%1://www.%{HTTP_HOST}%{REQUEST_URI} [R=200,L]
 </IfModule>
