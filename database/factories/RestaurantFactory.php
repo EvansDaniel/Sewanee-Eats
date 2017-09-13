@@ -28,8 +28,6 @@ $factory->define(Restaurant::class, function (Faker\Generator $faker) {
         'Shenanigans'
     ];
 
-    // note that hours_open is a 24 hour clock
-    // so this one is open from 1 to 5 and 8pm to 12am on Mondays
     $images = ['http://static.asiawebdirect.com/m/bangkok/portals/pattaya-bangkok-com/homepage/best-restaurants/allParagraphs/0/top10Set/02/image/radius-restaurant-1200.jpg'];
     $rest_loc_index = mt_rand(0, 2);
     return [

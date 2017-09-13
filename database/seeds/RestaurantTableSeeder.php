@@ -33,7 +33,7 @@ class RestaurantTableSeeder extends Seeder
             'seller_type' => RestaurantOrderCategory::ON_DEMAND,
             'is_available_to_customers' => true
         ]);
-        $restaurants = Restaurant::availableOnDemand()->get();
+        $restaurants = Restaurant::availableToCOnDemand()->get();
         foreach ($restaurants as $restaurant) {
             $time_range = $this->makeTimeRange(TimeRangeType::ON_DEMAND);
             $time_range->restaurant_id = $restaurant->id;

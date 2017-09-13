@@ -146,8 +146,8 @@
                                                 @endif
                                                 <br><br>
                                                 @if($order->hasOrderType($special_order_type))
-                                                    Since you ordered from a special, once we have your payment
-                                                    payment via venmo, we will mark you down for receiving this order at
+                                                    Since you ordered a special, once we have your payment
+                                                    via venmo, we will mark you down for receiving this order at
                                                     the time
                                                     and place specified below
                                                 @endif
@@ -157,9 +157,7 @@
                                 </tr>
                                 @if($order->hasOrderType($on_demand_order_type))
                                     <tr style="width: 100%">
-                                        In case you wanted your order to be delivered to a University dorm after 10pm,
-                                        the SewaneeEats courier will be waiting outside
-                                        the dorm instead of the room.
+                                        In the event that it is after 10pm when the SewaneeEats courier arrives, he or she will be waiting outside your requested delivery location.
                                     @endif
                                 </tr>
                                 <tr style="font-family: 'Lato', sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
